@@ -1,0 +1,49 @@
+@import '~bulma/bulma.sass';
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+.columns {
+  justify-content: center;
+}
+
+.column {
+  max-width: 30vw;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: white;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: lightblue;
+  border: 3px solid white;
+}
+
+div .card {
+  max-width: 240px;
+  box-shadow: -10px 10px 10px grey;
+}
+
+div .card-content {
+  background-color: #DDD;
+}

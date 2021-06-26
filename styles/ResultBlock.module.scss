@@ -1,0 +1,64 @@
+@import 'bulma/sass/utilities/initial-variables.sass';
+@import 'bulma/sass/utilities/derived-variables.sass';
+
+.blockType {
+  font-variant: small-caps;
+  background-color: $grey-lighter;
+  border-bottom: solid 2px $yellow;
+  padding-left: 0ex;
+}
+
+.blockHeader {
+  margin-bottom: 0px !important;
+}
+
+.resultHeaderIcon {
+  float: right;
+}
+
+.resultLoading {
+  width: 100%;
+  height: 100%;
+  font-size: xx-large;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.resultItem {
+  cursor:pointer;
+  clear: both;
+}
+
+.resultItemHl {
+  background-color: $yellow;
+}
+
+div .rgpop {
+  max-height: 34vh;
+  overflow-y: scroll;
+  border-top: solid thin lightblue;
+}
+
+span.releaseTitle {
+  overflow-x: hidden;
+  /* white-space: nowrap; */
+}
+
+span.releaseDate {
+  font-size: small;
+  margin-left: 2ex;
+  float: right;
+}
+
+span.trackTitle {
+  overflow-x: hidden;
+  /* white-space: nowrap; */
+}
+
+span.trackLength {
+  font-family: monospace;
+  font-stretch: condensed;
+  font-size: small;
+  margin-left: 2ex;
+  float: right;
+}

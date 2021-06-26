@@ -1,0 +1,31 @@
+.searchContainer {
+  display: block;
+  position: absolute;
+  left: 8vw;
+  top: 60px;
+}
+
+.inputLevel {
+  margin-bottom: 0px !important;
+}
+
+.icon {
+  font-size: inherit;
+}
+
+.input {
+  font-size: inherit;
+  margin-left: 0.6ex;
+}
+
+.searchIncResultList {
+  margin-left: 1.4em;
+  background-color: white;
+  opacity: 75%;
+  color: black;
+}
+
+.searchIncResult {
+  font-size: 60%;
+  cursor: pointer;
+}
