@@ -50,7 +50,7 @@ export default function Release({id, handleCoverArt}) {
       )
       setIsLoading(false)
     }
-    setTimeout(getData, 2000)
+    setTimeout(getData, 300)
     const listDiv = scrollableRef.current
     if (listDiv) listDiv.scrollTop = 0
   },[id])
