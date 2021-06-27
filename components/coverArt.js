@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export default function CoverArt({id, width=200, height=200}) {
 
-  const [apiData, setApiData] = useState({imgUrl: '/public/headphones.svg'})
+  const [apiData, setApiData] = useState({imgUrl: ''})
 
   useEffect(() =>  {
     async function getData() {
@@ -20,6 +20,12 @@ export default function CoverArt({id, width=200, height=200}) {
   },[id])
 
   return(
+    <>
+    { apiData?.imgUrl ?
     <Image src={apiData.imgUrl} width={width} height={height} alt="Album Art"/>
+    :
+    <></>
+    }
+    </>
   )
 }
