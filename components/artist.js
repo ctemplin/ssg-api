@@ -23,21 +23,21 @@ export default function Artist({name, lsBegin, lsEnd, releaseGroups, handleRelea
 
   return (
     <div>
-      <div class="block">
+      <div className={`block`}>
         <div className={styles.blockType}>Artist</div>
         <div className={`${styles.blockHeader} level`}>
-          <span class="is-size-4">{name}</span>
+          <span className={`is-size-4`}>{name}</span>
           <FontAwesomeIcon
           className={styles.resultHeaderIcon}
           height="1.4em"
           icon={faMicrophoneAlt}
           />
         </div>
-        <div class="is-size-6">{lsBeginFmt ? `${lsBeginFmt} to ${lsEndFmt}` : '' }</div>
+        <div className={`is-size-6`}>{lsBeginFmt ? `${lsBeginFmt} to ${lsEndFmt}` : '' }</div>
       </div>
       {releaseGroups ? 
       <>
-        <div class="is-size-7">Releases: {releaseGroups.length} found</div>
+        <div className={`is-size-7`}>Releases: {releaseGroups.length} found</div>
         <div className={styles.rgpop}>
         {releaseGroups.map((_,i) => {
           // set empty date strings to undefined
