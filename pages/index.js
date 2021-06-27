@@ -1,6 +1,7 @@
 import React,{useState, useEffect} from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
+import HeadphoneImg from '../public/headphones.svg'
 import styles from '../styles/Home.module.scss'
 import ArtistSearch from '../components/artistSearch'
 import Artist from '../components/artist'
@@ -113,7 +114,7 @@ export default function Home() {
         {isSearching &&
           <> 
           <div className={`${styles.hero} hero`}>
-            <img src="/headphones.svg" />
+            <Image src={HeadphoneImg} />
             <ArtistSearch handleArtistSearchClick={handleArtistSearchClick} />
           </div>
           
