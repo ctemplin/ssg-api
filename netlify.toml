@@ -1,3 +1,4 @@
 [build]
   command = "next build && next start"
-  publish = "out"
+  functions = "out_functions"
+  publish = "out_publish"
