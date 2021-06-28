@@ -8,13 +8,13 @@ export default function CoverArt({id, width=200, height=200}) {
   useEffect(() =>  {
     async function getData() {
       const resp = await fetch(
-        'http://coverartarchive.org/release/' + id,
+        'https://coverartarchive.org/release/' + id,
         {
           headers: {"Accept": "application/json"}
         }
       )
       const json = await resp.json()
-      setApiData({imgUrl: json.images?.[0]?.image})
+      setApiData({imgUrl: json.images?.[0]?.image.replace('http', 'https')});
     }
     getData()
   },[id])
