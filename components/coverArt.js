@@ -14,7 +14,7 @@ export default function CoverArt({id, width=200, height=200}) {
         }
       )
       const json = await resp.json()
-      setApiData({imgUrl: json.images?.[0]?.image.replace('http', 'https')});
+      setApiData({imgUrl: json.images?.[0]?.image.replace(/^http[^s]/, 'https')});
     }
     getData()
   },[id])
