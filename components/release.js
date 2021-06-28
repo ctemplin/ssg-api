@@ -15,6 +15,13 @@ export default function Release({id, handleCoverArt}) {
   const handleClick = () => {
     
   }
+
+  const formatLength = (ms) => {
+    var mins = Math.floor(ms/60000)
+    var secs = Math.floor((ms % 60000) / 1000)
+    secs = secs.toString().padStart(2,'0')
+    return `${mins}:${secs}`
+  }
   
   useEffect(() => {
     setIsLoading(true)
@@ -41,9 +48,7 @@ export default function Release({id, handleCoverArt}) {
               id: track.id,
               title: track.title,
               position: track.position,
-              length: Math.floor(track['length']/60000)
-              + ':'
-              + Math.floor((track['length'] % 60000) / 1000).toString().padStart(2,'0'),
+              length: formatLength(track['length']),
             }
           })
         }
