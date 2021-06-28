@@ -110,8 +110,8 @@ export default function Home() {
         </div>
         {isSearching &&
           <> 
-          <div className={`${styles.hero} hero`}>
-            <Image src="/headphones.svg" alt="" width="1" height="1"/>
+          <div className={`${styles.hero}`}>
+            <Image src="/headphones.svg" alt="" layout="fill" preload="true"/>
             <ArtistSearch handleArtistSearchClick={handleArtistSearchClick} />
           </div>
           

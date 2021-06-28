@@ -127,11 +127,8 @@
 }
 
 .hero {
-  margin-top: 50px;
-  img {
-    align-self: flex-end;
-    margin-right: 20px;
-    width: 60vw;
-  }
+  // Not working. Next-image wraps <img> in another div and sets img position to absolute.
+  margin: 200px;
+  padding: 200px;
 }
 
