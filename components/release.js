@@ -3,9 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMusic } from '@fortawesome/free-solid-svg-icons';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import ReactCSSTransitionGroup from 'react-transition-group';
+import Image from 'next/image'
 import styles from '../styles/ResultBlock.module.scss'
 
-export default function Release({id, handleCoverArt}) {
+export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArtSmallClick}) {
   
   const [isLoading, setIsLoading] = useState(true)
   const loadingTextBase = "Loading"
@@ -74,15 +75,29 @@ export default function Release({id, handleCoverArt}) {
           <div className={styles.resultLoading}>{loadingText}</div>
         :
         <>
-        <div className={`${styles.blockHeader} level`}>
-          <span className={`is-size-4`}>{theData.title}</span>
+        <div className={`${styles.blockHeader} ${!imgUrlSmall ? 'level' : styles.blockHeaderArt}`}>
+          <div>
+            <div className={`is-size-4`}>{theData.title}</div>
+            {imgUrlSmall ?
+            <div className={`is-size-6`}>{theData.date ?? <>&nbsp;</>}</div>
+            : <></>
+            }
+          </div>
+          {imgUrlSmall ?
+          <a onClick={handleCoverArtSmallClick}><Image src={imgUrlSmall} width={100} height={100} layout="fixed" className={styles.resultHeaderImage} alt="Album Art Thumbnail"/></a>
+          :
           <FontAwesomeIcon
             className={styles.resultHeaderIcon}
             height="1.3em"
             icon={faMusic}
             />
+          }
         </div>
+        {!imgUrlSmall ?
         <div className={`is-size-6`}>{theData.date ?? <>&nbsp;</>}</div>
+        : <></>
+        }
+        
         </>
         }
     </div>

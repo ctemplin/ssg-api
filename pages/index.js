@@ -17,6 +17,8 @@ export default function Home() {
   const [curReleaseGroupId, setCurReleaseGroupId] = useState(null)
   const [curReleaseId, setCurReleaseId] = useState(null)
   const [coverArtId, setCoverArtId] = useState(null)
+  const [imgUrlSmall, setImgUrlSmall] = useState()
+  const [showLargeImg, setShowLargeImg] = useState(false)
 
   useEffect(() => {
     async function getData(){
@@ -57,6 +59,8 @@ export default function Home() {
     setCurReleaseGroupId(null)
     setCurReleaseId(null)
     setCoverArtId(null)
+    setImgUrlSmall(null)
+    setShowLargeImg(false)
     setIsSearching(true)
   }
 
@@ -69,6 +73,8 @@ export default function Home() {
     setCurReleaseGroupId(rgid)
     setCurReleaseId(null)
     setCoverArtId(null)
+    setImgUrlSmall(null)
+    setShowLargeImg(false)
   }
 
   const handleReleaseSelect = (rid) => {
@@ -77,6 +83,18 @@ export default function Home() {
 
   const handleCoverArt = (caid) => {
     setCoverArtId(caid)
+  }
+  
+  const handleCoverArtSmall = (url) => {
+    setImgUrlSmall(url)
+  }
+
+  const handleCoverArtClick = (e) => {
+    setShowLargeImg(true)
+  }
+
+  const hideLargeImg = (e) => {
+    setShowLargeImg(false)
   }
 
   return (
@@ -126,13 +144,13 @@ export default function Home() {
             : <></>
             }
             {coverArtId ?
-            <CoverArt id={coverArtId}></CoverArt>
+            <CoverArt id={coverArtId} handleCoverArtSmall={handleCoverArtSmall} handleCloseClick={hideLargeImg} showLargeImg={showLargeImg}></CoverArt>
             : <></>
             }
           </div>
           <div className={`column is-one-third`}>
             {curReleaseId ?
-            <Release id={curReleaseId} handleCoverArt={handleCoverArt}></Release>
+            <Release id={curReleaseId} imgUrlSmall={imgUrlSmall} handleCoverArt={handleCoverArt} handleCoverArtSmallClick={handleCoverArtClick}></Release>
             : <></>
             }
           </div>

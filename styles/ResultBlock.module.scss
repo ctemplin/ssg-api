@@ -12,8 +12,17 @@
   margin-bottom: 0px !important;
 }
 
+.blockHeader.blockHeaderArt {
+  display: flex;
+  justify-content: space-between;
+}
+
 .resultHeaderIcon {
-  float: right;
+  line-height: inherit;
+  margin-top: 0.6ex;
+  align-self: flex-start;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .resultLoading {
@@ -61,4 +70,13 @@ span.trackLength {
   font-size: small;
   margin-left: 2ex;
   float: right;
+}
+
+.resultHeaderImage {
+  object-fit: contain;
+}
+
+.largeCoverArt {
+  margin: 10vw;
+  z-index: 2;
 }
