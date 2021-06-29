@@ -24,7 +24,7 @@ export default function CoverArt({id, width=200, height=200, showLargeImg, handl
 
   useEffect(() => {
     handleCoverArtSmall(imgUrlSmall)
-  }, [imgUrlSmall])
+  }, [imgUrlSmall, handleCoverArtSmall])
 
   return(
     <>

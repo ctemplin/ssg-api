@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react'
+import React,{useState, useEffect, useCallback} from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.scss'
@@ -81,13 +81,13 @@ export default function Home() {
     setCurReleaseId(rid)
   }
 
-  const handleCoverArt = (caid) => {
+  const handleCoverArt = useCallback((caid) => {
     setCoverArtId(caid)
-  }
+  },[])
   
-  const handleCoverArtSmall = (url) => {
+  const handleCoverArtSmall = useCallback((url) => {
     setImgUrlSmall(url)
-  }
+  },[])
 
   const handleCoverArtClick = (e) => {
     setShowLargeImg(true)

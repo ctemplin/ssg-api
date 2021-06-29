@@ -44,6 +44,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
         )
       setTheData(
         {
+          id: id,
           title: json.title,
           date: date == "Invalid Date" ? null : date,
           hasCoverArt: json['cover-art-archive']?.artwork,
@@ -66,8 +67,8 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
   },[id])
 
   useEffect(() => {
-    if(theData.hasCoverArt) handleCoverArt(id)
-  },[id, theData, handleCoverArt])
+    if(theData.hasCoverArt) handleCoverArt(theData.id)
+  },[theData, handleCoverArt])
 
   const scrollableRef = useRef()
 
@@ -87,7 +88,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
             : <></>
             }
           </div>
-          {imgUrlSmall ?
+          {theData.hasCoverArt && imgUrlSmall ?
           <a onClick={handleCoverArtSmallClick}><Image src={imgUrlSmall} width={100} height={100} layout="fixed" className={styles.resultHeaderImage} alt="Album Art Thumbnail"/></a>
           :
           <FontAwesomeIcon
