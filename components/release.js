@@ -38,10 +38,14 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
         }
       ) 
       const json = await resp.json()
+      const date = new Date(
+        json.date)
+        .toLocaleDateString(undefined, {year: 'numeric', month: 'short', day: 'numeric'}
+        )
       setTheData(
         {
           title: json.title,
-          date: json.date,
+          date: date == "Invalid Date" ? null : date,
           hasCoverArt: json['cover-art-archive']?.artwork,
           tracks:
           json.media?.[0]?.tracks?.map(track => {
