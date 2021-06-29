@@ -17,7 +17,7 @@ export default function CoverArt({id, width=200, height=200, showLargeImg, handl
       )
       const json = await resp.json()
       setImgUrlSmall(json.images?.[0]?.thumbnails?.small?.replace(/^http[^s]:/, 'https:'))
-      setImgUrlLarge(json.images?.[0]?.thumbnails?.large?.replace(/^http[^s]:/, 'https:'))
+      setImgUrlLarge(json.images?.[0]?.image.replace(/^http[^s]:/, 'https:'))
     }
     getData()
   },[id])
