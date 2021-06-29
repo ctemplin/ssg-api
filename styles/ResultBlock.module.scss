@@ -25,12 +25,11 @@
   flex-shrink: 0;
 }
 
-.resultLoading {
-  width: 100%;
-  height: 100%;
-  font-size: xx-large;
-  text-align: center;
-  vertical-align: middle;
+.resultBlockLoadingIcon {
+  width: 60% !important;
+  height: 60%;
+  margin: 20%;
+  color: $grey-lighter; 
 }
 
 .resultItem {

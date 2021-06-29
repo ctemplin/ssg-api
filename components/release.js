@@ -9,8 +9,6 @@ import styles from '../styles/ResultBlock.module.scss'
 export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArtSmallClick}) {
   
   const [isLoading, setIsLoading] = useState(true)
-  const loadingTextBase = "Loading"
-  const [loadingText, setLoadingText] = useState(loadingTextBase)
   const [theData, setTheData] = useState({})
   
   const handleClick = () => {
@@ -77,7 +75,11 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
     <div className={`block`}>
       <div className={styles.blockType}>Recording</div>
         {isLoading ?
-          <div className={styles.resultLoading}>{loadingText}</div>
+        <FontAwesomeIcon
+          className={styles.resultBlockLoadingIcon}
+          icon={faSpinner}
+          pulse
+        />
         :
         <>
         <div className={`${styles.blockHeader} ${!imgUrlSmall ? 'level' : styles.blockHeaderArt}`}>
