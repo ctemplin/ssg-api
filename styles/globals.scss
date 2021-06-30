@@ -1,5 +1,7 @@
 @import '~bulma/bulma.sass';
 @import '~@fortawesome/fontawesome-svg-core/styles.css';
+@import 'bulma/sass/utilities/initial-variables.sass';
+@import 'bulma/sass/utilities/derived-variables.sass';
 
 html,
 body {
@@ -14,7 +16,9 @@ body {
 }
 
 .column {
-  max-width: 30vw;
+  @media (min-width: $desktop) {
+    max-width: 30vw;
+  }
 }
 
 a {
