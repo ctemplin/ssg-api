@@ -70,6 +70,11 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
 
   const scrollableRef = useRef()
 
+  const renderDate = function() {
+    return (
+      <div className={`is-size-6`}>{theData.date ?? <>&nbsp;</>}</div>
+    )
+  }
   return (
   <div>
     <div className={`block`}>
@@ -86,7 +91,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
           <div>
             <div className={`is-size-4`}>{theData.title}</div>
             {imgUrlSmall ?
-            <div className={`is-size-6`}>{theData.date ?? <>&nbsp;</>}</div>
+            renderDate()
             : <></>
             }
           </div>
@@ -101,7 +106,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
           }
         </div>
         {!imgUrlSmall ?
-        <div className={`is-size-6`}>{theData.date ?? <>&nbsp;</>}</div>
+        renderDate()
         : <></>
         }
         
