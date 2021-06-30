@@ -76,7 +76,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
 
   const renderDate = function() {
     return (
-      <div className={`is-size-6`}>{theData.date ?? <>&nbsp;</>}</div>
+      <div className={`is-size-6 ${styles.blockHeaderDate}`}>{theData.date ?? <>&nbsp;</>}</div>
     )
   }
 
@@ -98,7 +98,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
         <>
         <div className={`${styles.blockHeader} ${!imgUrlSmall ? 'level' : styles.blockHeaderArt}`}>
           <div>
-            <div className={`is-size-4`}>{theData.title}</div>
+            <div className={`is-size-4 ${styles.blockHeaderTitle}`}>{theData.title}</div>
             {imgUrlSmall ?
             renderDate()
             : <></>

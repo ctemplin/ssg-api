@@ -66,14 +66,14 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
       <div className={`block`}>
         <div className={styles.blockType}>Release</div>
         <div className={`${styles.blockHeader} level`}>
-          <span className={`is-size-4`}>{theData.title}</span>
+          <span className={`is-size-4 ${styles.blockHeaderTitle}`}>{theData.title}</span>
           <FontAwesomeIcon
           className={styles.resultHeaderIcon}
           height="1.3em"
           icon={faCompactDisc}
           />
         </div>
-        <div className={`is-size-6`}>{theData.firstReleaseDate ?? <>&nbsp;</>}</div>
+        <div className={`is-size-6 ${styles.blockHeaderDate}`}>{theData.firstReleaseDate ?? <>&nbsp;</>}</div>
     </div>
     {theData.releases ?
     <>

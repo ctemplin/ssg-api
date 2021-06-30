@@ -12,6 +12,14 @@
   margin-bottom: 0px !important;
 }
 
+.blockHeaderTitle {
+  line-height: normal;
+}
+
+.blockHeaderDate {
+  line-height: 2.4em;
+}
+
 .blockHeader.blockHeaderArt {
   display: flex;
   justify-content: space-between;

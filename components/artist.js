@@ -26,14 +26,14 @@ export default function Artist({name, lsBegin, lsEnd, releaseGroups, handleRelea
       <div className={`block`}>
         <div className={styles.blockType}>Artist</div>
         <div className={`${styles.blockHeader} level`}>
-          <span className={`is-size-4`}>{name}</span>
+          <span className={`is-size-4 ${styles.blockHeaderTitle}`}>{name}</span>
           <FontAwesomeIcon
           className={styles.resultHeaderIcon}
           height="1.4em"
           icon={faMicrophoneAlt}
           />
         </div>
-        <div className={`is-size-6`}>{lsBeginFmt ? `${lsBeginFmt} to ${lsEndFmt}` : '' }</div>
+        <div className={`is-size-6 ${styles.blockHeaderDate}`}>{lsBeginFmt ? `${lsBeginFmt} to ${lsEndFmt}` : '' }</div>
       </div>
       {releaseGroups ? 
       <>
