@@ -60,7 +60,9 @@
 }
 
 div .rgpop {
-  max-height: 34vh;
+  @media screen and (min-width: $desktop) {
+    max-height: 34vh;
+  }
   overflow-y: scroll;
   border-top: solid thin lightblue;
 }
