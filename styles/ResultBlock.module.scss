@@ -45,6 +45,16 @@
   clear: both;
 }
 
+// Good use case for Sass (ie. concat 'Alt' and avoid duplication
+.resultItemAlt {
+  // taken from bulma...initial-variables.sass
+  // inbetween $grey-lighter and $grey-lightest
+  background-color: hsl(0, 0%, 91%);
+  cursor:pointer;
+  clear: both;
+}
+
+
 .resultItemHl {
   background-color: $yellow;
 }

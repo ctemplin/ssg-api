@@ -44,7 +44,7 @@ export default function Artist({name, lsBegin, lsEnd, releaseGroups, handleRelea
           const firstReleaseDate = _.firstReleaseDate.length ? new Date(_.firstReleaseDate) : undefined
           return(
             <div onClick={handleClick(_.id, i)} index={i} key={_.id}
-            className={`${styles.resultItem} ${hlIndex==i?styles.resultItemHl:''}`}>
+            className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlIndex==i?styles.resultItemHl:''}`}>
               <span className={styles.releaseTitle}>{_.title}</span>
               <span className={styles.releaseDate}>{firstReleaseDate?.toLocaleDateString(undefined, {year: 'numeric'})}</span>
             </div>

@@ -81,7 +81,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
       <div className={styles.rgpop} ref={releasesScrollable}>
       {theData.releases.map((_,i) => 
         <div onClick={handleClick(_.id,i)} key={_.id}  ref={(el) => releaseEls.current[i] = el}
-        className={`${styles.resultItem} ${hlIndex==i?styles.resultItemHl:''}`}>
+        className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlIndex==i?styles.resultItemHl:''}`}>
           <span className={styles.releaseTitle}>{_.title}</span>
         <span className={styles.releaseDate}>{_.date?.substr(0,4)}</span>
         </div>
