@@ -111,7 +111,7 @@ export default function ArtistSearch({handleArtistSearchClick}) {
         icon={faSearch}
         onClick={handleIconClick}
       />
-      <input type="text" onKeyDown={handleKeyDown} onChange={handleChange} ref={inputRef} className={styles.input} size="14" placeholder="Artist search..."/></div>
+      <input type="text" onKeyDown={handleKeyDown} onChange={handleChange} ref={inputRef} className={styles.input} size="14" placeholder="Artist search..."/>
       {theData.matches.length ?
         <div className={styles.searchIncResultList} id="searchIncResultList">
           {theData.matches.map((_,i) =>
@@ -124,6 +124,7 @@ export default function ArtistSearch({handleArtistSearchClick}) {
       :
         <></>
       }
+      </div>
     </div>
   )
 }

@@ -3,9 +3,9 @@
 
 .searchContainer {
   display: block;
+  position: absolute;
+  z-index: 2;
   @media screen and (min-width: $desktop) { 
-    position: absolute;
-    z-index: 2;
     left: 8vw;
     top: 60px;
   }
@@ -13,6 +13,8 @@
 
 .inputLevel {
   margin-bottom: 0px !important;
+  // next line overides bulma's display: flex used at intermediate sizes
+  display: revert;
 }
 
 .icon {
@@ -31,6 +33,9 @@
   background-color: white;
   opacity: 75%;
   color: black;
+  @media screen and (min-width: $desktop) {
+    top: 1.4em;
+  }
 }
 
 .searchIncResult {
