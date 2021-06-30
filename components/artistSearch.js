@@ -79,7 +79,7 @@ export default function ArtistSearch({handleArtistSearchClick}) {
       case "ArrowDown":
         var hli = hlIndex
         console.log(hli)
-        var c = document.getElementById("searchIncResultList").children.length
+        var c = document.getElementById("searchIncResultList")?.children.length
         // wrap around, starting back at no selection
         hli = hli >= c-1 ? -1 : hli + 1
         setHlIndex(hli)
@@ -87,14 +87,14 @@ export default function ArtistSearch({handleArtistSearchClick}) {
         break;
       case "ArrowUp":
         var hli = hlIndex
-        var c = document.getElementById("searchIncResultList").children.length
+        var c = document.getElementById("searchIncResultList")?.children.length
         // wrap around, starting back at no selection
         hli = hli <= -1 ? c-1 : hli - 1
         setHlIndex(hli)
         e.preventDefault()
         break;
       case "Enter":
-        const rid = document.getElementById("searchIncResultList").children[hlIndex]?.attributes['rid'].value
+        const rid = document.getElementById("searchIncResultList")?.children[hlIndex]?.attributes['rid'].value
         if (rid) handleArtistSearchClick(rid)
         break
     }
