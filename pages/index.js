@@ -8,7 +8,7 @@ import ReleaseGroup from '../components/releaseGroup'
 import Release from '../components/release'
 import CoverArt from '../components/coverArt'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCopyright, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 export default function Home() {
   const [isSearching, setIsSearching] = useState(true)
@@ -160,11 +160,11 @@ export default function Home() {
         <FontAwesomeIcon
           className={styles.icon}
           height="1em"
-          icon={faCopyright}
-        />&nbsp;2021
-          <span className={styles.logo}>
-            
-          </span>
+          icon={faKeyboard}
+        />
+        <span>
+          Made with <a href="https://nextjs.org">NextJS</a> and the <a href="https://musicbrainz.org/doc/MusicBrainz_API">MusicBrainz API</a>
+        </span>
       </footer>
     </div>
   )
