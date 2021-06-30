@@ -1,13 +1,17 @@
 import React,{useEffect, useState} from 'react'
 import Image from 'next/image'
 import styles from '../styles/ResultBlock.module.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 export default function CoverArt({id, width=200, height=200, showLargeImg, handleCoverArtSmall, handleCloseClick}) {
 
   const [imgUrlSmall, setImgUrlSmall] = useState()
   const [imgUrlLarge, setImgUrlLarge] = useState()
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() =>  {
+    setIsLoading(true)
     async function getData() {
       const resp = await fetch(
         'https://coverartarchive.org/release/' + id,
@@ -26,12 +30,29 @@ export default function CoverArt({id, width=200, height=200, showLargeImg, handl
     handleCoverArtSmall(imgUrlSmall)
   }, [imgUrlSmall, handleCoverArtSmall])
 
+  const handleOnLoad = function() {
+    setTimeout(() => setIsLoading(false), 500)
+  }
+
   return(
     <>
-    { imgUrlLarge && showLargeImg ?
-    <a onClick={handleCloseClick}><Image src={imgUrlLarge} className={styles.largeCoverArt} layout="fill" objectFit="scale-down" alt="Album Art"/></a>
+    { showLargeImg ?
+      <>
+        <a onClick={handleCloseClick}><Image onLoad={handleOnLoad} src={imgUrlLarge} className={`${styles.largeCoverArt} ${isLoading ? styles.largeCoverArtHidden : ''}`} layout="fill" objectFit="scale-down" alt="Album Art"/></a>
+      {isLoading ?
+      <div onClick={handleCloseClick} className={styles.largeCoverArtLoading}>
+        <FontAwesomeIcon
+          className={styles.resultBlockLoadingIcon}
+          icon={faSpinner}
+          pulse
+        />
+      </div>
+      :
+      <></>
+      }
+      </>
     :
-    <></>
+      <></>
     }
     </>
   )

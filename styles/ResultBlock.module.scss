@@ -75,7 +75,20 @@ span.trackLength {
   object-fit: contain;
 }
 
+.largeCoverArtLoading {
+  display: block; 
+  overflow: hidden;
+  position: absolute;
+  inset: 0px;
+  box-sizing: border-box;
+  margin: 0px;
+}
+
 .largeCoverArt {
   padding: 50px !important;
   z-index: 2;
+}
+
+.largeCoverArtHidden {
+  visibility: hidden;
 }
