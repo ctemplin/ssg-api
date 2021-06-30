@@ -1,3 +1,6 @@
+@import 'bulma/sass/utilities/initial-variables.sass';
+@import 'bulma/sass/utilities/derived-variables.sass';
+
 .searchContainer {
   display: block;
   position: absolute;
@@ -28,4 +31,10 @@
 .searchIncResult {
   font-size: 60%;
   cursor: pointer;
+}
+
+.searchIncResultHl {
+  background-color: $yellow;
+  opacity: 50%;
+  color: black;
 }

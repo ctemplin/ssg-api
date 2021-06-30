@@ -8,6 +8,7 @@ export default function ArtistSearch({handleArtistSearchClick}) {
   const defaultData = {matches: []}
   const [theData, setTheData] = useState(defaultData)
   const [searchTerms, setSearchTerms] = useState('')
+  const [hlIndex, setHlIndex] = useState(-1)
 
   useEffect(() => {
     const getData = async () => {
@@ -68,6 +69,29 @@ export default function ArtistSearch({handleArtistSearchClick}) {
     inputRef.current.focus();
   }
 
+  const handleKeyDown = (e) => {
+    switch (e.key) {
+      case "ArrowDown":
+        var hli = hlIndex
+        var c = document.getElementById("searchIncResultList").children.length
+        // wrap around, starting back at no selection
+        hli = hli >= c-1 ? -1 : hli + 1
+        setHlIndex(hli)
+        break;
+      case "ArrowUp":
+        var hli = hlIndex
+        var c = document.getElementById("searchIncResultList").children.length
+        // wrap around, starting back at no selection
+        hli = hli <= -1 ? c-1 : hli - 1
+        setHlIndex(hli)
+        break;
+      case "Enter":
+        const rid = document.getElementById("searchIncResultList").children[hlIndex]?.attributes['rid'].value
+        if (rid) handleArtistSearchClick(rid)
+        break
+    }
+  } 
+
   const inputRef = useRef()
 
   return (
@@ -79,11 +103,11 @@ export default function ArtistSearch({handleArtistSearchClick}) {
         icon={faSearch}
         onClick={handleIconClick}
       />
-      <input type="text" onChange={handleChange} ref={inputRef} className={styles.input} size="14" placeholder="Artist search..."/></div>
+      <input type="text" onKeyDown={handleKeyDown} onChange={handleChange} ref={inputRef} className={styles.input} size="14" placeholder="Artist search..."/></div>
       {theData.matches.length ?
-        <div className={styles.searchIncResultList}>
-          {theData.matches.map(_ =>
-          <div className={`${styles.searchIncResult} panel-block`} key={_.id} onClick={handleClick(_.id)}>
+        <div className={styles.searchIncResultList} id="searchIncResultList">
+          {theData.matches.map((_,i) =>
+          <div className={`${styles.searchIncResult} panel-block ${hlIndex==i?styles.searchIncResultHl:''}`} rid={_.id} key={_.id} onClick={handleClick(_.id)}>
             {_.name}
           </div>
           )}
