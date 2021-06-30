@@ -69,10 +69,16 @@ export default function ArtistSearch({handleArtistSearchClick}) {
     inputRef.current.focus();
   }
 
+  const handleMouseEnter = (e) => {
+    var hli = parseInt(e.target.attributes['index'].value)
+    setHlIndex(hli)
+  }
+
   const handleKeyDown = (e) => {
     switch (e.key) {
       case "ArrowDown":
         var hli = hlIndex
+        console.log(hli)
         var c = document.getElementById("searchIncResultList").children.length
         // wrap around, starting back at no selection
         hli = hli >= c-1 ? -1 : hli + 1
@@ -107,7 +113,8 @@ export default function ArtistSearch({handleArtistSearchClick}) {
       {theData.matches.length ?
         <div className={styles.searchIncResultList} id="searchIncResultList">
           {theData.matches.map((_,i) =>
-          <div className={`${styles.searchIncResult} panel-block ${hlIndex==i?styles.searchIncResultHl:''}`} rid={_.id} key={_.id} onClick={handleClick(_.id)}>
+          <div className={`${styles.searchIncResult} panel-block ${hlIndex==i?styles.searchIncResultHl:''}`} index={i} rid={_.id} key={_.id}
+            onClick={handleClick(_.id)} onMouseEnter={handleMouseEnter} >
             {_.name}
           </div>
           )}
