@@ -104,8 +104,8 @@ export default function Home() {
         <meta name="description" content="Explorer for Artists, Albums and Songs from MusicBrainz" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-        <div className={`columns`}>
-          <div className={`column is-one-third`}>
+        <div className={`columns ${styles.columnsContainer}`}>
+          <div className={`column is-full`}>
           {!isSearching &&
             <>
             <FontAwesomeIcon
@@ -124,7 +124,6 @@ export default function Home() {
             </>
           }
           </div>
-          <div className={`column`}></div><div className={`column`}></div>
         </div>
         {isSearching &&
           <> 

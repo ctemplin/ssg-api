@@ -1,3 +1,6 @@
+@import 'bulma/sass/utilities/initial-variables.sass';
+@import 'bulma/sass/utilities/derived-variables.sass';
+
 .container {
   min-height: 100vh;
   padding: 0 0.5rem;
@@ -126,8 +129,17 @@
 }
 
 .columnsContainer {
-  margin-top: 2vh;
+  @media (min-width: $desktop) {
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
 }
+
+// leaving in for reference
+// .columnsContainer > div {
+//   @media (min-width: $desktop) {
+//     
+//   }}
 
 .headphones {
   padding: 90px 0px 90px 0px !important;
