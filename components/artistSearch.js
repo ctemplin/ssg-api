@@ -83,6 +83,7 @@ export default function ArtistSearch({handleArtistSearchClick}) {
         // wrap around, starting back at no selection
         hli = hli >= c-1 ? -1 : hli + 1
         setHlIndex(hli)
+        e.preventDefault()
         break;
       case "ArrowUp":
         var hli = hlIndex
@@ -90,6 +91,7 @@ export default function ArtistSearch({handleArtistSearchClick}) {
         // wrap around, starting back at no selection
         hli = hli <= -1 ? c-1 : hli - 1
         setHlIndex(hli)
+        e.preventDefault()
         break;
       case "Enter":
         const rid = document.getElementById("searchIncResultList").children[hlIndex]?.attributes['rid'].value
