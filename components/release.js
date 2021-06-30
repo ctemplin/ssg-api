@@ -9,6 +9,7 @@ import styles from '../styles/ResultBlock.module.scss'
 export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArtSmallClick}) {
   
   const [isLoading, setIsLoading] = useState(true)
+  const [isImgLoading, setIsImgLoading] = useState(false)
   const [theData, setTheData] = useState({})
   
   const handleClick = () => {
@@ -65,7 +66,10 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
   },[id])
 
   useEffect(() => {
-    if(theData.hasCoverArt) handleCoverArt(theData.id)
+    if(theData.hasCoverArt) {
+      setIsImgLoading(true)
+      handleCoverArt(theData.id)
+    }
   },[theData, handleCoverArt])
 
   const scrollableRef = useRef()
@@ -75,6 +79,11 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
       <div className={`is-size-6`}>{theData.date ?? <>&nbsp;</>}</div>
     )
   }
+
+  const handleOnLoad = function() {
+    setTimeout(() => setIsImgLoading(false), 500)
+  }
+
   return (
   <div>
     <div className={`block`}>
@@ -96,7 +105,24 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
             }
           </div>
           {theData.hasCoverArt && imgUrlSmall ?
-          <a onClick={handleCoverArtSmallClick}><Image src={imgUrlSmall} width={100} height={100} layout="fixed" className={styles.resultHeaderImage} alt="Album Art Thumbnail"/></a>
+          <>
+            <a onClick={handleCoverArtSmallClick} className={`${isImgLoading ? styles.smallCoverArtHidden : ''}`}>
+              <Image src={imgUrlSmall} onLoad={handleOnLoad} width={100} height={100}
+                layout="fixed" alt="Album Art Thumbnail"
+                className={`${styles.resultHeaderImage}`}/>
+            </a>
+            {isImgLoading ?
+            <div className={styles.smallCoverArtLoading}>
+              <FontAwesomeIcon
+                className={styles.resultBlockLoadingIcon}
+                icon={faSpinner}
+                pulse
+              />
+            </div>
+            :
+            <></>
+            }
+          </>
           :
           <FontAwesomeIcon
             className={styles.resultHeaderIcon}
