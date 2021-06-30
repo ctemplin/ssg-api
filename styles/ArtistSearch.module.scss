@@ -15,6 +15,7 @@
   margin-bottom: 0px !important;
   // next line overides bulma's display: flex used at intermediate sizes
   display: revert;
+  white-space: nowrap;
 }
 
 .icon {
