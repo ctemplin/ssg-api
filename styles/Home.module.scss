@@ -138,6 +138,10 @@
   }
 }
 
+.artistSearchContainer {
+  text-align: center
+}
+
 // leaving in for reference
 // .columnsContainer > div {
 //   @media screen and (min-width: $desktop) {
@@ -145,6 +149,8 @@
 //   }}
 
 .headphones {
-  padding: 90px 0px 90px 0px !important;
+  @media screen and (min-width: $desktop) {
+    padding: 90px 0px 90px 0px !important;
+  }
 }
 

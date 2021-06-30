@@ -103,7 +103,7 @@ export default function ArtistSearch({handleArtistSearchClick}) {
   const inputRef = useRef()
 
   return (
-    <div className={`${styles.searchContainer} is-size-1`}>
+    <div className={`${styles.searchContainer} is-size-3 is-size-1-desktop`}>
       <div className={`${styles.inputLevel} level`}>
       <FontAwesomeIcon
         className={styles.icon}
