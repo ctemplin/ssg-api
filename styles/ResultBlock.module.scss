@@ -42,12 +42,16 @@
 }
 
 .resultItem {
+  display: flex;
+  justify-content: space-between;
   cursor:pointer;
   clear: both;
 }
 
 // Good use case for Sass (ie. concat 'Alt' and avoid duplication
 .resultItemAlt {
+  display: flex;
+  justify-content: space-between;
   // taken from bulma...initial-variables.sass
   // inbetween $grey-lighter and $grey-lightest
   background-color: hsl(0, 0%, 91%);
@@ -76,7 +80,6 @@ span.releaseTitle {
 span.releaseDate {
   font-size: small;
   margin-left: 2ex;
-  float: right;
 }
 
 span.trackTitle {
