@@ -84,8 +84,14 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
     setTimeout(() => setIsImgLoading(false), 500)
   }
 
+  useEffect(() => {
+    head.current?.scrollIntoView({behavior: "smooth"})
+  },[theData.id])
+
+  const head = useRef()
+
   return (
-  <div>
+  <div ref={head}>
     <div>
       <div className={styles.blockType}>Recording</div>
       {isLoading ?

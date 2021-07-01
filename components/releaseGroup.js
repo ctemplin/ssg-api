@@ -28,6 +28,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
           )
         setTheData(
           {
+            id: json.id,
             title: json.title, 
             firstReleaseDate: firstReleaseDate == "Invalid Date" ? null : firstReleaseDate,
             releases:
@@ -58,11 +59,16 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
     };
   }
     
-    const releasesScrollable = useRef()
-    const releaseEls = useRef({})
+  useEffect(() => {
+    head.current?.scrollIntoView({behavior: "smooth"})
+  },[theData.id])
+
+  const releasesScrollable = useRef()
+  const releaseEls = useRef({})
+  const head = useRef()
 
   return (
-    <div>
+    <div ref={head}>
       <div>
         <div className={styles.blockType}>Release</div>
         <div className={`${styles.blockHeader} level`}>
