@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react'
+import ReactDOM from 'react-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/ArtistSearch.module.scss'
@@ -40,6 +41,14 @@ export default function ArtistSearch({handleArtistSearchClick}) {
     if (searchTerms.length)
       getData()
   },[searchTerms])
+
+  // HACK: set size of input by window size at load
+  useEffect(() => {
+    var screenWidth = window.visualViewport.width;
+    var size = Math.round(screenWidth/30)
+    size = Math.min(size, 20)
+    ReactDOM.findDOMNode(inputRef.current).setAttribute("size", size)
+  },[])
 
   useEffect(() => {
     // setTimeout(() => {
