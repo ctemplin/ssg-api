@@ -1,12 +1,13 @@
 import React,{useState, useEffect, useRef} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCompactDisc } from '@fortawesome/free-solid-svg-icons';
+import { faCompactDisc, faFilter } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/ResultBlock.module.scss'
 
 export default function ReleaseGroup({id, handleReleaseClick}) {
   
   const [theData, setTheData] = useState({})
   const [hlIndex, setHlIndex] = useState(-1)
+  const [countries, setCountries] = useState(new Set([]))
 
   useEffect(() => {
     setHlIndex(-1)
@@ -33,10 +34,12 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
             firstReleaseDate: firstReleaseDate == "Invalid Date" ? null : firstReleaseDate,
             releases:
             json['releases'].map(release => {
+              setCountries(countries.add(release.country))
               return {
                 id: release.id,
                 title: release.title,
-                date: release['date']
+                date: release['date'],
+                country: release.country
               }
             })
           }
@@ -58,7 +61,8 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
       handleReleaseClick(id)
     };
   }
-    
+  const countryFilter = _=>_.country == "US"
+
   useEffect(() => {
     head.current?.scrollIntoView({behavior: "smooth"})
   },[theData.id])
@@ -83,12 +87,19 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
       </div>
       {theData.releases ?
       <>
-        <div className={`is-size-7`}>Versions: {theData.releases.length} found</div>
+        <div className={`is-size-7 ${styles.countFilter}`}>
+          <FontAwesomeIcon
+          className={styles.resultFilterIcon}
+          height="1.3em"
+          icon={faFilter}
+          />  
+          <span>Versions: {theData.releases.length - theData.releases.filter(countryFilter).length} filtered out</span>
+        </div>
         <div className={styles.rgpop} ref={releasesScrollable}>
-          {theData.releases.map((_,i) => 
+          {theData.releases.filter(countryFilter).map((_,i) => 
           <div onClick={handleClick(_.id,i)} key={_.id}  ref={(el) => releaseEls.current[i] = el}
           className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlIndex==i?styles.resultItemHl:''}`}>
-            <span className={styles.releaseTitle}>{_.title}</span>
+            <span className={styles.releaseTitle}>{_.title} {_.country ? `(${_.country})` : ``}</span>
             <span className={styles.releaseDate}>{_.date?.substr(0,4)}</span>
           </div>
           )}

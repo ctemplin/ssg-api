@@ -48,6 +48,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
           id: id,
           title: json.title,
           date: date == "Invalid Date" ? null : date,
+          country: json.country,
           hasCoverArt: json['cover-art-archive']?.artwork,
           tracks:
           json.media?.[0]?.tracks?.map(track => {
@@ -106,7 +107,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
       <>
       <div className={`${styles.blockHeader} ${!imgUrlSmall ? 'level' : styles.blockHeaderArt}`}>
         <div>
-          <div className={`is-size-4 ${styles.blockHeaderTitle}`}>{theData.title}</div>
+          <div className={`is-size-4 ${styles.blockHeaderTitle}`}>{theData.title} {theData.country ? `(${theData.country})` : ``}</div>
           {imgUrlSmall ?
           renderDate()
           : <></>
