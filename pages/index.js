@@ -142,10 +142,6 @@ export default function Home() {
             <ReleaseGroup id={curReleaseGroupId} handleReleaseClick={handleReleaseSelect}></ReleaseGroup>
             : <></>
             }
-            {coverArtId ?
-            <CoverArt id={coverArtId} handleCoverArtSmall={handleCoverArtSmall} handleCloseClick={hideLargeImg} showLargeImg={showLargeImg}></CoverArt>
-            : <></>
-            }
           </div>
           <div className={`column is-one-third`}>
             {curReleaseId ?
@@ -154,6 +150,11 @@ export default function Home() {
             }
           </div>
         </div>
+
+        {coverArtId ?
+        <CoverArt id={coverArtId} handleCoverArtSmall={handleCoverArtSmall} handleCloseClick={hideLargeImg} showLargeImg={showLargeImg}></CoverArt>
+        : <></>
+        }
 
       <footer className={styles.footer}>
         <FontAwesomeIcon
