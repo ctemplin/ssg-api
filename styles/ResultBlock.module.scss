@@ -83,8 +83,8 @@ span.releaseDate {
 }
 
 span.trackTitle {
-  overflow-x: hidden;
-  /* white-space: nowrap; */
+  flex: auto;
+  margin-left: 0.5ex;
 }
 
 span.trackLength {
