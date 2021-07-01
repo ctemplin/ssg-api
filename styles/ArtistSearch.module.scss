@@ -33,7 +33,7 @@
   z-index: 2;
   margin-left: 1.4em;
   background-color: white;
-  opacity: 75%;
+  opacity: 90%;
   color: black;
   @media screen and (min-width: $desktop) {
     top: 1.4em;
@@ -47,5 +47,4 @@
 
 .searchIncResultHl {
   background-color: $yellow;
-  opacity: 50%;
 }
