@@ -10,7 +10,7 @@ export default function ArtistSearch({handleArtistSearchClick}) {
   const [theData, setTheData] = useState(defaultData)
   const [searchTerms, setSearchTerms] = useState('')
   const [hlIndex, setHlIndex] = useState(-1)
-  const [inputSize, setInputSize] = useState(14)
+  const [inputSize, setInputSize] = useState(10)
 
   useEffect(() => {
     const getData = async () => {
