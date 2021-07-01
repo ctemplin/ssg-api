@@ -86,7 +86,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
 
   return (
   <div>
-    <div className={`block`}>
+    <div>
       <div className={styles.blockType}>Recording</div>
         {isLoading ?
         <FontAwesomeIcon
@@ -107,7 +107,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
           {theData.hasCoverArt && imgUrlSmall ?
           <>
             <a onClick={handleCoverArtSmallClick} className={`${isImgLoading ? styles.smallCoverArtHidden : ''}`}>
-              <Image src={imgUrlSmall} onLoad={handleOnLoad} width={100} height={100}
+              <Image src={imgUrlSmall} onLoad={handleOnLoad} width={60} height={60}
                 layout="fixed" alt="Album Art Thumbnail"
                 className={`${styles.resultHeaderImage}`}/>
             </a>

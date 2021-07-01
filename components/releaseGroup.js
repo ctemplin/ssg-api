@@ -63,7 +63,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
 
   return (
     <div>
-      <div className={`block`}>
+      <div>
         <div className={styles.blockType}>Release</div>
         <div className={`${styles.blockHeader} level`}>
           <span className={`is-size-4 ${styles.blockHeaderTitle}`}>{theData.title}</span>

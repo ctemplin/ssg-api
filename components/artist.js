@@ -23,7 +23,7 @@ export default function Artist({name, lsBegin, lsEnd, releaseGroups, handleRelea
 
   return (
     <div>
-      <div className={`block`}>
+      <div>
         <div className={styles.blockType}>Artist</div>
         <div className={`${styles.blockHeader} level`}>
           <span className={`is-size-4 ${styles.blockHeaderTitle}`}>{name}</span>
