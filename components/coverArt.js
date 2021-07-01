@@ -39,7 +39,7 @@ export default function CoverArt({id, width=200, height=200, showLargeImg, handl
     { showLargeImg ?
       <div className={`modal is-active`}>
         <div className={`modal-background`}></div>
-        <div class={`modal-content`}>
+        <div className={`modal-content`}>
         <a onClick={handleCloseClick}><Image onLoad={handleOnLoad} src={imgUrlLarge} className={`${isLoading ? styles.largeCoverArtHidden : ''}`} width={640} height={640} objectFit="scale-down" alt="Album Art"/></a>
         {isLoading ?
         <div onClick={handleCloseClick} className={styles.largeCoverArtLoading}>
@@ -53,7 +53,7 @@ export default function CoverArt({id, width=200, height=200, showLargeImg, handl
         <></>
         }
         </div>
-        <button class={`modal-close is-large`} aria-label="close" onClick={handleCloseClick}></button>
+        <button className={`modal-close is-large`} aria-label="close" onClick={handleCloseClick}></button>
       </div>
     :
       <></>
