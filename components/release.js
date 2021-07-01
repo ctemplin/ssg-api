@@ -88,59 +88,59 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
   <div>
     <div>
       <div className={styles.blockType}>Recording</div>
-        {isLoading ?
-        <FontAwesomeIcon
-          className={styles.resultBlockLoadingIcon}
-          icon={faSpinner}
-          pulse
-        />
-        :
-        <>
-        <div className={`${styles.blockHeader} ${!imgUrlSmall ? 'level' : styles.blockHeaderArt}`}>
-          <div>
-            <div className={`is-size-4 ${styles.blockHeaderTitle}`}>{theData.title}</div>
-            {imgUrlSmall ?
-            renderDate()
-            : <></>
-            }
-          </div>
-          {theData.hasCoverArt && imgUrlSmall ?
-          <>
-            <a onClick={handleCoverArtSmallClick} className={`${isImgLoading ? styles.smallCoverArtHidden : ''}`}>
-              <Image src={imgUrlSmall} onLoad={handleOnLoad} width={60} height={60}
-                layout="fixed" alt="Album Art Thumbnail"
-                className={`${styles.resultHeaderImage}`}/>
-            </a>
-            {isImgLoading ?
-            <div className={styles.smallCoverArtLoading}>
-              <FontAwesomeIcon
-                className={styles.resultBlockLoadingIcon}
-                icon={faSpinner}
-                pulse
-              />
-            </div>
-            :
-            <></>
-            }
-          </>
-          :
-          <FontAwesomeIcon
-            className={styles.resultHeaderIcon}
-            height="1.3em"
-            icon={faMusic}
-            />
+      {isLoading ?
+      <FontAwesomeIcon
+        className={styles.resultBlockLoadingIcon}
+        icon={faSpinner}
+        pulse
+      />
+      :
+      <>
+      <div className={`${styles.blockHeader} ${!imgUrlSmall ? 'level' : styles.blockHeaderArt}`}>
+        <div>
+          <div className={`is-size-4 ${styles.blockHeaderTitle}`}>{theData.title}</div>
+          {imgUrlSmall ?
+          renderDate()
+          : <></>
           }
         </div>
-        {!imgUrlSmall ?
-        renderDate()
-        : <></>
-        }
-        
+        {theData.hasCoverArt && imgUrlSmall ?
+        <>
+          <a onClick={handleCoverArtSmallClick} className={`${isImgLoading ? styles.smallCoverArtHidden : ''}`}>
+            <Image src={imgUrlSmall} onLoad={handleOnLoad} width={60} height={60}
+              layout="fixed" alt="Album Art Thumbnail"
+              className={`${styles.resultHeaderImage}`}/>
+          </a>
+          {isImgLoading ?
+          <div className={styles.smallCoverArtLoading}>
+            <FontAwesomeIcon
+              className={styles.resultBlockLoadingIcon}
+              icon={faSpinner}
+              pulse
+            />
+          </div>
+          :
+          <></>
+          }
         </>
+        :
+        <FontAwesomeIcon
+          className={styles.resultHeaderIcon}
+          height="1.3em"
+          icon={faMusic}
+          />
         }
+      </div>
+      {!imgUrlSmall ?
+      renderDate()
+      : <></>
+      }
+      
+      </>
+      }
     </div>
     {(!isLoading) && theData.tracks ?
-      <>
+    <>
       <div className={`is-size-7`}>Tracks: {theData.tracks.length} found</div>
       <div className={styles.rgpop} ref={scrollableRef}>
         {theData.tracks.map(_ => 
@@ -151,7 +151,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
           </div>
         )}
       </div>
-      </>
+    </>
     :
     <></>
     }

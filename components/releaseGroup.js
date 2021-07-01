@@ -74,23 +74,23 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
           />
         </div>
         <div className={`is-size-6 ${styles.blockHeaderDate}`}>{theData.firstReleaseDate ?? <>&nbsp;</>}</div>
-    </div>
-    {theData.releases ?
-    <>
-      <div className={`is-size-7`}>Versions: {theData.releases.length} found</div>
-      <div className={styles.rgpop} ref={releasesScrollable}>
-      {theData.releases.map((_,i) => 
-        <div onClick={handleClick(_.id,i)} key={_.id}  ref={(el) => releaseEls.current[i] = el}
-        className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlIndex==i?styles.resultItemHl:''}`}>
-          <span className={styles.releaseTitle}>{_.title}</span>
-        <span className={styles.releaseDate}>{_.date?.substr(0,4)}</span>
-        </div>
-      )}
       </div>
-    </>
-    :
-    <></>
-    }
+      {theData.releases ?
+      <>
+        <div className={`is-size-7`}>Versions: {theData.releases.length} found</div>
+        <div className={styles.rgpop} ref={releasesScrollable}>
+          {theData.releases.map((_,i) => 
+          <div onClick={handleClick(_.id,i)} key={_.id}  ref={(el) => releaseEls.current[i] = el}
+          className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlIndex==i?styles.resultItemHl:''}`}>
+            <span className={styles.releaseTitle}>{_.title}</span>
+            <span className={styles.releaseDate}>{_.date?.substr(0,4)}</span>
+          </div>
+          )}
+        </div>
+      </>
+      :
+      <></>
+      }
     </div>
   )
 }
