@@ -10,7 +10,6 @@ export default function ArtistSearch({handleArtistSearchClick}) {
   const [theData, setTheData] = useState(defaultData)
   const [searchTerms, setSearchTerms] = useState('')
   const [hlIndex, setHlIndex] = useState(-1)
-  const [inputSize, setInputSize] = useState(10)
 
   useEffect(() => {
     const getData = async () => {
@@ -42,14 +41,6 @@ export default function ArtistSearch({handleArtistSearchClick}) {
     if (searchTerms.length)
       getData()
   },[searchTerms])
-
-  // HACK: set size of input by window size at load
-  useEffect(() => {
-    var screenWidth = window.visualViewport.width;
-    var size = Math.round(screenWidth/30)
-    size = Math.min(size, 20)
-    setInputSize(size)
-  },[])
 
   useEffect(() => {
     // setTimeout(() => {
@@ -121,7 +112,7 @@ export default function ArtistSearch({handleArtistSearchClick}) {
         icon={faSearch}
         onClick={handleIconClick}
       />
-      <input type="text" onKeyDown={handleKeyDown} onChange={handleChange} ref={inputRef} className={styles.input} size={inputSize} placeholder="Artist search..."/>
+      <input type="text" onKeyDown={handleKeyDown} onChange={handleChange} ref={inputRef} className={styles.input} placeholder="Artist search..."/>
       {theData.matches.length ?
         <div className={styles.searchIncResultList} id="searchIncResultList">
           {theData.matches.map((_,i) =>
