@@ -5,7 +5,7 @@ export default function FilterConfig({countries, userCountries, handleChange}) {
   return (
     <div className={styles.container}>
       Countries:
-      {Array.from(countries).map(_ => 
+      {Array.from(countries).sort().map(_ => 
       <>
       <label className={styles.row}>
         <span className={styles.abbrev}>{_}</span>
