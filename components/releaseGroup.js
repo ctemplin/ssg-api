@@ -71,7 +71,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
     };
   }
 
-  const countryFilter = _=> userCountries.has(_.country)
+  const countryFilter = (_,i,a) => a.length == 1 || userCountries.has(_.country)
 
   useEffect(() => {
     head.current?.scrollIntoView({behavior: "smooth"})
@@ -94,9 +94,16 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
   }
 
   const isCountryNeeded = () => {
+    if (theData.releases.length == 1 && !userCountries.has(theData.releases[0].country))
+      // Showing the SOLE release despite it failing the country filter,
+      // so make that clear.
+      return true
     if ((userCountries.size == 1) || 
         (userCountries.size == 2 && userCountries.has("??"))
-       ) return false
+       )
+       // Too little country variety to clutter the UI with
+       return false
+    // Showing releases from a mix of countries
     return true
   }
 
