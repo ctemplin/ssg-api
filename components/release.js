@@ -38,7 +38,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
       ) 
       const json = await resp.json()
       // If date is just a 4-digit year, take it. Otherwise format it.
-      const date = json.date.match(/^\d{4}$/) ? json.date : 
+      const date = json.date?.match(/^\d{4}$/) ? json.date : 
         new Date(json.date).toLocaleDateString(
           "us-EN",
           {year: 'numeric', month: 'short', day: 'numeric', timeZone: "UTC"}
