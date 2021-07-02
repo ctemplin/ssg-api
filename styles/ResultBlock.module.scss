@@ -39,6 +39,14 @@
 }
 
 .resultFilterIcon {
+  color: $grey;
+  line-height: inherit;
+  align-self: center;
+  margin-right: 0.5ex;
+}
+
+.resultFilterIconDisabled {
+  color: $grey-lighter;
   line-height: inherit;
   align-self: center;
   margin-right: 0.5ex;

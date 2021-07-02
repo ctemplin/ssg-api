@@ -119,6 +119,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
   const releaseEls = useRef({})
   const head = useRef()
 
+  const filteredReleases = theData.releases.filter(countryFilter)
   return (
     <div ref={head}>
       <div>
@@ -137,15 +138,15 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
       <>
         <div className={`is-size-7 ${styles.countFilter}`}>
           <FontAwesomeIcon
-          className={styles.resultFilterIcon}
+          className={`${filteredReleases.length > 1 ? styles.resultFilterIcon : styles.resultFilterIconDisabled}`}
           height="1.3em"
           icon={faFilter}
-          onClick={handleFilterClick}
+          onClick={filteredReleases.length > 1 ? handleFilterClick : null}
           />
-          <span>Versions: {theData.releases.length - theData.releases.filter(countryFilter).length} filtered out</span>
+          <span>Versions: {theData.releases.length - filteredReleases.length} filtered out</span>
         </div>
         <div className={styles.rgpop} ref={releasesScrollable}>
-          {theData.releases.filter(countryFilter).map((_,i) =>
+          {filteredReleases.map((_,i) =>
           <div onClick={handleClick(_.id,i)} key={_.id}  ref={(el) => releaseEls.current[i] = el}
           className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlIndex==i?styles.resultItemHl:''}`}>
             <span className={styles.releaseTitle}>{_.title}
