@@ -107,7 +107,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
       <>
       <div className={`${styles.blockHeader} ${!imgUrlSmall ? 'level' : styles.blockHeaderArt}`}>
         <div>
-          <div className={`is-size-4 ${styles.blockHeaderTitle}`}>{theData.title} {theData.country ? `(${theData.country})` : ``}</div>
+          <div className={`is-size-4 ${styles.blockHeaderTitle}`}>{theData.title} <span className={styles.releaseCountry}>{theData.country ? `(${theData.country})` : ``}</span></div>
           {imgUrlSmall ?
           renderDate()
           : <></>
