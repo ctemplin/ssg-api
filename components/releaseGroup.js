@@ -119,7 +119,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
   const releaseEls = useRef({})
   const head = useRef()
 
-  const filteredReleases = theData.releases.filter(countryFilter)
+  const filteredReleases = theData.releases?.filter(countryFilter) 
   return (
     <div ref={head}>
       <div>
