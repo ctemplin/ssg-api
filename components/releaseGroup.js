@@ -93,6 +93,13 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
     setShowFilterConfig(false)
   }
 
+  const isCountryNeeded = () => {
+    if ((userCountries.size == 1) || 
+        (userCountries.size == 2 && userCountries.has("??"))
+       ) return false
+    return true
+  }
+
   const releasesScrollable = useRef()
   const releaseEls = useRef({})
   const head = useRef()
@@ -127,7 +134,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
           <div onClick={handleClick(_.id,i)} key={_.id}  ref={(el) => releaseEls.current[i] = el}
           className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlIndex==i?styles.resultItemHl:''}`}>
             <span className={styles.releaseTitle}>{_.title}
-              <span className={styles.releaseCountry}>{userCountries.size > 1 && _.country ? `(${_.country})` : ``}</span>
+              <span className={styles.releaseCountry}>{isCountryNeeded() && _.country ? `(${_.country})` : ``}</span>
             </span>
             <span className={styles.releaseDate}>{_.date?.substr(0,4)}</span>
           </div>
