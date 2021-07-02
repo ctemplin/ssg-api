@@ -119,7 +119,9 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
           {theData.releases.filter(countryFilter).map((_,i) => 
           <div onClick={handleClick(_.id,i)} key={_.id}  ref={(el) => releaseEls.current[i] = el}
           className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlIndex==i?styles.resultItemHl:''}`}>
-            <span className={styles.releaseTitle}>{_.title} {userCountries.size > 1 && _.country ? `(${_.country})` : ``}</span>
+            <span className={styles.releaseTitle}>{_.title}
+              <span className={styles.releaseCountry}>{userCountries.size > 1 && _.country ? `(${_.country})` : ``}</span>
+            </span>
             <span className={styles.releaseDate}>{_.date?.substr(0,4)}</span>
           </div>
           )}
