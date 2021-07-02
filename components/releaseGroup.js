@@ -89,6 +89,14 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
       userCountries.delete(target.name) ? setUserCountries(new Set(userCountries)) : null
   }
 
+  const persistCountryChanges = () => {
+    // Combine previously saved countries with currently relevant one
+    var ca = cookies.countries.concat(Array.from(countries))
+    // Keep countries that are not currently relevant, or relevant and chosen
+    ca = ca.filter(_ => (!countries.has(_)) || countries.has(_) && userCountries.has(_))
+    setCookie("countries", ca)
+  }
+
   const handleCloseClick = () => {
     setShowFilterConfig(false)
   }
@@ -151,7 +159,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
         <div className={`modal is-active`}>
           <div className={`modal-background`}></div>
           <div className={`modal-content ${styles.countryModal}`}>
-            <FilterConfig countries={countries} userCountries={userCountries} handleChange={handleCountryChange} ></FilterConfig>
+            <FilterConfig countries={countries} userCountries={userCountries} handleChange={handleCountryChange} persistChange={persistCountryChanges}></FilterConfig>
           </div>
           <button className={`modal-close is-large`} aria-label="close" onClick={handleCloseClick}></button>
         </div>
