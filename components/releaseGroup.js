@@ -75,7 +75,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
   },[theData.id])
 
   const handleFilterClick = (e) => {
-    setShowFilterConfig(!showFilterConfig)
+    setShowFilterConfig(true)
   }
 
   const handleCountryChange = (e) => {
@@ -84,6 +84,10 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
       setUserCountries(new Set(userCountries.add(target.name))) 
     : 
       userCountries.delete(target.name) ? setUserCountries(new Set(userCountries)) : null    
+  }
+
+  const handleCloseClick = () => {
+    setShowFilterConfig(false)
   }
 
   const releasesScrollable = useRef()
@@ -127,8 +131,13 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
           )}
         </div>
         {showFilterConfig ?
-
-        <FilterConfig countries={countries} userCountries={userCountries} handleChange={handleCountryChange} ></FilterConfig>
+        <div className={`modal is-active`}>
+          <div className={`modal-background`}></div>
+          <div className={`modal-content ${styles.countryModal}`}>
+            <FilterConfig countries={countries} userCountries={userCountries} handleChange={handleCountryChange} ></FilterConfig>
+          </div>
+          <button className={`modal-close is-large`} aria-label="close" onClick={handleCloseClick}></button>
+        </div>
         :
         <></>
         }

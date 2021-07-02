@@ -1,0 +1,18 @@
+.container {
+    background-color: white;
+    max-width: 25vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    width: 24vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.abbrev {
+    width: 3em;
+}

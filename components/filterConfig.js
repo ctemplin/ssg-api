@@ -1,27 +1,24 @@
-import React, {useState, useEffect} from 'react'
+import styles from '../styles/FilterConfig.module.scss'
 
 export default function FilterConfig({countries, userCountries, handleChange}) {
 
-  useEffect((e) => {
-
-  }, userCountries)
   return (
-    <div>
-      <form>
-    {Array.from(countries).map(_ => 
+    <div className={styles.container}>
+      Countries:
+      {Array.from(countries).map(_ => 
       <>
-      <label>{_}
-      <input
-        type="checkbox"
-        key={_ ? _ : 'Unknown'}
-        name={_ ? _ : 'Unknown'}
-        onChange={handleChange}
-        checked={userCountries.has(_)}
-      />
+      <label className={styles.row}>
+        <span className={styles.abbrev}>{_}</span>
+        <input
+          type="checkbox"
+          key={_}
+          name={_}
+          onChange={handleChange}
+          checked={userCountries.has(_)}
+        />
       </label>
       </>
     )}
-      </form>
     </div>
   )
 }
