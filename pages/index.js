@@ -1,4 +1,5 @@
 import React,{useState, useEffect, useCallback} from 'react'
+import {useCookies} from 'react-cookie'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.scss'
@@ -19,7 +20,12 @@ export default function Home() {
   const [coverArtId, setCoverArtId] = useState(null)
   const [imgUrlSmall, setImgUrlSmall] = useState()
   const [showLargeImg, setShowLargeImg] = useState(false)
+  const [cookies, setCookie] = useCookies()
 
+  useEffect(() => {
+    setCookie("countries", ["US", "??"])
+  },[])
+  
   useEffect(() => {
     async function getData(){
       if (!curArtistId) return

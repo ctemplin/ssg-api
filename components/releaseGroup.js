@@ -1,4 +1,5 @@
 import React,{useState, useEffect, useRef} from 'react'
+import {useCookies} from 'react-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCompactDisc, faFilter } from '@fortawesome/free-solid-svg-icons';
 import FilterConfig from './filterConfig'
@@ -8,13 +9,15 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
   
   const [theData, setTheData] = useState({})
   const [hlIndex, setHlIndex] = useState(-1)
-  const defaultCountries = ["US"]
+  const [cookies, setCookie] = useCookies()
+  const defaultCountries = cookies.countries || ["US", "??"]
   const [countries, setCountries] = useState(new Set(defaultCountries))
   const [userCountries, setUserCountries] = useState(new Set(defaultCountries))
   const [showFilterConfig, setShowFilterConfig] = useState(false)
 
   useEffect(() => {
     setHlIndex(-1)
+    setUserCountries(new Set(defaultCountries))
     const getData = async () => {
       var url = new URL('https://musicbrainz.org/ws/2/release-group/' + id)
       const params = new URLSearchParams()
