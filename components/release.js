@@ -7,13 +7,13 @@ import Image from 'next/image'
 import styles from '../styles/ResultBlock.module.scss'
 
 export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArtSmallClick}) {
-  
+
   const [isLoading, setIsLoading] = useState(true)
   const [isImgLoading, setIsImgLoading] = useState(false)
   const [theData, setTheData] = useState({})
-  
+
   const handleClick = () => {
-    
+
   }
 
   const formatLength = (ms) => {
@@ -22,7 +22,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
     secs = secs.toString().padStart(2,'0')
     return `${mins}:${secs}`
   }
-  
+
   useEffect(() => {
     setIsLoading(true)
     const getData = async () => {
@@ -35,10 +35,10 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
         {
           headers: {"Accept": "application/json"},
         }
-      ) 
+      )
       const json = await resp.json()
       // If date is just a 4-digit year, take it. Otherwise format it.
-      const date = json.date?.match(/^\d{4}$/) ? json.date : 
+      const date = json.date?.match(/^\d{4}$/) ? json.date :
         new Date(json.date).toLocaleDateString(
           "us-EN",
           {year: 'numeric', month: 'short', day: 'numeric', timeZone: "UTC"}
@@ -144,7 +144,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
       renderDate()
       : <></>
       }
-      
+
       </>
       }
     </div>
@@ -152,7 +152,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
     <>
       <div className={`is-size-7`}>Tracks: {theData.tracks.length} found</div>
       <div className={styles.rgpop} ref={scrollableRef}>
-        {theData.tracks.map(_ => 
+        {theData.tracks.map(_ =>
           <div onClick={handleClick(_.id)} key={_.id} className={styles.resultItem}>
             <span className={styles.trackPosition}>{`${_.position}. `}</span>
             <span className={styles.trackTitle}>{_.title}</span>

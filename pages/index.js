@@ -25,7 +25,7 @@ export default function Home() {
   useEffect(() => {
     setCookie("countries", ["US", "??"])
   },[])
-  
+
   useEffect(() => {
     async function getData(){
       if (!curArtistId) return
@@ -42,10 +42,10 @@ export default function Home() {
       const json = await resp.json()
       setTheData(
         {
-          name: json.name, 
-          lsBegin: json['life-span']?.begin, 
+          name: json.name,
+          lsBegin: json['life-span']?.begin,
           lsEnd: json['life-span']?.end,
-          releaseGroups: 
+          releaseGroups:
             json['release-groups'].map(album => {
               return {
                 id: album.id,
@@ -90,7 +90,7 @@ export default function Home() {
   const handleCoverArt = useCallback((caid) => {
     setCoverArtId(caid)
   },[])
-  
+
   const handleCoverArtSmall = useCallback((url) => {
     setImgUrlSmall(url)
   },[])
@@ -132,12 +132,11 @@ export default function Home() {
           </div>
         </div>
         {isSearching &&
-          <> 
+          <>
           <div className={styles.artistSearchContainer}>
             <ArtistSearch handleArtistSearchClick={handleArtistSearchClick} />
             <Image src="/headphones.svg" className={styles.headphones} alt="" width={1000} height={1000} preload="true"/>
           </div>
-          
           </>}
         <div className={`${styles.columnsContainer} columns`}>
           <div className={`column is-one-third`}>

@@ -31,8 +31,8 @@ export default function ArtistSearch({handleArtistSearchClick}) {
         matches:
           json.artists.map(artist => {
             return {
-              name: artist.name, 
-              id: artist.id, 
+              name: artist.name,
+              id: artist.id,
             }
           })
       }
@@ -99,7 +99,7 @@ export default function ArtistSearch({handleArtistSearchClick}) {
         if (rid) handleArtistSearchClick(rid)
         break
     }
-  } 
+  }
 
   const inputRef = useRef()
 

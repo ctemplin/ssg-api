@@ -6,7 +6,7 @@ import FilterConfig from './filterConfig'
 import styles from '../styles/ResultBlock.module.scss'
 
 export default function ReleaseGroup({id, handleReleaseClick}) {
-  
+
   const [theData, setTheData] = useState({})
   const [hlIndex, setHlIndex] = useState(-1)
   const [cookies, setCookie] = useCookies()
@@ -38,7 +38,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
         setTheData(
           {
             id: json.id,
-            title: json.title, 
+            title: json.title,
             firstReleaseDate: firstReleaseDate == "Invalid Date" ? null : firstReleaseDate,
             releases:
             json['releases'].map(release => {
@@ -83,10 +83,10 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
 
   const handleCountryChange = (e) => {
     const target = e.target
-    target.checked ? 
-      setUserCountries(new Set(userCountries.add(target.name))) 
-    : 
-      userCountries.delete(target.name) ? setUserCountries(new Set(userCountries)) : null    
+    target.checked ?
+      setUserCountries(new Set(userCountries.add(target.name)))
+    :
+      userCountries.delete(target.name) ? setUserCountries(new Set(userCountries)) : null
   }
 
   const handleCloseClick = () => {
@@ -119,11 +119,11 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
           height="1.3em"
           icon={faFilter}
           onClick={handleFilterClick}
-          />  
+          />
           <span>Versions: {theData.releases.length - theData.releases.filter(countryFilter).length} filtered out</span>
         </div>
         <div className={styles.rgpop} ref={releasesScrollable}>
-          {theData.releases.filter(countryFilter).map((_,i) => 
+          {theData.releases.filter(countryFilter).map((_,i) =>
           <div onClick={handleClick(_.id,i)} key={_.id}  ref={(el) => releaseEls.current[i] = el}
           className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlIndex==i?styles.resultItemHl:''}`}>
             <span className={styles.releaseTitle}>{_.title}

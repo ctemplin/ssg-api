@@ -4,13 +4,13 @@ import { faMicrophoneAlt } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/ResultBlock.module.scss'
 
 export default function Artist({name, lsBegin, lsEnd, releaseGroups, handleReleaseClick, handleParentSearchClick}) {
-  
+
   const [showAlbums, setShowAlbums] = useState(false)
   const [hlIndex, setHlIndex] = useState(-1)
   const albumClick = (e) => {
     setShowAlbums(!showAlbums)
   }
-  
+
   function handleClick(id, i = {}) {
     return () => {
       setHlIndex(i)
@@ -35,7 +35,7 @@ export default function Artist({name, lsBegin, lsEnd, releaseGroups, handleRelea
         </div>
         <div className={`is-size-6 ${styles.blockHeaderDate}`}>{lsBeginFmt ? `${lsBeginFmt} to ${lsEndFmt}` : '' }</div>
       </div>
-      {releaseGroups ? 
+      {releaseGroups ?
       <>
         <div className={`is-size-7`}>Releases: {releaseGroups.length} found</div>
         <div className={styles.rgpop}>
