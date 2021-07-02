@@ -28,8 +28,8 @@ export default function FilterConfig({countries, userCountries, handleChange, pe
     )}
     {(persistChange && isChanged) ?
     <>
-    <span>This release list was updated.</span>
-    <a onClick={persistChange}>persist changes</a>
+    <span className={styles.message}>This release list was updated.</span>
+    <a className={styles.link} onClick={persistChange}>persist changes</a>
     </>
     :
     <></>
