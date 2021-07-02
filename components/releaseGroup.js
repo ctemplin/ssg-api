@@ -52,7 +52,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
   },[id])
 
   useEffect(() => {
-    if (theData?.releases?.length == 1)
+    if (theData?.releaseEls?.current.length == 1)
     releaseEls.current[0].click()
   },[theData])
 
