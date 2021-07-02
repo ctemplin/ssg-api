@@ -1,14 +1,17 @@
 import React,{useState, useEffect, useRef} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCompactDisc, faFilter } from '@fortawesome/free-solid-svg-icons';
+import FilterConfig from './filterConfig'
 import styles from '../styles/ResultBlock.module.scss'
 
 export default function ReleaseGroup({id, handleReleaseClick}) {
   
   const [theData, setTheData] = useState({})
   const [hlIndex, setHlIndex] = useState(-1)
-  const [countries, setCountries] = useState(new Set([]))
-  const [userCountries, setUserCountries] = useState(new Set(["US"]))
+  const defaultCountries = ["US"]
+  const [countries, setCountries] = useState(new Set(defaultCountries))
+  const [userCountries, setUserCountries] = useState(new Set(defaultCountries))
+  const [showFilterConfig, setShowFilterConfig] = useState(false)
 
   useEffect(() => {
     setHlIndex(-1)
@@ -28,6 +31,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
           json['first-release-date'])
           .toLocaleDateString(undefined, {year: 'numeric', month: 'short', day: 'numeric'}
           )
+        const _countries = new Set()
         setTheData(
           {
             id: json.id,
@@ -35,16 +39,17 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
             firstReleaseDate: firstReleaseDate == "Invalid Date" ? null : firstReleaseDate,
             releases:
             json['releases'].map(release => {
-              setCountries(countries.add(release.country))
+              _countries.add(release.country || "??")
               return {
                 id: release.id,
                 title: release.title,
                 date: release['date'],
-                country: release.country
+                country: release.country || "??"
               }
             })
           }
         )
+        setCountries(_countries)
     }
     getData()
     const listDiv = releasesScrollable.current
@@ -62,11 +67,24 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
       handleReleaseClick(id)
     };
   }
+
   const countryFilter = _=> userCountries.has(_.country)
 
   useEffect(() => {
     head.current?.scrollIntoView({behavior: "smooth"})
   },[theData.id])
+
+  const handleFilterClick = (e) => {
+    setShowFilterConfig(!showFilterConfig)
+  }
+
+  const handleCountryChange = (e) => {
+    const target = e.target
+    target.checked ? 
+      setUserCountries(new Set(userCountries.add(target.name))) 
+    : 
+      userCountries.delete(target.name) ? setUserCountries(new Set(userCountries)) : null    
+  }
 
   const releasesScrollable = useRef()
   const releaseEls = useRef({})
@@ -93,6 +111,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
           className={styles.resultFilterIcon}
           height="1.3em"
           icon={faFilter}
+          onClick={handleFilterClick}
           />  
           <span>Versions: {theData.releases.length - theData.releases.filter(countryFilter).length} filtered out</span>
         </div>
@@ -105,6 +124,12 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
           </div>
           )}
         </div>
+        {showFilterConfig ?
+
+        <FilterConfig countries={countries} userCountries={userCountries} handleChange={handleCountryChange} ></FilterConfig>
+        :
+        <></>
+        }
       </>
       :
       <></>
