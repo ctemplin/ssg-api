@@ -8,7 +8,7 @@ import styles from '../styles/ResultBlock.module.scss'
 export default function ReleaseGroup({id, handleReleaseClick}) {
 
   const [theData, setTheData] = useState({})
-  const [hlIndex, setHlIndex] = useState(-1)
+  const [hlRef, setHlRef] = useState()
   const [cookies, setCookie] = useCookies()
   const defaultCountries = cookies.countries || ["US", "??"]
   const [countries, setCountries] = useState(new Set(defaultCountries))
@@ -16,7 +16,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
   const [showFilterConfig, setShowFilterConfig] = useState(false)
 
   useEffect(() => {
-    setHlIndex(-1)
+    setHlRef()
     setUserCountries(new Set(defaultCountries))
     const getData = async () => {
       var url = new URL('https://musicbrainz.org/ws/2/release-group/' + id)
@@ -64,9 +64,9 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
     releaseEls.current[0].click()
   },[theData])
 
-  const handleClick = (id, i = {}) => {
+  const handleClick = (id, ref = {}) => {
     return () => {
-      setHlIndex(i)
+      setHlRef(ref)
       handleReleaseClick(id)
     };
   }
@@ -147,8 +147,8 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
         </div>
         <div className={styles.rgpop} ref={releasesScrollable}>
           {filteredReleases.map((_,i) =>
-          <div onClick={handleClick(_.id,i)} key={_.id}  ref={(el) => releaseEls.current[i] = el}
-          className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlIndex==i?styles.resultItemHl:''}`}>
+          <div onClick={handleClick(_.id,releaseEls.current[i])} key={_.id}  ref={(el) => releaseEls.current[i] = el}
+          className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlRef==releaseEls.current[i]?styles.resultItemHl:''}`}>
             <span className={styles.releaseTitle}>{_.title}
               <span className={styles.releaseCountry}>{isCountryNeeded() && _.country ? `(${_.country})` : ``}</span>
             </span>
