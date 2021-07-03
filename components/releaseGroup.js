@@ -139,7 +139,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
           className={`${filteredReleases.length > 1 ? styles.resultFilterIcon : styles.resultFilterIconDisabled}`}
           height="1.3em"
           icon={faFilter}
-          onClick={filteredReleases.length > 1 ? handleFilterClick : null}
+          onClick={handleFilterClick}
           />
           <span>Versions: {theData.releases.length - filteredReleases.length} filtered out</span>
         </div>
