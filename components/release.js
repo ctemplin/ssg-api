@@ -5,6 +5,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import ReactCSSTransitionGroup from 'react-transition-group';
 import Image from 'next/image'
 import styles from '../styles/ResultBlock.module.scss'
+import formatDate from '../lib/dates'
 
 export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArtSmallClick}) {
 
@@ -37,12 +38,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
         }
       )
       const json = await resp.json()
-      // If date is just a 4-digit year, take it. Otherwise format it.
-      const date = json.date?.match(/^\d{4}$/) ? json.date :
-        new Date(json.date).toLocaleDateString(
-          "us-EN",
-          {year: 'numeric', month: 'short', day: 'numeric', timeZone: "UTC"}
-        )
+      const date = formatDate(json.date)
       setTheData(
         {
           id: id,

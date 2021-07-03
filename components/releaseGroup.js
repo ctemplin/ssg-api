@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCompactDisc, faFilter } from '@fortawesome/free-solid-svg-icons';
 import FilterConfig from './filterConfig'
 import styles from '../styles/ResultBlock.module.scss'
+import formatDate from '../lib/dates'
 
 export default function ReleaseGroup({id, handleReleaseClick}) {
 
@@ -30,10 +31,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
         }
         )
         const json = await resp.json()
-        const firstReleaseDate = new Date(
-          json['first-release-date'])
-          .toLocaleDateString(undefined, {year: 'numeric', month: 'short', day: 'numeric'}
-          )
+        const firstReleaseDate = formatDate(json['first-release-date'])
         const _countries = new Set()
         setTheData(
           {
