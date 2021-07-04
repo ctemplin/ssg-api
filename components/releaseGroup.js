@@ -58,13 +58,17 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
   },[id])
 
   useEffect(() => {
-    if (theData?.releaseEls?.current.length == 1)
-    releaseEls.current[0].click()
-  },[theData])
+    // Remove any trailing null array items from previous render
+    releaseEls.current = releaseEls.current.filter(_=>_)
+    // If we're left with only 1 result, virtually click it
+    if (releaseEls?.current.length == 1) {
+      releaseEls.current[0].click()
+    }
+  },[theData.releases])
 
-  const handleClick = (id, ref = {}) => {
+  const handleClick = (id, i) => {
     return () => {
-      setHlRef(ref)
+      setHlRef(releaseEls.current[i])
       handleReleaseClick(id)
     };
   }
@@ -114,7 +118,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
   }
 
   const releasesScrollable = useRef()
-  const releaseEls = useRef({})
+  const releaseEls = useRef([])
   const head = useRef()
 
   const filteredReleases = theData.releases?.filter(countryFilter) 
@@ -145,8 +149,8 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
         </div>
         <div className={styles.rgpop} ref={releasesScrollable}>
           {filteredReleases.map((_,i) =>
-          <div onClick={handleClick(_.id,releaseEls.current[i])} key={_.id}  ref={(el) => releaseEls.current[i] = el}
-          className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlRef==releaseEls.current[i]?styles.resultItemHl:''}`}>
+          <div onClick={handleClick(_.id,i)} key={_.id} ref={(el) => releaseEls.current[i] = el} 
+          className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlRef && hlRef==releaseEls.current[i]?styles.resultItemHl:''}`}>
             <span className={styles.releaseTitle}>{_.title}
               <span className={styles.releaseCountry}>{isCountryNeeded() && _.country ? `(${_.country})` : ``}</span>
             </span>
