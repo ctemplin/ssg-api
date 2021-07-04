@@ -161,6 +161,7 @@ export default function Home() {
         : <></>
         }
 
+      {isSearching &&
       <footer className={styles.footer}>
         <FontAwesomeIcon
           className={styles.icon}
@@ -170,7 +171,7 @@ export default function Home() {
         <span>
           Made with <a href="https://nextjs.org">NextJS</a> and the <a href="https://musicbrainz.org/doc/MusicBrainz_API">MusicBrainz API</a>
         </span>
-      </footer>
+      </footer>}
     </div>
   )
 }
