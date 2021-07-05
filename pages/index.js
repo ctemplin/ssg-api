@@ -13,7 +13,6 @@ import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-i
 
 export default function Home() {
   const [isSearching, setIsSearching] = useState(true)
-  const [theData, setTheData] = useState({})
   const [curArtistId, setCurArtistId] = useState()
   const [curReleaseGroupId, setCurReleaseGroupId] = useState(null)
   const [curReleaseId, setCurReleaseId] = useState(null)
@@ -25,40 +24,6 @@ export default function Home() {
   useEffect(() => {
     setCookie("countries", ["US", "??"])
   },[])
-
-  useEffect(() => {
-    async function getData(){
-      if (!curArtistId) return
-      var url = new URL('https://musicbrainz.org/ws/2/artist/' + curArtistId)
-      const params = new URLSearchParams()
-      params.append("inc", "release-groups")
-      url.search = params.toString()
-      const resp = await fetch(
-        url,
-        {
-          headers: {"Accept": "application/json"},
-        }
-      )
-      const json = await resp.json()
-      setTheData(
-        {
-          name: json.name,
-          lsBegin: json['life-span']?.begin,
-          lsEnd: json['life-span']?.end,
-          releaseGroups:
-            json['release-groups'].map(album => {
-              return {
-                id: album.id,
-                title: album.title,
-                firstReleaseDate: album['first-release-date']
-              }
-            })
-        }
-      )
-    }
-    getData()
-  }
-  ,[curArtistId])
 
   const handleSearchClick = () => {
     setCurArtistId(null)
@@ -140,7 +105,7 @@ export default function Home() {
           </>}
         <div className={`${styles.columnsContainer} columns`}>
           <div className={`column is-one-third`}>
-            {!isSearching && <Artist {...theData} handleReleaseClick={handleReleaseGroupSelect}/>}
+            {!isSearching && <Artist id={curArtistId} handleReleaseClick={handleReleaseGroupSelect}/>}
           </div>
           <div className={`column is-one-third`}>
             {curReleaseGroupId ?
