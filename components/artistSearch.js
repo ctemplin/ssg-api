@@ -55,10 +55,16 @@ export default function ArtistSearch({
   var toRef
   const handleChange = (e) => {
     clearTimeout(toRef)
-    if (e.target.value.length > 1) {
+    const newterms = e.target.value;
+    // Default 500ms delay to avoid spamming api
+    var ms = 500
+    // HACK: use key events instead
+    // Longer search delay if we just started deleting, to outlast backspace repeat delay
+    ms = newterms == searchTerms.slice(0,-1) ? 1000 : ms
+    if (newterms.length > 1) {
       toRef = setTimeout(() => {
-        setSearchTerms(e.target.value)
-      }, 500)
+        setSearchTerms(newterms)
+      }, ms)
     } else {
       setData(defaultData)
       setSearchTerms('')
