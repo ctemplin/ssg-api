@@ -39,7 +39,7 @@ export default function ArtistSearch({
       }
       )
     }
-    if (searchTerms.length) {
+    if (searchTerms.length && data.matches == null) {
       getData()
       setHlIndex(0)
     }
@@ -63,6 +63,7 @@ export default function ArtistSearch({
     ms = newterms == searchTerms.slice(0,-1) ? 1000 : ms
     if (newterms.length > 1) {
       toRef = setTimeout(() => {
+        setData(defaultData)
         setSearchTerms(newterms)
       }, ms)
     } else {
@@ -121,7 +122,7 @@ export default function ArtistSearch({
         onClick={handleIconClick}
       />
       <input type="text" onKeyDown={handleKeyDown} onChange={handleChange} ref={inputRef} className={styles.input} defaultValue={searchTerms} placeholder="Artist search..."/>
-      {data.matches.length ?
+      {data.matches && data.matches.length ?
         <div className={styles.searchIncResultList} id="searchIncResultList">
           {data.matches.map((_,i) =>
           <div className={`${styles.searchIncResult} panel-block ${hlIndex==i?styles.searchIncResultHl:''}`} index={i} rid={_.id} key={_.id}
@@ -129,6 +130,15 @@ export default function ArtistSearch({
             {_.name}
           </div>
           )}
+        </div>
+      :
+        <></>
+      }
+      {data.matches && data.matches.length == 0 ?
+        <div className={styles.searchIncResultList} id="searchIncResultList">
+          <div className={`${styles.searchIncResult} ${styles.searchIncResultWarn} panel-block`}>
+            No results found
+          </div>
         </div>
       :
         <></>

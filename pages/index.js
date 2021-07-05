@@ -13,7 +13,7 @@ import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-i
 
 export default function Home() {
   const [isSearching, setIsSearching] = useState(true)
-  const defaultSearchData = {matches: []}
+  const defaultSearchData = {matches: null}
   const [searchData, setSearchData] = useState(defaultSearchData)
   const [searchTerms, setSearchTerms] = useState('')
   const [searchHlIndex, setSearchHlIndex] = useState(-1)
