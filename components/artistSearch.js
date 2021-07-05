@@ -33,8 +33,10 @@ export default function ArtistSearch({handleArtistSearchClick, defaultData, data
       }
       )
     }
-    if (searchTerms.length)
+    if (searchTerms.length) {
       getData()
+      setHlIndex(0)
+    }
   },[searchTerms])
 
   useEffect(() => {
