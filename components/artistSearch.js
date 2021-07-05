@@ -4,12 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/ArtistSearch.module.scss'
 
-export default function ArtistSearch({handleArtistSearchClick}) {
-
-  const defaultData = {matches: []}
-  const [theData, setTheData] = useState(defaultData)
-  const [searchTerms, setSearchTerms] = useState('')
-  const [hlIndex, setHlIndex] = useState(-1)
+export default function ArtistSearch({handleArtistSearchClick, defaultData, data, setData, searchTerms, setSearchTerms, hlIndex, setHlIndex}) {
 
   useEffect(() => {
     const getData = async () => {
@@ -26,7 +21,7 @@ export default function ArtistSearch({handleArtistSearchClick}) {
         }
       )
       const json = await resp.json()
-      setTheData(
+      setData(
       {
         matches:
           json.artists.map(artist => {
@@ -52,12 +47,12 @@ export default function ArtistSearch({handleArtistSearchClick}) {
   var toRef
   const handleChange = (e) => {
     clearTimeout(toRef)
-      if (e.target.value.length > 1) {
+    if (e.target.value.length > 1) {
       toRef = setTimeout(() => {
         setSearchTerms(e.target.value)
       }, 500)
     } else {
-      setTheData(defaultData)
+      setData(defaultData)
       setSearchTerms('')
     }
   }
@@ -112,10 +107,10 @@ export default function ArtistSearch({handleArtistSearchClick}) {
         icon={faSearch}
         onClick={handleIconClick}
       />
-      <input type="text" onKeyDown={handleKeyDown} onChange={handleChange} ref={inputRef} className={styles.input} placeholder="Artist search..."/>
-      {theData.matches.length ?
+      <input type="text" onKeyDown={handleKeyDown} onChange={handleChange} ref={inputRef} className={styles.input} defaultValue={searchTerms} placeholder="Artist search..."/>
+      {data.matches.length ?
         <div className={styles.searchIncResultList} id="searchIncResultList">
-          {theData.matches.map((_,i) =>
+          {data.matches.map((_,i) =>
           <div className={`${styles.searchIncResult} panel-block ${hlIndex==i?styles.searchIncResultHl:''}`} index={i} rid={_.id} key={_.id}
             onClick={handleClick(_.id)} onMouseEnter={handleMouseEnter} >
             {_.name}

@@ -13,6 +13,10 @@ import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-i
 
 export default function Home() {
   const [isSearching, setIsSearching] = useState(true)
+  const defaultSearchData = {matches: []}
+  const [searchData, setSearchData] = useState(defaultSearchData)
+  const [searchTerms, setSearchTerms] = useState('')
+  const [searchHlIndex, setSearchHlIndex] = useState(-1)
   const [curArtistId, setCurArtistId] = useState()
   const [curReleaseGroupId, setCurReleaseGroupId] = useState(null)
   const [curReleaseId, setCurReleaseId] = useState(null)
@@ -99,7 +103,12 @@ export default function Home() {
         {isSearching &&
           <>
           <div className={styles.artistSearchContainer}>
-            <ArtistSearch handleArtistSearchClick={handleArtistSearchClick} />
+            <ArtistSearch handleArtistSearchClick={handleArtistSearchClick} 
+              defaultData={defaultSearchData}
+              data={searchData} setData={setSearchData}
+              searchTerms={searchTerms} setSearchTerms={setSearchTerms}
+              hlIndex={searchHlIndex} setHlIndex={setSearchHlIndex}
+            />
             <Image src="/headphones.svg" className={styles.headphones} alt="" width={1000} height={1000} preload="true"/>
           </div>
           </>}
