@@ -114,35 +114,35 @@ export default function ArtistSearch({
 
   return (
     <div className={`${styles.searchContainer} is-size-3 is-size-1-desktop`}>
-      <div className={`${styles.inputLevel} level`}>
       <FontAwesomeIcon
         className={styles.icon}
         height="1em"
         icon={faSearch}
         onClick={handleIconClick}
       />
-      <input type="text" onKeyDown={handleKeyDown} onChange={handleChange} ref={inputRef} className={styles.input} defaultValue={searchTerms} placeholder="Artist search..."/>
-      {data.matches && data.matches.length ?
-        <div className={styles.searchIncResultList} id="searchIncResultList">
-          {data.matches.map((_,i) =>
-          <div className={`${styles.searchIncResult} panel-block ${hlIndex==i?styles.searchIncResultHl:''}`} index={i} rid={_.id} key={_.id}
-            onClick={handleClick(_.id)} onMouseEnter={handleMouseEnter} >
-            {_.name}
+      <div className={styles.inputContainer}>
+        <input type="text" onKeyDown={handleKeyDown} onChange={handleChange} ref={inputRef} className={styles.input} defaultValue={searchTerms} placeholder="Artist search..."/>
+        {data.matches && data.matches.length ?
+          <div className={styles.searchIncResultList} id="searchIncResultList">
+            {data.matches.map((_,i) =>
+            <div className={`${styles.searchIncResult} panel-block ${hlIndex==i?styles.searchIncResultHl:''}`} index={i} rid={_.id} key={_.id}
+              onClick={handleClick(_.id)} onMouseEnter={handleMouseEnter} >
+              {_.name}
+            </div>
+            )}
           </div>
-          )}
-        </div>
-      :
-        <></>
-      }
-      {data.matches && data.matches.length == 0 ?
-        <div className={styles.searchIncResultList} id="searchIncResultList">
-          <div className={`${styles.searchIncResult} ${styles.searchIncResultWarn} panel-block`}>
-            No results found
+        :
+          <></>
+        }
+        {data.matches && data.matches.length == 0 ?
+          <div className={styles.searchIncResultList} id="searchIncResultList">
+            <div className={`${styles.searchIncResult} ${styles.searchIncResultWarn} panel-block`}>
+              No results found
+            </div>
           </div>
-        </div>
-      :
-        <></>
-      }
+        :
+          <></>
+        }
       </div>
     </div>
   )

@@ -4,39 +4,34 @@
   display: block;
   position: absolute;
   z-index: 2;
+  display: flex;
+  flex-direction: row;
   @media screen and (min-width: $desktop) { 
     left: 8vw;
     top: 60px;
   }
 }
 
-.inputLevel {
-  margin-bottom: 0px !important;
-  // next line overides bulma's display: flex used at intermediate sizes
-  display: revert;
-  white-space: nowrap;
-}
-
 .icon {
   font-size: inherit;
+  align-self: center;
+  margin: 0 0.2em;
 }
 
+.inputContainer {
+  text-align: left;
+}
 .input {
   font-size: inherit;
-  margin-left: 0.6ex;
-  width: 80%;
+  width: 92%;
 }
 
 .searchIncResultList {
   position: absolute;
   z-index: 2;
-  margin-left: 1.4em;
   background-color: white;
   opacity: 85%;
   color: black;
-  @media screen and (min-width: $desktop) {
-    top: 1.4em;
-  }
 }
 
 .searchIncResult {
