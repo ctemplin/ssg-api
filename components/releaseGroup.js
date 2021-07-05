@@ -162,7 +162,10 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
         <div className={`modal is-active`}>
           <div className={`modal-background`}></div>
           <div className={`modal-content ${styles.countryModal}`}>
-            <FilterConfig countries={countries} userCountries={userCountries} handleChange={handleCountryChange} persistChange={persistCountryChanges}></FilterConfig>
+            <FilterConfig countries={countries} userCountries={userCountries}
+              handleChange={handleCountryChange}
+              persistChange={persistCountryChanges}
+              handleClose={handleCloseClick} />
           </div>
           <button className={`modal-close is-large`} aria-label="close" onClick={handleCloseClick}></button>
         </div>

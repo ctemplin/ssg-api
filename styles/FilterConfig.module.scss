@@ -1,13 +1,14 @@
 .container {
     background-color: white;
-    max-width: 25vw;
+    min-width: 12em;
     display: flex;
     flex-direction: column;
     font-size: larger;
+    align-items: center
 }
 
 .row {
-    width: 24vw;
+    width: 50%;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -15,16 +16,26 @@
 }
 
 .abbrev {
-    width: 3em;
+    min-width: 2ch;
+    text-align: center;
+}
+
+.cb {
+    min-width: 2ch;
+    font-size: unset;
 }
 
 .message {
     text-align: center;
-    font-size: small;
 }
 
 .link {
+    text-decoration: underline;
+}
+
+.footer {
+    margin-top: 1em;
     text-align: center;
     font-size: small;
-    text-decoration: underline;
+    min-height: 4em;
 }
