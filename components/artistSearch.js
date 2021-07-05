@@ -4,7 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/ArtistSearch.module.scss'
 
-export default function ArtistSearch({handleArtistSearchClick, defaultData, data, setData, searchTerms, setSearchTerms, hlIndex, setHlIndex}) {
+export default function ArtistSearch({
+  handleArtistSearchClick, 
+  defaultData, 
+  data, setData, 
+  searchTerms, setSearchTerms, 
+  hlIndex, setHlIndex
+}) {
 
   useEffect(() => {
     const getData = async () => {
@@ -76,7 +82,6 @@ export default function ArtistSearch({handleArtistSearchClick, defaultData, data
     switch (e.key) {
       case "ArrowDown":
         var hli = hlIndex
-        console.log(hli)
         var c = document.getElementById("searchIncResultList")?.children.length
         // wrap around, starting back at no selection
         hli = hli >= c-1 ? -1 : hli + 1
