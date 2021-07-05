@@ -1,10 +1,9 @@
-@import 'bulma/sass/utilities/initial-variables.sass';
 @import 'bulma/sass/utilities/derived-variables.sass';
 
 .blockType {
   font-variant: small-caps;
   background-color: $grey-lighter;
-  border-bottom: solid 2px $yellow;
+  border-bottom: solid 2px $info;
   padding-left: 0ex;
 }
 
@@ -77,7 +76,8 @@
 
 
 .resultItemHl {
-  background-color: $yellow;
+  color: $info-invert;
+  background-color: $info;
 }
 
 div .rgpop {
