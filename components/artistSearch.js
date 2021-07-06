@@ -17,7 +17,7 @@ export default function ArtistSearch({
       var url = new URL('https://musicbrainz.org/ws/2/artist')
       const params = new URLSearchParams()
       params.append("query", searchTerms)
-      params.append("limit", 10)
+      params.append("limit", 20)
       params.append("offset", 0)
       url.search = params.toString()
       const resp = await fetch(
@@ -80,33 +80,62 @@ export default function ArtistSearch({
     inputRef.current.focus();
   }
 
+  const syncFocus = (hli) => {
+    const listEl = document.getElementById("searchIncResultList");
+    if(document.activeElement?.parentElement == listEl)
+      listEl.children[hli]?.focus()
+  }
+
   const handleMouseEnter = (e) => {
     var hli = parseInt(e.target.attributes['index'].value)
     setHlIndex(hli)
+    syncFocus(hli)
   }
 
+  class listNavKey {
+    constructor(constrain, step, limit, basis, vpPercent) {
+      this.constrain = constrain;
+      this.step = step;
+      this.limit = limit;
+      this.basis = basis;
+      this.vpPercent = vpPercent;
+      this.shouldScroll = function(elem, basis) {
+        return Math.abs(this.basis - (elem.offsetTop - elem.offsetParent.scrollTop)) > visualViewport.height * vpPercent;
+      }
+      this.scrollOptions = function(elem) {
+        return {top: elem.clientHeight*step, left: 0, behavior: "smooth"};
+      }
+    }
+  }
+
+  const UPDOWNKEYNAMES = {
+    ArrowDown: new listNavKey(Math.min,  1, null,    0, .6),
+    ArrowUp:   new listNavKey(Math.max, -1,   -1, null, .8)
+  }
+  
   const handleKeyDown = (e) => {
-    switch (e.key) {
-      case "ArrowDown":
-        var hli = hlIndex
-        var c = document.getElementById("searchIncResultList")?.children.length
-        // wrap around, starting back at no selection
-        hli = hli >= c-1 ? -1 : hli + 1
-        setHlIndex(hli)
-        e.preventDefault()
-        break;
-      case "ArrowUp":
-        var hli = hlIndex
-        var c = document.getElementById("searchIncResultList")?.children.length
-        // wrap around, starting back at no selection
-        hli = hli <= -1 ? c-1 : hli - 1
-        setHlIndex(hli)
-        e.preventDefault()
-        break;
-      case "Enter":
-        const rid = document.getElementById("searchIncResultList")?.children[hlIndex]?.attributes['rid'].value
+    const listEl = document.getElementById("searchIncResultList");
+    let navKey = UPDOWNKEYNAMES[e.key]
+    if (navKey) {
+      let c = listEl?.children.length
+      // One modification for each scroll object
+      UPDOWNKEYNAMES.ArrowDown.limit = c-1
+      UPDOWNKEYNAMES.ArrowUp.basis = visualViewport.height
+
+      // don't exceed our bounds
+      let hli = navKey.constrain(hlIndex + navKey.step, navKey.limit)
+      // is scrolling even possible?
+      if (hli != hlIndex && hli != -1) {
+        let newHl = listEl.children[hli]
+        if (navKey.shouldScroll(newHl))
+          listEl.scrollBy(navKey.scrollOptions(newHl))
+      }
+      setHlIndex(hli)
+      syncFocus(hli)
+      e.preventDefault()
+    } else if (e.key == "Enter") {
+        const rid = listEl?.children[hlIndex]?.attributes['rid'].value
         if (rid) handleArtistSearchClick(rid)
-        break
     }
   }
 
@@ -125,8 +154,8 @@ export default function ArtistSearch({
         {data.matches && data.matches.length ?
           <div className={styles.searchIncResultList} id="searchIncResultList">
             {data.matches.map((_,i) =>
-            <div className={`${styles.searchIncResult} panel-block ${hlIndex==i?styles.searchIncResultHl:''}`} index={i} rid={_.id} key={_.id}
-              onClick={handleClick(_.id)} onMouseEnter={handleMouseEnter} >
+            <div className={`${styles.searchIncResult} onKeyDown={handleKeyDown} panel-block ${hlIndex==i?styles.searchIncResultHl:''}`} index={i} rid={_.id} key={_.id}
+              onClick={handleClick(_.id)} onKeyDown={handleKeyDown} onMouseEnter={handleMouseEnter} onFocus={handleMouseEnter} tabIndex="0">
               {_.name}
             </div>
             )}

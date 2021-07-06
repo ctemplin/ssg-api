@@ -27,16 +27,23 @@
 }
 
 .searchIncResultList {
+  display:block;
   position: absolute;
   z-index: 2;
   background-color: white;
   opacity: 85%;
   color: black;
+  max-height: 80vh;
+  overflow-y: scroll;
 }
 
 .searchIncResult {
   font-size: 60%;
   cursor: pointer;
+}
+
+.searchIncResult:focus-visible {
+  outline: none;
 }
 
 .searchIncResultHl {
