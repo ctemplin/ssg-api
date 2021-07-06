@@ -100,7 +100,7 @@ export default function ArtistSearch({
       this.basis = basis;
       this.vpPercent = vpPercent;
       this.shouldScroll = function(elem, basis) {
-        return Math.abs(this.basis - (elem.offsetTop - elem.offsetParent.scrollTop)) > visualViewport.height * vpPercent;
+        return Math.abs(this.basis - (elem.offsetTop - elem.offsetParent.scrollTop)) > window.visualViewport.height * vpPercent;
       }
       this.scrollOptions = function(elem) {
         return {top: elem.clientHeight*step, left: 0, behavior: "smooth"};
@@ -117,10 +117,15 @@ export default function ArtistSearch({
     const listEl = document.getElementById("searchIncResultList");
     let navKey = UPDOWNKEYNAMES[e.key]
     if (navKey) {
+      if (window.visualViewport == undefined) {
+        console.log("No viewport. In firefox about:config set dom.visualviewport.enabled = true")
+        return;
+      }
+
       let c = listEl?.children.length
       // One modification for each scroll object
       UPDOWNKEYNAMES.ArrowDown.limit = c-1
-      UPDOWNKEYNAMES.ArrowUp.basis = visualViewport.height
+      UPDOWNKEYNAMES.ArrowUp.basis = window.visualViewport.height
 
       // don't exceed our bounds
       let hli = navKey.constrain(hlIndex + navKey.step, navKey.limit)
