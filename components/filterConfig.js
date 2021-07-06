@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import styles from '../styles/FilterConfig.module.scss'
 
-export default function FilterConfig({countries, userCountries, handleChange, persistChange, handleClose}) {
+export default function FilterConfig({countries, userCountries, anyCountryMatch, handleChange, persistChange, handleClose}) {
 
   const [isChanged, setIsChanged] = useState(false)
 
@@ -21,7 +21,7 @@ export default function FilterConfig({countries, userCountries, handleChange, pe
           type="checkbox"
           name={_}
           onChange={handleCheckboxChange}
-          checked={userCountries.has(_)}
+          checked={userCountries.current.has(_)}
           className={styles.cb}
         />
       </label>
