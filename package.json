@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "netlify-lambda install"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
@@ -14,6 +15,7 @@
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@netlify/plugin-nextjs": "^3.4.2",
     "bulma": "^0.9.3",
+    "netlify-lambda": "^2.0.11",
     "next": "11.0.0",
     "react": "17.0.2",
     "react-cookie": "^4.0.3",
