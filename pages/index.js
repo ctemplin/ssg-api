@@ -8,6 +8,7 @@ import Artist from '../components/artist'
 import ReleaseGroup from '../components/releaseGroup'
 import Release from '../components/release'
 import CoverArt from '../components/coverArt'
+import Recording from '../components/recording'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons';
 
@@ -23,6 +24,7 @@ export default function Home() {
   const [coverArtId, setCoverArtId] = useState(null)
   const [imgUrlSmall, setImgUrlSmall] = useState()
   const [showLargeImg, setShowLargeImg] = useState(false)
+  const [curTrackId, setCurTrackId] = useState(null)
   const [cookies, setCookie] = useCookies()
 
   useEffect(() => {
@@ -36,6 +38,7 @@ export default function Home() {
     setCoverArtId(null)
     setImgUrlSmall(null)
     setShowLargeImg(false)
+    setCurTrackId(null)
     setIsSearching(true)
   }
 
@@ -50,10 +53,12 @@ export default function Home() {
     setCoverArtId(null)
     setImgUrlSmall(null)
     setShowLargeImg(false)
+    setCurTrackId(null)
   }
 
   const handleReleaseSelect = (rid) => {
     setCurReleaseId(rid)
+    setCurTrackId(null)
   }
 
   const handleCoverArt = useCallback((caid) => {
@@ -70,6 +75,10 @@ export default function Home() {
 
   const hideLargeImg = (e) => {
     setShowLargeImg(false)
+  }
+
+  const handleTrackSelect = (tid) => {
+    setCurTrackId(tid)
   }
 
   return (
@@ -111,7 +120,8 @@ export default function Home() {
             />
             <Image src="/headphones.svg" className={styles.headphones} alt="" width={1000} height={1000} preload="true"/>
           </div>
-          </>}
+          </>
+        }
         <div className={`${styles.columnsContainer} columns`}>
           <div className={`column is-one-third`}>
             {!isSearching && <Artist id={curArtistId} handleReleaseClick={handleReleaseGroupSelect}/>}
@@ -124,18 +134,23 @@ export default function Home() {
           </div>
           <div className={`column is-one-third`}>
             {curReleaseId ?
-            <Release id={curReleaseId} imgUrlSmall={imgUrlSmall} handleCoverArt={handleCoverArt} handleCoverArtSmallClick={handleCoverArtClick}></Release>
+            <Release id={curReleaseId} imgUrlSmall={imgUrlSmall} handleCoverArt={handleCoverArt} 
+              handleTrackClick={handleTrackSelect} handleCoverArtSmallClick={handleCoverArtClick}>
+            </Release>
             : <></>
             }
           </div>
         </div>
+        {curTrackId &&
+        <Recording id={curTrackId} releaseId={curReleaseId}></Recording>
+        }
 
         {coverArtId ?
         <CoverArt id={coverArtId} handleCoverArtSmall={handleCoverArtSmall} handleCloseClick={hideLargeImg} showLargeImg={showLargeImg}></CoverArt>
         : <></>
         }
 
-      {isSearching &&
+      {true &&
       <footer className={styles.footer}>
         <FontAwesomeIcon
           className={styles.icon}

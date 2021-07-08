@@ -2,20 +2,16 @@ import React,{useState, useEffect, useRef} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMusic } from '@fortawesome/free-solid-svg-icons';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import ReactCSSTransitionGroup from 'react-transition-group';
 import Image from 'next/image'
 import styles from '../styles/ResultBlock.module.scss'
 import formatDate from '../lib/dates'
 
-export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArtSmallClick}) {
+export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArtSmallClick, handleTrackClick}) {
 
   const [isLoading, setIsLoading] = useState(true)
   const [isImgLoading, setIsImgLoading] = useState(false)
   const [theData, setTheData] = useState({})
-
-  const handleClick = () => {
-
-  }
+  const [hlRef, setHlRef] = useState()
 
   const formatLength = (ms) => {
     var mins = Math.floor(ms/60000)
@@ -50,6 +46,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
           json.media?.[0]?.tracks?.map(track => {
             return {
               id: track.id,
+              rid: track.recording?.id,
               title: track.title,
               position: track.position,
               length: formatLength(track['length']),
@@ -87,7 +84,15 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
     head.current?.scrollIntoView({behavior: "smooth"})
   },[theData.id])
 
+  const handleClick = (id, i) => {
+    return () => {
+      setHlRef(trackEls.current[i])
+      handleTrackClick(id)
+    };
+  }
+
   const head = useRef()
+  const trackEls = useRef([])
 
   return (
   <div ref={head}>
@@ -148,8 +153,8 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
     <>
       <div className={`is-size-7`}>Tracks: {theData.tracks.length} found</div>
       <div className={styles.rgpop} ref={scrollableRef}>
-        {theData.tracks.map(_ =>
-          <div onClick={handleClick(_.id)} key={_.id} className={styles.resultItem}>
+        {theData.tracks.map((_,i) =>
+          <div onClick={handleClick(_.rid,i)} ref={(el) => trackEls.current[i] = el} key={_.id} className={styles.resultItem}>
             <span className={styles.trackPosition}>{`${_.position}. `}</span>
             <span className={styles.trackTitle}>{_.title}</span>
             <span className={styles.trackLength}>{_.length}</span>
