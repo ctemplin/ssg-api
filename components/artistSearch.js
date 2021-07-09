@@ -93,24 +93,29 @@ export default function ArtistSearch({
   }
 
   class listNavKey {
-    constructor(constrain, step, limit, basis, vpPercent) {
+    constructor(constrain, step, limit, triggerPercent) {
       this.constrain = constrain;
       this.step = step;
       this.limit = limit;
-      this.basis = basis;
-      this.vpPercent = vpPercent;
-      this.shouldScroll = function(elem, basis) {
-        return Math.abs(this.basis - (elem.offsetTop - elem.offsetParent.scrollTop)) > window.visualViewport.height * vpPercent;
-      }
-      this.scrollOptions = function(elem) {
-        return {top: elem.clientHeight*step, left: 0, behavior: "smooth"};
-      }
+      this.triggerPercent = triggerPercent;
+    }
+    shouldScroll = function(elem) {
+      let vizContainerHeight = elem.parentElement.offsetHeight
+      let vizItemOffset = elem.offsetTop - elem.parentElement.scrollTop
+      // if we're moving up measure from the bottom (height of parent)
+      // if we're moving down measure from from 0
+      let basis = (this.step == -1) ? vizContainerHeight : 0
+      let offsetDiff = Math.abs(basis - vizItemOffset)
+      return offsetDiff > vizContainerHeight * this.triggerPercent;
+    }
+    scrollOptions = function(elem) {
+      return {top: elem.clientHeight*this.step, left: 0, behavior: "smooth"};
     }
   }
 
   const UPDOWNKEYNAMES = {
-    ArrowDown: new listNavKey(Math.min,  1, null,    0, .6),
-    ArrowUp:   new listNavKey(Math.max, -1,   -1, null, .8)
+    ArrowDown: new listNavKey(Math.min,  1, null, .6),
+    ArrowUp:   new listNavKey(Math.max, -1,   -1, .6)
   }
   
   const handleKeyDown = (e) => {
@@ -123,9 +128,8 @@ export default function ArtistSearch({
       }
 
       let c = listEl?.children.length
-      // One modification for each scroll object
+      // One modification for the down key
       UPDOWNKEYNAMES.ArrowDown.limit = c-1
-      UPDOWNKEYNAMES.ArrowUp.basis = window.visualViewport.height
 
       // don't exceed our bounds
       let hli = navKey.constrain(hlIndex + navKey.step, navKey.limit)
