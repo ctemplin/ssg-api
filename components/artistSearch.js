@@ -151,7 +151,7 @@ export default function ArtistSearch({
   const inputRef = useRef()
 
   return (
-    <div className={`${styles.searchContainer} is-size-3 is-size-1-desktop`}>
+    <div className={`${styles.searchContainer} is-size-3 is-size-2-desktop is-size-1-widescreen`}>
       <FontAwesomeIcon
         className={styles.icon}
         height="1em"
