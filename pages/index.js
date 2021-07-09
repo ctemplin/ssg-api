@@ -17,6 +17,7 @@ export default function Home() {
   const [searchData, setSearchData] = useState(defaultSearchData)
   const [searchTerms, setSearchTerms] = useState('')
   const [searchHlIndex, setSearchHlIndex] = useState(-1)
+  const [searchScroll, setSearchScroll] = useState(0)
   const [curArtistId, setCurArtistId] = useState()
   const [curReleaseGroupId, setCurReleaseGroupId] = useState(null)
   const [curReleaseId, setCurReleaseId] = useState(null)
@@ -107,6 +108,7 @@ export default function Home() {
               defaultData={defaultSearchData}
               data={searchData} setData={setSearchData}
               searchTerms={searchTerms} setSearchTerms={setSearchTerms}
+              scrollTop={searchScroll} setSearchScroll={setSearchScroll}
               hlIndex={searchHlIndex} setHlIndex={setSearchHlIndex}
             />
             <Image src="/headphones.svg" className={styles.headphones} alt="" layout="fill" preload="true"/>

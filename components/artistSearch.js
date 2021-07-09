@@ -8,7 +8,8 @@ export default function ArtistSearch({
   handleArtistSearchClick, 
   defaultData, 
   data, setData, 
-  searchTerms, setSearchTerms, 
+  searchTerms, setSearchTerms,
+  scrollTop, setSearchScroll,
   hlIndex, setHlIndex
 }) {
 
@@ -73,7 +74,10 @@ export default function ArtistSearch({
   }
 
   const handleClick = (id) => {
-    return () => handleArtistSearchClick(id)
+    return () => {
+      setSearchScroll(document.getElementById('searchIncResultList')?.scrollTop)
+      handleArtistSearchClick(id)
+    }
   }
 
   const handleIconClick = () => {
@@ -144,9 +148,15 @@ export default function ArtistSearch({
       e.preventDefault()
     } else if (e.key == "Enter") {
         const rid = listEl?.children[hlIndex]?.attributes['rid'].value
-        if (rid) handleArtistSearchClick(rid)
+        if (rid) handleClick(rid)()
     }
   }
+
+  useEffect(() => {
+    document.getElementById('searchIncResultList')?.scrollBy({top: scrollTop, left: 0})
+    // Cleanup
+    // return ()
+  },[])
 
   const inputRef = useRef()
 
