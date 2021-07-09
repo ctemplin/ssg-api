@@ -3,10 +3,8 @@
 .container {
   min-height: 100vh;
   padding: 0 1.0rem;
-  /* display: flex; */
-  /* flex-direction: column; */
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-rows: 0fr 1fr;
   height: 100vh;
 }
 
@@ -20,14 +18,13 @@
 }
 
 .footer {
-  width: 100%;
-  height: auto;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: fixed !important;
   bottom: 0;
   display: flex;
   font-size: smaller;
+  width: 100%;
   background-color: rgb(255,255,255,0.8);
   @media screen and (min-width: $desktop) {
     font-size:unset
@@ -127,6 +124,11 @@
   }
 }
 
+.headerColumnsContainer {
+  margin-top: .1em;
+  margin-bottom: 0px !important;
+}
+
 .columnsContainer {
   @media screen and (min-width: $desktop) {
     padding-left: 5vw;
@@ -135,22 +137,17 @@
 }
 
 .artistSearchContainer {
-  text-align: center
+  text-align: center;
+  display: flex;
+  flex: 1 0 10px;
 }
 
-// leaving in for reference
-// .columnsContainer > div {
-//   @media screen and (min-width: $desktop) {
-//     
-//   }}
-
 .headphones {
-  padding-top: 50px !important;
-  @media screen and (min-width: $tablet) {
-    padding-top: 0px !important;
-  }
-  @media screen and (min-width: $desktop) {
-    padding-top: 90px !important;
-  }
+  object-position: top;
+  object-fit: contain;
+  top: 12rem !important;
+  padding-bottom: 10rem !important;
+  padding-right: 2em !important;
+  margin-left: 1em !important;
 }
 

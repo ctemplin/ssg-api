@@ -8,7 +8,8 @@ export default function ArtistSearch({
   handleArtistSearchClick, 
   defaultData, 
   data, setData, 
-  searchTerms, setSearchTerms, 
+  searchTerms, setSearchTerms,
+  scrollTop, setSearchScroll,
   hlIndex, setHlIndex
 }) {
 
@@ -17,7 +18,7 @@ export default function ArtistSearch({
       var url = new URL('https://musicbrainz.org/ws/2/artist')
       const params = new URLSearchParams()
       params.append("query", searchTerms)
-      params.append("limit", 10)
+      params.append("limit", 20)
       params.append("offset", 0)
       url.search = params.toString()
       const resp = await fetch(
@@ -73,47 +74,94 @@ export default function ArtistSearch({
   }
 
   const handleClick = (id) => {
-    return () => handleArtistSearchClick(id)
+    return () => {
+      setSearchScroll(document.getElementById('searchIncResultList')?.scrollTop)
+      handleArtistSearchClick(id)
+    }
   }
 
   const handleIconClick = () => {
     inputRef.current.focus();
   }
 
+  const syncFocus = (hli) => {
+    const listEl = document.getElementById("searchIncResultList");
+    if(document.activeElement?.parentElement == listEl)
+      listEl.children[hli]?.focus()
+  }
+
   const handleMouseEnter = (e) => {
     var hli = parseInt(e.target.attributes['index'].value)
     setHlIndex(hli)
+    syncFocus(hli)
   }
 
-  const handleKeyDown = (e) => {
-    switch (e.key) {
-      case "ArrowDown":
-        var hli = hlIndex
-        var c = document.getElementById("searchIncResultList")?.children.length
-        // wrap around, starting back at no selection
-        hli = hli >= c-1 ? -1 : hli + 1
-        setHlIndex(hli)
-        e.preventDefault()
-        break;
-      case "ArrowUp":
-        var hli = hlIndex
-        var c = document.getElementById("searchIncResultList")?.children.length
-        // wrap around, starting back at no selection
-        hli = hli <= -1 ? c-1 : hli - 1
-        setHlIndex(hli)
-        e.preventDefault()
-        break;
-      case "Enter":
-        const rid = document.getElementById("searchIncResultList")?.children[hlIndex]?.attributes['rid'].value
-        if (rid) handleArtistSearchClick(rid)
-        break
+  class listNavKey {
+    constructor(constrain, step, limit, triggerPercent) {
+      this.constrain = constrain;
+      this.step = step;
+      this.limit = limit;
+      this.triggerPercent = triggerPercent;
+    }
+    shouldScroll = function(elem) {
+      let vizContainerHeight = elem.parentElement.offsetHeight
+      let vizItemOffset = elem.offsetTop - elem.parentElement.scrollTop
+      // if we're moving up measure from the bottom (height of parent)
+      // if we're moving down measure from from 0
+      let basis = (this.step == -1) ? vizContainerHeight : 0
+      let offsetDiff = Math.abs(basis - vizItemOffset)
+      return offsetDiff > vizContainerHeight * this.triggerPercent;
+    }
+    scrollOptions = function(elem) {
+      return {top: elem.clientHeight*this.step, left: 0, behavior: "smooth"};
     }
   }
+
+  const UPDOWNKEYNAMES = {
+    ArrowDown: new listNavKey(Math.min,  1, null, .6),
+    ArrowUp:   new listNavKey(Math.max, -1,   -1, .6)
+  }
+  
+  const handleKeyDown = (e) => {
+    const listEl = document.getElementById("searchIncResultList");
+    let navKey = UPDOWNKEYNAMES[e.key]
+    if (navKey) {
+      if (window.visualViewport == undefined) {
+        console.log("No viewport. In firefox about:config set dom.visualviewport.enabled = true")
+        return;
+      }
+
+      let c = listEl?.children.length
+      // One modification for the down key
+      UPDOWNKEYNAMES.ArrowDown.limit = c-1
+
+      // don't exceed our bounds
+      let hli = navKey.constrain(hlIndex + navKey.step, navKey.limit)
+      // is scrolling even possible?
+      if (hli != hlIndex && hli != -1) {
+        let newHl = listEl.children[hli]
+        if (navKey.shouldScroll(newHl))
+          listEl.scrollBy(navKey.scrollOptions(newHl))
+      }
+      setHlIndex(hli)
+      syncFocus(hli)
+      e.preventDefault()
+    } else if (e.key == "Enter") {
+        const rid = listEl?.children[hlIndex]?.attributes['rid'].value
+        if (rid) handleClick(rid)()
+    }
+  }
+
+  useEffect(() => {
+    document.getElementById('searchIncResultList')?.scrollBy({top: scrollTop, left: 0})
+    // Cleanup
+    // return ()
+  },[])
 
   const inputRef = useRef()
 
   return (
-    <div className={`${styles.searchContainer} is-size-3 is-size-1-desktop`}>
+    <div className={`${styles.searchContainer} is-size-3 is-size-2-desktop is-size-1-widescreen`}>
       <FontAwesomeIcon
         className={styles.icon}
         height="1em"
@@ -125,8 +173,8 @@ export default function ArtistSearch({
         {data.matches && data.matches.length ?
           <div className={styles.searchIncResultList} id="searchIncResultList">
             {data.matches.map((_,i) =>
-            <div className={`${styles.searchIncResult} panel-block ${hlIndex==i?styles.searchIncResultHl:''}`} index={i} rid={_.id} key={_.id}
-              onClick={handleClick(_.id)} onMouseEnter={handleMouseEnter} >
+            <div className={`${styles.searchIncResult} onKeyDown={handleKeyDown} panel-block ${hlIndex==i?styles.searchIncResultHl:''}`} index={i} rid={_.id} key={_.id}
+              onClick={handleClick(_.id)} onKeyDown={handleKeyDown} onMouseEnter={handleMouseEnter} onFocus={handleMouseEnter} tabIndex="0">
               {_.name}
             </div>
             )}

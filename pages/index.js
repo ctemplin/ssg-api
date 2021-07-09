@@ -17,6 +17,7 @@ export default function Home() {
   const [searchData, setSearchData] = useState(defaultSearchData)
   const [searchTerms, setSearchTerms] = useState('')
   const [searchHlIndex, setSearchHlIndex] = useState(-1)
+  const [searchScroll, setSearchScroll] = useState(0)
   const [curArtistId, setCurArtistId] = useState()
   const [curReleaseGroupId, setCurReleaseGroupId] = useState(null)
   const [curReleaseId, setCurReleaseId] = useState(null)
@@ -79,24 +80,22 @@ export default function Home() {
         <meta name="description" content="Explorer for Artists, Albums and Songs from MusicBrainz" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-        <div className={`columns ${styles.columnsContainer}`}>
+        <div className={`columns ${styles.columnsContainer} ${styles.headerColumnsContainer}`}>
           <div className={`column is-full`}>
           {!isSearching &&
-            <>
+            <a onClick={handleSearchClick}>
             <FontAwesomeIcon
               className={styles.icon}
               height="1em"
               icon={faArrowLeft}
-              onClick={handleSearchClick}
             />
             <>&nbsp;</>
             <FontAwesomeIcon
               className={styles.icon}
               height="1em"
               icon={faSearch}
-              onClick={handleSearchClick}
             />
-            </>
+            </a>
           }
           </div>
         </div>
@@ -107,9 +106,11 @@ export default function Home() {
               defaultData={defaultSearchData}
               data={searchData} setData={setSearchData}
               searchTerms={searchTerms} setSearchTerms={setSearchTerms}
+              scrollTop={searchScroll} setSearchScroll={setSearchScroll}
               hlIndex={searchHlIndex} setHlIndex={setSearchHlIndex}
             />
-            <Image src="/headphones.svg" className={styles.headphones} alt="" width={1000} height={1000} preload="true"/>
+            <Image src="/headphones.svg" className={styles.headphones} alt="" layout="fill" preload="true"/>
+
           </div>
           </>}
         <div className={`${styles.columnsContainer} columns`}>
