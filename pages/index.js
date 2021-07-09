@@ -83,21 +83,19 @@ export default function Home() {
         <div className={`columns ${styles.columnsContainer} ${styles.headerColumnsContainer}`}>
           <div className={`column is-full`}>
           {!isSearching &&
-            <>
+            <a onClick={handleSearchClick}>
             <FontAwesomeIcon
               className={styles.icon}
               height="1em"
               icon={faArrowLeft}
-              onClick={handleSearchClick}
             />
             <>&nbsp;</>
             <FontAwesomeIcon
               className={styles.icon}
               height="1em"
               icon={faSearch}
-              onClick={handleSearchClick}
             />
-            </>
+            </a>
           }
           </div>
         </div>
