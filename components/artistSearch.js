@@ -104,8 +104,19 @@ export default function ArtistSearch({
       this.triggerPercent = triggerPercent;
     }
     shouldScroll = function(elem) {
-      let vizContainerHeight = elem.parentElement.offsetHeight
-      let vizItemOffset = elem.offsetTop - elem.parentElement.scrollTop
+      let p = elem.parentElement
+      let parentScrollTop = p.scrollTop
+      let totContainerHeight = p.scrollHeight
+      let vizContainerHeight = p.offsetHeight
+      let vizItemOffset = elem.offsetTop - parentScrollTop
+      if (this.step == -1 && p.scrollTop == 0) {
+        // already at the top
+        return false 
+      }
+      if (this.step == 1 && (totContainerHeight - (vizContainerHeight + parentScrollTop)) == 1) {
+        // already at the bottom
+        return false
+      }
       // if we're moving up measure from the bottom (height of parent)
       // if we're moving down measure from from 0
       let basis = (this.step == -1) ? vizContainerHeight : 0
