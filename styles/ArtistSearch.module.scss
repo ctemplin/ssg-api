@@ -1,40 +1,44 @@
 @import 'bulma/sass/utilities/derived-variables.sass';
 
 .searchContainer {
-  display: block;
-  position: absolute;
   z-index: 2;
   display: flex;
   flex-direction: row;
+  min-height: inherit;
+  flex-grow: 1;
+  margin: 0.5em 0 0 0.2em;
   @media screen and (min-width: $desktop) { 
-    left: 8vw;
-    top: 60px;
+    margin: 1.5em 0 0 1.5em;
   }
 }
 
 .icon {
   font-size: inherit;
   align-self: center;
-  margin: 0 0.2em;
+  margin: .15em .2em;
+  align-self: flex-start;
 }
 
 .inputContainer {
   text-align: left;
+  flex-direction: column;
+  display: flex;
+  min-height: inherit;
+  margin-bottom: 2em;
 }
 .input {
   font-size: inherit;
-  width: 92%;
+  width: calc(100% - 1em);
 }
 
 .searchIncResultList {
-  display:block;
-  position: absolute;
   z-index: 2;
   background-color: white;
   opacity: 85%;
   color: black;
-  max-height: 80vh;
   overflow-y: scroll;
+  flex: 1 0 20px;
+  width: calc(100% - 1em);
 }
 
 .searchIncResult {

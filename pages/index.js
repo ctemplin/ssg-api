@@ -79,7 +79,7 @@ export default function Home() {
         <meta name="description" content="Explorer for Artists, Albums and Songs from MusicBrainz" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-        <div className={`columns ${styles.columnsContainer}`}>
+        <div className={`columns ${styles.columnsContainer} ${styles.headerColumnsContainer}`}>
           <div className={`column is-full`}>
           {!isSearching &&
             <>
@@ -109,7 +109,8 @@ export default function Home() {
               searchTerms={searchTerms} setSearchTerms={setSearchTerms}
               hlIndex={searchHlIndex} setHlIndex={setSearchHlIndex}
             />
-            <Image src="/headphones.svg" className={styles.headphones} alt="" width={1000} height={1000} preload="true"/>
+            <Image src="/headphones.svg" className={styles.headphones} alt="" layout="fill" preload="true"/>
+
           </div>
           </>}
         <div className={`${styles.columnsContainer} columns`}>
