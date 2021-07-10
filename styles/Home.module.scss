@@ -1,11 +1,10 @@
 @import 'bulma/sass/utilities/derived-variables.sass';
 
 .container {
-  min-height: 100vh;
+  min-height: calc(100vh - .75em);
   padding: 0 1.0rem;
   display: grid;
   grid-template-rows: 0fr 1fr;
-  height: 100vh;
 }
 
 .main {
