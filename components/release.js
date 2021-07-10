@@ -2,7 +2,6 @@ import React,{useState, useEffect, useRef} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMusic } from '@fortawesome/free-solid-svg-icons';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import ReactCSSTransitionGroup from 'react-transition-group';
 import Image from 'next/image'
 import styles from '../styles/ResultBlock.module.scss'
 import formatDate from '../lib/dates'

@@ -1,5 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react'
-import ReactDOM from 'react-dom'
+import React, {useEffect, useRef} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/ArtistSearch.module.scss'
