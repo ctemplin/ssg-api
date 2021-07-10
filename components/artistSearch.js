@@ -91,6 +91,9 @@ export default function ArtistSearch({
   }
 
   const handleMouseEnter = (e) => {
+    if (Date.now() - navKeyTs.current < 1000) {
+      return false
+    }
     var hli = parseInt(e.target.attributes['index'].value)
     setHlIndex(hli)
     syncFocus(hli)
@@ -151,8 +154,10 @@ export default function ArtistSearch({
       // is scrolling even possible?
       if (hli != hlIndex && hli != -1) {
         let newHl = listEl.children[hli]
-        if (navKey.shouldScroll(newHl))
+        if (navKey.shouldScroll(newHl)) {
+          navKeyTs.current = Date.now()
           listEl.scrollBy(navKey.scrollOptions(newHl))
+        }
       }
       setHlIndex(hli)
       syncFocus(hli)
@@ -170,6 +175,8 @@ export default function ArtistSearch({
   },[])
 
   const inputRef = useRef()
+
+  var navKeyTs = useRef(0);
 
   return (
     <div className={`${styles.searchContainer} is-size-3 is-size-2-desktop is-size-1-widescreen`}>
