@@ -5,6 +5,7 @@
   padding: 0 1.0rem;
   display: grid;
   grid-template-rows: 0fr 1fr;
+  background-color: $grey-lighter;
 }
 
 .main {
@@ -142,6 +143,7 @@
 }
 
 .headphones {
+  opacity: .5;
   object-position: top;
   object-fit: contain;
   top: 12rem !important;

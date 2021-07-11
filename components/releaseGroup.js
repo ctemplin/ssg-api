@@ -123,7 +123,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
 
   const filteredReleases = theData.releases?.filter(countryFilter) 
   return (
-    <div ref={head}>
+    <div ref={head} className={styles.block}>
       <div>
         <div className={styles.blockType}>Release</div>
         <div className={`${styles.blockHeader} level`}>
@@ -147,7 +147,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
           />
           <span>Versions: {theData.releases.length - filteredReleases.length} filtered out</span>
         </div>
-        <div className={styles.rgpop} ref={releasesScrollable}>
+        <div className={styles.resultsList} ref={releasesScrollable}>
           {filteredReleases.map((_,i) =>
           <div onClick={handleClick(_.id,i)} key={_.id} ref={(el) => releaseEls.current[i] = el} 
           className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlRef && hlRef==releaseEls.current[i]?styles.resultItemHl:''}`}>

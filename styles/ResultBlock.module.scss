@@ -1,28 +1,35 @@
 @import 'bulma/sass/utilities/derived-variables.sass';
 
+.block {
+  background-color: white;
+}
+
 .blockType {
   font-variant: small-caps;
   background-color: $grey-lighter;
   border-bottom: solid 2px $info;
-  padding-left: 0ex;
+  padding: 0 0.25rem;
 }
 
 .blockHeader {
   margin-bottom: 0px !important;
   display: flex;
+  padding: 0 0.25rem;
 }
 
 .blockHeaderTitle {
   line-height: normal;
 }
 
-.blockHeaderDate {
+.blockHeader ~ .blockHeaderDate {
+  padding: 0 0.25rem;
   line-height: 2.4em;
 }
 
 .blockHeader.blockHeaderArt {
   display: flex;
   justify-content: space-between;
+  padding-right: 0;
 }
 
 .resultHeaderIcon {
@@ -33,12 +40,25 @@
   flex-shrink: 0;
 }
 
+.count {
+  padding: 0 0.25rem;
+}
+
 .countFilter {
   display: flex;
+  padding: 0 0.25rem;
 }
 
 .resultFilterIcon {
   color: $grey;
+  line-height: inherit;
+  align-self: center;
+  margin-right: 0.5ex;
+  cursor: pointer;
+}
+
+.resultFilterIcon:hover {
+  color: $info;
   line-height: inherit;
   align-self: center;
   margin-right: 0.5ex;
@@ -60,13 +80,17 @@
 
 .resultItem {
   display: flex;
+  padding: 0 0.25rem;
+  padding: 0 .5rem 0 .25rem;
   justify-content: space-between;
+  background-color: white;
   cursor:pointer;
 }
 
 // Good use case for Sass (ie. concat 'Alt' and avoid duplication
 .resultItemAlt {
   display: flex;
+  padding: 0 .5rem 0 .25rem;
   justify-content: space-between;
   // taken from bulma...initial-variables.sass
   // inbetween $grey-lighter and $grey-lightest
@@ -80,11 +104,11 @@
   background-color: $info;
 }
 
-div .rgpop {
+.resultsList {
   @media screen and (min-width: $desktop) {
     max-height: 34vh;
   }
-  overflow-y: scroll;
+  overflow-y: overlay;
   border-top: solid thin lightblue;
 }
 
