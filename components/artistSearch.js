@@ -28,27 +28,25 @@ export default function ArtistSearch({
       )
       const json = await resp.json()
       setData(
-      {
-        matches:
-          json.artists.map(artist => {
-            return {
-              name: artist.name,
-              id: artist.id,
-            }
-          })
-      }
+        {
+          matches:
+            json.artists.map(artist => {
+              return {
+                name: artist.name,
+                id: artist.id,
+              }
+            })
+        }
       )
     }
-    if (searchTerms.length && data.matches == null) {
-      getData()
-      setHlIndex(0)
-    }
-  },[searchTerms])
+  if (searchTerms.length && data.matches == null) {
+    getData()
+    setHlIndex(0)
+  }
+},[searchTerms])
 
   useEffect(() => {
-    // setTimeout(() => {
     inputRef.current.focus();
-    //   }, 1);
     return () => clearTimeout(toRef)
   }, [toRef])
 
@@ -169,8 +167,6 @@ export default function ArtistSearch({
 
   useEffect(() => {
     document.getElementById('searchIncResultList')?.scrollBy({top: scrollTop, left: 0})
-    // Cleanup
-    // return ()
   },[])
 
   const inputRef = useRef()
