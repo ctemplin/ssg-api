@@ -24,11 +24,6 @@ export default function Home() {
   const [coverArtId, setCoverArtId] = useState(null)
   const [imgUrlSmall, setImgUrlSmall] = useState()
   const [showLargeImg, setShowLargeImg] = useState(false)
-  const [cookies, setCookie] = useCookies()
-
-  useEffect(() => {
-    setCookie("countries", ["US", "??"])
-  },[])
 
   const handleSearchClick = () => {
     setCurArtistId(null)

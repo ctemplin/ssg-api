@@ -43,7 +43,7 @@ export default function ArtistSearch({
     getData()
     setHlIndex(0)
   }
-},[searchTerms])
+},[searchTerms, data.matches, setData, setHlIndex])
 
   useEffect(() => {
     inputRef.current.focus();
@@ -167,7 +167,7 @@ export default function ArtistSearch({
 
   useEffect(() => {
     document.getElementById('searchIncResultList')?.scrollBy({top: scrollTop, left: 0})
-  },[])
+  },[scrollTop])
 
   const inputRef = useRef()
 

@@ -1,4 +1,4 @@
-import React,{useState, useEffect, useRef} from 'react'
+import React,{useState, useEffect, useRef, useMemo} from 'react'
 import useAsyncReference from '../lib/asyncReference'
 import {useCookies} from 'react-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,9 +12,9 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
   const [theData, setTheData] = useState({})
   const [hlRef, setHlRef] = useState()
   const [cookies, setCookie] = useCookies()
-  const defaultCountries = cookies.countries || ["US", "??"]
-  const [countries, setCountries] = useState(new Set(defaultCountries))
+  const defaultCountries = useMemo(() => cookies.countries || ["US", "??"], [id])
   const [userCountries, setUserCountries] = useAsyncReference(new Set(defaultCountries))
+  const [rgCountries, setRgCountries] = useState()
   const [anyCountryMatch, setAnyCountryMatch] = useState(true)
   const [showFilterConfig, setShowFilterConfig] = useState(false)
 
@@ -52,7 +52,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
             })
           }
         )
-        setCountries(_countries)
+        setRgCountries(_countries)
         let _anyCountryMatch = defaultCountries.filter(_ => Array.from(_countries).includes(_)).length != 0
         if (!_anyCountryMatch) {
           setUserCountries(new Set(Array.from(_countries)))
@@ -62,7 +62,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
     getData()
     const listDiv = releasesScrollable.current
     if (listDiv) listDiv.scrollTop = 0
-  },[id])
+  },[id, defaultCountries, setRgCountries])
 
   useEffect(() => {
     // Remove any trailing null array items from previous render
@@ -109,10 +109,10 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
 
   const persistCountryChanges = () => {
     // Combine previously saved countries with currently relevant one
-    var ca = cookies.countries.concat(Array.from(countries))
+    var allCountries = Array.from(rgCountries).concat(cookies.countries ?? [])
     // Keep countries that are not currently relevant, or relevant and chosen
-    ca = ca.filter(_ => (!countries.has(_)) || countries.has(_) && userCountries.current.has(_))
-    setCookie("countries", Array.from(new Set(ca)))
+    allCountries = allCountries.filter(_ => (!rgCountries.has(_)) || rgCountries.has(_) && userCountries.current.has(_))
+    setCookie("countries", Array.from(new Set(allCountries)))
     setShowFilterConfig(false)
   }
 
@@ -179,7 +179,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
         <div className={`modal is-active`}>
           <div className={`modal-background`}></div>
           <div className={`modal-content ${styles.countryModal}`}>
-            <FilterConfig countries={countries} userCountries={userCountries}
+            <FilterConfig countries={rgCountries} userCountries={userCountries}
               handleChange={handleCountryChange}
               persistChange={persistCountryChanges}
               handleClose={handleCloseClick}
