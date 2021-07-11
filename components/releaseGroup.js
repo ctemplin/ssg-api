@@ -80,7 +80,9 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
   },[theData.id])
 
   const handleFilterClick = (e) => {
-    setShowFilterConfig(true)
+    if (theData.releases.length > 1) {
+      setShowFilterConfig(true)
+    }
   }
 
   const handleCountryChange = (e) => {
@@ -96,7 +98,8 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
     var ca = cookies.countries.concat(Array.from(countries))
     // Keep countries that are not currently relevant, or relevant and chosen
     ca = ca.filter(_ => (!countries.has(_)) || countries.has(_) && userCountries.has(_))
-    setCookie("countries", ca)
+    setCookie("countries", Array.from(new Set(ca)))
+    setShowFilterConfig(false)
   }
 
   const handleCloseClick = () => {
