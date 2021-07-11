@@ -59,7 +59,7 @@ export default function Artist({id, handleReleaseClick, handleParentSearchClick}
   const lsEndFmt = data.lsEnd ? formatDate(data.lsEnd) : 'present';
 
   return (
-    <div>
+    <div className={styles.block}>
       <div>
         <div className={styles.blockType}>Artist</div>
         <div className={`${styles.blockHeader} level`}>
@@ -74,8 +74,8 @@ export default function Artist({id, handleReleaseClick, handleParentSearchClick}
       </div>
       {data.releaseGroups ?
       <>
-        <div className={`is-size-7`}>Releases: {data.releaseGroups.length} found</div>
-        <div className={styles.rgpop}>
+        <div className={`is-size-7 ${styles.count}`}>Releases: {data.releaseGroups.length} found</div>
+        <div className={styles.resultsList}>
         {data.releaseGroups.map((_,i) => {
           // set empty date strings to undefined
           return(

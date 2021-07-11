@@ -2,7 +2,6 @@ import React,{useState, useEffect, useRef} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMusic } from '@fortawesome/free-solid-svg-icons';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import ReactCSSTransitionGroup from 'react-transition-group';
 import Image from 'next/image'
 import styles from '../styles/ResultBlock.module.scss'
 import formatDate from '../lib/dates'
@@ -90,7 +89,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
   const head = useRef()
 
   return (
-  <div ref={head}>
+  <div ref={head} className={styles.block}>
     <div>
       <div className={styles.blockType}>Recording</div>
       {isLoading ?
@@ -146,8 +145,8 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
     </div>
     {(!isLoading) && theData.tracks ?
     <>
-      <div className={`is-size-7`}>Tracks: {theData.tracks.length} found</div>
-      <div className={styles.rgpop} ref={scrollableRef}>
+      <div className={`is-size-7 ${styles.count}`}>Tracks: {theData.tracks.length} found</div>
+      <div className={styles.resultsList} ref={scrollableRef}>
         {theData.tracks.map(_ =>
           <div onClick={handleClick(_.id)} key={_.id} className={styles.resultItem}>
             <span className={styles.trackPosition}>{`${_.position}. `}</span>

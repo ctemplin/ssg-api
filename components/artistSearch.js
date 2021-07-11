@@ -1,5 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react'
-import ReactDOM from 'react-dom'
+import React, {useEffect, useRef} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/ArtistSearch.module.scss'
@@ -29,27 +28,25 @@ export default function ArtistSearch({
       )
       const json = await resp.json()
       setData(
-      {
-        matches:
-          json.artists.map(artist => {
-            return {
-              name: artist.name,
-              id: artist.id,
-            }
-          })
-      }
+        {
+          matches:
+            json.artists.map(artist => {
+              return {
+                name: artist.name,
+                id: artist.id,
+              }
+            })
+        }
       )
     }
-    if (searchTerms.length && data.matches == null) {
-      getData()
-      setHlIndex(0)
-    }
-  },[searchTerms])
+  if (searchTerms.length && data.matches == null) {
+    getData()
+    setHlIndex(0)
+  }
+},[searchTerms])
 
   useEffect(() => {
-    // setTimeout(() => {
     inputRef.current.focus();
-    //   }, 1);
     return () => clearTimeout(toRef)
   }, [toRef])
 
@@ -91,6 +88,9 @@ export default function ArtistSearch({
   }
 
   const handleMouseEnter = (e) => {
+    if (Date.now() - navKeyTs.current < 1000) {
+      return false
+    }
     var hli = parseInt(e.target.attributes['index'].value)
     setHlIndex(hli)
     syncFocus(hli)
@@ -104,8 +104,19 @@ export default function ArtistSearch({
       this.triggerPercent = triggerPercent;
     }
     shouldScroll = function(elem) {
-      let vizContainerHeight = elem.parentElement.offsetHeight
-      let vizItemOffset = elem.offsetTop - elem.parentElement.scrollTop
+      let p = elem.parentElement
+      let parentScrollTop = p.scrollTop
+      let totContainerHeight = p.scrollHeight
+      let vizContainerHeight = p.offsetHeight
+      let vizItemOffset = elem.offsetTop - parentScrollTop
+      if (this.step == -1 && p.scrollTop == 0) {
+        // already at the top
+        return false 
+      }
+      if (this.step == 1 && (totContainerHeight - (vizContainerHeight + parentScrollTop)) == 1) {
+        // already at the bottom
+        return false
+      }
       // if we're moving up measure from the bottom (height of parent)
       // if we're moving down measure from from 0
       let basis = (this.step == -1) ? vizContainerHeight : 0
@@ -140,8 +151,10 @@ export default function ArtistSearch({
       // is scrolling even possible?
       if (hli != hlIndex && hli != -1) {
         let newHl = listEl.children[hli]
-        if (navKey.shouldScroll(newHl))
+        if (navKey.shouldScroll(newHl)) {
+          navKeyTs.current = Date.now()
           listEl.scrollBy(navKey.scrollOptions(newHl))
+        }
       }
       setHlIndex(hli)
       syncFocus(hli)
@@ -154,11 +167,11 @@ export default function ArtistSearch({
 
   useEffect(() => {
     document.getElementById('searchIncResultList')?.scrollBy({top: scrollTop, left: 0})
-    // Cleanup
-    // return ()
   },[])
 
   const inputRef = useRef()
+
+  var navKeyTs = useRef(0);
 
   return (
     <div className={`${styles.searchContainer} is-size-3 is-size-2-desktop is-size-1-widescreen`}>
