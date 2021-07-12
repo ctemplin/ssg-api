@@ -21,8 +21,12 @@ export default function CoverArt({id, width=200, height=200, showLargeImg, handl
         }
       )
       const json = await resp.json()
-      setImgUrlSmall(json.images?.[0]?.thumbnails?.small?.replace(/^http[^s]:/, 'https:'))
-      setImgUrlLarge(json.images?.[0]?.image.replace(/^http[^s]:/, 'https:'))
+      let preferredImage = json.images?.find(_ => _.front == true)
+      preferredImage = preferredImage ?? json.images?.[0]
+      if (preferredImage) {
+        setImgUrlSmall(preferredImage.thumbnails?.small?.replace(/^http[^s]:/, 'https:'))
+        setImgUrlLarge(preferredImage.image.replace(/^http[^s]:/, 'https:'))
+      }
     }
     getData()
   },[id])
