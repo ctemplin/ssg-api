@@ -101,10 +101,10 @@ export default function Home() {
             </a>
           </div>
         </div>
-      }
+        }
         {isSearching &&
           <>
-          <div></div>
+          <div>{/* first grid row. reserved for header/menu */}</div>
           <div className={styles.artistSearchContainer}>
             <ArtistSearch handleArtistSearchClick={handleArtistSearchClick} 
               defaultData={defaultSearchData}
