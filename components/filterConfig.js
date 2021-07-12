@@ -14,7 +14,6 @@ export default function FilterConfig({countries, userCountries, anyCountryMatch,
     <div className={styles.container}>
       Countries
       {Array.from(countries).sort().map(_ =>
-      <>
       <label key={_} className={styles.row}>
         <span className={styles.abbrev}>{_}</span>
         <input
@@ -25,7 +24,6 @@ export default function FilterConfig({countries, userCountries, anyCountryMatch,
           className={styles.cb}
         />
       </label>
-      </>
     )}
     <div className={styles.footer}>
     {(persistChange && isChanged) ?
