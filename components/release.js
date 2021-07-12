@@ -100,9 +100,9 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
       />
       :
       <>
-      <div className={`${styles.blockHeader} ${!imgUrlSmall ? 'level' : styles.blockHeaderArt}`}>
+      <div className={`${styles.blockHeader} ${imgUrlSmall && styles.blockHeaderArt}`}>
         <div>
-          <div className={`is-size-4 ${styles.blockHeaderTitle}`}>{theData.title} <span className={styles.releaseCountry}>{theData.country ? `(${theData.country})` : ``}</span></div>
+          <div className={styles.blockHeaderTitle}>{theData.title} <span className={styles.releaseCountry}>{theData.country ? `(${theData.country})` : ``}</span></div>
           {imgUrlSmall ?
           renderDate()
           : <></>
@@ -113,7 +113,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
           <a onClick={handleCoverArtSmallClick} className={`${isImgLoading ? styles.smallCoverArtHidden : ''}`}>
             <Image src={imgUrlSmall} onLoad={handleOnLoad} width={60} height={60}
               layout="fixed" alt="Album Art Thumbnail"
-              className={`${styles.resultHeaderImage}`}/>
+              className={styles.resultHeaderImage}/>
           </a>
           {isImgLoading ?
           <div className={styles.smallCoverArtLoading}>
@@ -145,7 +145,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
     </div>
     {(!isLoading) && theData.tracks ?
     <>
-      <div className={`is-size-7 ${styles.count}`}>Tracks: {theData.tracks.length} found</div>
+      <div className={styles.count}>Tracks: {theData.tracks.length} found</div>
       <div className={styles.resultsList} ref={scrollableRef}>
         {theData.tracks.map(_ =>
           <div onClick={handleClick(_.id)} key={_.id} className={styles.resultItem}>

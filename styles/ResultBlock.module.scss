@@ -1,4 +1,4 @@
-@import 'bulma/sass/utilities/derived-variables.sass';
+@import 'initial-variables.sass';
 
 .block {
   background-color: white;
@@ -15,10 +15,13 @@
   margin-bottom: 0px !important;
   display: flex;
   padding: 0 0.25rem;
+  justify-content: space-between;
+  align-content: center;
 }
 
 .blockHeaderTitle {
   line-height: normal;
+  font-size: 1.5rem;
 }
 
 .blockHeader ~ .blockHeaderDate {
@@ -41,11 +44,13 @@
 }
 
 .count {
+  font-size: 0.75rem;
   padding: 0 0.25rem;
 }
 
 .countFilter {
   display: flex;
+  font-size: 0.75rem;
   padding: 0 0.25rem;
 }
 

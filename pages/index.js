@@ -74,10 +74,18 @@ export default function Home() {
         <title>MusicBrainz Explorer</title>
         <meta name="description" content="Explorer for Artists, Albums and Songs from MusicBrainz" />
         <link rel="icon" href="/favicon.ico" />
+        <style>html,body {`{
+          color: #4a4a4a;
+          font-size: 1em;
+          font-weight: 400;
+          line-height: 1.5;
+          height: 100% !important;
+          overflow-y: overlay !important;
+        }`}</style>
       </Head>
-        <div className={`columns ${styles.columnsContainer} ${styles.headerColumnsContainer}`}>
-          <div className={`column is-full`}>
-          {!isSearching &&
+        {!isSearching &&
+        <div className={styles.columns}>
+          <div className={styles.column}>
             <a onClick={handleSearchClick}>
             <FontAwesomeIcon
               className={styles.icon}
@@ -91,11 +99,12 @@ export default function Home() {
               icon={faSearch}
             />
             </a>
-          }
           </div>
         </div>
+      }
         {isSearching &&
           <>
+          <div></div>
           <div className={styles.artistSearchContainer}>
             <ArtistSearch handleArtistSearchClick={handleArtistSearchClick} 
               defaultData={defaultSearchData}
@@ -108,17 +117,19 @@ export default function Home() {
 
           </div>
           </>}
-        <div className={`${styles.columnsContainer} columns`}>
-          <div className={`column is-one-third`}>
-            {!isSearching && <Artist id={curArtistId} handleReleaseClick={handleReleaseGroupSelect}/>}
+        {!isSearching &&
+        <>
+        <div className={styles.columns}>
+          <div className={styles.column}>
+            <Artist id={curArtistId} handleReleaseClick={handleReleaseGroupSelect}/>
           </div>
-          <div className={`column is-one-third`}>
+          <div className={styles.column}>
             {curReleaseGroupId ?
             <ReleaseGroup id={curReleaseGroupId} handleReleaseClick={handleReleaseSelect}></ReleaseGroup>
             : <></>
             }
           </div>
-          <div className={`column is-one-third`}>
+          <div className={styles.column}>
             {curReleaseId ?
             <Release id={curReleaseId} imgUrlSmall={imgUrlSmall} handleCoverArt={handleCoverArt} handleCoverArtSmallClick={handleCoverArtClick}></Release>
             : <></>
@@ -129,6 +140,8 @@ export default function Home() {
         {coverArtId ?
         <CoverArt id={coverArtId} handleCoverArtSmall={handleCoverArtSmall} handleCloseClick={hideLargeImg} showLargeImg={showLargeImg}></CoverArt>
         : <></>
+        }
+        </>
         }
 
       {isSearching &&

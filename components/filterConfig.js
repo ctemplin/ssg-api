@@ -34,7 +34,7 @@ export default function FilterConfig({countries, userCountries, anyCountryMatch,
     <a className={styles.link} onClick={handleClose}>close</a> / <a className={styles.link} onClick={persistChange}>save and close</a>
     </>
     :
-    <></>
+    <a className={styles.link} onClick={handleClose}>close</a>
     }
     </div>
     </div>

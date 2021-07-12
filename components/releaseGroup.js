@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCompactDisc, faFilter } from '@fortawesome/free-solid-svg-icons';
 import FilterConfig from './filterConfig'
 import styles from '../styles/ResultBlock.module.scss'
+import modalStyles from '../styles/Modal.module.scss'
 import formatDate from '../lib/dates'
 
 export default function ReleaseGroup({id, handleReleaseClick}) {
@@ -143,19 +144,19 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
     <div ref={head} className={styles.block}>
       <div>
         <div className={styles.blockType}>Release</div>
-        <div className={`${styles.blockHeader} level`}>
-          <span className={`is-size-4 ${styles.blockHeaderTitle}`}>{theData.title}</span>
+        <div className={styles.blockHeader}>
+          <span className={styles.blockHeaderTitle}>{theData.title}</span>
           <FontAwesomeIcon
           className={styles.resultHeaderIcon}
           height="1.3em"
           icon={faCompactDisc}
           />
         </div>
-        <div className={`is-size-6 ${styles.blockHeaderDate}`}>{theData.firstReleaseDate ?? <>&nbsp;</>}</div>
+        <div className={styles.blockHeaderDate}>{theData.firstReleaseDate ?? <>&nbsp;</>}</div>
       </div>
       {theData.releases ?
       <>
-        <div className={`is-size-7 ${styles.countFilter}`}>
+        <div className={styles.countFilter}>
           <FontAwesomeIcon
           className={`${filteredReleases.length > 1 ? styles.resultFilterIcon : styles.resultFilterIconDisabled}`}
           height="1.3em"
@@ -176,16 +177,15 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
           )}
         </div>
         {showFilterConfig ?
-        <div className={`modal is-active`}>
-          <div className={`modal-background`}></div>
-          <div className={`modal-content ${styles.countryModal}`}>
+        <div className={`${modalStyles.modal} ${modalStyles.isActive}`}>
+          <div className={modalStyles.modalBackground}></div>
+          <div className={`${modalStyles.modalContent} ${styles.countryModal}`}>
             <FilterConfig countries={rgCountries} userCountries={userCountries}
               handleChange={handleCountryChange}
               persistChange={persistCountryChanges}
               handleClose={handleCloseClick}
               anyCountryMatch={anyCountryMatch} />
           </div>
-          <button className={`modal-close is-large`} aria-label="close" onClick={handleCloseClick}></button>
         </div>
         :
         <></>

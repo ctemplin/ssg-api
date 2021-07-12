@@ -174,7 +174,7 @@ export default function ArtistSearch({
   var navKeyTs = useRef(0);
 
   return (
-    <div className={`${styles.searchContainer} is-size-3 is-size-2-desktop is-size-1-widescreen`}>
+    <div className={styles.searchContainer}>
       <FontAwesomeIcon
         className={styles.icon}
         height="1em"
@@ -186,7 +186,7 @@ export default function ArtistSearch({
         {data.matches && data.matches.length ?
           <div className={styles.searchIncResultList} id="searchIncResultList">
             {data.matches.map((_,i) =>
-            <div className={`${styles.searchIncResult} onKeyDown={handleKeyDown} panel-block ${hlIndex==i?styles.searchIncResultHl:''}`} index={i} rid={_.id} key={_.id}
+            <div className={`${styles.searchIncResult} ${hlIndex==i && styles.searchIncResultHl}`} index={i} rid={_.id} key={_.id}
               onClick={handleClick(_.id)} onKeyDown={handleKeyDown} onMouseEnter={handleMouseEnter} onFocus={handleMouseEnter} tabIndex="0">
               {_.name}
             </div>

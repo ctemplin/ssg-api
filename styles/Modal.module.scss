@@ -1,0 +1,45 @@
+@import 'initial-variables.sass';
+
+.modal {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    align-items: center;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 40;
+}
+.modal.isActive {
+    display: flex;
+}
+
+.modalBackground {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: rgba(10, 10, 10, 0.86);
+}
+
+$modal-content-width: 640px !default;
+$modal-content-margin-mobile: 20px !default;
+$modal-content-spacing-mobile: 160px !default;
+$modal-content-spacing-tablet: 40px !default;
+
+.modalContent {
+    margin: 0 ;
+    max-height: calc(100vh - #{$modal-content-spacing-mobile});
+    overflow: auto;
+    position: relative;
+    width: 100%;
+    @media screen and (min-width: $tablet) {
+        margin: 0 auto;
+        max-height: calc(100vh - $modal-content-spacing-tablet);
+        width: $modal-content-width;
+    }
+}

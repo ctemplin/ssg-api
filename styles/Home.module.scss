@@ -1,11 +1,15 @@
-@import 'bulma/sass/utilities/derived-variables.sass';
+@import 'initial-variables.sass';
 
 .container {
   min-height: calc(100vh - .75em);
-  padding: 0 1.0rem;
+  padding: 0 .2rem;
   display: grid;
-  grid-template-rows: 0fr 1fr;
+  grid-template-rows: 0fr 1fr 0fr;
   background-color: $grey-lighter;
+  @media screen and (min-width: $tablet) {
+    padding: 0 1.0rem;
+    
+  }
 }
 
 .main {
@@ -15,6 +19,34 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+$column-gap: 0.75rem !default;
+
+.columns {
+  display: block;
+  margin-right: 0;
+  margin-left: 0;
+  @media screen and (min-width: $tablet) {
+    display: flex; 
+  }
+  @media screen and (min-width: $desktop) {
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
+}
+
+.column {
+  display: block;
+  padding: 0.75rem 0.25rem 0 0.25rem;
+  @media screen and (min-width: $tablet) {
+    flex: none;
+    padding: 0.75rem 0.75rem 0 0.75rem;
+    width: 33%;
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
 }
 
 .footer {
@@ -124,18 +156,6 @@
   }
 }
 
-.headerColumnsContainer {
-  margin-top: .1em;
-  margin-bottom: 0px !important;
-}
-
-.columnsContainer {
-  @media screen and (min-width: $desktop) {
-    padding-left: 5vw;
-    padding-right: 5vw;
-  }
-}
-
 .artistSearchContainer {
   text-align: center;
   display: flex;
@@ -151,4 +171,3 @@
   padding-right: 2em !important;
   margin-left: 1em !important;
 }
-

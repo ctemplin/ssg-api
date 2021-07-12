@@ -13,7 +13,6 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@netlify/plugin-nextjs": "^3.4.2",
-    "bulma": "^0.9.3",
     "next": "11.0.0",
     "react": "17.0.2",
     "react-cookie": "^4.0.3",
