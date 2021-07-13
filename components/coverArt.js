@@ -14,6 +14,7 @@ export default function CoverArt({id, width=200, height=200, showLargeImg, handl
 
   useEffect(() =>  {
     setIsLoading(true)
+    setIsError(false)
     async function getData() {
       const resp = await fetch(
         'https://coverartarchive.org/release/' + id,
