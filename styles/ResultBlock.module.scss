@@ -161,16 +161,26 @@ span.trackLength {
 }
 
 .largeCoverArtLoading {
-  display: block; 
+  display: inline-block; 
+  color: white;
   overflow: hidden;
-  position: absolute;
-  inset: 0px;
+  position: relative;
+  width: 100%;
   box-sizing: border-box;
   margin: 0px;
+  text-align: center;
 }
 
 .largeCoverArtHidden {
   visibility: hidden;
+  display: none;
+}
+
+.largeCoverArtError {
+  display: inline-grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  margin: 0 20vw;
 }
 
 .countryModal {

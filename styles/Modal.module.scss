@@ -36,10 +36,8 @@ $modal-content-spacing-tablet: 40px !default;
     max-height: calc(100vh - #{$modal-content-spacing-mobile});
     overflow: auto;
     position: relative;
-    width: 100%;
     @media screen and (min-width: $tablet) {
         margin: 0 auto;
         max-height: calc(100vh - $modal-content-spacing-tablet);
-        width: $modal-content-width;
     }
 }
