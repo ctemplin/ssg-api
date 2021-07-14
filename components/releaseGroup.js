@@ -1,9 +1,11 @@
-import React,{useState, useEffect, useRef} from 'react'
+import React,{useState, useEffect, useRef, useMemo} from 'react'
+import useAsyncReference from '../lib/asyncReference'
 import {useCookies} from 'react-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCompactDisc, faFilter } from '@fortawesome/free-solid-svg-icons';
 import FilterConfig from './filterConfig'
 import styles from '../styles/ResultBlock.module.scss'
+import modalStyles from '../styles/Modal.module.scss'
 import formatDate from '../lib/dates'
 
 export default function ReleaseGroup({id, handleReleaseClick}) {
@@ -11,9 +13,10 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
   const [theData, setTheData] = useState({})
   const [hlRef, setHlRef] = useState()
   const [cookies, setCookie] = useCookies()
-  const defaultCountries = cookies.countries || ["US", "??"]
-  const [countries, setCountries] = useState(new Set(defaultCountries))
-  const [userCountries, setUserCountries] = useState(new Set(defaultCountries))
+  const defaultCountries = useMemo(() => cookies.countries || ["US", "??"], [id])
+  const [userCountries, setUserCountries] = useAsyncReference(new Set(defaultCountries))
+  const [rgCountries, setRgCountries] = useState()
+  const [anyCountryMatch, setAnyCountryMatch] = useState(true)
   const [showFilterConfig, setShowFilterConfig] = useState(false)
 
   useEffect(() => {
@@ -50,12 +53,17 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
             })
           }
         )
-        setCountries(_countries)
+        setRgCountries(_countries)
+        let _anyCountryMatch = defaultCountries.filter(_ => Array.from(_countries).includes(_)).length != 0
+        if (!_anyCountryMatch) {
+          setUserCountries(new Set(Array.from(_countries)))
+        }
+        setAnyCountryMatch(_anyCountryMatch)
     }
     getData()
     const listDiv = releasesScrollable.current
     if (listDiv) listDiv.scrollTop = 0
-  },[id])
+  },[id, defaultCountries, setRgCountries])
 
   useEffect(() => {
     // Remove any trailing null array items from previous render
@@ -73,30 +81,40 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
     };
   }
 
-  const countryFilter = (_,i,a) => a.length == 1 || userCountries.has(_.country)
+  const countryFilter = anyCountryMatch ?
+    (_,i,a) => a.length == 1 || userCountries.current.has(_.country)
+    :
+    (_,i,a) => true
 
   useEffect(() => {
     head.current?.scrollIntoView({behavior: "smooth"})
   },[theData.id])
 
   const handleFilterClick = (e) => {
-    setShowFilterConfig(true)
+    if (theData.releases.length > 1) {
+      setShowFilterConfig(true)
+    }
   }
 
   const handleCountryChange = (e) => {
     const target = e.target
-    target.checked ?
-      setUserCountries(new Set(userCountries.add(target.name)))
-    :
-      userCountries.delete(target.name) ? setUserCountries(new Set(userCountries)) : null
+    if (target.checked) {
+      setUserCountries(new Set(userCountries.current.add(target.name)))
+    } else {
+      let del = userCountries.current.delete(target.name)
+      if (del) {
+        setUserCountries(new Set(userCountries.current))
+      }
+    }
   }
 
   const persistCountryChanges = () => {
     // Combine previously saved countries with currently relevant one
-    var ca = cookies.countries.concat(Array.from(countries))
+    var allCountries = Array.from(rgCountries).concat(cookies.countries ?? [])
     // Keep countries that are not currently relevant, or relevant and chosen
-    ca = ca.filter(_ => (!countries.has(_)) || countries.has(_) && userCountries.has(_))
-    setCookie("countries", ca)
+    allCountries = allCountries.filter(_ => (!rgCountries.has(_)) || rgCountries.has(_) && userCountries.current.has(_))
+    setCookie("countries", Array.from(new Set(allCountries)))
+    setShowFilterConfig(false)
   }
 
   const handleCloseClick = () => {
@@ -104,12 +122,12 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
   }
 
   const isCountryNeeded = () => {
-    if (theData.releases.length == 1 && !userCountries.has(theData.releases[0].country))
-      // Showing the SOLE release despite it failing the country filter,
-      // so make that clear.
+    if (anyCountryMatch == false)
+      // No releases can pass country filter,
+      // so show them all and make that clear.
       return true
-    if ((userCountries.size == 1) || 
-        (userCountries.size == 2 && userCountries.has("??"))
+    if ((userCountries.current.size == 1) || 
+        (userCountries.current.size == 2 && userCountries.current.has("??"))
        )
        // Too little country variety to clutter the UI with
        return false
@@ -123,22 +141,22 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
 
   const filteredReleases = theData.releases?.filter(countryFilter) 
   return (
-    <div ref={head}>
+    <div ref={head} className={styles.block}>
       <div>
         <div className={styles.blockType}>Release</div>
-        <div className={`${styles.blockHeader} level`}>
-          <span className={`is-size-4 ${styles.blockHeaderTitle}`}>{theData.title}</span>
+        <div className={styles.blockHeader}>
+          <span className={styles.blockHeaderTitle}>{theData.title}</span>
           <FontAwesomeIcon
           className={styles.resultHeaderIcon}
           height="1.3em"
           icon={faCompactDisc}
           />
         </div>
-        <div className={`is-size-6 ${styles.blockHeaderDate}`}>{theData.firstReleaseDate ?? <>&nbsp;</>}</div>
+        <div className={styles.blockHeaderDate}>{theData.firstReleaseDate ?? <>&nbsp;</>}</div>
       </div>
       {theData.releases ?
       <>
-        <div className={`is-size-7 ${styles.countFilter}`}>
+        <div className={styles.countFilter}>
           <FontAwesomeIcon
           className={`${filteredReleases.length > 1 ? styles.resultFilterIcon : styles.resultFilterIconDisabled}`}
           height="1.3em"
@@ -147,7 +165,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
           />
           <span>Versions: {theData.releases.length - filteredReleases.length} filtered out</span>
         </div>
-        <div className={styles.rgpop} ref={releasesScrollable}>
+        <div className={styles.resultsList} ref={releasesScrollable}>
           {filteredReleases.map((_,i) =>
           <div onClick={handleClick(_.id,i)} key={_.id} ref={(el) => releaseEls.current[i] = el} 
           className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlRef && hlRef==releaseEls.current[i]?styles.resultItemHl:''}`}>
@@ -159,15 +177,15 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
           )}
         </div>
         {showFilterConfig ?
-        <div className={`modal is-active`}>
-          <div className={`modal-background`}></div>
-          <div className={`modal-content ${styles.countryModal}`}>
-            <FilterConfig countries={countries} userCountries={userCountries}
+        <div className={`${modalStyles.modal} ${modalStyles.isActive}`}>
+          <div className={modalStyles.modalBackground}></div>
+          <div className={`${modalStyles.modalContent} ${styles.countryModal}`}>
+            <FilterConfig countries={rgCountries} userCountries={userCountries}
               handleChange={handleCountryChange}
               persistChange={persistCountryChanges}
-              handleClose={handleCloseClick} />
+              handleClose={handleCloseClick}
+              anyCountryMatch={anyCountryMatch} />
           </div>
-          <button className={`modal-close is-large`} aria-label="close" onClick={handleCloseClick}></button>
         </div>
         :
         <></>

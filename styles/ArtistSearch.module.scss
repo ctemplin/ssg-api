@@ -1,45 +1,64 @@
-@import 'bulma/sass/utilities/derived-variables.sass';
+@import 'initial-variables.sass';
 
 .searchContainer {
-  display: block;
-  position: absolute;
-  z-index: 2;
   display: flex;
   flex-direction: row;
+  flex-grow: 1;
+  font-size: 2rem;
+  min-height: inherit;
+  margin: 0.5em 0 0 0.2em;
+  z-index: 2;
+  @media screen and (min-width: $tablet) { 
+    margin: .75em 0 0 .75em;
+  }
   @media screen and (min-width: $desktop) { 
-    left: 8vw;
-    top: 60px;
+    font-size: 2.5rem;
+    margin: 1em 0 0 1em;
+  }
+  @media screen and (min-width: $widescreen) { 
+    font-size: 3rem;
+    margin: 1.25em 0 0 1.25em;
   }
 }
 
 .icon {
   font-size: inherit;
   align-self: center;
-  margin: 0 0.2em;
+  margin: .15em .2em;
+  align-self: flex-start;
 }
 
 .inputContainer {
   text-align: left;
+  flex-direction: column;
+  display: flex;
+  min-height: inherit;
+  margin-bottom: 2em;
 }
 .input {
   font-size: inherit;
-  width: 92%;
+  width: calc(100% - 1em);
 }
 
 .searchIncResultList {
-  display:block;
-  position: absolute;
   z-index: 2;
   background-color: white;
   opacity: 85%;
   color: black;
-  max-height: 80vh;
   overflow-y: scroll;
+  flex: 1 0 20px;
+  width: calc(100% - 1em);
 }
 
 .searchIncResult {
+  display: flex;
+  color: #363636;
   font-size: 60%;
+  padding: 0.5em 0.75em;
+  align-items: center;
+  justify-content: flex-start;
   cursor: pointer;
+  transition: background-color .5s;
 }
 
 .searchIncResult:focus-visible {
@@ -49,6 +68,7 @@
 .searchIncResultHl {
   background-color: $info-dark;
   color: white;
+  transition: background-color .5s;
 }
 
 .searchIncResultWarn {

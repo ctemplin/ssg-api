@@ -1,3 +1,5 @@
+@import 'initial-variables.sass';
+
 .container {
     background-color: white;
     min-width: 12em;
@@ -31,6 +33,7 @@
 
 .link {
     text-decoration: underline;
+    cursor: pointer;
 }
 
 .footer {

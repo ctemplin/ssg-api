@@ -1,5 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react'
-import ReactDOM from 'react-dom'
+import React, {useEffect, useRef} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/ArtistSearch.module.scss'
@@ -8,7 +7,8 @@ export default function ArtistSearch({
   handleArtistSearchClick, 
   defaultData, 
   data, setData, 
-  searchTerms, setSearchTerms, 
+  searchTerms, setSearchTerms,
+  scrollTop, setSearchScroll,
   hlIndex, setHlIndex
 }) {
 
@@ -28,27 +28,25 @@ export default function ArtistSearch({
       )
       const json = await resp.json()
       setData(
-      {
-        matches:
-          json.artists.map(artist => {
-            return {
-              name: artist.name,
-              id: artist.id,
-            }
-          })
-      }
+        {
+          matches:
+            json.artists.map(artist => {
+              return {
+                name: artist.name,
+                id: artist.id,
+              }
+            })
+        }
       )
     }
-    if (searchTerms.length && data.matches == null) {
-      getData()
-      setHlIndex(0)
-    }
-  },[searchTerms])
+  if (searchTerms.length && data.matches == null) {
+    getData()
+    setHlIndex(0)
+  }
+},[searchTerms, data.matches, setData, setHlIndex])
 
   useEffect(() => {
-    // setTimeout(() => {
     inputRef.current.focus();
-    //   }, 1);
     return () => clearTimeout(toRef)
   }, [toRef])
 
@@ -73,7 +71,10 @@ export default function ArtistSearch({
   }
 
   const handleClick = (id) => {
-    return () => handleArtistSearchClick(id)
+    return () => {
+      setSearchScroll(document.getElementById('searchIncResultList')?.scrollTop)
+      handleArtistSearchClick(id)
+    }
   }
 
   const handleIconClick = () => {
@@ -87,30 +88,49 @@ export default function ArtistSearch({
   }
 
   const handleMouseEnter = (e) => {
+    if (Date.now() - navKeyTs.current < 1000) {
+      return false
+    }
     var hli = parseInt(e.target.attributes['index'].value)
     setHlIndex(hli)
     syncFocus(hli)
   }
 
   class listNavKey {
-    constructor(constrain, step, limit, basis, vpPercent) {
+    constructor(constrain, step, limit, triggerPercent) {
       this.constrain = constrain;
       this.step = step;
       this.limit = limit;
-      this.basis = basis;
-      this.vpPercent = vpPercent;
-      this.shouldScroll = function(elem, basis) {
-        return Math.abs(this.basis - (elem.offsetTop - elem.offsetParent.scrollTop)) > window.visualViewport.height * vpPercent;
+      this.triggerPercent = triggerPercent;
+    }
+    shouldScroll = function(elem) {
+      let p = elem.parentElement
+      let parentScrollTop = p.scrollTop
+      let totContainerHeight = p.scrollHeight
+      let vizContainerHeight = p.offsetHeight
+      let vizItemOffset = elem.offsetTop - parentScrollTop
+      if (this.step == -1 && p.scrollTop == 0) {
+        // already at the top
+        return false 
       }
-      this.scrollOptions = function(elem) {
-        return {top: elem.clientHeight*step, left: 0, behavior: "smooth"};
+      if (this.step == 1 && (totContainerHeight - (vizContainerHeight + parentScrollTop)) == 1) {
+        // already at the bottom
+        return false
       }
+      // if we're moving up measure from the bottom (height of parent)
+      // if we're moving down measure from from 0
+      let basis = (this.step == -1) ? vizContainerHeight : 0
+      let offsetDiff = Math.abs(basis - vizItemOffset)
+      return offsetDiff > vizContainerHeight * this.triggerPercent;
+    }
+    scrollOptions = function(elem) {
+      return {top: elem.clientHeight*this.step, left: 0, behavior: "smooth"};
     }
   }
 
   const UPDOWNKEYNAMES = {
-    ArrowDown: new listNavKey(Math.min,  1, null,    0, .6),
-    ArrowUp:   new listNavKey(Math.max, -1,   -1, null, .8)
+    ArrowDown: new listNavKey(Math.min,  1, null, .6),
+    ArrowUp:   new listNavKey(Math.max, -1,   -1, .6)
   }
   
   const handleKeyDown = (e) => {
@@ -123,31 +143,38 @@ export default function ArtistSearch({
       }
 
       let c = listEl?.children.length
-      // One modification for each scroll object
+      // One modification for the down key
       UPDOWNKEYNAMES.ArrowDown.limit = c-1
-      UPDOWNKEYNAMES.ArrowUp.basis = window.visualViewport.height
 
       // don't exceed our bounds
       let hli = navKey.constrain(hlIndex + navKey.step, navKey.limit)
       // is scrolling even possible?
       if (hli != hlIndex && hli != -1) {
         let newHl = listEl.children[hli]
-        if (navKey.shouldScroll(newHl))
+        if (navKey.shouldScroll(newHl)) {
+          navKeyTs.current = Date.now()
           listEl.scrollBy(navKey.scrollOptions(newHl))
+        }
       }
       setHlIndex(hli)
       syncFocus(hli)
       e.preventDefault()
     } else if (e.key == "Enter") {
         const rid = listEl?.children[hlIndex]?.attributes['rid'].value
-        if (rid) handleArtistSearchClick(rid)
+        if (rid) handleClick(rid)()
     }
   }
 
+  useEffect(() => {
+    document.getElementById('searchIncResultList')?.scrollBy({top: scrollTop, left: 0})
+  },[scrollTop])
+
   const inputRef = useRef()
 
+  var navKeyTs = useRef(0);
+
   return (
-    <div className={`${styles.searchContainer} is-size-3 is-size-1-desktop`}>
+    <div className={styles.searchContainer}>
       <FontAwesomeIcon
         className={styles.icon}
         height="1em"
@@ -159,7 +186,7 @@ export default function ArtistSearch({
         {data.matches && data.matches.length ?
           <div className={styles.searchIncResultList} id="searchIncResultList">
             {data.matches.map((_,i) =>
-            <div className={`${styles.searchIncResult} onKeyDown={handleKeyDown} panel-block ${hlIndex==i?styles.searchIncResultHl:''}`} index={i} rid={_.id} key={_.id}
+            <div className={`${styles.searchIncResult} ${hlIndex==i && styles.searchIncResultHl}`} index={i} rid={_.id} key={_.id}
               onClick={handleClick(_.id)} onKeyDown={handleKeyDown} onMouseEnter={handleMouseEnter} onFocus={handleMouseEnter} tabIndex="0">
               {_.name}
             </div>

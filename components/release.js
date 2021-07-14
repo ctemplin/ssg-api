@@ -95,7 +95,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
   const trackEls = useRef([])
 
   return (
-  <div ref={head}>
+  <div ref={head} className={styles.block}>
     <div>
       <div className={styles.blockType}>Recording</div>
       {isLoading ?
@@ -106,9 +106,9 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
       />
       :
       <>
-      <div className={`${styles.blockHeader} ${!imgUrlSmall ? 'level' : styles.blockHeaderArt}`}>
+      <div className={`${styles.blockHeader} ${imgUrlSmall && styles.blockHeaderArt}`}>
         <div>
-          <div className={`is-size-4 ${styles.blockHeaderTitle}`}>{theData.title} <span className={styles.releaseCountry}>{theData.country ? `(${theData.country})` : ``}</span></div>
+          <div className={styles.blockHeaderTitle}>{theData.title} <span className={styles.releaseCountry}>{theData.country ? `(${theData.country})` : ``}</span></div>
           {imgUrlSmall ?
           renderDate()
           : <></>
@@ -119,7 +119,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
           <a onClick={handleCoverArtSmallClick} className={`${isImgLoading ? styles.smallCoverArtHidden : ''}`}>
             <Image src={imgUrlSmall} onLoad={handleOnLoad} width={60} height={60}
               layout="fixed" alt="Album Art Thumbnail"
-              className={`${styles.resultHeaderImage}`}/>
+              className={styles.resultHeaderImage}/>
           </a>
           {isImgLoading ?
           <div className={styles.smallCoverArtLoading}>
@@ -151,9 +151,9 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
     </div>
     {(!isLoading) && theData.tracks ?
     <>
-      <div className={`is-size-7`}>Tracks: {theData.tracks.length} found</div>
-      <div className={styles.rgpop} ref={scrollableRef}>
-        {theData.tracks.map((_,i) =>
+      <div className={styles.count}>Tracks: {theData.tracks.length} found</div>
+      <div className={styles.resultsList} ref={scrollableRef}>
+        {theData.tracks.map((_,i) => 
           <div onClick={handleClick(_.rid,i)} ref={(el) => trackEls.current[i] = el} key={_.id} className={styles.resultItem}>
             <span className={styles.trackPosition}>{`${_.position}. `}</span>
             <span className={styles.trackTitle}>{_.title}</span>
