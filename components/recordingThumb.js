@@ -7,10 +7,10 @@ export default function RecordingThumb({videoId, title, imgSrc, imgWidth, imgHei
   
   return (
     <div className={styles.resultItem} key={videoId}>
-      <a href={`https://www.youtube.com/watch?v=${videoId}`} alt={title} target="_blank" rel="noreferrer">
+      <a href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank" rel="noreferrer">
       {imgSrc &&
         <>
-        <Image src={imgSrc} width={imgWidth} height={imgHeight} />
+        <Image src={imgSrc} width={imgWidth} height={imgHeight} alt={title} />
         <span className={styles.videoIcon} >
         <FontAwesomeIcon
            className={styles.videoIconLayer} 
