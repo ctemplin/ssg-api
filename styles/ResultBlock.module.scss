@@ -2,6 +2,10 @@
 
 .block {
   background-color: white;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  
 }
 
 .blockType {
@@ -80,7 +84,7 @@
   width: 60% !important;
   height: 60%;
   margin: 20%;
-  color: $grey-lighter; 
+  color: $grey-lighter;
 }
 
 .resultItem {
@@ -110,9 +114,6 @@
 }
 
 .resultsList {
-  @media screen and (min-width: $desktop) {
-    max-height: 34vh;
-  }
   overflow-y: overlay;
   border-top: solid thin lightblue;
 }
@@ -161,7 +162,7 @@ span.trackLength {
 }
 
 .largeCoverArtLoading {
-  display: inline-block; 
+  display: inline-block;
   color: white;
   overflow: hidden;
   position: relative;

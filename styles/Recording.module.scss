@@ -1,0 +1,15 @@
+@import 'initial-variables.sass';
+
+.resultItemList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    overflow-x: overlay;
+}
+
+.collapse {
+    @media screen and (min-width: $tablet) {
+        display: none;
+    }
+}

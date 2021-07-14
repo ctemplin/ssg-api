@@ -1,6 +1,6 @@
 [dev]
-  functions = "netlify-functions"
-  functionsPort = 7000
+  functions = "netlify/functions/"
+  functionsPort = 9000
 [build]
   command = "npm run build"
   functions = "out_functions"

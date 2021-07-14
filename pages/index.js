@@ -79,7 +79,7 @@ export default function Home() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${curTrackId && styles.halved}`}>
       <Head>
         <title>MusicBrainz Explorer</title>
         <meta name="description" content="Explorer for Artists, Albums and Songs from MusicBrainz" />
@@ -152,9 +152,8 @@ export default function Home() {
         <Recording id={curTrackId} releaseId={curReleaseId}></Recording>
         }
 
-        {coverArtId ?
+        {coverArtId &&
         <CoverArt id={coverArtId} handleCoverArtSmall={handleCoverArtSmall} handleCloseClick={hideLargeImg} showLargeImg={showLargeImg}></CoverArt>
-        : <></>
         }
         </>
         }
