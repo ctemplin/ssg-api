@@ -28,7 +28,7 @@ export default function Recording({id, releaseId}) {
       const params = new URLSearchParams()
       params.append('q', `${data.title} ${data["artist-credit"][0].name}`)
       const resp = await fetch(
-        '/.netlify/functions/youtubeVideoSearch?' + params.toString()
+        '/.netlify/functions/youtube-video-search?' + params.toString()
       )
       const json = await resp.json()
       setYtData(json)
