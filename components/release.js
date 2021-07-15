@@ -9,9 +9,9 @@ import formatDate from '../lib/dates'
 export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArtSmallClick, handleTrackClick}) {
 
   const [isLoading, setIsLoading] = useState(true)
-  const [isImgLoading, setIsImgLoading] = useState(false)
   const [theData, setTheData] = useState({})
   const [hlRef, setHlRef] = useState()
+  const [showCoverArt, setShowCoverArt] = useState(false)
 
   const formatLength = (ms) => {
     var mins = Math.floor(ms/60000)
@@ -56,17 +56,26 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
       )
       setIsLoading(false)
     }
-    setTimeout(getData, 300)
+    getData()
     const listDiv = scrollableRef.current
     if (listDiv) listDiv.scrollTop = 0
   },[id])
 
   useEffect(() => {
+    setShowCoverArt(false)
     if(theData.hasCoverArt) {
-      setIsImgLoading(true)
-      handleCoverArt(theData.id)
+      handleCoverArt(id)
+    } else {
+      handleCoverArt(null)
     }
-  },[theData, handleCoverArt])
+  },[theData])
+
+  useEffect(() => {
+    if (imgUrlSmall) {
+      setShowCoverArt(true)
+    }
+  }, [imgUrlSmall])
+
 
   const scrollableRef = useRef()
 
@@ -110,10 +119,10 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
           : <></>
           }
         </div>
-        {theData.hasCoverArt && imgUrlSmall ?
+        {theData.hasCoverArt ?
         <>
           <a onClick={handleCoverArtSmallClick}>
-            <Image src={imgUrlSmall} width={60} height={60}
+            <Image src={showCoverArt ? imgUrlSmall : '/cover-art-placeholder.svg'} width={60} height={60}
               layout="fixed" alt="Album Art Thumbnail"
               className={styles.resultHeaderImage}/>
           </a>
