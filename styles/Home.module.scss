@@ -4,13 +4,17 @@
   min-height: calc(100vh - .75em);
   padding: 0 .2rem;
   display: grid;
-  grid-template-rows: 0fr auto auto;
+  grid-template-rows: 2em auto auto;
   background-color: $grey-lighter;
   @media screen and (min-width: $tablet) {
-    padding: 0 1.0rem;
-    
+    padding: 0 1.0rem;    
   }
 }
+
+.container.searching {
+  grid-template-rows: 0 auto auto;
+}
+
 .container.halved {
   grid-template-rows: 2em 50% auto;
 }

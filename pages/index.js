@@ -78,7 +78,7 @@ export default function Home() {
   }
 
   return (
-    <div className={`${styles.container} ${curTrackId && styles.halved}`}>
+    <div className={`${styles.container} ${isSearching && styles.searching} ${curTrackId && styles.halved}`}>
       <Head>
         <title>MusicBrainz Explorer</title>
         <meta name="description" content="Explorer for Artists, Albums and Songs from MusicBrainz" />
