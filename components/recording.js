@@ -7,6 +7,7 @@ export default function Recording({id, releaseId}) {
   const [data, setData] = useState()
   const [ytData, setYtData] = useState()
   const [isLoading, setIsLoading] = useState(true)
+  const [errored, setErrored] = useState(false)
 
   useEffect(() => {
     if (!id) return 
@@ -24,24 +25,33 @@ export default function Recording({id, releaseId}) {
   },[id])
 
   useEffect(() => {
-    const callTest = async () => {
+    const youTubeSearch = async () => {
       const params = new URLSearchParams()
       params.append('q', `${data.title} ${data["artist-credit"][0].name}`)
       const resp = await fetch(
         '/.netlify/functions/youtube-video-search?' + params.toString()
       )
-      const json = await resp.json()
-      setYtData(json)
-      setIsLoading(false)
+      if (resp.status >= 200 && resp.status <= 299) {
+        const json = await resp.json()
+        setYtData(json)
+        setIsLoading(false)
+        setErrored(false)
+      } else {
+        setErrored(true)
+        setIsLoading(false)
+      }
     }
-    data?.title && callTest()
+    data?.title && youTubeSearch()
   },[data])
 
   return (
     <div>
     <div className={styles.collapse}>down</div>
-    {isLoading ?
-      <p>loading</p>
+    {isLoading || errored ?
+      <>
+      {isLoading && <p>loading</p>}
+      {errored && <p>An error occurred. Please try again later.</p>}
+      </>
       :
       <div>
         {data.title}
