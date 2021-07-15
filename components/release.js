@@ -111,10 +111,10 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
       />
       :
       <>
-      <div className={`${styles.blockHeader} ${imgUrlSmall && styles.blockHeaderArt}`}>
+      <div className={`${styles.blockHeader} ${data.hasCoverArt && styles.blockHeaderArt}`}>
         <div>
           <div className={styles.blockHeaderTitle}>{data.title} <span className={styles.releaseCountry}>{data.country ? `(${data.country})` : ``}</span></div>
-          {imgUrlSmall ?
+          {data.hasCoverArt ?
           renderDate()
           : <></>
           }
@@ -135,7 +135,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
           />
         }
       </div>
-      {!imgUrlSmall ?
+      {!data.hasCoverArt ?
       renderDate()
       : <></>
       }

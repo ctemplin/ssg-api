@@ -36,7 +36,8 @@
 .blockHeader.blockHeaderArt {
   display: flex;
   justify-content: space-between;
-  padding-right: 0;
+  margin-right: -0.25rem;
+  // padding-right: 0;
 }
 
 .resultHeaderIcon {
