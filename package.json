@@ -1,13 +1,11 @@
 {
   "name": "jazzmap",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && netlify-lambda build netlify/functions",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "postinstall": "netlify-lambda install"
+    "lint": "next lint"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
