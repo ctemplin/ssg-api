@@ -76,10 +76,6 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
     )
   }
 
-  const handleOnLoad = function() {
-    setTimeout(() => setIsImgLoading(false), 500)
-  }
-
   useEffect(() => {
     head.current?.scrollIntoView({behavior: "smooth"})
   },[theData.id])
@@ -116,22 +112,11 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
         </div>
         {theData.hasCoverArt && imgUrlSmall ?
         <>
-          <a onClick={handleCoverArtSmallClick} className={`${isImgLoading ? styles.smallCoverArtHidden : ''}`}>
-            <Image src={imgUrlSmall} onLoad={handleOnLoad} width={60} height={60}
+          <a onClick={handleCoverArtSmallClick}>
+            <Image src={imgUrlSmall} width={60} height={60}
               layout="fixed" alt="Album Art Thumbnail"
               className={styles.resultHeaderImage}/>
           </a>
-          {isImgLoading ?
-          <div className={styles.smallCoverArtLoading}>
-            <FontAwesomeIcon
-              className={styles.resultBlockLoadingIcon}
-              icon={faSpinner}
-              pulse
-            />
-          </div>
-          :
-          <></>
-          }
         </>
         :
         <FontAwesomeIcon
