@@ -26,7 +26,6 @@ export default function Home() {
   const [imgUrlSmall, setImgUrlSmall] = useState()
   const [showLargeImg, setShowLargeImg] = useState(false)
   const [curTrackId, setCurTrackId] = useState(null)
-  const [cookies, setCookie] = useCookies()
 
   const handleSearchClick = () => {
     setCurArtistId(null)
