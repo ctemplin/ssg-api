@@ -9,7 +9,7 @@ import formatDate from '../lib/dates'
 export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArtSmallClick, handleTrackClick}) {
 
   const [isLoading, setIsLoading] = useState(true)
-  const [theData, setTheData] = useState({})
+  const [data, setData] = useState({})
   const [hlRef, setHlRef] = useState()
   const [showCoverArt, setShowCoverArt] = useState(false)
 
@@ -35,7 +35,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
       )
       const json = await resp.json()
       const date = formatDate(json.date)
-      setTheData(
+      setData(
         {
           id: id,
           title: json.title,
@@ -63,12 +63,12 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
 
   useEffect(() => {
     setShowCoverArt(false)
-    if(theData.hasCoverArt) {
+    if(data.hasCoverArt) {
       handleCoverArt(id)
     } else {
       handleCoverArt(null)
     }
-  },[theData])
+  },[data])
 
   useEffect(() => {
     if (imgUrlSmall) {
@@ -81,13 +81,13 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
 
   const renderDate = function() {
     return (
-      <div className={`is-size-6 ${styles.blockHeaderDate}`}>{theData.date ?? <>&nbsp;</>}</div>
+      <div className={`is-size-6 ${styles.blockHeaderDate}`}>{data.date ?? <>&nbsp;</>}</div>
     )
   }
 
   useEffect(() => {
     head.current?.scrollIntoView({behavior: "smooth"})
-  },[theData.id])
+  },[data.id])
 
   const handleClick = (id, i) => {
     return () => {
@@ -113,13 +113,13 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
       <>
       <div className={`${styles.blockHeader} ${imgUrlSmall && styles.blockHeaderArt}`}>
         <div>
-          <div className={styles.blockHeaderTitle}>{theData.title} <span className={styles.releaseCountry}>{theData.country ? `(${theData.country})` : ``}</span></div>
+          <div className={styles.blockHeaderTitle}>{data.title} <span className={styles.releaseCountry}>{data.country ? `(${data.country})` : ``}</span></div>
           {imgUrlSmall ?
           renderDate()
           : <></>
           }
         </div>
-        {theData.hasCoverArt ?
+        {data.hasCoverArt ?
         <>
           <a onClick={handleCoverArtSmallClick}>
             <Image src={showCoverArt ? imgUrlSmall : '/cover-art-placeholder.svg'} width={60} height={60}
@@ -143,11 +143,11 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
       </>
       }
     </div>
-    {(!isLoading) && theData.tracks ?
+    {(!isLoading) && data.tracks ?
     <>
-      <div className={styles.count}>Tracks: {theData.tracks.length} found</div>
+      <div className={styles.count}>Tracks: {data.tracks.length} found</div>
       <div className={styles.resultsList} ref={scrollableRef}>
-        {theData.tracks.map((_,i) => 
+        {data.tracks.map((_,i) => 
           <div onClick={handleClick(_.rid,i)} ref={(el) => trackEls.current[i] = el} key={_.id} className={styles.resultItem}>
             <span className={styles.trackPosition}>{`${_.position}. `}</span>
             <span className={styles.trackTitle}>{_.title}</span>

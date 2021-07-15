@@ -10,7 +10,7 @@ import formatDate from '../lib/dates'
 
 export default function ReleaseGroup({id, handleReleaseClick}) {
 
-  const [theData, setTheData] = useState({})
+  const [data, setData] = useState({})
   const [hlRef, setHlRef] = useState()
   const [cookies, setCookie] = useCookies()
   const defaultCountries = useMemo(() => cookies.countries || ["US", "??"], [id])
@@ -36,7 +36,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
         const json = await resp.json()
         const firstReleaseDate = formatDate(json['first-release-date'])
         const _countries = new Set()
-        setTheData(
+        setData(
           {
             id: json.id,
             title: json.title,
@@ -72,7 +72,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
     if (releaseEls?.current.length == 1) {
       releaseEls.current[0].click()
     }
-  },[theData.releases])
+  },[data.releases])
 
   const handleClick = (id, i) => {
     return () => {
@@ -88,10 +88,10 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
 
   useEffect(() => {
     head.current?.scrollIntoView({behavior: "smooth"})
-  },[theData.id])
+  },[data.id])
 
   const handleFilterClick = (e) => {
-    if (theData.releases.length > 1) {
+    if (data.releases.length > 1) {
       setShowFilterConfig(true)
     }
   }
@@ -139,22 +139,22 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
   const releaseEls = useRef([])
   const head = useRef()
 
-  const filteredReleases = theData.releases?.filter(countryFilter) 
+  const filteredReleases = data.releases?.filter(countryFilter) 
   return (
     <div ref={head} className={styles.block}>
       <div>
         <div className={styles.blockType}>Release</div>
         <div className={styles.blockHeader}>
-          <span className={styles.blockHeaderTitle}>{theData.title}</span>
+          <span className={styles.blockHeaderTitle}>{data.title}</span>
           <FontAwesomeIcon
           className={styles.resultHeaderIcon}
           height="1.3em"
           icon={faCompactDisc}
           />
         </div>
-        <div className={styles.blockHeaderDate}>{theData.firstReleaseDate ?? <>&nbsp;</>}</div>
+        <div className={styles.blockHeaderDate}>{data.firstReleaseDate ?? <>&nbsp;</>}</div>
       </div>
-      {theData.releases ?
+      {data.releases ?
       <>
         <div className={styles.countFilter}>
           <FontAwesomeIcon
@@ -163,7 +163,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
           icon={faFilter}
           onClick={handleFilterClick}
           />
-          <span>Versions: {theData.releases.length - filteredReleases.length} filtered out</span>
+          <span>Versions: {data.releases.length - filteredReleases.length} filtered out</span>
         </div>
         <div className={styles.resultsList} ref={releasesScrollable}>
           {filteredReleases.map((_,i) =>

@@ -23,27 +23,27 @@ export default function ArtistSearch({
       const resp = await fetch(
         url,
         {
-            headers: {"Accept": "application/json"},
+          headers: {"Accept": "application/json"},
         }
       )
       const json = await resp.json()
       setData(
         {
           matches:
-            json.artists.map(artist => {
-              return {
-                name: artist.name,
-                id: artist.id,
-              }
-            })
+          json.artists.map(artist => {
+            return {
+              name: artist.name,
+              id: artist.id,
+            }
+          })
         }
       )
     }
-  if (searchTerms.length && data.matches == null) {
-    getData()
-    setHlIndex(0)
-  }
-},[searchTerms, data.matches, setData, setHlIndex])
+    if (searchTerms.length && data.matches == null) {
+      getData()
+      setHlIndex(0)
+    }
+  },[searchTerms, data.matches, setData, setHlIndex])
 
   useEffect(() => {
     inputRef.current.focus();
@@ -83,8 +83,9 @@ export default function ArtistSearch({
 
   const syncFocus = (hli) => {
     const listEl = document.getElementById("searchIncResultList");
-    if(document.activeElement?.parentElement == listEl)
+    if(document.activeElement?.parentElement == listEl) {
       listEl.children[hli]?.focus()
+    }
   }
 
   const handleMouseEnter = (e) => {
@@ -161,7 +162,9 @@ export default function ArtistSearch({
       e.preventDefault()
     } else if (e.key == "Enter") {
         const rid = listEl?.children[hlIndex]?.attributes['rid'].value
-        if (rid) handleClick(rid)()
+        if (rid) {
+          handleClick(rid)()
+        }
     }
   }
 
@@ -185,21 +188,19 @@ export default function ArtistSearch({
         <input type="text" onKeyDown={handleKeyDown} onChange={handleChange} ref={inputRef} className={styles.input} defaultValue={searchTerms} placeholder="Artist search..."/>
         {data.matches && data.matches.length ?
           <div className={styles.searchIncResultList} id="searchIncResultList">
-            {data.matches.map((_,i) =>
-            <div className={`${styles.searchIncResult} ${hlIndex==i && styles.searchIncResultHl}`} index={i} rid={_.id} key={_.id}
-              onClick={handleClick(_.id)} onKeyDown={handleKeyDown} onMouseEnter={handleMouseEnter} onFocus={handleMouseEnter} tabIndex="0">
-              {_.name}
-            </div>
-            )}
+          {data.matches.map((_,i) =>
+          <div className={`${styles.searchIncResult} ${hlIndex==i && styles.searchIncResultHl}`} index={i} rid={_.id} key={_.id}
+            onClick={handleClick(_.id)} onKeyDown={handleKeyDown} onMouseEnter={handleMouseEnter} onFocus={handleMouseEnter} tabIndex="0">
+            {_.name}
+          </div>
+          )}
           </div>
         :
           <></>
         }
         {data.matches && data.matches.length == 0 ?
           <div className={styles.searchIncResultList} id="searchIncResultList">
-            <div className={`${styles.searchIncResult} ${styles.searchIncResultWarn} panel-block`}>
-              No results found
-            </div>
+            <div className={`${styles.searchIncResult} ${styles.searchIncResultWarn} panel-block`}>No results found</div>
           </div>
         :
           <></>
