@@ -9,6 +9,7 @@ exports.handler = async function(event, context) {
   url.searchParams.append('part', 'snippet')
   url.searchParams.append('type', 'video')
   url.searchParams.append('videoEmbedabble', 'true')
+  url.searchParams.append('maxResults', '6')
   url.searchParams.append('q', event.queryStringParameters.q)
   // log to netlify functions dashboard
   console.log(url.toString())

@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import RecordingThumb from './recordingThumb'
 import styles from '../styles/Recording.module.scss'
 
-export default function Recording({id, releaseId}) {
+export default function Recording({id, releaseId, handleMaxClick, maxText}) {
 
   const [data, setData] = useState()
   const [ytData, setYtData] = useState()
@@ -45,15 +45,15 @@ export default function Recording({id, releaseId}) {
   },[data])
 
   return (
-    <div>
-    <div className={styles.collapse}>down</div>
+    <div className={styles.pseudoColumns}>
+    <div className={styles.collapse} onClick={handleMaxClick}>{maxText}</div>
     {isLoading || errored ?
       <>
       {isLoading && <p>loading</p>}
       {errored && <p>An error occurred. Please try again later.</p>}
       </>
       :
-      <div>
+      <div className={styles.container}>
         {data.title}
         {data["artist-credit"].map(_ => 
           <>

@@ -1,15 +1,40 @@
 @import 'initial-variables.sass';
 
+.container {
+    border: solid 2px $info;
+    border-bottom: none;
+    border-radius: 2rem 2rem 0 0;
+    @media screen and (min-width: $tablet) {
+        border: none;
+        border-radius: 0;
+        border-top: solid 2px $info;
+    }
+}
+
 .resultItemList {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display:inline-grid;
+    grid-template-columns: 50% 50%;
     width: 100%;
     overflow-x: overlay;
+    @media screen and (min-width: $tablet) {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        display:inline-flex;
+    }
 }
 
 .collapse {
     @media screen and (min-width: $tablet) {
         display: none;
+    }
+}
+
+.pseudoColumns {
+    width: 100%;
+    text-align: center;
+    @media screen and (min-width: $desktop) {
+        padding-left: 5vw;
+        padding-right: 5vw;
     }
 }

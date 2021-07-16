@@ -19,6 +19,9 @@
   grid-template-rows: 2em 50% auto;
 }
 
+.container.maxed {
+  grid-template-rows: 2em 2em auto;
+}
 .main {
   padding: 5rem 0;
   /* flex: 1; */

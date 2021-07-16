@@ -26,6 +26,9 @@ export default function Home() {
   const [imgUrlSmall, setImgUrlSmall] = useState()
   const [showLargeImg, setShowLargeImg] = useState(false)
   const [curTrackId, setCurTrackId] = useState(null)
+  const [trackMaxed, setTrackMaxed] = useState(false)
+  const maxTexts = ['expand', 'collapse']
+  const [maxText, setMaxText] = useState(maxTexts[0])
 
   const handleSearchClick = () => {
     setCurArtistId(null)
@@ -36,6 +39,7 @@ export default function Home() {
     setShowLargeImg(false)
     setCurTrackId(null)
     setIsSearching(true)
+    setTrackMaxed(false)
   }
 
   const handleArtistSearchClick = (id) => {
@@ -77,8 +81,13 @@ export default function Home() {
     setCurTrackId(tid)
   }
 
+  const handleMaxClick = () => {
+    setMaxText(trackMaxed ? maxTexts[0] : maxTexts[1])
+    setTrackMaxed(!trackMaxed)
+  }
+
   return (
-    <div className={`${styles.container} ${isSearching && styles.searching} ${curTrackId && styles.halved}`}>
+    <div className={`${styles.container} ${isSearching && styles.searching} ${curTrackId && styles.halved} ${trackMaxed && styles.maxed}`}>
       <Head>
         <title>MusicBrainz Explorer</title>
         <meta name="description" content="Explorer for Artists, Albums and Songs from MusicBrainz" />
@@ -148,7 +157,7 @@ export default function Home() {
           </div>
         </div>
         {curTrackId &&
-        <Recording id={curTrackId} releaseId={curReleaseId}></Recording>
+        <Recording id={curTrackId} releaseId={curReleaseId} handleMaxClick={handleMaxClick} maxText={maxText}></Recording>
         }
 
         {coverArtId &&

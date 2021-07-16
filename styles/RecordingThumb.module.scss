@@ -1,7 +1,12 @@
+@import 'initial-variables.sass';
+
 .resultItem {
     display: block;
-    flex: 1;
-    width: 20vw;
+    @media screen and (min-width: $tablet) {
+        display: block;
+        flex: 1;
+        width: 20vw;
+    }
 }
 
 .videoIcon {
