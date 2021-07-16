@@ -27,8 +27,6 @@ export default function Home() {
   const [showLargeImg, setShowLargeImg] = useState(false)
   const [curTrackId, setCurTrackId] = useState(null)
   const [trackMaxed, setTrackMaxed] = useState(false)
-  const maxTexts = ['expand', 'collapse']
-  const [maxText, setMaxText] = useState(maxTexts[0])
 
   const handleSearchClick = () => {
     setCurArtistId(null)
@@ -82,7 +80,6 @@ export default function Home() {
   }
 
   const handleMaxClick = () => {
-    setMaxText(trackMaxed ? maxTexts[0] : maxTexts[1])
     setTrackMaxed(!trackMaxed)
   }
 
@@ -165,7 +162,7 @@ export default function Home() {
           </div>
         </div>
         {curTrackId &&
-        <Recording id={curTrackId} releaseId={curReleaseId} handleMaxClick={handleMaxClick} maxText={maxText}></Recording>
+        <Recording id={curTrackId} releaseId={curReleaseId} handleMaxClick={handleMaxClick} isMaxed={trackMaxed}></Recording>
         }
 
         {coverArtId &&

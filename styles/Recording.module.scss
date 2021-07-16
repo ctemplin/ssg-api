@@ -24,6 +24,12 @@
     }
 }
 
+.maxIcon {
+    width: 1em;
+    height: 1em;
+    cursor: pointer;
+}
+
 .collapse {
     @media screen and (min-width: $tablet) {
         display: none;

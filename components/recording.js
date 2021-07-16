@@ -1,8 +1,10 @@
 import {useState, useEffect} from 'react'
 import RecordingThumb from './recordingThumb'
 import styles from '../styles/Recording.module.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
-export default function Recording({id, releaseId, handleMaxClick, maxText}) {
+export default function Recording({id, releaseId, handleMaxClick, isMaxed}) {
 
   const [data, setData] = useState()
   const [ytData, setYtData] = useState()
@@ -46,7 +48,12 @@ export default function Recording({id, releaseId, handleMaxClick, maxText}) {
 
   return (
     <div className={styles.pseudoColumns}>
-    <div className={styles.collapse} onClick={handleMaxClick}>{maxText}</div>
+    <div className={styles.collapse} onClick={handleMaxClick}>
+      <FontAwesomeIcon 
+        icon={isMaxed ? faChevronDown : faChevronUp}
+        className={styles.maxIcon}
+      />
+    </div>
     {isLoading || errored ?
       <>
       {isLoading && <p>loading</p>}
