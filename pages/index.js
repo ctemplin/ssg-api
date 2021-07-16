@@ -86,8 +86,16 @@ export default function Home() {
     setTrackMaxed(!trackMaxed)
   }
 
+  const containerClassNames = () => {
+    let c = [styles.container]
+    isSearching && c.push(styles.searching)
+    curTrackId && c.push(styles.halved)
+    trackMaxed && c.push(styles.maxed)
+    return c.join(' ')
+  }
+
   return (
-    <div className={`${styles.container} ${isSearching && styles.searching} ${curTrackId && styles.halved} ${trackMaxed && styles.maxed}`}>
+    <div className={containerClassNames()}>
       <Head>
         <title>MusicBrainz Explorer</title>
         <meta name="description" content="Explorer for Artists, Albums and Songs from MusicBrainz" />
