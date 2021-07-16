@@ -1,14 +1,17 @@
 import React,{useState, useEffect} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophoneAlt } from '@fortawesome/free-solid-svg-icons';
+import { faMicrophoneAlt, faSort } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/ResultBlock.module.scss'
 import formatDate, {extractYear} from '../lib/dates'
 
 export default function Artist({id, handleReleaseClick, handleParentSearchClick}) {
 
   const [showAlbums, setShowAlbums] = useState(false)
-  const [hlIndex, setHlIndex] = useState(-1)
+  const [hlId, setHlId] = useState(null)
   const [data, setData] = useState({})
+  const sortColumns = [['default', 'Default'], ['title', 'Title'], ['firstReleaseDate', 'Date']]
+  const [sortCfg, setSortCfg] = useState({column: 'default', dir: 'asc'})
+  const [showSortMenu, setShowSortMenu] = useState(false)
 
   useEffect(() => {
     async function getData(){
@@ -50,10 +53,37 @@ export default function Artist({id, handleReleaseClick, handleParentSearchClick}
 
   function handleClick(id, i = {}) {
     return () => {
-      setHlIndex(i)
+      setHlId(id)
       handleReleaseClick(id)
     };
   }
+
+  const sortRgs = (a,b) => {
+    let ret = 0
+    switch (sortCfg.column) {
+      case 'default':
+        ret = 0
+        break
+      case 'firstReleaseDate':
+        ret = extractYear(a.firstReleaseDate) - extractYear(b.firstReleaseDate)
+        break
+      case 'title':
+        if (a.title == b.title) {
+          ret = 0
+          break
+        }
+        ret = a.title > b.title ? 1 : -1
+        break
+    }
+    return ret
+  }
+
+  const handleSortChoice = (column) => {
+    return () => {
+      setSortCfg({column: column, dir:'asc'})
+      setShowSortMenu(false)
+    }
+  } 
 
   const lsBeginFmt = data.lsBegin ? formatDate(data.lsBegin) : '';
   const lsEndFmt = data.lsEnd ? formatDate(data.lsEnd) : 'present';
@@ -74,13 +104,31 @@ export default function Artist({id, handleReleaseClick, handleParentSearchClick}
       </div>
       {data.releaseGroups ?
       <>
-        <div className={styles.count}>Releases: {data.releaseGroups.length} found</div>
+        <div className={styles.count}>
+          Releases: {data.releaseGroups.length} found
+          <div className={styles.sortContainer}>
+            <FontAwesomeIcon
+            className={styles.resultUtilIcon}
+            height="1.3em"
+            icon={faSort}
+            onClick={() => setShowSortMenu(!showSortMenu)}
+            /><div className={`${showSortMenu ? styles.sortMenu : styles.sortMenuHidden}`}>
+              <div>
+              {sortColumns.map(_ => 
+                <div key={_[0]} 
+                  className={`${styles.sortChoice} ${_[0]==sortCfg.column && styles.sortChoiceActive}`}
+                  onClick={handleSortChoice(_[0])}>{_[1]}</div>  
+              )}
+              </div>
+            </div>
+          </div>
+        </div>
         <div className={styles.resultsList}>
-        {data.releaseGroups.map((_,i) => {
+        {Array.from(data.releaseGroups).sort(sortRgs).map((_,i) => {
           // set empty date strings to undefined
           return(
-            <div onClick={handleClick(_.id, i)} index={i} key={_.id}
-            className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlIndex==i?styles.resultItemHl:''}`}>
+            <div onClick={handleClick(_.id, i)} key={_.id}
+            className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlId==_.id?styles.resultItemHl:''}`}>
               <span className={styles.releaseTitle}>{_.title}</span>
               <span className={styles.releaseDate}>{extractYear(_.firstReleaseDate) ?? ``}</span>
             </div>

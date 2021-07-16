@@ -158,7 +158,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
       <>
         <div className={styles.countFilter}>
           <FontAwesomeIcon
-          className={`${filteredReleases.length > 1 ? styles.resultFilterIcon : styles.resultFilterIconDisabled}`}
+          className={`${filteredReleases.length > 1 ? styles.resultUtilIcon : styles.resultUtilIconDisabled}`}
           height="1.3em"
           icon={faFilter}
           onClick={handleFilterClick}
