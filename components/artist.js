@@ -4,7 +4,7 @@ import { faMicrophoneAlt, faSort } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/ResultBlock.module.scss'
 import formatDate, {extractYear} from '../lib/dates'
 
-export default function Artist({id, handleReleaseClick, handleParentSearchClick}) {
+export default function Artist({id, handleReleaseClick}) {
 
   const [showAlbums, setShowAlbums] = useState(false)
   const [hlId, setHlId] = useState(null)
@@ -125,7 +125,6 @@ export default function Artist({id, handleReleaseClick, handleParentSearchClick}
         </div>
         <div className={styles.resultsList}>
         {Array.from(data.releaseGroups).sort(sortRgs).map((_,i) => {
-          // set empty date strings to undefined
           return(
             <div onClick={handleClick(_.id, i)} key={_.id}
             className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlId==_.id?styles.resultItemHl:''}`}>

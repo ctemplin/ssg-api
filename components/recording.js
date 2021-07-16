@@ -4,7 +4,7 @@ import styles from '../styles/Recording.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
-export default function Recording({id, releaseId, handleMaxClick, isMaxed}) {
+export default function Recording({id, handleMaxClick, isMaxed}) {
 
   const [data, setData] = useState()
   const [ytData, setYtData] = useState()

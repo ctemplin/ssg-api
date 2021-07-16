@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import styles from '../styles/FilterConfig.module.scss'
 
-export default function FilterConfig({countries, userCountries, anyCountryMatch, handleChange, persistChange, handleClose}) {
+export default function FilterConfig({countries, userCountries, handleChange, persistChange, handleClose}) {
 
   const [isChanged, setIsChanged] = useState(false)
 

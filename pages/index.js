@@ -1,5 +1,4 @@
-import React,{useState, useEffect, useCallback} from 'react'
-import {useCookies} from 'react-cookie'
+import React,{useState, useCallback} from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.scss'
@@ -162,7 +161,7 @@ export default function Home() {
           </div>
         </div>
         {curTrackId &&
-        <Recording id={curTrackId} releaseId={curReleaseId} handleMaxClick={handleMaxClick} isMaxed={trackMaxed}></Recording>
+        <Recording id={curTrackId} handleMaxClick={handleMaxClick} isMaxed={trackMaxed}></Recording>
         }
 
         {coverArtId &&

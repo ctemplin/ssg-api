@@ -5,7 +5,7 @@ import modalStyles from  '../styles/Modal.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faSadTear, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
-export default function CoverArt({id, width=200, height=200, showLargeImg, handleCoverArtSmall, handleCloseClick}) {
+export default function CoverArt({id, showLargeImg, handleCoverArtSmall, handleCloseClick}) {
 
   const [imgUrlSmall, setImgUrlSmall] = useState()
   const [imgUrlLarge, setImgUrlLarge] = useState()
