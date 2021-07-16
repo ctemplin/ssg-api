@@ -12,7 +12,7 @@
 }
 
 .container.searching {
-  grid-template-rows: 0 auto auto;
+  grid-template-rows: 0 auto 0;
 }
 
 .container.halved {
@@ -58,6 +58,10 @@ $column-gap: 0.75rem !default;
     flex-grow: 1;
     flex-shrink: 1;
   }
+}
+
+.column:last-child:not(:only-child) {
+  margin-bottom: 2rem;
 }
 
 .footer {
