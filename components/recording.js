@@ -61,10 +61,10 @@ export default function Recording({id, handleMaxClick, isMaxed}) {
       </>
       :
       <div className={styles.container}>
-        {data.title}
+        {data.title}{` -`}
         {data["artist-credit"].map(_ => 
           <>
-          {` -`}{_.joinphrase && <span>{` ${_.joinphase}`}</span>}<span>{` ${_.name}`}</span><br/>
+          <span>{` ${_.name}`}</span><span>{`${_.joinphrase}`}</span>
           </>
         )}
         <div className={styles.resultItemList}>
