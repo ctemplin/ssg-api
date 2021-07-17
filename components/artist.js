@@ -27,12 +27,6 @@ export default function Artist({id, handleReleaseClick}) {
         }
       )
       const json = await resp.json()
-      const formatTypes = (sec, prime) => {
-        let str = ''
-        if(sec) {str = sec + ' '}
-        str = str + prime
-        return str
-      }
       setData(
         {
           name: json.name,
@@ -43,7 +37,8 @@ export default function Artist({id, handleReleaseClick}) {
               return {
                 id: album.id,
                 title: album.title,
-                type: formatTypes(album['secondary-types']?.[0], album['primary-type']),
+                type1: album['primary-type'],
+                type2: album['secondary-types']?.[0],
                 firstReleaseDate: album['first-release-date']
               }
             })
@@ -90,8 +85,8 @@ export default function Artist({id, handleReleaseClick}) {
 
   const lsBeginFmt = data.lsBegin ? formatDate(data.lsBegin) : '';
   const lsEndFmt = data.lsEnd ? formatDate(data.lsEnd) : 'present';
-  const varyingFieldName = "type"
-  let prevItem = {[varyingFieldName]: ""}
+  const varyingFieldNames = ["type1", "type2"]
+  let prevItem = {[varyingFieldNames[0]]: "", [varyingFieldNames[1]]: ""}
 
   return (
     <div className={styles.block}>
@@ -132,7 +127,7 @@ export default function Artist({id, handleReleaseClick}) {
         {Array.from(data.releaseGroups).sort(sortRgs).map((_,i) => {
           const ret = (
             <>
-            {sortCfg.column == 'default' && <ResultSectionHeader curItem={_} prevItem={prevItem} fieldName={varyingFieldName} />}
+            {sortCfg.column == 'default' && <ResultSectionHeader curItem={_} prevItem={prevItem} fieldNames={varyingFieldNames} />}
             <div onClick={handleClick(_.id, i)} key={_.id}
             className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlId==_.id?styles.resultItemHl:''}`}>
               <span className={styles.releaseTitle}>{_.title}</span>
