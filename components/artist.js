@@ -2,14 +2,14 @@ import React,{useState, useEffect} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophoneAlt, faSort } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/ResultBlock.module.scss'
-import formatDate, {extractYear} from '../lib/dates'
+import formatDate, {extractYear, sortDateStrings} from '../lib/dates'
+import ResultSectionHeader from './resultSectionHeader'
 
 export default function Artist({id, handleReleaseClick}) {
 
-  const [showAlbums, setShowAlbums] = useState(false)
   const [hlId, setHlId] = useState(null)
   const [data, setData] = useState({})
-  const sortColumns = [['default', 'Default'], ['title', 'Title'], ['firstReleaseDate', 'Date']]
+  const sortColumns = [['default', 'Type/Date'], ['title', 'Title'], ['firstReleaseDate', 'Date']]
   const [sortCfg, setSortCfg] = useState({column: 'default', dir: 'asc'})
   const [showSortMenu, setShowSortMenu] = useState(false)
 
@@ -27,6 +27,12 @@ export default function Artist({id, handleReleaseClick}) {
         }
       )
       const json = await resp.json()
+      const formatTypes = (sec, prime) => {
+        let str = ''
+        if(sec) {str = sec + ' '}
+        str = str + prime
+        return str
+      }
       setData(
         {
           name: json.name,
@@ -37,6 +43,7 @@ export default function Artist({id, handleReleaseClick}) {
               return {
                 id: album.id,
                 title: album.title,
+                type: formatTypes(album['secondary-types']?.[0], album['primary-type']),
                 firstReleaseDate: album['first-release-date']
               }
             })
@@ -46,10 +53,6 @@ export default function Artist({id, handleReleaseClick}) {
     getData()
   }
   ,[id])
-
-  const albumClick = (e) => {
-    setShowAlbums(!showAlbums)
-  }
 
   function handleClick(id, i = {}) {
     return () => {
@@ -65,7 +68,7 @@ export default function Artist({id, handleReleaseClick}) {
         ret = 0
         break
       case 'firstReleaseDate':
-        ret = extractYear(a.firstReleaseDate) - extractYear(b.firstReleaseDate)
+        ret = sortDateStrings(a.firstReleaseDate, b.firstReleaseDate)
         break
       case 'title':
         if (a.title == b.title) {
@@ -87,6 +90,8 @@ export default function Artist({id, handleReleaseClick}) {
 
   const lsBeginFmt = data.lsBegin ? formatDate(data.lsBegin) : '';
   const lsEndFmt = data.lsEnd ? formatDate(data.lsEnd) : 'present';
+  const varyingFieldName = "type"
+  let prevItem = {[varyingFieldName]: ""}
 
   return (
     <div className={styles.block}>
@@ -125,13 +130,18 @@ export default function Artist({id, handleReleaseClick}) {
         </div>
         <div className={styles.resultsList}>
         {Array.from(data.releaseGroups).sort(sortRgs).map((_,i) => {
-          return(
+          const ret = (
+            <>
+            {sortCfg.column == 'default' && <ResultSectionHeader curItem={_} prevItem={prevItem} fieldName={varyingFieldName} />}
             <div onClick={handleClick(_.id, i)} key={_.id}
             className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlId==_.id?styles.resultItemHl:''}`}>
               <span className={styles.releaseTitle}>{_.title}</span>
               <span className={styles.releaseDate}>{extractYear(_.firstReleaseDate) ?? ``}</span>
             </div>
+            </>
           )
+          prevItem = _
+          return ret
         }
         )}
         </div>
