@@ -8,7 +8,7 @@ export default function ResultSectionHeader({curItem, prevItem, fieldNames}) {
         let prime = curItem[fieldNames[0]]
         let sec = curItem[fieldNames[1]]
         ret.push(
-            <div className={styles.header}>{[
+            <div className={styles.header} key={`${sec}-${prime}`}>{[
                 sec, 
                 pluralize(prime ?? '')
             ].join(' ').trim()}</div>
