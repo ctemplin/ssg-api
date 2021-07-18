@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react'
+import RecordingArtistList from './recordingArtistList'
 import RecordingThumb from './recordingThumb'
 import styles from '../styles/Recording.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -61,12 +62,8 @@ export default function Recording({id, handleMaxClick, isMaxed}) {
       </>
       :
       <div className={styles.container}>
-        {data.title}{` -`}
-        {data["artist-credit"].map(_ => 
-          <>
-          <span>{` ${_.name}`}</span><span>{`${_.joinphrase}`}</span>
-          </>
-        )}
+        {data.title}{` - `}
+        <RecordingArtistList data={data["artist-credit"]} />
         <div className={styles.resultItemList}>
         {ytData.items.map((_) => {
             return (

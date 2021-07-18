@@ -1,16 +1,18 @@
 import React, {useEffect, useRef} from 'react'
+import { useRouter } from 'next/router' 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/ArtistSearch.module.scss'
 
 export default function ArtistSearch({
-  handleArtistSearchClick, 
   defaultData, 
   data, setData, 
   searchTerms, setSearchTerms,
   scrollTop, setSearchScroll,
   hlIndex, setHlIndex
 }) {
+
+  const router = useRouter()
 
   useEffect(() => {
     const getData = async () => {
@@ -73,7 +75,7 @@ export default function ArtistSearch({
   const handleClick = (id) => {
     return () => {
       setSearchScroll(document.getElementById('searchIncResultList')?.scrollTop)
-      handleArtistSearchClick(id)
+      router.push(`/?aid=${id}`, undefined, {shallow: true})
     }
   }
 

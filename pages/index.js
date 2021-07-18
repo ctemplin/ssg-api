@@ -1,4 +1,5 @@
-import React,{useState, useCallback} from 'react'
+import React,{useState, useEffect, useCallback} from 'react'
+import {useRouter} from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.scss'
@@ -11,7 +12,7 @@ import Recording from '../components/recording'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons';
 
-export default function Home() {
+export default function Home({aid}) {
   const [isSearching, setIsSearching] = useState(true)
   const defaultSearchData = {matches: null}
   const [searchData, setSearchData] = useState(defaultSearchData)
@@ -27,7 +28,24 @@ export default function Home() {
   const [curTrackId, setCurTrackId] = useState(null)
   const [trackMaxed, setTrackMaxed] = useState(false)
 
+  const router = useRouter()
+
+  useEffect(() => {
+    if (router.query.aid && router.query.aid != curArtistId) {
+      setCurArtistId(router.query.aid)
+      setIsSearching(false)
+      setCurReleaseGroupId(null)
+      setCurReleaseId(null)
+      setCoverArtId(null)
+      setImgUrlSmall(null)
+      setShowLargeImg(false)
+      setCurTrackId(null)
+      setTrackMaxed(false)
+    }
+  },[router.query.aid])
+
   const handleSearchClick = () => {
+    router.push("/", undefined, {shallow: true})
     setCurArtistId(null)
     setCurReleaseGroupId(null)
     setCurReleaseId(null)
@@ -37,11 +55,6 @@ export default function Home() {
     setCurTrackId(null)
     setIsSearching(true)
     setTrackMaxed(false)
-  }
-
-  const handleArtistSearchClick = (id) => {
-    setCurArtistId(id)
-    setIsSearching(false)
   }
 
   const handleReleaseGroupSelect = (rgid) => {
@@ -128,7 +141,7 @@ export default function Home() {
           <>
           <div>{/* first grid row. reserved for header/menu */}</div>
           <div className={styles.artistSearchContainer}>
-            <ArtistSearch handleArtistSearchClick={handleArtistSearchClick} 
+            <ArtistSearch 
               defaultData={defaultSearchData}
               data={searchData} setData={setSearchData}
               searchTerms={searchTerms} setSearchTerms={setSearchTerms}
