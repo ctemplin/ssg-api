@@ -1,42 +1,46 @@
 import {useEffect, useState} from 'react'
 import RecordingThumb from './recordingThumb'
+import NetworkError from './networkError'
 import styles from '../styles/YoutubeVideos.module.scss'
 
-export default function YoutubeVideos({data}) {
+export default function YoutubeVideos({songTitle, artistName}) {
   
   const [ytData, setYtData] = useState()
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [errored, setErrored] = useState(false)
 
   useEffect(() => {
     const youTubeSearch = async () => {
       const params = new URLSearchParams()
-      params.append('q', `${data.title} ${data["artist-credit"][0].name}`)
+      params.append('q', `${songTitle} ${artistName}`)
       const resp = await fetch(
         '/.netlify/functions/youtube-video-search?' + params.toString()
         )
         if (resp.status >= 200 && resp.status <= 299) {
           const json = await resp.json()
           setYtData(json)
-          setIsLoading(false)
           setErrored(false)
+          setIsLoading(false)
         } else {
           setErrored(true)
           setIsLoading(false)
         }
       }
-      data?.title && youTubeSearch()
-    },[data])
+    if(songTitle) youTubeSearch()
+  },[songTitle])
     
     return (
       <>
-      <p>Top YouTube videos:</p>
-      {isLoading || errored ?
+      <p>YouTube:</p>
+      {isLoading || errored &&
         <>
           {isLoading && <p>loading</p>}
-          {errored && <p>An error occurred. Please try again later.</p>}
+          {errored && 
+          <NetworkError errorMsg="A network error occurred. Please try again later." style={{'flex-direction': 'row'}} />
+          }
         </>
-      :
+      }
+      {!isLoading && !errored &&
         <div className={styles.resultItemList}>
         {ytData.items.map((_) => {
           return (

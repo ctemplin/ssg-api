@@ -38,7 +38,7 @@ export default function Recording({id, handleMaxClick, isMaxed}) {
       <div className={styles.container}>
         {data.title}{` - `}
         <RecordingArtistList data={data["artist-credit"]} />
-        <YoutubeVideos data={data}/>
+        <YoutubeVideos songTitle={data.title} artistName={data["artist-credit"][0].name}/>
       </div>
       }
     </div>
