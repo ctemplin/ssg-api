@@ -13,13 +13,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 export default function Home({aid}) {
-  const [isSearching, setIsSearching] = useState(true)
   const defaultSearchData = {matches: null}
   const [searchData, setSearchData] = useState(defaultSearchData)
   const [searchTerms, setSearchTerms] = useState('')
   const [searchHlIndex, setSearchHlIndex] = useState(-1)
   const [searchScroll, setSearchScroll] = useState(0)
-  const [curArtistId, setCurArtistId] = useState()
   const [curReleaseGroupId, setCurReleaseGroupId] = useState(null)
   const [curReleaseId, setCurReleaseId] = useState(null)
   const [coverArtId, setCoverArtId] = useState(null)
@@ -31,9 +29,7 @@ export default function Home({aid}) {
   const router = useRouter()
 
   useEffect(() => {
-    if (router.query.aid && router.query.aid != curArtistId) {
-      setCurArtistId(router.query.aid)
-      setIsSearching(false)
+    if (router.query.aid) {
       setCurReleaseGroupId(null)
       setCurReleaseId(null)
       setCoverArtId(null)
@@ -46,14 +42,12 @@ export default function Home({aid}) {
 
   const handleSearchClick = () => {
     router.push("/", undefined, {shallow: true})
-    setCurArtistId(null)
     setCurReleaseGroupId(null)
     setCurReleaseId(null)
     setCoverArtId(null)
     setImgUrlSmall(null)
     setShowLargeImg(false)
     setCurTrackId(null)
-    setIsSearching(true)
     setTrackMaxed(false)
   }
 
@@ -97,7 +91,7 @@ export default function Home({aid}) {
 
   const containerClassNames = () => {
     let c = [styles.container]
-    isSearching && c.push(styles.searching)
+    !router.query.aid && c.push(styles.searching)
     curTrackId && c.push(styles.halved)
     trackMaxed && c.push(styles.maxed)
     return c.join(' ')
@@ -118,7 +112,7 @@ export default function Home({aid}) {
           overflow-y: overlay !important;
         }`}</style>
       </Head>
-        {!isSearching &&
+        {router.query.aid &&
         <div className={styles.columns}>
           <div className={styles.column}>
             <a onClick={handleSearchClick}>
@@ -137,7 +131,7 @@ export default function Home({aid}) {
           </div>
         </div>
         }
-        {isSearching &&
+        {!router.query.aid &&
           <>
           <div>{/* first grid row. reserved for header/menu */}</div>
           <div className={styles.artistSearchContainer}>
@@ -152,11 +146,11 @@ export default function Home({aid}) {
 
           </div>
           </>}
-        {!isSearching &&
+        {router.query.aid &&
         <>
         <div className={styles.columns}>
           <div className={styles.column}>
-            <Artist id={curArtistId} handleReleaseClick={handleReleaseGroupSelect}/>
+            <Artist id={router.query.aid} handleReleaseClick={handleReleaseGroupSelect}/>
           </div>
           <div className={styles.column}>
             {curReleaseGroupId ?
