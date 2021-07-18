@@ -14,5 +14,5 @@ export default function ResultSectionHeader({curItem, prevItem, fieldNames}) {
             ].join(' ').trim()}</div>
         )
     }
-    return ret
+    return ret.length ? ret : null
 }
