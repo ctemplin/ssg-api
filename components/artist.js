@@ -4,11 +4,13 @@ import { faMicrophoneAlt, faSort } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/ResultBlock.module.scss'
 import formatDate, {extractYear, sortDateStrings} from '../lib/dates'
 import ResultSectionHeader from './resultSectionHeader'
+import NetworkError from './networkError'
 
 export default function Artist({id, handleReleaseClick}) {
 
   const [hlId, setHlId] = useState(null)
   const [data, setData] = useState({})
+  const [errored, setErrored] = useState(false)
   const sortColumns = [['default', 'Type/Date'], ['title', 'Title'], ['firstReleaseDate', 'Date']]
   const [sortCfg, setSortCfg] = useState({column: 'default', dir: 'asc'})
   const [showSortMenu, setShowSortMenu] = useState(false)
@@ -26,24 +28,29 @@ export default function Artist({id, handleReleaseClick}) {
           headers: {"Accept": "application/json"},
         }
       )
-      const json = await resp.json()
-      setData(
-        {
-          name: json.name,
-          lsBegin: json['life-span']?.begin,
-          lsEnd: json['life-span']?.end,
-          releaseGroups:
-            json['release-groups'].map(album => {
-              return {
-                id: album.id,
-                title: album.title,
-                type1: album['primary-type'],
-                type2: album['secondary-types']?.[0],
-                firstReleaseDate: album['first-release-date']
-              }
-            })
-        }
-      )
+      if (resp.status >= 200 && resp.status <= 299) {
+        const json = await resp.json()
+        setData(
+          {
+            name: json.name,
+            lsBegin: json['life-span']?.begin,
+            lsEnd: json['life-span']?.end,
+            releaseGroups:
+              json['release-groups'].map(album => {
+                return {
+                  id: album.id,
+                  title: album.title,
+                  type1: album['primary-type'],
+                  type2: album['secondary-types']?.[0],
+                  firstReleaseDate: album['first-release-date']
+                }
+              })
+          }
+        )
+        setErrored(false)
+      } else {
+        setErrored(true)
+      }
     }
     getData()
   }
@@ -90,8 +97,14 @@ export default function Artist({id, handleReleaseClick}) {
 
   return (
     <div className={styles.block}>
+
       <div>
         <div className={styles.blockType}>Artist</div>
+        {errored &&
+          <NetworkError errorMsg="A network error occurred. Please try again later." />
+        }
+        {!errored &&
+        <>
         <div className={styles.blockHeader}>
           <span className={styles.blockHeaderTitle}>{data.name}</span>
           <FontAwesomeIcon
@@ -101,8 +114,10 @@ export default function Artist({id, handleReleaseClick}) {
           />
         </div>
         <div className={styles.blockHeaderDate}>{lsBeginFmt ? `${lsBeginFmt} to ${lsEndFmt}` : '' }</div>
+        </>
+        }
       </div>
-      {data.releaseGroups ?
+      {!errored && data.releaseGroups &&
       <>
         <div className={styles.count}>
           Releases: {data.releaseGroups.length} found
@@ -141,8 +156,6 @@ export default function Artist({id, handleReleaseClick}) {
         )}
         </div>
       </>
-      :
-      <></>
       }
     </div>
   )
