@@ -11,19 +11,6 @@
     }
 }
 
-.resultItemList {
-    display:inline-grid;
-    grid-template-columns: 50% 50%;
-    width: 100%;
-    overflow-x: overlay;
-    @media screen and (min-width: $tablet) {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        display:inline-flex;
-    }
-}
-
 .maxIcon {
     width: 1em;
     height: 1em;

@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 import RecordingArtistList from './recordingArtistList'
-import RecordingThumb from './recordingThumb'
+import YoutubeVideos from './youtubeVideos'
 import styles from '../styles/Recording.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
@@ -8,9 +8,7 @@ import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 export default function Recording({id, handleMaxClick, isMaxed}) {
 
   const [data, setData] = useState()
-  const [ytData, setYtData] = useState()
   const [isLoading, setIsLoading] = useState(true)
-  const [errored, setErrored] = useState(false)
 
   useEffect(() => {
     if (!id) return 
@@ -23,29 +21,10 @@ export default function Recording({id, handleMaxClick, isMaxed}) {
       )
       const json = await resp.json()
       setData(json)
+      setIsLoading(false)
     }
     getData()
   },[id])
-
-  useEffect(() => {
-    const youTubeSearch = async () => {
-      const params = new URLSearchParams()
-      params.append('q', `${data.title} ${data["artist-credit"][0].name}`)
-      const resp = await fetch(
-        '/.netlify/functions/youtube-video-search?' + params.toString()
-      )
-      if (resp.status >= 200 && resp.status <= 299) {
-        const json = await resp.json()
-        setYtData(json)
-        setIsLoading(false)
-        setErrored(false)
-      } else {
-        setErrored(true)
-        setIsLoading(false)
-      }
-    }
-    data?.title && youTubeSearch()
-  },[data])
 
   return (
     <div className={styles.pseudoColumns}>
@@ -55,27 +34,11 @@ export default function Recording({id, handleMaxClick, isMaxed}) {
         className={styles.maxIcon}
       />
     </div>
-    {isLoading || errored ?
-      <>
-      {isLoading && <p>loading</p>}
-      {errored && <p>An error occurred. Please try again later.</p>}
-      </>
-      :
+      {!isLoading &&
       <div className={styles.container}>
         {data.title}{` - `}
         <RecordingArtistList data={data["artist-credit"]} />
-        <div className={styles.resultItemList}>
-        {ytData.items.map((_) => {
-            return (
-            <RecordingThumb key={_.id_videoId} videoId={_.id.videoId} title={_.snippet.title}
-              imgSrc={_.snippet.thumbnails?.default.url}
-              imgWidth={_.snippet.thumbnails?.default.width} 
-              imgHeight={_.snippet.thumbnails?.default.height}
-            />  
-            )
-        }
-        )}
-        </div>
+        <YoutubeVideos data={data}/>
       </div>
       }
     </div>
