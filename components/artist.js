@@ -86,7 +86,7 @@ export default function Artist({id, handleReleaseClick}) {
   const lsBeginFmt = data.lsBegin ? formatDate(data.lsBegin) : '';
   const lsEndFmt = data.lsEnd ? formatDate(data.lsEnd) : 'present';
   const varyingFieldNames = ["type1", "type2"]
-  let prevItem = {[varyingFieldNames[0]]: "", [varyingFieldNames[1]]: ""}
+  let prevItem = null
 
   return (
     <div className={styles.block}>
