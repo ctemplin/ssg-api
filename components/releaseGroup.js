@@ -48,7 +48,8 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
                 id: release.id,
                 title: release.title,
                 date: release['date'],
-                country: release.country || "??"
+                country: release.country || "??",
+                preslug: `${release.title}-${release.country || ''}-${release.date?.substr(0,4)}`
               }
             })
           }
@@ -74,10 +75,10 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
     }
   },[data.releases])
 
-  const handleClick = (id, i) => {
+  const handleClick = (id, preslug, i) => {
     return () => {
       setHlRef(releaseEls.current[i])
-      handleReleaseClick(id)
+      handleReleaseClick(id, null, null, preslug)
     };
   }
 
@@ -167,7 +168,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
         </div>
         <div className={styles.resultsList} ref={releasesScrollable}>
           {filteredReleases.map((_,i) =>
-          <div onClick={handleClick(_.id,i)} key={_.id} ref={(el) => releaseEls.current[i] = el} 
+          <div onClick={handleClick(_.id, _.preslug, i)} key={_.id} ref={(el) => releaseEls.current[i] = el} 
           className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlRef && hlRef==releaseEls.current[i]?styles.resultItemHl:''}`}>
             <span className={styles.releaseTitle}>{_.title}
               <span className={styles.releaseCountry}>{isCountryNeeded() && _.country ? `(${_.country})` : ``}</span>

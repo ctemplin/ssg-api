@@ -1,18 +1,16 @@
 import React, {useEffect, useRef} from 'react'
-import { useRouter } from 'next/router' 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/ArtistSearch.module.scss'
 
 export default function ArtistSearch({
+  handleArtistSearchClick,
   defaultData, 
   data, setData, 
   searchTerms, setSearchTerms,
   scrollTop, setSearchScroll,
   hlIndex, setHlIndex
 }) {
-
-  const router = useRouter()
 
   useEffect(() => {
     const getData = async () => {
@@ -72,10 +70,10 @@ export default function ArtistSearch({
     }
   }
 
-  const handleClick = (id) => {
+  const handleClick = (id, name) => {
     return () => {
       setSearchScroll(document.getElementById('searchIncResultList')?.scrollTop)
-      router.push(`/?aid=${id}`, undefined, {shallow: true})
+      handleArtistSearchClick(id, name)
     }
   }
 
@@ -163,10 +161,12 @@ export default function ArtistSearch({
       syncFocus(hli)
       e.preventDefault()
     } else if (e.key == "Enter") {
-        const rid = listEl?.children[hlIndex]?.attributes['rid'].value
-        if (rid) {
-          handleClick(rid)()
-        }
+      const listItem = listEl?.children[hlIndex]
+      const id = listItem?.attributes['rid'].value
+      const name = listItem?.textContent
+      if (id) {
+        handleClick(id, name)()
+      }
     }
   }
 
@@ -192,7 +192,7 @@ export default function ArtistSearch({
           <div className={styles.searchIncResultList} id="searchIncResultList">
           {data.matches.map((_,i) =>
           <div className={`${styles.searchIncResult} ${hlIndex==i && styles.searchIncResultHl}`} index={i} rid={_.id} key={_.id}
-            onClick={handleClick(_.id)} onKeyDown={handleKeyDown} onMouseEnter={handleMouseEnter} onFocus={handleMouseEnter} tabIndex="0">
+            onClick={handleClick(_.id, _.name)} onKeyDown={handleKeyDown} onMouseEnter={handleMouseEnter} onFocus={handleMouseEnter} tabIndex="0">
             {_.name}
           </div>
           )}

@@ -44,7 +44,7 @@ export default function YoutubeVideos({songTitle, artistName}) {
         <div className={styles.resultItemList}>
         {ytData.items.map((_) => {
           return (
-            <RecordingThumb key={_.id_videoId} videoId={_.id.videoId} title={_.snippet.title}
+            <RecordingThumb key={_.id.videoId} videoId={_.id.videoId} title={_.snippet.title}
             imgSrc={_.snippet.thumbnails?.default.url}
             imgWidth={_.snippet.thumbnails?.default.width} 
             imgHeight={_.snippet.thumbnails?.default.height}

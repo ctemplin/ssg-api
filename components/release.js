@@ -119,7 +119,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
           : <></>
           }
         </div>
-        {data.hasCoverArt ?
+        {data.hasCoverArt && imgUrlSmall ? 
         <>
           <a onClick={handleCoverArtSmallClick}>
             <Image src={showCoverArt ? imgUrlSmall : '/cover-art-placeholder.svg'} width={60} height={60}

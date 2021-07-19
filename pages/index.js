@@ -1,5 +1,6 @@
 import React,{useState, useEffect, useCallback} from 'react'
 import {useRouter} from 'next/router'
+import {getPushArgs} from '../lib/routes'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.scss'
@@ -18,8 +19,6 @@ export default function Home({aid}) {
   const [searchTerms, setSearchTerms] = useState('')
   const [searchHlIndex, setSearchHlIndex] = useState(-1)
   const [searchScroll, setSearchScroll] = useState(0)
-  const [curReleaseGroupId, setCurReleaseGroupId] = useState(null)
-  const [curReleaseId, setCurReleaseId] = useState(null)
   const [coverArtId, setCoverArtId] = useState(null)
   const [imgUrlSmall, setImgUrlSmall] = useState()
   const [showLargeImg, setShowLargeImg] = useState(false)
@@ -28,22 +27,9 @@ export default function Home({aid}) {
 
   const router = useRouter()
 
-  useEffect(() => {
-    if (router.query.aid) {
-      setCurReleaseGroupId(null)
-      setCurReleaseId(null)
-      setCoverArtId(null)
-      setImgUrlSmall(null)
-      setShowLargeImg(false)
-      setCurTrackId(null)
-      setTrackMaxed(false)
-    }
-  },[router.query.aid])
-
-  const handleSearchClick = () => {
-    router.push("/", undefined, {shallow: true})
-    setCurReleaseGroupId(null)
-    setCurReleaseId(null)
+  const handleArtistSearchClick = (id, name) => {
+    let pushArgs = getPushArgs(router, [name], {aid: id, rgid:null, rid: null})
+    router.push.apply(this, pushArgs)
     setCoverArtId(null)
     setImgUrlSmall(null)
     setShowLargeImg(false)
@@ -51,17 +37,27 @@ export default function Home({aid}) {
     setTrackMaxed(false)
   }
 
-  const handleReleaseGroupSelect = (rgid) => {
-    setCurReleaseGroupId(rgid)
-    setCurReleaseId(null)
+  const handleSearchClick = () => {
+    router.push("/", undefined, {shallow: true})
+    setCoverArtId(null)
+    setImgUrlSmall(null)
+    setShowLargeImg(false)
+    setCurTrackId(null)
+    setTrackMaxed(false)
+  }
+
+  const handleReleaseGroupSelect = (rgid, name, title) => {
+    let pushArgs = getPushArgs(router, [name, title], {rgid: rgid, rid: null})
+    router.push.apply(this, pushArgs)
     setCoverArtId(null)
     setImgUrlSmall(null)
     setShowLargeImg(false)
     setCurTrackId(null)
   }
 
-  const handleReleaseSelect = (rid) => {
-    setCurReleaseId(rid)
+  const handleReleaseSelect = (rid, name, rgTitle, title) => {
+    let pushArgs = getPushArgs(router, [name, rgTitle, title], {rid: rid})
+    router.push.apply(this, pushArgs)
     setCurTrackId(null)
   }
 
@@ -137,6 +133,7 @@ export default function Home({aid}) {
           <div className={styles.artistSearchContainer}>
             <ArtistSearch 
               defaultData={defaultSearchData}
+              handleArtistSearchClick={handleArtistSearchClick}
               data={searchData} setData={setSearchData}
               searchTerms={searchTerms} setSearchTerms={setSearchTerms}
               scrollTop={searchScroll} setSearchScroll={setSearchScroll}
@@ -150,17 +147,17 @@ export default function Home({aid}) {
         <>
         <div className={styles.columns}>
           <div className={styles.column}>
-            <Artist id={router.query.aid} handleReleaseClick={handleReleaseGroupSelect}/>
+            <Artist id={router.query.aid} handleReleaseGroupClick={handleReleaseGroupSelect}/>
           </div>
           <div className={styles.column}>
-            {curReleaseGroupId ?
-            <ReleaseGroup id={curReleaseGroupId} handleReleaseClick={handleReleaseSelect}></ReleaseGroup>
+            {router.query.rgid ?
+            <ReleaseGroup id={router.query.rgid} handleReleaseClick={handleReleaseSelect}></ReleaseGroup>
             : <></>
             }
           </div>
           <div className={styles.column}>
-            {curReleaseId ?
-            <Release id={curReleaseId} imgUrlSmall={imgUrlSmall} handleCoverArt={handleCoverArt} 
+            {router.query.rid ?
+            <Release id={router.query.rid} imgUrlSmall={imgUrlSmall} handleCoverArt={handleCoverArt} 
               handleTrackClick={handleTrackSelect} handleCoverArtSmallClick={handleCoverArtClick}>
             </Release>
             : <></>

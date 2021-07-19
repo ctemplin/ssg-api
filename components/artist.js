@@ -6,7 +6,7 @@ import formatDate, {extractYear, sortDateStrings} from '../lib/dates'
 import ResultSectionHeader from './resultSectionHeader'
 import NetworkError from './networkError'
 
-export default function Artist({id, handleReleaseClick}) {
+export default function Artist({id, handleReleaseGroupClick}) {
 
   const [hlId, setHlId] = useState(null)
   const [data, setData] = useState({})
@@ -56,10 +56,10 @@ export default function Artist({id, handleReleaseClick}) {
   }
   ,[id])
 
-  function handleClick(id, i = {}) {
+  function handleClick(id, title) {
     return () => {
       setHlId(id)
-      handleReleaseClick(id)
+      handleReleaseGroupClick(id, null, title)
     };
   }
 
@@ -143,7 +143,7 @@ export default function Artist({id, handleReleaseClick}) {
           const ret = (
             <>
             {sortCfg.column == 'default' && <ResultSectionHeader curItem={_} prevItem={prevItem} fieldNames={varyingFieldNames} />}
-            <div onClick={handleClick(_.id, i)} key={_.id}
+            <div onClick={handleClick(_.id, _.title)} key={_.id}
             className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlId==_.id?styles.resultItemHl:''}`}>
               <span className={styles.releaseTitle}>{_.title}</span>
               <span className={styles.releaseDate}>{extractYear(_.firstReleaseDate) ?? ``}</span>
