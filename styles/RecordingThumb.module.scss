@@ -1,20 +1,20 @@
 @import 'initial-variables.sass';
 
 .resultItem {
+  display: block;
+  @media screen and (min-width: $tablet) {
     display: block;
-    @media screen and (min-width: $tablet) {
-        display: block;
-        flex: 1;
-        width: 20vw;
-    }
+    flex: 1;
+    width: 20vw;
+  }
 }
 
 .videoIcon {
-    position: relative;
-    top: 60px;
-    left: -120px;
+  position: relative;
+  top: 60px;
+  left: -120px;
 }
 
 .videoIconLayer {
-    position: absolute;
+  position: absolute;
 }

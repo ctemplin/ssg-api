@@ -23,5 +23,5 @@ export default function NetworkError({errorMsg, style}) {
       </div>
       {errorMsg && <div>{errorMsg}</div>}
     </div>
-    )
-  }
+  )
+}

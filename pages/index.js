@@ -10,8 +10,8 @@ import ReleaseGroup from '../components/releaseGroup'
 import Release from '../components/release'
 import CoverArt from '../components/coverArt'
 import Recording from '../components/recording'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons'
 
 export default function Home({aid}) {
   const defaultSearchData = {matches: null}
@@ -131,7 +131,7 @@ export default function Home({aid}) {
           <>
           <div>{/* first grid row. reserved for header/menu */}</div>
           <div className={styles.artistSearchContainer}>
-            <ArtistSearch 
+            <ArtistSearch
               defaultData={defaultSearchData}
               handleArtistSearchClick={handleArtistSearchClick}
               data={searchData} setData={setSearchData}
@@ -157,7 +157,7 @@ export default function Home({aid}) {
           </div>
           <div className={styles.column}>
             {router.query.rid ?
-            <Release id={router.query.rid} imgUrlSmall={imgUrlSmall} handleCoverArt={handleCoverArt} 
+            <Release id={router.query.rid} imgUrlSmall={imgUrlSmall} handleCoverArt={handleCoverArt}
               handleTrackClick={handleTrackSelect} handleCoverArtSmallClick={handleCoverArtClick}>
             </Release>
             : <></>

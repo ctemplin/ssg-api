@@ -1,7 +1,7 @@
 const { faUserLock } = require('@fortawesome/free-solid-svg-icons')
 
 exports.handler = async function(event, context) {
-  
+
   const fetch = require('node-fetch')
 
   const url = new URL('https://youtube.googleapis.com/youtube/v3/search')
@@ -16,16 +16,16 @@ exports.handler = async function(event, context) {
   const resp = await fetch(url)
   if (resp.status >= 200 && resp.status <= 299) {
     const json = await resp.json()
-  
+
     return {
       statusCode: 200,
       body: JSON.stringify(json)
-    };
+    }
   } else {
     console.log(`YouTube Response: Status ${resp.status} - ${resp.statusText}`)
     return {
       statusCode: 500,
       body: JSON.stringify({statusCode: 500, statusText: "Function encountered an error. Request an admin to review log."})
-    };
+    }
   }
 }

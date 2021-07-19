@@ -1,6 +1,6 @@
-import React,{useState, useEffect} from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophoneAlt, faSort } from '@fortawesome/free-solid-svg-icons';
+import React,{useState, useEffect} from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMicrophoneAlt, faSort } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/ResultBlock.module.scss'
 import formatDate, {extractYear, sortDateStrings} from '../lib/dates'
 import ResultSectionHeader from './resultSectionHeader'
@@ -60,7 +60,7 @@ export default function Artist({id, handleReleaseGroupClick}) {
     return () => {
       setHlId(id)
       handleReleaseGroupClick(id, null, title)
-    };
+    }
   }
 
   const sortRgs = (a,b) => {
@@ -88,10 +88,10 @@ export default function Artist({id, handleReleaseGroupClick}) {
       setSortCfg({column: column, dir:'asc'})
       setShowSortMenu(false)
     }
-  } 
+  }
 
-  const lsBeginFmt = data.lsBegin ? formatDate(data.lsBegin) : '';
-  const lsEndFmt = data.lsEnd ? formatDate(data.lsEnd) : 'present';
+  const lsBeginFmt = data.lsBegin ? formatDate(data.lsBegin) : ''
+  const lsEndFmt = data.lsEnd ? formatDate(data.lsEnd) : 'present'
   const varyingFieldNames = ["type1", "type2"]
   let prevItem = null
 
@@ -129,10 +129,10 @@ export default function Artist({id, handleReleaseGroupClick}) {
             onClick={() => setShowSortMenu(!showSortMenu)}
             /><div className={`${showSortMenu ? styles.sortMenu : styles.sortMenuHidden}`}>
               <div>
-              {sortColumns.map(_ => 
-                <div key={_[0]} 
+              {sortColumns.map(_ =>
+                <div key={_[0]}
                   className={`${styles.sortChoice} ${_[0]==sortCfg.column && styles.sortChoiceActive}`}
-                  onClick={handleSortChoice(_[0])}>{_[1]}</div>  
+                  onClick={handleSortChoice(_[0])}>{_[1]}</div>
               )}
               </div>
             </div>

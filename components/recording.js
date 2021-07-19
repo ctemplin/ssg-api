@@ -2,8 +2,8 @@ import {useState, useEffect} from 'react'
 import RecordingArtistList from './recordingArtistList'
 import YoutubeVideos from './youtubeVideos'
 import styles from '../styles/Recording.module.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 export default function Recording({id, handleMaxClick, isMaxed}) {
 
@@ -11,7 +11,7 @@ export default function Recording({id, handleMaxClick, isMaxed}) {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    if (!id) return 
+    if (!id) return
     const getData = async () => {
       const url = new URL(`https://musicbrainz.org/ws/2/recording/${id}`)
       url.searchParams.append("inc", "artist-credits")
@@ -29,7 +29,7 @@ export default function Recording({id, handleMaxClick, isMaxed}) {
   return (
     <div className={styles.pseudoColumns}>
     <div className={styles.collapse} onClick={handleMaxClick}>
-      <FontAwesomeIcon 
+      <FontAwesomeIcon
         icon={isMaxed ? faChevronDown : faChevronUp}
         className={styles.maxIcon}
       />

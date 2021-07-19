@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlayCircle, faCircle } from '@fortawesome/free-solid-svg-icons'
 
 export default function RecordingThumb({videoId, title, imgSrc, imgWidth, imgHeight}) {
-  
+
   return (
     <div className={styles.resultItem} key={videoId}>
       <a href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank" rel="noreferrer">
@@ -32,5 +32,5 @@ export default function RecordingThumb({videoId, title, imgSrc, imgWidth, imgHei
       </a>
       <div dangerouslySetInnerHTML={{__html: title}}></div>
     </div>
-    )
-  }
+  )
+}

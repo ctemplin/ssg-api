@@ -2,8 +2,8 @@ import React,{useEffect, useState} from 'react'
 import Image from 'next/image'
 import styles from '../styles/ResultBlock.module.scss'
 import modalStyles from  '../styles/Modal.module.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faSadTear, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner, faSadTear, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 
 export default function CoverArt({id, showLargeImg, handleCoverArtSmall, handleCloseClick}) {
 
@@ -63,7 +63,6 @@ export default function CoverArt({id, showLargeImg, handleCoverArtSmall, handleC
             pulse
           />
         </div>
-        
         }
         {isError &&
         <div onClick={handleCloseClick} className={styles.largeCoverArtLoading}>

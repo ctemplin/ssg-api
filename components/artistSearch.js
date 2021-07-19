@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/ArtistSearch.module.scss'
 
 export default function ArtistSearch({
@@ -46,14 +46,14 @@ export default function ArtistSearch({
   },[searchTerms, data.matches, setData, setHlIndex])
 
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef.current.focus()
     return () => clearTimeout(toRef)
   }, [toRef])
 
   var toRef
   const handleChange = (e) => {
     clearTimeout(toRef)
-    const newterms = e.target.value;
+    const newterms = e.target.value
     // Default 500ms delay to avoid spamming api
     var ms = 500
     // HACK: use key events instead
@@ -78,11 +78,11 @@ export default function ArtistSearch({
   }
 
   const handleIconClick = () => {
-    inputRef.current.focus();
+    inputRef.current.focus()
   }
 
   const syncFocus = (hli) => {
-    const listEl = document.getElementById("searchIncResultList");
+    const listEl = document.getElementById("searchIncResultList")
     if(document.activeElement?.parentElement == listEl) {
       listEl.children[hli]?.focus()
     }
@@ -99,10 +99,10 @@ export default function ArtistSearch({
 
   class listNavKey {
     constructor(constrain, step, limit, triggerPercent) {
-      this.constrain = constrain;
-      this.step = step;
-      this.limit = limit;
-      this.triggerPercent = triggerPercent;
+      this.constrain = constrain
+      this.step = step
+      this.limit = limit
+      this.triggerPercent = triggerPercent
     }
     shouldScroll = function(elem) {
       let p = elem.parentElement
@@ -122,10 +122,10 @@ export default function ArtistSearch({
       // if we're moving down measure from from 0
       let basis = (this.step == -1) ? vizContainerHeight : 0
       let offsetDiff = Math.abs(basis - vizItemOffset)
-      return offsetDiff > vizContainerHeight * this.triggerPercent;
+      return offsetDiff > vizContainerHeight * this.triggerPercent
     }
     scrollOptions = function(elem) {
-      return {top: elem.clientHeight*this.step, left: 0, behavior: "smooth"};
+      return {top: elem.clientHeight*this.step, left: 0, behavior: "smooth"}
     }
   }
 
@@ -135,12 +135,12 @@ export default function ArtistSearch({
   }
   
   const handleKeyDown = (e) => {
-    const listEl = document.getElementById("searchIncResultList");
+    const listEl = document.getElementById("searchIncResultList")
     let navKey = UPDOWNKEYNAMES[e.key]
     if (navKey) {
       if (window.visualViewport == undefined) {
         console.log("No viewport. In firefox about:config set dom.visualviewport.enabled = true")
-        return;
+        return
       }
 
       let c = listEl?.children.length
@@ -176,7 +176,7 @@ export default function ArtistSearch({
 
   const inputRef = useRef()
 
-  var navKeyTs = useRef(0);
+  var navKeyTs = useRef(0)
 
   return (
     <div className={styles.searchContainer}>

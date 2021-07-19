@@ -1,7 +1,7 @@
 import React,{useState, useEffect, useRef} from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMusic } from '@fortawesome/free-solid-svg-icons';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMusic } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import Image from 'next/image'
 import styles from '../styles/ResultBlock.module.scss'
 import formatDate from '../lib/dates'
@@ -93,7 +93,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
     return () => {
       setHlRef(trackEls.current[i])
       handleTrackClick(id)
-    };
+    }
   }
 
   const head = useRef()
@@ -119,7 +119,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
           : <></>
           }
         </div>
-        {data.hasCoverArt && imgUrlSmall ? 
+        {data.hasCoverArt && imgUrlSmall ?
         <>
           <a onClick={handleCoverArtSmallClick}>
             <Image src={showCoverArt ? imgUrlSmall : '/cover-art-placeholder.svg'} width={60} height={60}
@@ -147,7 +147,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
     <>
       <div className={styles.count}>Tracks: {data.tracks.length} found</div>
       <div className={styles.resultsList} ref={scrollableRef}>
-        {data.tracks.map((_,i) => 
+        {data.tracks.map((_,i) =>
           <div onClick={handleClick(_.rid,i)} ref={(el) => trackEls.current[i] = el} key={_.id} className={styles.resultItem}>
             <span className={styles.trackPosition}>{`${_.position}. `}</span>
             <span className={styles.trackTitle}>{_.title}</span>

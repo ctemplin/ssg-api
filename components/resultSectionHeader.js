@@ -7,10 +7,10 @@ export default function ResultSectionHeader({curItem, prevItem, fieldNames}) {
     if (anyChange) {
         let prime = curItem[fieldNames[0]]
         let sec = curItem[fieldNames[1]]
-        prime = prime || sec ? prime : '?' 
+        prime = prime || sec ? prime : '?'
         ret.push(
             <div className={styles.header} key={`${sec}-${prime}`}>{[
-                sec, 
+                sec,
                 pluralize(prime ?? '')
             ].join(' ').trim()}</div>
         )

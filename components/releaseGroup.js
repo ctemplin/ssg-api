@@ -1,8 +1,8 @@
 import React,{useState, useEffect, useRef, useMemo} from 'react'
 import useAsyncReference from '../lib/asyncReference'
 import {useCookies} from 'react-cookie'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCompactDisc, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCompactDisc, faFilter } from '@fortawesome/free-solid-svg-icons'
 import FilterConfig from './filterConfig'
 import styles from '../styles/ResultBlock.module.scss'
 import modalStyles from '../styles/Modal.module.scss'
@@ -79,7 +79,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
     return () => {
       setHlRef(releaseEls.current[i])
       handleReleaseClick(id, null, null, preslug)
-    };
+    }
   }
 
   const countryFilter = anyCountryMatch ?
@@ -127,7 +127,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
       // No releases can pass country filter,
       // so show them all and make that clear.
       return true
-    if ((userCountries.current.size == 1) || 
+    if ((userCountries.current.size == 1) ||
         (userCountries.current.size == 2 && userCountries.current.has("??"))
        )
        // Too little country variety to clutter the UI with
@@ -140,7 +140,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
   const releaseEls = useRef([])
   const head = useRef()
 
-  const filteredReleases = data.releases?.filter(countryFilter) 
+  const filteredReleases = data.releases?.filter(countryFilter)
   return (
     <div ref={head} className={styles.block}>
       <div>
@@ -168,7 +168,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
         </div>
         <div className={styles.resultsList} ref={releasesScrollable}>
           {filteredReleases.map((_,i) =>
-          <div onClick={handleClick(_.id, _.preslug, i)} key={_.id} ref={(el) => releaseEls.current[i] = el} 
+          <div onClick={handleClick(_.id, _.preslug, i)} key={_.id} ref={(el) => releaseEls.current[i] = el}
           className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlRef && hlRef==releaseEls.current[i]?styles.resultItemHl:''}`}>
             <span className={styles.releaseTitle}>{_.title}
               <span className={styles.releaseCountry}>{isCountryNeeded() && _.country ? `(${_.country})` : ``}</span>

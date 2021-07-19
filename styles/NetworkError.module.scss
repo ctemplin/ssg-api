@@ -1,23 +1,23 @@
 @import '../styles/initial-variables.sass';
 
 .container {
-    color: $danger;
-    text-align: center;
-    background-color: $white;
+  color: $danger;
+  text-align: center;
+  background-color: $white;
 }
 .icons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .errorIcon {
-    width: 50%;
-    margin: 2rem;
-    color: $grey-lighter;
+  width: 50%;
+  margin: 2rem;
+  color: $grey-lighter;
 }
 
 .errorIcon:first-child, .errorIcon:last-child {
-    width: 25%;
+  width: 25%;
 }

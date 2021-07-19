@@ -4,7 +4,7 @@ import NetworkError from './networkError'
 import styles from '../styles/YoutubeVideos.module.scss'
 
 export default function YoutubeVideos({songTitle, artistName}) {
-  
+
   const [ytData, setYtData] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [errored, setErrored] = useState(false)
@@ -28,14 +28,14 @@ export default function YoutubeVideos({songTitle, artistName}) {
       }
     if(songTitle) youTubeSearch()
   },[songTitle])
-    
+
     return (
       <>
       <p>YouTube:</p>
       {isLoading || errored &&
         <>
           {isLoading && <p>loading</p>}
-          {errored && 
+          {errored &&
           <NetworkError errorMsg="A network error occurred. Please try again later." style={{'flex-direction': 'row'}} />
           }
         </>
@@ -46,9 +46,9 @@ export default function YoutubeVideos({songTitle, artistName}) {
           return (
             <RecordingThumb key={_.id.videoId} videoId={_.id.videoId} title={_.snippet.title}
             imgSrc={_.snippet.thumbnails?.default.url}
-            imgWidth={_.snippet.thumbnails?.default.width} 
+            imgWidth={_.snippet.thumbnails?.default.width}
             imgHeight={_.snippet.thumbnails?.default.height}
-            />  
+            />
           )
         })}
         </div>
