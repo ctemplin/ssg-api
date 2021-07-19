@@ -13,7 +13,7 @@ export default function RecordingArtistList({data}) {
 		<>
 		{data.map(_ => 
 			<>
-			<span>
+			<span key={_.artist.id}>
 			{_.artist.id && _.artist.id != router.query.aid ? <a className={styles.link} onClick={handleClick} href={`/?aid=${_.artist.id}`}>{`${_.name}`}</a> : ` ${_.name}`}
 			</span>
 			<span>{`${_.joinphrase}`}</span>
