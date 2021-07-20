@@ -29,7 +29,7 @@ export default function Home({aid}) {
   const router = useRouter()
 
   const handleArtistSearchClick = (id, name) => {
-    let pushArgs = getPushArgs(router, [name], {aid: id, rgid:null, rid: null})
+    let pushArgs = getPushArgs(router, [name], {aid: id, rgid: null, rid: null, tid: null})
     router.push.apply(this, pushArgs)
     setCoverArtId(null)
     setImgUrlSmall(null)
@@ -57,6 +57,11 @@ export default function Home({aid}) {
     let pushArgs = getPushArgs(router, [name, rgTitle, title], {rid: rid, tid: null})
     router.replace.apply(this, pushArgs)
   }
+  
+  const handleTrackSelect = (tid, name, rgTitle, rTitle, title) => {
+    let pushArgs = getPushArgs(router, [name, rgTitle, rTitle, title], {tid: tid})
+    router.replace.apply(this, pushArgs)
+  }
 
   const handleCoverArt = useCallback((caid) => {
     setCoverArtId(caid)
@@ -72,11 +77,6 @@ export default function Home({aid}) {
 
   const hideLargeImg = (e) => {
     setShowLargeImg(false)
-  }
-
-  const handleTrackSelect = (tid, name, rgTitle, rTitle, title) => {
-    let pushArgs = getPushArgs(router, [name, rgTitle, rTitle, title], {tid: tid})
-    router.replace.apply(this, pushArgs)
   }
 
   const handleMaxClick = () => {
