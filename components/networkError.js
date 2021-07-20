@@ -21,7 +21,7 @@ export default function NetworkError({errorMsg, style}) {
         fontSize="smaller"
         />
       </div>
-      {errorMsg && <div>{errorMsg}</div>}
+      <div>{errorMsg}</div>
     </div>
   )
 }

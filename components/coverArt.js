@@ -48,7 +48,7 @@ export default function CoverArt({id, showLargeImg, handleCoverArtSmall, handleC
 
   return(
     <>
-    { showLargeImg ?
+    { showLargeImg &&
       <div className={`${modalStyles.modal} ${modalStyles.isActive}`}>
         <div className={modalStyles.modalBackground} onClick={handleCloseClick}></div>
         <div className={modalStyles.modalContent}>
@@ -87,8 +87,6 @@ export default function CoverArt({id, showLargeImg, handleCoverArtSmall, handleC
         }
         </div>
       </div>
-    :
-      <></>
     }
     </>
   )

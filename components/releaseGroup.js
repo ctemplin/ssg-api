@@ -155,7 +155,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
         </div>
         <div className={styles.blockHeaderDate}>{data.firstReleaseDate}</div>
       </div>
-      {data.releases ?
+      {data.releases &&
       <>
         <div className={styles.countFilter}>
           <FontAwesomeIcon
@@ -177,7 +177,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
           </div>
           )}
         </div>
-        {showFilterConfig ?
+        {showFilterConfig &&
         <div className={`${modalStyles.modal} ${modalStyles.isActive}`}>
           <div className={modalStyles.modalBackground}></div>
           <div className={`${modalStyles.modalContent} ${styles.countryModal}`}>
@@ -188,12 +188,8 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
               anyCountryMatch={anyCountryMatch} />
           </div>
         </div>
-        :
-        <></>
         }
       </>
-      :
-      <></>
       }
     </div>
   )
