@@ -1,9 +1,10 @@
-import React,{useState, useEffect, useCallback} from 'react'
+import React,{useState, useCallback} from 'react'
 import {useRouter} from 'next/router'
 import {getPushArgs} from '../lib/routes'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.scss'
+import {ArtistContext} from '../components/artistContext'
 import ArtistSearch from '../components/artistSearch'
 import Artist from '../components/artist'
 import ReleaseGroup from '../components/releaseGroup'
@@ -12,6 +13,7 @@ import CoverArt from '../components/coverArt'
 import Recording from '../components/recording'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons'
+
 
 export default function Home({aid}) {
   const defaultSearchData = {matches: null}
@@ -165,7 +167,9 @@ export default function Home({aid}) {
           </div>
         </div>
         {curTrackId &&
-        <Recording id={curTrackId} handleMaxClick={handleMaxClick} isMaxed={trackMaxed}></Recording>
+        <ArtistContext.Provider value={{id: router.query.aid, handleClick: handleArtistSearchClick}}>
+          <Recording id={curTrackId} handleMaxClick={handleMaxClick} isMaxed={trackMaxed}></Recording>
+        </ArtistContext.Provider>
         }
         {coverArtId &&
         <CoverArt id={coverArtId} handleCoverArtSmall={handleCoverArtSmall} handleCloseClick={hideLargeImg} showLargeImg={showLargeImg}></CoverArt>
