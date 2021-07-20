@@ -187,19 +187,23 @@ export default function ArtistSearch({
       />
       <div className={styles.inputContainer}>
         <input type="text" onKeyDown={handleKeyDown} onChange={handleChange} ref={inputRef} className={styles.input} defaultValue={searchTerms} placeholder="Artist search..."/>
-        {data.matches?.length > 0 ?
-          <div className={styles.searchIncResultList} id="searchIncResultList">
-          {data.matches.map((_,i) =>
-          <div className={`${styles.searchIncResult} ${hlIndex==i && styles.searchIncResultHl}`} index={i} rid={_.id} key={_.id}
-            onClick={handleClick(_.id, _.name)} onKeyDown={handleKeyDown} onMouseEnter={handleMouseEnter} onFocus={handleMouseEnter} tabIndex="0">
-            {_.name}
-          </div>
-          )}
-          </div>
-        :
-          <div className={styles.searchIncResultList} id="searchIncResultList">
-            <div className={`${styles.searchIncResult} ${styles.searchIncResultWarn}`}>No results found</div>
-          </div>
+        {data.matches &&
+        <>
+          {data.matches?.length > 0 ?
+            <div className={styles.searchIncResultList} id="searchIncResultList">
+            {data.matches.map((_,i) =>
+            <div className={`${styles.searchIncResult} ${hlIndex==i && styles.searchIncResultHl}`} index={i} rid={_.id} key={_.id}
+              onClick={handleClick(_.id, _.name)} onKeyDown={handleKeyDown} onMouseEnter={handleMouseEnter} onFocus={handleMouseEnter} tabIndex="0">
+              {_.name}
+            </div>
+            )}
+            </div>
+          :
+            <div className={styles.searchIncResultList} id="searchIncResultList">
+              <div className={`${styles.searchIncResult} ${styles.searchIncResultWarn}`}>No results found</div>
+            </div>
+          }
+        </>
         }
       </div>
     </div>
