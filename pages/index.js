@@ -148,17 +148,15 @@ export default function Home({aid}) {
             <Artist id={router.query.aid} handleReleaseGroupClick={handleReleaseGroupSelect}/>
           </div>
           <div className={styles.column}>
-            {router.query.rgid ?
+            {router.query.rgid &&
             <ReleaseGroup id={router.query.rgid} handleReleaseClick={handleReleaseSelect}></ReleaseGroup>
-            : <></>
             }
           </div>
           <div className={styles.column}>
-            {router.query.rid ?
+            {router.query.rid &&
             <Release id={router.query.rid} imgUrlSmall={imgUrlSmall} handleCoverArt={handleCoverArt}
               handleTrackClick={handleTrackSelect} handleCoverArtSmallClick={handleCoverArtClick}>
             </Release>
-            : <></>
             }
           </div>
         </div>
