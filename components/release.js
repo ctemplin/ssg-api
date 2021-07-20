@@ -93,10 +93,10 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
     head.current?.scrollIntoView({behavior: "smooth"})
   },[data.id])
 
-  const handleClick = (id, i) => {
+  const handleClick = (id, title, i) => {
     return () => {
       setHlRef(trackEls.current[i])
-      handleTrackClick(id)
+      handleTrackClick(id, null, null, null, title)
     }
   }
 
@@ -145,7 +145,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
       <div className={styles.count}>Tracks: {data.tracks.length} found</div>
       <div className={styles.resultsList} ref={scrollableRef}>
         {data.tracks.map((_,i) =>
-          <div onClick={handleClick(_.rid,i)} ref={(el) => trackEls.current[i] = el} key={_.id} className={styles.resultItem}>
+          <div onClick={handleClick(_.rid, _.title, i)} ref={(el) => trackEls.current[i] = el} key={_.id} className={styles.resultItem}>
             <span className={styles.trackPosition}>{`${_.position}. `}</span>
             <span className={styles.trackTitle}>{_.title}</span>
             <span className={styles.trackLength}>{_.length}</span>

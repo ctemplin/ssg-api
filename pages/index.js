@@ -24,7 +24,6 @@ export default function Home({aid}) {
   const [coverArtId, setCoverArtId] = useState(null)
   const [imgUrlSmall, setImgUrlSmall] = useState()
   const [showLargeImg, setShowLargeImg] = useState(false)
-  const [curTrackId, setCurTrackId] = useState(null)
   const [trackMaxed, setTrackMaxed] = useState(false)
 
   const router = useRouter()
@@ -35,7 +34,6 @@ export default function Home({aid}) {
     setCoverArtId(null)
     setImgUrlSmall(null)
     setShowLargeImg(false)
-    setCurTrackId(null)
     setTrackMaxed(false)
   }
 
@@ -44,23 +42,20 @@ export default function Home({aid}) {
     setCoverArtId(null)
     setImgUrlSmall(null)
     setShowLargeImg(false)
-    setCurTrackId(null)
     setTrackMaxed(false)
   }
 
   const handleReleaseGroupSelect = (rgid, name, title) => {
-    let pushArgs = getPushArgs(router, [name, title], {rgid: rgid, rid: null})
-    router.push.apply(this, pushArgs)
+    let pushArgs = getPushArgs(router, [name, title], {rgid: rgid, rid: null, tid: null})
+    router.replace.apply(this, pushArgs)
     setCoverArtId(null)
     setImgUrlSmall(null)
     setShowLargeImg(false)
-    setCurTrackId(null)
   }
 
   const handleReleaseSelect = (rid, name, rgTitle, title) => {
-    let pushArgs = getPushArgs(router, [name, rgTitle, title], {rid: rid})
-    router.push.apply(this, pushArgs)
-    setCurTrackId(null)
+    let pushArgs = getPushArgs(router, [name, rgTitle, title], {rid: rid, tid: null})
+    router.replace.apply(this, pushArgs)
   }
 
   const handleCoverArt = useCallback((caid) => {
@@ -79,8 +74,9 @@ export default function Home({aid}) {
     setShowLargeImg(false)
   }
 
-  const handleTrackSelect = (tid) => {
-    setCurTrackId(tid)
+  const handleTrackSelect = (tid, name, rgTitle, rTitle, title) => {
+    let pushArgs = getPushArgs(router, [name, rgTitle, rTitle, title], {tid: tid})
+    router.replace.apply(this, pushArgs)
   }
 
   const handleMaxClick = () => {
@@ -90,7 +86,7 @@ export default function Home({aid}) {
   const containerClassNames = () => {
     let c = [styles.container]
     !router.query.aid && c.push(styles.searching)
-    curTrackId && c.push(styles.halved)
+    router.query.tid && c.push(styles.halved)
     trackMaxed && c.push(styles.maxed)
     return c.join(' ')
   }
@@ -166,9 +162,9 @@ export default function Home({aid}) {
             }
           </div>
         </div>
-        {curTrackId &&
+        {router.query.tid &&
         <ArtistContext.Provider value={{id: router.query.aid, handleClick: handleArtistSearchClick}}>
-          <Recording id={curTrackId} handleMaxClick={handleMaxClick} isMaxed={trackMaxed}></Recording>
+          <Recording id={router.query.tid} handleMaxClick={handleMaxClick} isMaxed={trackMaxed}></Recording>
         </ArtistContext.Provider>
         }
         {coverArtId &&
