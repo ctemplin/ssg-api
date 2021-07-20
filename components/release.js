@@ -79,10 +79,14 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
 
   const scrollableRef = useRef()
 
-  const renderDate = function() {
-    return (
-      <div className={`is-size-6 ${styles.blockHeaderDate}`}>{data.date ?? <>&nbsp;</>}</div>
-    )
+  const ReleaseDate = function({show}) {
+    if (show) {
+      return (
+        <div className={styles.blockHeaderDate}>{data.date}</div>
+      )
+    } else {
+      return null
+    }
   }
 
   useEffect(() => {
@@ -114,10 +118,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
       <div className={`${styles.blockHeader} ${data.hasCoverArt && styles.blockHeaderArt}`}>
         <div>
           <div className={styles.blockHeaderTitle}>{data.title} <span className={styles.releaseCountry}>{data.country ? `(${data.country})` : ``}</span></div>
-          {data.hasCoverArt ?
-          renderDate()
-          : <></>
-          }
+          <ReleaseDate show={data.hasCoverArt} />
         </div>
         {data.hasCoverArt && imgUrlSmall ?
         <>
@@ -135,11 +136,7 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
           />
         }
       </div>
-      {!data.hasCoverArt ?
-      renderDate()
-      : <></>
-      }
-
+      <ReleaseDate show={!data.hasCoverArt} />
       </>
       }
     </div>

@@ -153,7 +153,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
           icon={faCompactDisc}
           />
         </div>
-        <div className={styles.blockHeaderDate}>{data.firstReleaseDate ?? <>&nbsp;</>}</div>
+        <div className={styles.blockHeaderDate}>{data.firstReleaseDate}</div>
       </div>
       {data.releases ?
       <>

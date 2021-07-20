@@ -113,7 +113,7 @@ export default function Artist({id, handleReleaseGroupClick}) {
           icon={faMicrophoneAlt}
           />
         </div>
-        <div className={styles.blockHeaderDate}>{lsBeginFmt ? `${lsBeginFmt} to ${lsEndFmt}` : '' }</div>
+        <div className={styles.blockHeaderDate}>{lsBeginFmt && `${lsBeginFmt} to ${lsEndFmt}`}</div>
         </>
         }
       </div>

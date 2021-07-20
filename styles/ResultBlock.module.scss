@@ -27,9 +27,13 @@
   font-size: 1.5rem;
 }
 
+.blockHeader {
+  line-height: 2.4em;
+}
+
 .blockHeader ~ .blockHeaderDate {
   padding: 0 0.25rem;
-  line-height: 2.4em;
+  min-height: 2.4em;
 }
 
 .blockHeader.blockHeaderArt {
