@@ -1,5 +1,3 @@
-const { faUserLock } = require('@fortawesome/free-solid-svg-icons')
-
 exports.handler = async function(event, context) {
 
   const fetch = require('node-fetch')

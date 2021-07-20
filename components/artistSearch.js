@@ -9,8 +9,7 @@ export default function ArtistSearch({
   data, setData, 
   searchTerms, setSearchTerms,
   scrollTop, setSearchScroll,
-  hlIndex, setHlIndex
-}) {
+  hlIndex, setHlIndex}) {
 
   useEffect(() => {
     const getData = async () => {
@@ -188,7 +187,7 @@ export default function ArtistSearch({
       />
       <div className={styles.inputContainer}>
         <input type="text" onKeyDown={handleKeyDown} onChange={handleChange} ref={inputRef} className={styles.input} defaultValue={searchTerms} placeholder="Artist search..."/>
-        {data.matches && data.matches.length ?
+        {data.matches?.length > 0 ?
           <div className={styles.searchIncResultList} id="searchIncResultList">
           {data.matches.map((_,i) =>
           <div className={`${styles.searchIncResult} ${hlIndex==i && styles.searchIncResultHl}`} index={i} rid={_.id} key={_.id}
@@ -198,14 +197,9 @@ export default function ArtistSearch({
           )}
           </div>
         :
-          <></>
-        }
-        {data.matches && data.matches.length == 0 ?
           <div className={styles.searchIncResultList} id="searchIncResultList">
-            <div className={`${styles.searchIncResult} ${styles.searchIncResultWarn} panel-block`}>No results found</div>
+            <div className={`${styles.searchIncResult} ${styles.searchIncResultWarn}`}>No results found</div>
           </div>
-        :
-          <></>
         }
       </div>
     </div>

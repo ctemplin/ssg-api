@@ -108,7 +108,7 @@ export default function Home({aid}) {
           overflow-y: overlay !important;
         }`}</style>
       </Head>
-        {router.query.aid &&
+      {router.query.aid &&
         <div className={styles.columns}>
           <div className={styles.column}>
             <a onClick={handleSearchClick}>
@@ -126,25 +126,25 @@ export default function Home({aid}) {
             </a>
           </div>
         </div>
-        }
-        {!router.query.aid &&
-          <>
-          <div>{/* first grid row. reserved for header/menu */}</div>
-          <div className={styles.artistSearchContainer}>
-            <ArtistSearch
-              defaultData={defaultSearchData}
-              handleArtistSearchClick={handleArtistSearchClick}
-              data={searchData} setData={setSearchData}
-              searchTerms={searchTerms} setSearchTerms={setSearchTerms}
-              scrollTop={searchScroll} setSearchScroll={setSearchScroll}
-              hlIndex={searchHlIndex} setHlIndex={setSearchHlIndex}
-            />
-            <Image src="/headphones.svg" className={styles.headphones} alt="" layout="fill" preload="true"/>
-
-          </div>
-          </>}
-        {router.query.aid &&
+      }
+      {!router.query.aid &&
         <>
+        <div>{/* first grid row. reserved for header/menu */}</div>
+        <div className={styles.artistSearchContainer}>
+          <ArtistSearch
+            defaultData={defaultSearchData}
+            handleArtistSearchClick={handleArtistSearchClick}
+            data={searchData} setData={setSearchData}
+            searchTerms={searchTerms} setSearchTerms={setSearchTerms}
+            scrollTop={searchScroll} setSearchScroll={setSearchScroll}
+            hlIndex={searchHlIndex} setHlIndex={setSearchHlIndex}
+          />
+          <Image src="/headphones.svg" className={styles.headphones} alt="" layout="fill" preload="true"/>
+
+        </div>
+        </>}
+      {router.query.aid &&
+        <>  
         <div className={styles.columns}>
           <div className={styles.column}>
             <Artist id={router.query.aid} handleReleaseGroupClick={handleReleaseGroupSelect}/>
@@ -167,14 +167,11 @@ export default function Home({aid}) {
         {curTrackId &&
         <Recording id={curTrackId} handleMaxClick={handleMaxClick} isMaxed={trackMaxed}></Recording>
         }
-
         {coverArtId &&
         <CoverArt id={coverArtId} handleCoverArtSmall={handleCoverArtSmall} handleCloseClick={hideLargeImg} showLargeImg={showLargeImg}></CoverArt>
         }
         </>
-        }
-
-      {true &&
+      }
       <footer className={styles.footer}>
         <FontAwesomeIcon
           className={styles.icon}
@@ -184,7 +181,7 @@ export default function Home({aid}) {
         <span>
           Made with <a href="https://nextjs.org">NextJS</a> and the <a href="https://musicbrainz.org/doc/MusicBrainz_API">MusicBrainz API</a>
         </span>
-      </footer>}
+      </footer>
     </div>
   )
 }
