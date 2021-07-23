@@ -15,11 +15,6 @@ import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-i
 
 
 export default function Home({aid}) {
-  const defaultSearchData = {matches: null}
-  const [searchData, setSearchData] = useState(defaultSearchData)
-  const [searchTerms, setSearchTerms] = useState('')
-  const [searchHlIndex, setSearchHlIndex] = useState(-1)
-  const [searchScroll, setSearchScroll] = useState(0)
   const [coverArtId, setCoverArtId] = useState(null)
   const [showLargeImg, setShowLargeImg] = useState(false)
   const [trackMaxed, setTrackMaxed] = useState(false)
@@ -108,14 +103,7 @@ export default function Home({aid}) {
         <>
         <div>{/* first grid row. reserved for header/menu */}</div>
         <div className={styles.artistSearchContainer}>
-          <ArtistSearch
-            defaultData={defaultSearchData}
-            handleArtistSearchClick={handleArtistSearchClick}
-            data={searchData} setData={setSearchData}
-            searchTerms={searchTerms} setSearchTerms={setSearchTerms}
-            scrollTop={searchScroll} setSearchScroll={setSearchScroll}
-            hlIndex={searchHlIndex} setHlIndex={setSearchHlIndex}
-          />
+          <ArtistSearch handleArtistSearchClick={handleArtistSearchClick} />
           <Image src="/headphones.svg" className={styles.headphones} alt="" layout="fill" preload="true"/>
 
         </div>

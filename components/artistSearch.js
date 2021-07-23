@@ -1,15 +1,22 @@
 import React, {useEffect, useRef} from 'react'
+import { useRecoilState } from 'recoil'
+import { searchTermsAtom,
+         searchResultsAtom,
+         searchHlIndexAtom,
+         searchScrollTopAtom
+} from '../pages/_app'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/ArtistSearch.module.scss'
 
-export default function ArtistSearch({
-  handleArtistSearchClick,
-  defaultData, 
-  data, setData, 
-  searchTerms, setSearchTerms,
-  scrollTop, setSearchScroll,
-  hlIndex, setHlIndex}) {
+
+export default function ArtistSearch({handleArtistSearchClick}) {
+
+  const defaultData = {matches: null}
+  const [searchTerms, setSearchTerms] = useRecoilState(searchTermsAtom)
+  const [searchResults, setSearchResults] = useRecoilState(searchResultsAtom)
+  const [scrollTop, setScrollTop] = useRecoilState(searchScrollTopAtom)
+  const [hlIndex, setHlIndex] = useRecoilState(searchHlIndexAtom)
 
   useEffect(() => {
     const getData = async () => {
@@ -26,7 +33,7 @@ export default function ArtistSearch({
         }
       )
       const json = await resp.json()
-      setData(
+      setSearchResults(
         {
           matches:
           json.artists.map(artist => {
@@ -38,11 +45,11 @@ export default function ArtistSearch({
         }
       )
     }
-    if (searchTerms.length && data.matches == null) {
+    if (searchTerms.length && searchResults.matches == null) {
       getData()
       setHlIndex(0)
     }
-  },[searchTerms, data.matches, setData, setHlIndex])
+  },[searchTerms, searchResults.matches, setSearchResults, setHlIndex])
 
   useEffect(() => {
     inputRef.current.focus()
@@ -60,18 +67,18 @@ export default function ArtistSearch({
     ms = newterms == searchTerms.slice(0,-1) ? 1000 : ms
     if (newterms.length > 1) {
       toRef = setTimeout(() => {
-        setData(defaultData)
+        setSearchResults(defaultData)
         setSearchTerms(newterms)
       }, ms)
     } else {
-      setData(defaultData)
+      setSearchResults(defaultData)
       setSearchTerms('')
     }
   }
 
   const handleClick = (id, name) => {
     return () => {
-      setSearchScroll(document.getElementById('searchIncResultList')?.scrollTop)
+      setScrollTop(document.getElementById('searchIncResultList')?.scrollTop)
       handleArtistSearchClick(id, name)
     }
   }
@@ -187,11 +194,11 @@ export default function ArtistSearch({
       />
       <div className={styles.inputContainer}>
         <input type="text" onKeyDown={handleKeyDown} onChange={handleChange} ref={inputRef} className={styles.input} defaultValue={searchTerms} placeholder="Artist search..."/>
-        {data.matches &&
+        {searchResults.matches &&
         <>
-          {data.matches?.length > 0 ?
+          {searchResults.matches?.length > 0 ?
             <div className={styles.searchIncResultList} id="searchIncResultList">
-            {data.matches.map((_,i) =>
+            {searchResults.matches.map((_,i) =>
             <div className={`${styles.searchIncResult} ${hlIndex==i && styles.searchIncResultHl}`} index={i} rid={_.id} key={_.id}
               onClick={handleClick(_.id, _.name)} onKeyDown={handleKeyDown} onMouseEnter={handleMouseEnter} onFocus={handleMouseEnter} tabIndex="0">
               {_.name}
