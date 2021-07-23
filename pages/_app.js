@@ -28,6 +28,11 @@ export const searchHlIndexAtom = atom({
   default: 0
 })
 
+export const trackMaxedAtom = atom({
+  key: 'trackMaxed',
+  default: false
+})
+
 function MyApp({ Component, pageProps }) {
   return (
     <RecoilRoot>

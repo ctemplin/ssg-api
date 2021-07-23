@@ -1,4 +1,5 @@
-import React,{useState, useCallback} from 'react'
+import {useRecoilValue} from 'recoil'
+import {trackMaxedAtom} from './_app'
 import {useRouter} from 'next/router'
 import {getPushArgs} from '../lib/routes'
 import Head from 'next/head'
@@ -15,32 +16,21 @@ import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-i
 
 
 export default function Home({aid}) {
-  const [coverArtId, setCoverArtId] = useState(null)
-  const [showLargeImg, setShowLargeImg] = useState(false)
-  const [trackMaxed, setTrackMaxed] = useState(false)
-
+  const isTrackMaxed = useRecoilValue(trackMaxedAtom)
   const router = useRouter()
 
   const handleArtistSearchClick = (id, name) => {
     let pushArgs = getPushArgs(router, [name], {aid: id, rgid: null, rid: null, tid: null})
     router.push.apply(this, pushArgs)
-    setCoverArtId(null)
-    setShowLargeImg(false)
-    setTrackMaxed(false)
   }
 
   const handleSearchClick = () => {
     router.push("/", undefined, {shallow: true})
-    setCoverArtId(null)
-    setShowLargeImg(false)
-    setTrackMaxed(false)
   }
 
   const handleReleaseGroupSelect = (rgid, name, title) => {
     let pushArgs = getPushArgs(router, [name, title], {rgid: rgid, rid: null, tid: null})
     router.replace.apply(this, pushArgs)
-    setCoverArtId(null)
-    setShowLargeImg(false)
   }
 
   const handleReleaseSelect = (rid, name, rgTitle, title) => {
@@ -53,15 +43,11 @@ export default function Home({aid}) {
     router.replace.apply(this, pushArgs)
   }
 
-  const handleMaxClick = () => {
-    setTrackMaxed(!trackMaxed)
-  }
-
   const containerClassNames = () => {
     let c = [styles.container]
     !router.query.aid && c.push(styles.searching)
     router.query.tid && c.push(styles.halved)
-    trackMaxed && c.push(styles.maxed)
+    isTrackMaxed && c.push(styles.maxed)
     return c.join(' ')
   }
 
@@ -128,7 +114,7 @@ export default function Home({aid}) {
         </div>
         {router.query.tid &&
         <ArtistContext.Provider value={{id: router.query.aid, handleClick: handleArtistSearchClick}}>
-          <Recording id={router.query.tid} handleMaxClick={handleMaxClick} isMaxed={trackMaxed}></Recording>
+          <Recording id={router.query.tid}></Recording>
         </ArtistContext.Provider>
         }
         </>
