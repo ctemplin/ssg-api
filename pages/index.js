@@ -9,7 +9,6 @@ import ArtistSearch from '../components/artistSearch'
 import Artist from '../components/artist'
 import ReleaseGroup from '../components/releaseGroup'
 import Release from '../components/release'
-import CoverArt from '../components/coverArt'
 import Recording from '../components/recording'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -22,7 +21,6 @@ export default function Home({aid}) {
   const [searchHlIndex, setSearchHlIndex] = useState(-1)
   const [searchScroll, setSearchScroll] = useState(0)
   const [coverArtId, setCoverArtId] = useState(null)
-  const [imgUrlSmall, setImgUrlSmall] = useState()
   const [showLargeImg, setShowLargeImg] = useState(false)
   const [trackMaxed, setTrackMaxed] = useState(false)
 
@@ -32,7 +30,6 @@ export default function Home({aid}) {
     let pushArgs = getPushArgs(router, [name], {aid: id, rgid: null, rid: null, tid: null})
     router.push.apply(this, pushArgs)
     setCoverArtId(null)
-    setImgUrlSmall(null)
     setShowLargeImg(false)
     setTrackMaxed(false)
   }
@@ -40,7 +37,6 @@ export default function Home({aid}) {
   const handleSearchClick = () => {
     router.push("/", undefined, {shallow: true})
     setCoverArtId(null)
-    setImgUrlSmall(null)
     setShowLargeImg(false)
     setTrackMaxed(false)
   }
@@ -49,7 +45,6 @@ export default function Home({aid}) {
     let pushArgs = getPushArgs(router, [name, title], {rgid: rgid, rid: null, tid: null})
     router.replace.apply(this, pushArgs)
     setCoverArtId(null)
-    setImgUrlSmall(null)
     setShowLargeImg(false)
   }
 
@@ -61,22 +56,6 @@ export default function Home({aid}) {
   const handleTrackSelect = (tid, name, rgTitle, rTitle, title) => {
     let pushArgs = getPushArgs(router, [name, rgTitle, rTitle, title], {tid: tid})
     router.replace.apply(this, pushArgs)
-  }
-
-  const handleCoverArt = useCallback((caid) => {
-    setCoverArtId(caid)
-  },[])
-
-  const handleCoverArtSmall = useCallback((url) => {
-    setImgUrlSmall(url)
-  },[])
-
-  const handleCoverArtClick = (e) => {
-    setShowLargeImg(true)
-  }
-
-  const hideLargeImg = (e) => {
-    setShowLargeImg(false)
   }
 
   const handleMaxClick = () => {
@@ -154,8 +133,7 @@ export default function Home({aid}) {
           </div>
           <div className={styles.column}>
             {router.query.rid &&
-            <Release id={router.query.rid} imgUrlSmall={imgUrlSmall} handleCoverArt={handleCoverArt}
-              handleTrackClick={handleTrackSelect} handleCoverArtSmallClick={handleCoverArtClick}>
+            <Release id={router.query.rid} handleTrackClick={handleTrackSelect}>
             </Release>
             }
           </div>
@@ -164,9 +142,6 @@ export default function Home({aid}) {
         <ArtistContext.Provider value={{id: router.query.aid, handleClick: handleArtistSearchClick}}>
           <Recording id={router.query.tid} handleMaxClick={handleMaxClick} isMaxed={trackMaxed}></Recording>
         </ArtistContext.Provider>
-        }
-        {coverArtId &&
-        <CoverArt id={coverArtId} handleCoverArtSmall={handleCoverArtSmall} handleCloseClick={hideLargeImg} showLargeImg={showLargeImg}></CoverArt>
         }
         </>
       }

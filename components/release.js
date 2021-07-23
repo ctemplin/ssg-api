@@ -2,16 +2,18 @@ import React,{useState, useEffect, useRef} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMusic } from '@fortawesome/free-solid-svg-icons'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import CoverArt from '../components/coverArt'
 import Image from 'next/image'
 import styles from '../styles/ResultBlock.module.scss'
 import formatDate from '../lib/dates'
 
-export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArtSmallClick, handleTrackClick}) {
+export default function Release({id, handleTrackClick}) {
 
   const [isLoading, setIsLoading] = useState(true)
   const [data, setData] = useState({})
   const [hlRef, setHlRef] = useState()
-  const [showCoverArt, setShowCoverArt] = useState(false)
+  const [imgUrlSmall, setImgUrlSmall] = useState()
+  const [showLargeImg, setShowLargeImg] = useState(false)
 
   const formatLength = (ms) => {
     var mins = Math.floor(ms/60000)
@@ -61,21 +63,13 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
     if (listDiv) listDiv.scrollTop = 0
   },[id])
 
-  useEffect(() => {
-    setShowCoverArt(false)
-    if(data.hasCoverArt) {
-      handleCoverArt(id)
-    } else {
-      handleCoverArt(null)
-    }
-  },[data])
+  const handleCoverArtSmall = (url) => {
+    setImgUrlSmall(url)
+  }
 
-  useEffect(() => {
-    if (imgUrlSmall) {
-      setShowCoverArt(true)
-    }
-  }, [imgUrlSmall])
-
+  const toggleImgModal = (e) => {
+    setShowLargeImg(!showLargeImg)
+  }
 
   const scrollableRef = useRef()
 
@@ -122,8 +116,8 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
         </div>
         {data.hasCoverArt && imgUrlSmall ?
         <>
-          <a onClick={handleCoverArtSmallClick}>
-            <Image src={showCoverArt ? imgUrlSmall : '/cover-art-placeholder.svg'} width={60} height={60}
+          <a onClick={toggleImgModal}>
+            <Image src={imgUrlSmall.indexOf(id) > -1 ? imgUrlSmall : '/cover-art-placeholder.svg'} width={60} height={60}
               layout="fixed" alt="Album Art Thumbnail"
               className={styles.resultHeaderImage}/>
           </a>
@@ -155,6 +149,9 @@ export default function Release({id, handleCoverArt, imgUrlSmall, handleCoverArt
     </>
     :
     <></>
+    }
+    {data?.id &&
+        <CoverArt id={data?.id} handleCoverArtSmall={handleCoverArtSmall} handleCloseClick={toggleImgModal} showLargeImg={showLargeImg}></CoverArt>
     }
   </div>
   )
