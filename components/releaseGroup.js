@@ -49,7 +49,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
                 title: release.title,
                 date: release['date'],
                 country: release.country || "??",
-                preslug: `${release.title}-${release.country || ''}-${release.date?.substr(0,4)}`
+                preslug: `${release.title}-${release.country || ''}-${release.date?.substr(0,4) || ''}`
               }
             })
           }
