@@ -111,13 +111,20 @@ export default function Release({id, handleTrackClick}) {
       <>
       <div className={`${styles.blockHeader} ${data.hasCoverArt && styles.blockHeaderArt}`}>
         <div>
-          <div className={styles.blockHeaderTitle}>{data.title} <span className={styles.releaseCountry}>{data.country ? `(${data.country})` : ``}</span></div>
+          <div className={styles.blockHeaderTitle}>
+            {data.title}
+            <span className={styles.releaseCountry}>
+              {data.country ? `(${data.country})` : ``}
+            </span>
+          </div>
           <ReleaseDate show={data.hasCoverArt} />
         </div>
         {data.hasCoverArt && imgUrlSmall ?
         <>
           <a onClick={toggleImgModal}>
-            <Image src={imgUrlSmall.indexOf(id) > -1 ? imgUrlSmall : '/cover-art-placeholder.svg'} width={60} height={60}
+            <Image
+              src={imgUrlSmall.indexOf(id) > -1 ? imgUrlSmall : '/cover-art-placeholder.svg'}
+              width={60} height={60}
               layout="fixed" alt="Album Art Thumbnail"
               className={styles.resultHeaderImage}/>
           </a>
@@ -139,7 +146,11 @@ export default function Release({id, handleTrackClick}) {
       <div className={styles.count}>Tracks: {data.tracks.length} found</div>
       <div className={styles.resultsList} ref={scrollableRef}>
         {data.tracks.map((_,i) =>
-          <div onClick={handleClick(_.rid, _.title, i)} ref={(el) => trackEls.current[i] = el} key={_.id} className={styles.resultItem}>
+          <div
+            onClick={handleClick(_.rid, _.title, i)}
+            ref={(el) => trackEls.current[i] = el}
+            key={_.id} className={styles.resultItem}
+          >
             <span className={styles.trackPosition}>{`${_.position}. `}</span>
             <span className={styles.trackTitle}>{_.title}</span>
             <span className={styles.trackLength}>{_.length}</span>
@@ -151,7 +162,9 @@ export default function Release({id, handleTrackClick}) {
     <></>
     }
     {data?.id &&
-        <CoverArt id={data?.id} handleCoverArtSmall={handleCoverArtSmall} handleCloseClick={toggleImgModal} showLargeImg={showLargeImg}></CoverArt>
+        <CoverArt id={data?.id}
+          handleCoverArtSmall={handleCoverArtSmall}
+          handleCloseClick={toggleImgModal} showLargeImg={showLargeImg} />
     }
   </div>
   )

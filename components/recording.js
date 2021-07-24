@@ -28,7 +28,7 @@ export default function Recording({id}) {
     }
     getData()
   },[id])
-  
+
   useEffect(() => {
     return () => {
       setIsMaxed(false)

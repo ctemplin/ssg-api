@@ -1,7 +1,9 @@
 import {useState} from 'react'
 import styles from '../styles/FilterConfig.module.scss'
 
-export default function FilterConfig({countries, userCountries, handleChange, persistChange, handleClose}) {
+export default function FilterConfig(
+  {countries, userCountries, handleChange, persistChange, handleClose}
+){
 
   const [isChanged, setIsChanged] = useState(false)
 
@@ -28,11 +30,13 @@ export default function FilterConfig({countries, userCountries, handleChange, pe
     <div className={styles.footer}>
     {(persistChange && isChanged) ?
     <>
-    <span className={styles.message}>The release list was updated.</span><br/>
-    <a className={styles.link} onClick={handleClose}>close</a> / <a className={styles.link} onClick={persistChange}>save and close</a>
+      <span className={styles.message}>The release list was updated.</span><br/>
+      <a className={styles.link} onClick={handleClose}>
+        close
+      </a> / <a className={styles.link} onClick={persistChange}>save and close</a>
     </>
     :
-    <a className={styles.link} onClick={handleClose}>close</a>
+      <a className={styles.link} onClick={handleClose}>close</a>
     }
     </div>
     </div>

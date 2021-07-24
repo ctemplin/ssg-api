@@ -38,7 +38,7 @@ export default function Home({aid}) {
     let pushArgs = getPushArgs(router, [name, rgTitle, title], {rid: rid, tid: null})
     router.replace.apply(this, pushArgs)
   }
-  
+
   const handleTrackSelect = (tid, name, rgTitle, rTitle, title) => {
     let pushArgs = getPushArgs(router, [name, rgTitle, rTitle, title], {tid: tid})
     router.replace.apply(this, pushArgs)
@@ -56,7 +56,8 @@ export default function Home({aid}) {
     <div className={containerClassNames()}>
       <Head>
         <title>MusicBrainz Explorer</title>
-        <meta name="description" content="Explorer for Artists, Albums and Songs from MusicBrainz" />
+        <meta name="description"
+          content="Explorer for Artists, Albums and Songs from MusicBrainz" />
         <link rel="icon" href="/favicon.ico" />
         <style>html,body {`{
           color: #4a4a4a;
@@ -91,30 +92,41 @@ export default function Home({aid}) {
         <div>{/* first grid row. reserved for header/menu */}</div>
         <div className={styles.artistSearchContainer}>
           <ArtistSearch />
-          <Image src="/headphones.svg" className={styles.headphones} alt="" layout="fill" preload="true"/>
+          <Image
+            src="/headphones.svg" className={styles.headphones}
+            alt="" layout="fill" preload="true"
+          />
 
         </div>
         </>}
       {currentArtist.id &&
-        <>  
+        <>
         <div className={styles.columns}>
           <div className={styles.column}>
-            <Artist id={router.query.aid} handleReleaseGroupClick={handleReleaseGroupSelect}/>
+            <Artist
+              id={router.query.aid}
+              handleReleaseGroupClick={handleReleaseGroupSelect}
+            />
           </div>
           <div className={styles.column}>
             {router.query.rgid &&
-            <ReleaseGroup id={router.query.rgid} handleReleaseClick={handleReleaseSelect}></ReleaseGroup>
+            <ReleaseGroup
+              id={router.query.rgid}
+              handleReleaseClick={handleReleaseSelect}
+            />
             }
           </div>
           <div className={styles.column}>
             {router.query.rid &&
-            <Release id={router.query.rid} handleTrackClick={handleTrackSelect}>
-            </Release>
+            <Release
+              id={router.query.rid}
+              handleTrackClick={handleTrackSelect}
+            />
             }
           </div>
         </div>
         {router.query.tid &&
-        <Recording id={router.query.tid}></Recording>
+        <Recording id={router.query.tid} />
         }
         </>
       }

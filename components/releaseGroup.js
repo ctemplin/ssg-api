@@ -55,7 +55,9 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
           }
         )
         setRgCountries(_countries)
-        let _anyCountryMatch = defaultCountries.filter(_ => Array.from(_countries).includes(_)).length != 0
+        let _anyCountryMatch = defaultCountries.filter(
+          _ => Array.from(_countries).includes(_)
+        ).length != 0
         if (!_anyCountryMatch) {
           setUserCountries(new Set(Array.from(_countries)))
         }
@@ -113,7 +115,9 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
     // Combine previously saved countries with currently relevant one
     var allCountries = Array.from(rgCountries).concat(cookies.countries ?? [])
     // Keep countries that are not currently relevant, or relevant and chosen
-    allCountries = allCountries.filter(_ => (!rgCountries.has(_)) || rgCountries.has(_) && userCountries.current.has(_))
+    allCountries = allCountries.filter(
+      _ => (!rgCountries.has(_)) || rgCountries.has(_) && userCountries.current.has(_)
+    )
     setCookie("countries", Array.from(new Set(allCountries)))
     setShowFilterConfig(false)
   }
@@ -159,19 +163,31 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
       <>
         <div className={styles.countFilter}>
           <FontAwesomeIcon
-          className={`${filteredReleases.length > 1 ? styles.resultUtilIcon : styles.resultUtilIconDisabled}`}
-          height="1.3em"
-          icon={faFilter}
-          onClick={handleFilterClick}
+            className={`
+              ${filteredReleases.length > 1 ? 
+                styles.resultUtilIcon : styles.resultUtilIconDisabled}
+            `}
+            height="1.3em"
+            icon={faFilter}
+            onClick={handleFilterClick}
           />
           <span>Versions: {data.releases.length - filteredReleases.length} filtered out</span>
         </div>
         <div className={styles.resultsList} ref={releasesScrollable}>
           {filteredReleases.map((_,i) =>
-          <div onClick={handleClick(_.id, _.preslug, i)} key={_.id} ref={(el) => releaseEls.current[i] = el}
-          className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlRef && hlRef==releaseEls.current[i]?styles.resultItemHl:''}`}>
+          <div
+            onClick={handleClick(_.id, _.preslug, i)}
+            key={_.id}
+            ref={(el) => releaseEls.current[i] = el}
+            className={`
+              ${i % 2 ? styles.resultItemAlt : styles.resultItem}
+              ${hlRef && hlRef==releaseEls.current[i]?styles.resultItemHl:''}
+            `}
+          >
             <span className={styles.releaseTitle}>{_.title}
-              <span className={styles.releaseCountry}>{isCountryNeeded() && _.country ? `(${_.country})` : ``}</span>
+              <span className={styles.releaseCountry}>
+                {isCountryNeeded() && _.country ? `(${_.country})` : ``}
+              </span>
             </span>
             <span className={styles.releaseDate}>{_.date?.substr(0,4)}</span>
           </div>

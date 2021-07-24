@@ -36,7 +36,10 @@ export default function YoutubeVideos({songTitle, artistName}) {
         <>
           {isLoading && <p>loading</p>}
           {errored &&
-          <NetworkError errorMsg="A network error occurred. Please try again later." style={{'flex-direction': 'row'}} />
+          <NetworkError
+            errorMsg="A network error occurred. Please try again later."
+            style={{'flex-direction': 'row'}}
+          />
           }
         </>
       }
@@ -44,10 +47,11 @@ export default function YoutubeVideos({songTitle, artistName}) {
         <div className={styles.resultItemList}>
         {ytData.items.map((_) => {
           return (
-            <RecordingThumb key={_.id.videoId} videoId={_.id.videoId} title={_.snippet.title}
-            imgSrc={_.snippet.thumbnails?.default.url}
-            imgWidth={_.snippet.thumbnails?.default.width}
-            imgHeight={_.snippet.thumbnails?.default.height}
+            <RecordingThumb key={_.id.videoId} videoId={_.id.videoId}
+              title={_.snippet.title}
+              imgSrc={_.snippet.thumbnails?.default.url}
+              imgWidth={_.snippet.thumbnails?.default.width}
+              imgHeight={_.snippet.thumbnails?.default.height}
             />
           )
         })}

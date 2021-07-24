@@ -13,7 +13,9 @@ export default function Artist({id, handleReleaseGroupClick}) {
   const [hlId, setHlId] = useState(null)
   const [data, setData] = useRecoilState(currentArtistAtom)
   const [errored, setErrored] = useState(false)
-  const sortColumns = [['default', 'Type/Date'], ['title', 'Title'], ['firstReleaseDate', 'Date']]
+  const sortColumns = [
+    ['default', 'Type/Date'], ['title', 'Title'], ['firstReleaseDate', 'Date']
+  ]
   const [sortCfg, setSortCfg] = useState({column: 'default', dir: 'asc'})
   const [showSortMenu, setShowSortMenu] = useState(false)
 
@@ -111,12 +113,14 @@ export default function Artist({id, handleReleaseGroupClick}) {
         <div className={styles.blockHeader}>
           <span className={styles.blockHeaderTitle}>{data.name}</span>
           <FontAwesomeIcon
-          className={styles.resultHeaderIcon}
-          height="1.4em"
-          icon={faMicrophoneAlt}
+            className={styles.resultHeaderIcon}
+            height="1.4em"
+            icon={faMicrophoneAlt}
           />
         </div>
-        <div className={styles.blockHeaderDate}>{lsBeginFmt && `${lsBeginFmt} to ${lsEndFmt}`}</div>
+        <div className={styles.blockHeaderDate}>
+          {lsBeginFmt && `${lsBeginFmt} to ${lsEndFmt}`}
+        </div>
         </>
         }
       </div>
@@ -126,16 +130,23 @@ export default function Artist({id, handleReleaseGroupClick}) {
           Releases: {data.releaseGroups.length} found
           <div className={styles.sortContainer}>
             <FontAwesomeIcon
-            className={styles.resultUtilIcon}
-            height="1.3em"
-            icon={faSort}
-            onClick={() => setShowSortMenu(!showSortMenu)}
-            /><div className={`${showSortMenu ? styles.sortMenu : styles.sortMenuHidden}`}>
+              className={styles.resultUtilIcon}
+              height="1.3em"
+              icon={faSort}
+              onClick={() => setShowSortMenu(!showSortMenu)}
+            />
+            <div className={`${showSortMenu ? styles.sortMenu : styles.sortMenuHidden}`}>
               <div>
               {sortColumns.map(_ =>
-                <div key={_[0]}
-                  className={`${styles.sortChoice} ${_[0]==sortCfg.column && styles.sortChoiceActive}`}
-                  onClick={handleSortChoice(_[0])}>{_[1]}</div>
+                <div
+                  key={_[0]}
+                  className={`
+                    ${styles.sortChoice}
+                    ${_[0]==sortCfg.column && styles.sortChoiceActive}
+                  `}
+                  onClick={handleSortChoice(_[0])}>
+                  {_[1]}
+                </div>
               )}
               </div>
             </div>
@@ -145,11 +156,20 @@ export default function Artist({id, handleReleaseGroupClick}) {
         {Array.from(data.releaseGroups).sort(sortRgs).map((_,i) => {
           const ret = (
             <>
-            {sortCfg.column == 'default' && <ResultSectionHeader curItem={_} prevItem={prevItem} fieldNames={varyingFieldNames} />}
+            {sortCfg.column == 'default' &&
+              <ResultSectionHeader curItem={_} prevItem={prevItem}
+                fieldNames={varyingFieldNames} />
+            }
             <div onClick={handleClick(_.id, _.title)} key={_.id}
-            className={`${i % 2 ? styles.resultItemAlt : styles.resultItem} ${hlId==_.id?styles.resultItemHl:''}`}>
+              className={`
+                ${i % 2 ? styles.resultItemAlt : styles.resultItem}
+                ${hlId==_.id?styles.resultItemHl:''}
+              `}
+            >
               <span className={styles.releaseTitle}>{_.title}</span>
-              <span className={styles.releaseDate}>{extractYear(_.firstReleaseDate) ?? ``}</span>
+              <span className={styles.releaseDate}>
+                {extractYear(_.firstReleaseDate) ?? ``}
+              </span>
             </div>
             </>
           )
