@@ -1,4 +1,6 @@
 import React,{useState, useEffect} from 'react'
+import { useRecoilState } from 'recoil'
+import { currentArtistAtom } from '../pages/_app'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicrophoneAlt, faSort } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/ResultBlock.module.scss'
@@ -9,7 +11,7 @@ import NetworkError from './networkError'
 export default function Artist({id, handleReleaseGroupClick}) {
 
   const [hlId, setHlId] = useState(null)
-  const [data, setData] = useState({})
+  const [data, setData] = useRecoilState(currentArtistAtom)
   const [errored, setErrored] = useState(false)
   const sortColumns = [['default', 'Type/Date'], ['title', 'Title'], ['firstReleaseDate', 'Date']]
   const [sortCfg, setSortCfg] = useState({column: 'default', dir: 'asc'})
@@ -32,6 +34,7 @@ export default function Artist({id, handleReleaseGroupClick}) {
         const json = await resp.json()
         setData(
           {
+            id: id,
             name: json.name,
             lsBegin: json['life-span']?.begin,
             lsEnd: json['life-span']?.end,

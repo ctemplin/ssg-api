@@ -61,7 +61,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
         }
         setAnyCountryMatch(_anyCountryMatch)
     }
-    getData()
+    id && getData()
     const listDiv = releasesScrollable.current
     if (listDiv) listDiv.scrollTop = 0
   },[id, defaultCountries, setRgCountries])

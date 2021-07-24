@@ -1,22 +1,24 @@
 import React, {useEffect, useRef} from 'react'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import { searchTermsAtom,
          searchResultsAtom,
          searchHlIndexAtom,
-         searchScrollTopAtom
+         searchScrollTopAtom,
+         currentArtistAtom
 } from '../pages/_app'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/ArtistSearch.module.scss'
 
 
-export default function ArtistSearch({handleArtistSearchClick}) {
+export default function ArtistSearch({}) {
 
   const defaultData = {matches: null}
   const [searchTerms, setSearchTerms] = useRecoilState(searchTermsAtom)
   const [searchResults, setSearchResults] = useRecoilState(searchResultsAtom)
   const [scrollTop, setScrollTop] = useRecoilState(searchScrollTopAtom)
   const [hlIndex, setHlIndex] = useRecoilState(searchHlIndexAtom)
+  const setCurrentArtist = useSetRecoilState(currentArtistAtom)
 
   useEffect(() => {
     const getData = async () => {
@@ -79,7 +81,7 @@ export default function ArtistSearch({handleArtistSearchClick}) {
   const handleClick = (id, name) => {
     return () => {
       setScrollTop(document.getElementById('searchIncResultList')?.scrollTop)
-      handleArtistSearchClick(id, name)
+      setCurrentArtist({id: id, name: name})
     }
   }
 

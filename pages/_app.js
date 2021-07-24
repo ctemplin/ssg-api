@@ -33,6 +33,17 @@ export const trackMaxedAtom = atom({
   default: false
 })
 
+export const currentArtistAtom = atom({
+  key: 'currentArtist',
+  default: {
+    id: null,
+    name: null,
+    lsBegin: null,
+    lsEnd: null,
+    releaseGroups: []
+  }
+})
+
 function MyApp({ Component, pageProps }) {
   return (
     <RecoilRoot>

@@ -1,11 +1,11 @@
+import {useEffect} from 'react'
 import {useRecoilValue} from 'recoil'
-import {trackMaxedAtom} from './_app'
+import {currentArtistAtom, trackMaxedAtom} from './_app'
 import {useRouter} from 'next/router'
 import {getPushArgs} from '../lib/routes'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.scss'
-import {ArtistContext} from '../components/artistContext'
 import ArtistSearch from '../components/artistSearch'
 import Artist from '../components/artist'
 import ReleaseGroup from '../components/releaseGroup'
@@ -16,13 +16,14 @@ import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-i
 
 
 export default function Home({aid}) {
+  const currentArtist = useRecoilValue(currentArtistAtom)
   const isTrackMaxed = useRecoilValue(trackMaxedAtom)
   const router = useRouter()
 
-  const handleArtistSearchClick = (id, name) => {
-    let pushArgs = getPushArgs(router, [name], {aid: id, rgid: null, rid: null, tid: null})
+  useEffect(() => {
+    let pushArgs = getPushArgs(router, [name], {aid: currentArtist.id, rgid: null, rid: null, tid: null})
     router.push.apply(this, pushArgs)
-  }
+  }, [currentArtist.id])
 
   const handleSearchClick = () => {
     router.push("/", undefined, {shallow: true})
@@ -89,12 +90,12 @@ export default function Home({aid}) {
         <>
         <div>{/* first grid row. reserved for header/menu */}</div>
         <div className={styles.artistSearchContainer}>
-          <ArtistSearch handleArtistSearchClick={handleArtistSearchClick} />
+          <ArtistSearch />
           <Image src="/headphones.svg" className={styles.headphones} alt="" layout="fill" preload="true"/>
 
         </div>
         </>}
-      {router.query.aid &&
+      {currentArtist.id &&
         <>  
         <div className={styles.columns}>
           <div className={styles.column}>
@@ -113,9 +114,7 @@ export default function Home({aid}) {
           </div>
         </div>
         {router.query.tid &&
-        <ArtistContext.Provider value={{id: router.query.aid, handleClick: handleArtistSearchClick}}>
-          <Recording id={router.query.tid}></Recording>
-        </ArtistContext.Provider>
+        <Recording id={router.query.tid}></Recording>
         }
         </>
       }
