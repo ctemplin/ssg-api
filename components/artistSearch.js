@@ -14,6 +14,7 @@ import styles from '../styles/ArtistSearch.module.scss'
 export default function ArtistSearch({}) {
 
   const defaultData = {matches: null}
+  const [errored, setErrored] = useState(false)
   const [searchTerms, setSearchTerms] = useRecoilState(searchTermsAtom)
   const [searchResults, setSearchResults] = useRecoilState(searchResultsAtom)
   const [scrollTop, setScrollTop] = useRecoilState(searchScrollTopAtom)
@@ -37,18 +38,23 @@ export default function ArtistSearch({}) {
           headers: {"Accept": "application/json"},
         }
       )
-      const json = await resp.json()
-      setSearchResults(
-        {
-          matches:
-          json.artists.map(artist => {
-            return {
-              name: artist.name,
-              id: artist.id,
-            }
-          })
-        }
-      )
+      if (resp.status >= 200 && resp.status <= 299) {
+        const json = await resp.json()
+        setSearchResults(
+          {
+            matches:
+            json.artists.map(artist => {
+              return {
+                name: artist.name,
+                id: artist.id,
+              }
+            })
+          }
+        )
+        setErrored(false)
+      } else {
+        setErrored(true)
+      }
     }
     if (searchTerms.length && searchResults.matches == null) {
       getData()
@@ -199,7 +205,7 @@ export default function ArtistSearch({}) {
       />
       <div className={styles.inputContainer}>
         <input type="text" onKeyDown={handleKeyDown} onChange={handleChange} ref={inputRef} className={styles.input} defaultValue={searchTerms} placeholder="Artist search..."/>
-        {searchResults.matches &&
+        {!errored && searchResults.matches &&
         <>
           {searchResults.matches?.length > 0 ?
             <div className={styles.searchIncResultList} id="searchIncResultList">
@@ -216,6 +222,11 @@ export default function ArtistSearch({}) {
             </div>
           }
         </>
+        }
+        {errored &&
+          <div className={styles.searchIncResultList} id="searchIncResultList">
+            <div className={`${styles.searchIncResult} ${styles.searchIncResultWarn}`}>A network error occurred.</div>
+          </div>
         }
       </div>
     </div>
