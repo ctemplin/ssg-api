@@ -1,5 +1,5 @@
-import React, {useEffect, useRef} from 'react'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import React, { useEffect, useRef, useState } from 'react'
+import { useRecoilState, useSetRecoilState, useResetRecoilState } from 'recoil'
 import { searchTermsAtom,
          searchResultsAtom,
          searchHlIndexAtom,
@@ -19,7 +19,10 @@ export default function ArtistSearch({}) {
   const [scrollTop, setScrollTop] = useRecoilState(searchScrollTopAtom)
   const [hlIndex, setHlIndex] = useRecoilState(searchHlIndexAtom)
   const setCurrentArtist = useSetRecoilState(currentArtistAtom)
+  const resetCurrentArtist = useResetRecoilState(currentArtistAtom)
 
+  useEffect(() => resetCurrentArtist(), [])
+  
   useEffect(() => {
     const getData = async () => {
       var url = new URL('https://musicbrainz.org/ws/2/artist')

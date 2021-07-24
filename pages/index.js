@@ -1,12 +1,13 @@
-import {useEffect} from 'react'
-import {useRecoilValue} from 'recoil'
-import {currentArtistAtom, trackMaxedAtom} from './_app'
+import {useEffect, useMemo} from 'react'
+import {useRecoilValue, useRecoilState} from 'recoil'
+import {currentArtistAtom, trackMaxedAtom, dynamicPageTitle} from './_app'
 import {useRouter} from 'next/router'
 import {getPushArgs} from '../lib/routes'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.scss'
 import ArtistSearch from '../components/artistSearch'
+import BreadcrumbsBack from '../components/breadcrumbsBack'
 import Artist from '../components/artist'
 import ReleaseGroup from '../components/releaseGroup'
 import Release from '../components/release'
@@ -14,18 +15,24 @@ import Recording from '../components/recording'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons'
 
-
 export default function Home({aid}) {
-  const currentArtist = useRecoilValue(currentArtistAtom)
+  const [currentArtist, setCurrentArtist] = useRecoilState(currentArtistAtom)
   const isTrackMaxed = useRecoilValue(trackMaxedAtom)
+  const derivedPageTitle = useRecoilValue(dynamicPageTitle)
   const router = useRouter()
 
   useEffect(() => {
-    if (currentArtist.id) {
+    if (currentArtist.id != router.query.aid) {
+      setCurrentArtist({...currentArtist, id: router.query.aid})
+    }
+  }, [router.query])
+
+  useEffect(() => {
+    if (currentArtist.id && currentArtist.id != router.query.aid) {
       let pushArgs = getPushArgs(router, [currentArtist.name], {aid: currentArtist.id, rgid: null, rid: null, tid: null})
       router.push.apply(this, pushArgs)
     }
-  }, [currentArtist])
+  }, [currentArtist.id])
 
   const handleSearchClick = () => {
     router.push("/", undefined, {shallow: true})
@@ -54,10 +61,24 @@ export default function Home({aid}) {
     return c.join(' ')
   }
 
+  const titleByPath = (artistId) => {
+    let title = "MusicBrainz Explorer"
+    if (artistId == null) 
+      { title = "MusicBrainz Explorer - Search for your Sound" }
+    else 
+      { title = derivedPageTitle }
+    return title
+  }
+
+  // Only update title if the artist has changed (or blanked for a new search)
+  const pageTitle = useMemo(
+    () => titleByPath(currentArtist.id), [currentArtist.id]
+  )
+
   return (
     <div className={containerClassNames()}>
       <Head>
-        <title>MusicBrainz Explorer</title>
+        <title>{pageTitle}</title>
         <meta name="description"
           content="Explorer for Artists, Albums and Songs from MusicBrainz" />
         <link rel="icon" href="/favicon.ico" />
@@ -72,20 +93,20 @@ export default function Home({aid}) {
       </Head>
       {router.query.aid &&
         <div className={styles.columns}>
-          <div className={styles.column}>
+          <div className={`${styles.column} ${styles.headColumn}`}>
             <a onClick={handleSearchClick}>
             <FontAwesomeIcon
               className={styles.icon}
               height="1em"
               icon={faArrowLeft}
             />
-            <>&nbsp;</>
             <FontAwesomeIcon
               className={styles.icon}
               height="1em"
               icon={faSearch}
             />
             </a>
+            <BreadcrumbsBack />
           </div>
         </div>
       }

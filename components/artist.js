@@ -35,8 +35,7 @@ export default function Artist({id, handleReleaseGroupClick}) {
       if (resp.status >= 200 && resp.status <= 299) {
         const json = await resp.json()
         setData(
-          {
-            id: id,
+          {...data,
             name: json.name,
             lsBegin: json['life-span']?.begin,
             lsEnd: json['life-span']?.end,

@@ -44,6 +44,22 @@ export const currentArtistAtom = atom({
   }
 })
 
+export const previousUrlAtom = atom({
+  key: 'previousUrl',
+  default: {
+    url: '',
+    strings: []
+  }
+})
+
+export const dynamicPageTitle = selector({
+  key: 'dynamicPageTitle',
+  get: ({get}) => {
+    let ret = 'MbEx - ' + get(currentArtistAtom).name
+    return ret
+  }
+})
+
 function MyApp({ Component, pageProps }) {
   return (
     <RecoilRoot>
