@@ -21,8 +21,10 @@ export default function Home({aid}) {
   const router = useRouter()
 
   useEffect(() => {
-    let pushArgs = getPushArgs(router, [currentArtist.name], {aid: currentArtist.id, rgid: null, rid: null, tid: null})
-    router.push.apply(this, pushArgs)
+    if (currentArtist.id) {
+      let pushArgs = getPushArgs(router, [currentArtist.name], {aid: currentArtist.id, rgid: null, rid: null, tid: null})
+      router.push.apply(this, pushArgs)
+    }
   }, [currentArtist])
 
   const handleSearchClick = () => {
