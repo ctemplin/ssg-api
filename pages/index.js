@@ -101,7 +101,7 @@ export default function Home({aid}) {
 
         </div>
         </>}
-      {currentArtist.id &&
+      {router.query.aid &&
         <>
         <div className={styles.columns}>
           <div className={styles.column}>
