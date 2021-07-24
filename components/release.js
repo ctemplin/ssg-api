@@ -150,7 +150,7 @@ export default function Release({id, handleTrackClick}) {
     :
     <></>
     }
-    {data?.id &&
+    {data?.id && data?.hasCoverArt &&
         <CoverArt id={data?.id} handleCoverArtSmall={handleCoverArtSmall} handleCloseClick={toggleImgModal} showLargeImg={showLargeImg}></CoverArt>
     }
   </div>
