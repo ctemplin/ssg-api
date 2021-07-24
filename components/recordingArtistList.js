@@ -11,9 +11,12 @@ export default function RecordingArtistList({data}) {
     {data.map(_ =>
       <>
       <span key={_.artist.id}>
-        {_.artist.id && _.artist.id != currentArtist.id ? 
-          <a className={styles.link} 
-            onClick={() => setCurrentArtist({id: _.artist.id})}>
+        {_.artist.id && _.artist.id != currentArtist.id ?
+          <a className={styles.link}
+            onClick={() =>
+              setCurrentArtist({id: _.artist.id, name: _.artist.name})
+            }
+          >
               {`${_.name}`}
           </a> : ` ${_.name}`}
       </span>
