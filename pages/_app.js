@@ -44,6 +44,14 @@ export const currentArtistAtom = atom({
   }
 })
 
+export const currentReleaseGroupAtom = atom({
+  key: 'currentReleaseGroup',
+  default: {
+    id: null,
+    title: null
+  }
+})
+
 export const breadcrumbsSel = selector({
   key: 'currentBreadcrumbs',
   get: ({get}) => {
@@ -51,7 +59,10 @@ export const breadcrumbsSel = selector({
     let currentArtist = get(currentArtistAtom)
     if (currentArtist.id) {
       bc.push({id: currentArtist.id, name: currentArtist.name})
-      // TODO: add releaseGroup as nested ifs, etc...
+      let currentReleaseGroup = get(currentReleaseGroupAtom)
+      if (currentReleaseGroup.id) {
+        bc.push({id: currentReleaseGroup.id, title: currentReleaseGroup.title})
+      }
     }
     return bc
   }
@@ -65,7 +76,9 @@ export const prevBreadcrumbsAtom = atom({
 export const dynamicPageTitle = selector({
   key: 'dynamicPageTitle',
   get: ({get}) => {
-    let ret = 'MbEx - ' + get(currentArtistAtom).name
+    const crumbs = [get(currentArtistAtom).name, get(currentReleaseGroupAtom).title]
+    const str = crumbs.filter(_=>_).join(' - ').trim()
+    let ret = 'MbEx - ' + str
     return ret
   }
 })

@@ -1,6 +1,9 @@
 import {useEffect, useMemo} from 'react'
 import {useRecoilValue, useRecoilState} from 'recoil'
-import {currentArtistAtom, trackMaxedAtom, dynamicPageTitle} from './_app'
+import {
+         currentArtistAtom, currentReleaseGroupAtom,
+         trackMaxedAtom, dynamicPageTitle
+} from './_app'
 import {useRouter} from 'next/router'
 import {getPushArgs} from '../lib/routes'
 import Head from 'next/head'
@@ -17,6 +20,7 @@ import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-i
 
 export default function Home({aid}) {
   const [currentArtist, setCurrentArtist] = useRecoilState(currentArtistAtom)
+  const [currentReleaseGroup, setCurrentReleaseGroup] = useRecoilState(currentReleaseGroupAtom)
   const isTrackMaxed = useRecoilValue(trackMaxedAtom)
   const derivedPageTitle = useRecoilValue(dynamicPageTitle)
   const router = useRouter()
@@ -27,6 +31,10 @@ export default function Home({aid}) {
     }
   }, [router.query])
 
+  const handleSearchClick = () => {
+    router.push("/", undefined, {shallow: true})
+  }
+
   useEffect(() => {
     if (currentArtist.id && currentArtist.id != router.query.aid) {
       let pushArgs = getPushArgs(router, [currentArtist.name], {aid: currentArtist.id, rgid: null, rid: null, tid: null})
@@ -34,14 +42,16 @@ export default function Home({aid}) {
     }
   }, [currentArtist.id])
 
-  const handleSearchClick = () => {
-    router.push("/", undefined, {shallow: true})
-  }
-
-  const handleReleaseGroupSelect = (rgid, name, title) => {
-    let pushArgs = getPushArgs(router, [name, title], {rgid: rgid, rid: null, tid: null})
-    router.replace.apply(this, pushArgs)
-  }
+  useEffect(() => {
+    if (currentReleaseGroup.id && currentReleaseGroup.id != router.query.rid) {
+      let pushArgs = getPushArgs(
+        router,
+        [currentArtist.name, currentReleaseGroup.title],
+        {rgid: currentReleaseGroup.id, rid: null, tid: null}
+      )
+      router.replace.apply(this, pushArgs)
+    }
+  }, [currentReleaseGroup.id])
 
   const handleReleaseSelect = (rid, name, rgTitle, title) => {
     let pushArgs = getPushArgs(router, [name, rgTitle, title], {rid: rid, tid: null})
@@ -61,9 +71,9 @@ export default function Home({aid}) {
     return c.join(' ')
   }
 
-  const titleByPath = (artistId) => {
+  const titleByPath = (artistId, releaseGroupId) => {
     let title = "MusicBrainz Explorer"
-    if (artistId == null) 
+    if (artistId == null && releaseGroupId == null) 
       { title = "MusicBrainz Explorer - Search for your Sound" }
     else 
       { title = derivedPageTitle }
@@ -72,7 +82,7 @@ export default function Home({aid}) {
 
   // Only update title if the artist has changed (or blanked for a new search)
   const pageTitle = useMemo(
-    () => titleByPath(currentArtist.id), [currentArtist.id]
+    () => titleByPath(currentArtist.id, currentReleaseGroup.id), [currentArtist.id, currentReleaseGroup.id]
   )
 
   return (
@@ -126,10 +136,7 @@ export default function Home({aid}) {
         <>
         <div className={styles.columns}>
           <div className={styles.column}>
-            <Artist
-              id={router.query.aid}
-              handleReleaseGroupClick={handleReleaseGroupSelect}
-            />
+            <Artist id={router.query.aid} />
           </div>
           <div className={styles.column}>
             {router.query.rgid &&

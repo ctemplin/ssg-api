@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react'
-import { useRecoilState } from 'recoil'
-import { currentArtistAtom } from '../pages/_app'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { currentArtistAtom, currentReleaseGroupAtom } from '../pages/_app'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicrophoneAlt, faSort } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/ResultBlock.module.scss'
@@ -8,10 +8,11 @@ import formatDate, {extractYear, sortDateStrings} from '../lib/dates'
 import ResultSectionHeader from './resultSectionHeader'
 import NetworkError from './networkError'
 
-export default function Artist({id, handleReleaseGroupClick}) {
+export default function Artist({id}) {
 
   const [hlId, setHlId] = useState(null)
   const [data, setData] = useRecoilState(currentArtistAtom)
+  const setCurrentReleaseGroup = useSetRecoilState(currentReleaseGroupAtom)
   const [errored, setErrored] = useState(false)
   const sortColumns = [
     ['default', 'Type/Date'], ['title', 'Title'], ['firstReleaseDate', 'Date']
@@ -63,7 +64,7 @@ export default function Artist({id, handleReleaseGroupClick}) {
   function handleClick(id, title) {
     return () => {
       setHlId(id)
-      handleReleaseGroupClick(id, null, title)
+      setCurrentReleaseGroup({id: id, title: title})
     }
   }
 

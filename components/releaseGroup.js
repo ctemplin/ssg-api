@@ -1,4 +1,6 @@
 import React,{useState, useEffect, useRef, useMemo} from 'react'
+import { useRecoilState } from 'recoil'
+import { currentReleaseGroupAtom } from '../pages/_app'
 import useAsyncReference from '../lib/asyncReference'
 import {useCookies} from 'react-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,7 +12,7 @@ import formatDate from '../lib/dates'
 
 export default function ReleaseGroup({id, handleReleaseClick}) {
 
-  const [data, setData] = useState({})
+  const [data, setData] = useRecoilState(currentReleaseGroupAtom)
   const [hlRef, setHlRef] = useState()
   const [cookies, setCookie] = useCookies()
   const defaultCountries = useMemo(() => cookies.countries || ["US", "??"], [id])
@@ -38,6 +40,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
         const _countries = new Set()
         setData(
           {
+            ...data,
             id: json.id,
             title: json.title,
             firstReleaseDate: firstReleaseDate == "Invalid Date" ? null : firstReleaseDate,
