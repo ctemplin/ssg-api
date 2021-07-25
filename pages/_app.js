@@ -44,12 +44,22 @@ export const currentArtistAtom = atom({
   }
 })
 
-export const previousUrlAtom = atom({
-  key: 'previousUrl',
-  default: {
-    url: '',
-    strings: []
+export const breadcrumbsSel = selector({
+  key: 'currentBreadcrumbs',
+  get: ({get}) => {
+    let bc = []
+    let currentArtist = get(currentArtistAtom)
+    if (currentArtist.id) {
+      bc.push({id: currentArtist.id, name: currentArtist.name})
+      // TODO: add releaseGroup as nested ifs, etc...
+    }
+    return bc
   }
+})
+
+export const prevBreadcrumbsAtom = atom({
+  key: 'prevBreadcrumbs',
+  default: [{id: null, name: null}]
 })
 
 export const dynamicPageTitle = selector({

@@ -1,26 +1,25 @@
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil'
-import { previousUrlAtom, currentArtistAtom } from '../pages/_app'
-import { useRouter } from 'next/router'
+import { prevBreadcrumbsAtom, currentArtistAtom } from '../pages/_app'
 import styles from '../styles/BreadcrumbsBack.module.scss'
 
 export default function BreadcrumbsBack() {
 
-  const previousUrl = useRecoilValue(previousUrlAtom)
-  const resetPreviousUrl = useResetRecoilState(previousUrlAtom)
+  const prevBreadcrumbs = useRecoilValue(prevBreadcrumbsAtom)
+  const resetPreviousBreadcrumbs = useResetRecoilState(prevBreadcrumbsAtom)
   const setCurrentArtist = useSetRecoilState(currentArtistAtom)
-  const router = useRouter()
 
   const handleClick = () => {
-    const breadcrumbUrl = previousUrl.url
-    resetPreviousUrl()
-    router.push(breadcrumbUrl, breadcrumbUrl, {shallow: true})
+    const prevArtist = prevBreadcrumbs[0]
+    resetPreviousBreadcrumbs()
+    setCurrentArtist(prevArtist)
   }
 
   return (
     <>
-    {previousUrl.url &&
-    <span className={styles.line}>
-      <span>| Return to:</span> <a onClick={handleClick} >{previousUrl.strings[0]}</a>
+    {prevBreadcrumbs?.[0].id &&
+    <span className={styles.crumbs}>
+      <span>| Return to: </span>
+      <a onClick={handleClick} >{prevBreadcrumbs?.[0]?.name}</a>
     </span>
     }
     </>

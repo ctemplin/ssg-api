@@ -1,20 +1,18 @@
-import { useRecoilState, useSetRecoilState } from 'recoil'
-import { currentArtistAtom, previousUrlAtom } from '../pages/_app'
+import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil'
+import { currentArtistAtom, breadcrumbsSel, prevBreadcrumbsAtom } from '../pages/_app'
 import { useRouter } from 'next/router'
 import styles from '../styles/RecordingArtistList.module.scss'
 
 export default function RecordingArtistList({data}) {
 
   const [currentArtist, setCurrentArtist] = useRecoilState(currentArtistAtom)
-  const setPreviousUrl = useSetRecoilState(previousUrlAtom)
+  const currentBreadcrumbs = useRecoilValue(breadcrumbsSel)
+  const setPreviousBreadcrumbs = useSetRecoilState(prevBreadcrumbsAtom)
   const router = useRouter()
 
   const handleArtistClick = (newArtistId, newArtistName) => {
     return () => {
-      setPreviousUrl({
-        url: router.asPath,
-        strings: [currentArtist.name]
-      })
+      setPreviousBreadcrumbs(currentBreadcrumbs);
       setCurrentArtist({id: newArtistId, name: newArtistName})
     }
   }
