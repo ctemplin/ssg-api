@@ -1,4 +1,4 @@
-import {useEffect, useMemo} from 'react'
+import {useCallback, useEffect, useMemo} from 'react'
 import {useRecoilValue, useRecoilState} from 'recoil'
 import {
          currentArtistAtom, currentReleaseGroupAtom, currentReleaseAtom,
@@ -70,13 +70,20 @@ export default function Home({aid}) {
     router.replace.apply(this, pushArgs)
   }
 
-  const containerClassNames = () => {
-    let c = [styles.container]
-    !router.query.aid && c.push(styles.searching)
-    router.query.tid && c.push(styles.halved)
-    isTrackMaxed && c.push(styles.maxed)
+  const classNamesByRouteAndUi = (s, aid, tidNull, isMaxed) => {
+    let c = [s.container]
+    !aid && c.push(s.searching)
+    !tidNull && c.push(s.halved)
+    isMaxed && c.push(s.maxed)
     return c.join(' ')
   }
+
+  const containerClassNames = useMemo(
+    () =>
+    classNamesByRouteAndUi(
+       styles, router.query.aid, (!router.query.tid), isTrackMaxed
+    ),[styles, router.query.aid, (!router.query.tid), isTrackMaxed]
+  )
 
   const titleByPath = (artistId, releaseGroupId) => {
     let title = "MusicBrainz Explorer"
@@ -93,7 +100,7 @@ export default function Home({aid}) {
   )
 
   return (
-    <div className={containerClassNames()}>
+    <div className={containerClassNames}>
       <Head>
         <title>{pageTitle}</title>
         <meta name="description"
