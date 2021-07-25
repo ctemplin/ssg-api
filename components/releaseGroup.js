@@ -84,7 +84,7 @@ export default function ReleaseGroup({id}) {
   const handleClick = (id, preslug, i) => {
     return () => {
       setHlRef(releaseEls.current[i])
-      setCurrentRelease({id: id, preslug: preslug})
+      setCurrentRelease({id: id, title: preslug})
     }
   }
 
