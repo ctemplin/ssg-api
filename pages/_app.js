@@ -52,6 +52,19 @@ export const currentReleaseGroupAtom = atom({
   }
 })
 
+export const currentReleaseAtom = atom({
+  key: 'currentRelease',
+  default: {
+    id: null,
+    title: null,
+    date: null,
+    country: null,
+    hasCoverArt: false,
+    preslug: null,
+    tracks: []
+  }
+})
+
 export const breadcrumbsSel = selector({
   key: 'currentBreadcrumbs',
   get: ({get}) => {
@@ -62,6 +75,10 @@ export const breadcrumbsSel = selector({
       let currentReleaseGroup = get(currentReleaseGroupAtom)
       if (currentReleaseGroup.id) {
         bc.push({id: currentReleaseGroup.id, title: currentReleaseGroup.title})
+        if (currentReleaseAtom.id) {
+          let currentRelease = get(currentReleaseAtom)
+          bc.push({id: currentReleaseAtom.id, title: currentReleaseAtom.preslug})
+        }
       }
     }
     return bc
@@ -76,7 +93,12 @@ export const prevBreadcrumbsAtom = atom({
 export const dynamicPageTitle = selector({
   key: 'dynamicPageTitle',
   get: ({get}) => {
-    const crumbs = [get(currentArtistAtom).name, get(currentReleaseGroupAtom).title]
+    const crumbs = 
+    [
+      get(currentArtistAtom).name,
+      get(currentReleaseGroupAtom).title,
+      get(currentReleaseAtom).preslug
+    ]
     const str = crumbs.filter(_=>_).join(' - ').trim()
     let ret = 'MbEx - ' + str
     return ret

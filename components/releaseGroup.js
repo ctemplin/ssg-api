@@ -1,6 +1,6 @@
 import React,{useState, useEffect, useRef, useMemo} from 'react'
-import { useRecoilState } from 'recoil'
-import { currentReleaseGroupAtom } from '../pages/_app'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { currentReleaseGroupAtom, currentReleaseAtom } from '../pages/_app'
 import useAsyncReference from '../lib/asyncReference'
 import {useCookies} from 'react-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,9 +10,10 @@ import styles from '../styles/ResultBlock.module.scss'
 import modalStyles from '../styles/Modal.module.scss'
 import formatDate from '../lib/dates'
 
-export default function ReleaseGroup({id, handleReleaseClick}) {
+export default function ReleaseGroup({id}) {
 
   const [data, setData] = useRecoilState(currentReleaseGroupAtom)
+  const setCurrentRelease = useSetRecoilState(currentReleaseAtom)
   const [hlRef, setHlRef] = useState()
   const [cookies, setCookie] = useCookies()
   const defaultCountries = useMemo(() => cookies.countries || ["US", "??"], [id])
@@ -83,7 +84,7 @@ export default function ReleaseGroup({id, handleReleaseClick}) {
   const handleClick = (id, preslug, i) => {
     return () => {
       setHlRef(releaseEls.current[i])
-      handleReleaseClick(id, null, null, preslug)
+      setCurrentRelease({id: id, preslug: preslug})
     }
   }
 

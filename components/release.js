@@ -1,4 +1,6 @@
 import React,{useState, useEffect, useRef} from 'react'
+import { useRecoilState } from 'recoil'
+import { currentReleaseAtom } from '../pages/_app'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMusic } from '@fortawesome/free-solid-svg-icons'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
@@ -10,7 +12,7 @@ import formatDate from '../lib/dates'
 export default function Release({id, handleTrackClick}) {
 
   const [isLoading, setIsLoading] = useState(true)
-  const [data, setData] = useState({})
+  const [data, setData] = useRecoilState(currentReleaseAtom)
   const [hlRef, setHlRef] = useState()
   const [imgUrlSmall, setImgUrlSmall] = useState()
   const [showLargeImg, setShowLargeImg] = useState(false)
@@ -39,7 +41,7 @@ export default function Release({id, handleTrackClick}) {
       const date = formatDate(json.date)
       setData(
         {
-          id: id,
+          ...data,
           title: json.title,
           date: date == "Invalid Date" ? null : date,
           country: json.country,

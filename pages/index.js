@@ -1,7 +1,7 @@
 import {useEffect, useMemo} from 'react'
 import {useRecoilValue, useRecoilState} from 'recoil'
 import {
-         currentArtistAtom, currentReleaseGroupAtom,
+         currentArtistAtom, currentReleaseGroupAtom, currentReleaseAtom,
          trackMaxedAtom, dynamicPageTitle
 } from './_app'
 import {useRouter} from 'next/router'
@@ -21,6 +21,7 @@ import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-i
 export default function Home({aid}) {
   const [currentArtist, setCurrentArtist] = useRecoilState(currentArtistAtom)
   const [currentReleaseGroup, setCurrentReleaseGroup] = useRecoilState(currentReleaseGroupAtom)
+  const [currentRelease, setCurrentRelease] = useRecoilState(currentReleaseAtom)
   const isTrackMaxed = useRecoilValue(trackMaxedAtom)
   const derivedPageTitle = useRecoilValue(dynamicPageTitle)
   const router = useRouter()
@@ -43,7 +44,7 @@ export default function Home({aid}) {
   }, [currentArtist.id])
 
   useEffect(() => {
-    if (currentReleaseGroup.id && currentReleaseGroup.id != router.query.rid) {
+    if (currentReleaseGroup.id && currentReleaseGroup.id != router.query.rgid) {
       let pushArgs = getPushArgs(
         router,
         [currentArtist.name, currentReleaseGroup.title],
@@ -53,10 +54,16 @@ export default function Home({aid}) {
     }
   }, [currentReleaseGroup.id])
 
-  const handleReleaseSelect = (rid, name, rgTitle, title) => {
-    let pushArgs = getPushArgs(router, [name, rgTitle, title], {rid: rid, tid: null})
-    router.replace.apply(this, pushArgs)
-  }
+  useEffect(() => {
+    if (currentRelease.id && currentRelease.id != router.query.rgid) {
+      let pushArgs = getPushArgs(
+        router,
+        [currentArtist.name, currentReleaseGroup.title, currentRelease.title],
+        {rid: currentRelease.id,tid: null}
+      )
+      router.replace.apply(this, pushArgs)
+    }
+  }, [currentRelease.id])
 
   const handleTrackSelect = (tid, name, rgTitle, rTitle, title) => {
     let pushArgs = getPushArgs(router, [name, rgTitle, rTitle, title], {tid: tid})
@@ -140,10 +147,7 @@ export default function Home({aid}) {
           </div>
           <div className={styles.column}>
             {router.query.rgid &&
-            <ReleaseGroup
-              id={router.query.rgid}
-              handleReleaseClick={handleReleaseSelect}
-            />
+            <ReleaseGroup id={router.query.rgid} />
             }
           </div>
           <div className={styles.column}>
