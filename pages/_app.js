@@ -1,9 +1,12 @@
+import { slugify, UPCASE } from '../lib/routes'
+
 import {
   RecoilRoot,
   atom,
   selector,
   useRecoilState,
   useRecoilValue,
+  useSetRecoilState,
 } from 'recoil';
 
 import '../styles/globals.scss'
@@ -44,12 +47,22 @@ export const currentArtistAtom = atom({
   }
 })
 
+export const currentArtistSlug = selector({
+  key: 'currentArtistSlug',
+  get: ({get}) => slugify(get(currentArtistAtom).name)
+})
+
 export const currentReleaseGroupAtom = atom({
   key: 'currentReleaseGroup',
   default: {
     id: null,
     title: null
   }
+})
+
+export const currentReleaseGroupSlug = selector({
+  key: 'currentReleaseGroupSlug',
+  get: ({get}) => slugify(get(currentReleaseGroupAtom).title)
 })
 
 export const currentReleaseAtom = atom({
@@ -60,8 +73,19 @@ export const currentReleaseAtom = atom({
     date: null,
     country: null,
     hasCoverArt: false,
-    preslug: null,
     tracks: []
+  }
+})
+
+export const currentReleaseSlug = selector({
+  key: 'currentReleaseSlug',
+  get: ({get}) => {
+    let release = get(currentReleaseAtom)
+    return slugify([
+      {text: release.title},
+      {text: release.country, options: {transformer: UPCASE}},
+      {text: release.date}
+    ])
   }
 })
 
@@ -71,13 +95,13 @@ export const breadcrumbsSel = selector({
     let bc = []
     let currentArtist = get(currentArtistAtom)
     if (currentArtist.id) {
-      bc.push({id: currentArtist.id, name: currentArtist.name})
+      bc.push({id: currentArtist.id, label: currentArtist.name, slug: get(currentArtistSlug)})
       let currentReleaseGroup = get(currentReleaseGroupAtom)
       if (currentReleaseGroup.id) {
-        bc.push({id: currentReleaseGroup.id, title: currentReleaseGroup.title})
+        bc.push({id: currentReleaseGroup.id, label: currentReleaseGroup.title, slug: get(currentReleaseGroupSlug)})
+        let currentRelease = get(currentReleaseAtom)
         if (currentReleaseAtom.id) {
-          let currentRelease = get(currentReleaseAtom)
-          bc.push({id: currentReleaseAtom.id, title: currentReleaseAtom.preslug})
+          bc.push({id: currentReleaseAtom.id, label: currentReleaseAtom.title, slug: get(currentReleaseSlug)})
         }
       }
     }
@@ -87,7 +111,12 @@ export const breadcrumbsSel = selector({
 
 export const prevBreadcrumbsAtom = atom({
   key: 'prevBreadcrumbs',
-  default: [{id: null, name: null}]
+  default: [{id: null, label: null, slug: null}]
+})
+
+export const prevItems = atom({
+  key: 'preItems',
+  default: {artist: null, releaseGroup: null, release: null}
 })
 
 export const dynamicPageTitle = selector({
@@ -97,7 +126,7 @@ export const dynamicPageTitle = selector({
     [
       get(currentArtistAtom).name,
       get(currentReleaseGroupAtom).title,
-      get(currentReleaseAtom).preslug
+      get(currentReleaseAtom).title
     ]
     const str = crumbs.filter(_=>_).join(' - ').trim()
     let ret = 'MbEx - ' + str

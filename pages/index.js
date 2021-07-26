@@ -1,8 +1,10 @@
 import {useCallback, useEffect, useMemo} from 'react'
 import {useRecoilValue, useRecoilState} from 'recoil'
 import {
-         currentArtistAtom, currentReleaseGroupAtom, currentReleaseAtom,
-         trackMaxedAtom, dynamicPageTitle
+         currentArtistAtom, currentArtistSlug,
+         currentReleaseGroupAtom, currentReleaseGroupSlug,
+         currentReleaseAtom, currentReleaseSlug,
+         trackMaxedAtom, dynamicPageTitle, prevItems
 } from './_app'
 import {useRouter} from 'next/router'
 import {getPushArgs} from '../lib/routes'
@@ -20,17 +22,22 @@ import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-i
 
 export default function Home({aid}) {
   const [currentArtist, setCurrentArtist] = useRecoilState(currentArtistAtom)
+  const artistSlug = useRecoilValue(currentArtistSlug)
   const [currentReleaseGroup, setCurrentReleaseGroup] = useRecoilState(currentReleaseGroupAtom)
+  const releaseGroupSlug = useRecoilValue(currentReleaseGroupSlug)
   const [currentRelease, setCurrentRelease] = useRecoilState(currentReleaseAtom)
+  const releaseSlug = useRecoilValue(currentReleaseSlug)
+  const prevItemsTriggered = useRecoilValue(prevItems)
   const isTrackMaxed = useRecoilValue(trackMaxedAtom)
   const derivedPageTitle = useRecoilValue(dynamicPageTitle)
+  const prevItemsActivate = useRecoilValue(prevItems)
   const router = useRouter()
 
   useEffect(() => {
-    if (currentArtist.id != router.query.aid) {
+    if (currentArtist.id != router?.query?.aid) {
       setCurrentArtist({...currentArtist, id: router.query.aid})
     }
-  }, [router.query])
+  }, [])
 
   const handleSearchClick = () => {
     router.push("/", undefined, {shallow: true})
@@ -38,7 +45,7 @@ export default function Home({aid}) {
 
   useEffect(() => {
     if (currentArtist.id && currentArtist.id != router.query.aid) {
-      let pushArgs = getPushArgs(router, [currentArtist.name], {aid: currentArtist.id, rgid: null, rid: null, tid: null})
+      let pushArgs = getPushArgs(router, [artistSlug], {aid: currentArtist.id, rgid: null, rid: null, tid: null})
       router.push.apply(this, pushArgs)
     }
   }, [currentArtist.id])
@@ -47,7 +54,7 @@ export default function Home({aid}) {
     if (currentReleaseGroup.id && currentReleaseGroup.id != router.query.rgid) {
       let pushArgs = getPushArgs(
         router,
-        [currentArtist.name, currentReleaseGroup.title],
+        [artistSlug, releaseGroupSlug],
         {rgid: currentReleaseGroup.id, rid: null, tid: null}
       )
       router.replace.apply(this, pushArgs)
@@ -58,7 +65,7 @@ export default function Home({aid}) {
     if (currentRelease.id && currentRelease.id != router.query.rgid) {
       let pushArgs = getPushArgs(
         router,
-        [currentArtist.name, currentReleaseGroup.title, currentRelease.title],
+        [artistSlug, releaseGroupSlug, releaseSlug],
         {rid: currentRelease.id,tid: null}
       )
       router.replace.apply(this, pushArgs)

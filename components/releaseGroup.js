@@ -52,8 +52,7 @@ export default function ReleaseGroup({id}) {
                 id: release.id,
                 title: release.title,
                 date: release['date'],
-                country: release.country || "??",
-                preslug: `${release.title}-${release.country || ''}-${release.date?.substr(0,4) || ''}`
+                country: release.country || "??"
               }
             })
           }
@@ -77,14 +76,14 @@ export default function ReleaseGroup({id}) {
     releaseEls.current = releaseEls.current.filter(_=>_)
     // If we're left with only 1 result, virtually click it
     if (releaseEls?.current.length == 1) {
-      releaseEls.current[0].click()
+      // releaseEls.current[0].click()
     }
   },[data.releases])
 
-  const handleClick = (id, preslug, i) => {
+  const handleClick = (id, title, country, date, i) => {
     return () => {
       setHlRef(releaseEls.current[i])
-      setCurrentRelease({id: id, title: preslug})
+      setCurrentRelease({id: id, title: title, country: country, date: date})
     }
   }
 
@@ -180,7 +179,7 @@ export default function ReleaseGroup({id}) {
         <div className={styles.resultsList} ref={releasesScrollable}>
           {filteredReleases.map((_,i) =>
           <div
-            onClick={handleClick(_.id, _.preslug, i)}
+            onClick={handleClick(_.id, _.title, _.country, _.date, i)}
             key={_.id}
             ref={(el) => releaseEls.current[i] = el}
             className={`
