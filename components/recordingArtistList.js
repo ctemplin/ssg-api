@@ -1,31 +1,14 @@
-import { useRecoilState, useSetRecoilState, useRecoilValue, useResetRecoilState } from 'recoil'
-import { currentArtistAtom, currentReleaseGroupAtom, currentReleaseAtom, breadcrumbsSel, prevBreadcrumbsAtom, prevItems } from '../pages/_app'
+import { useSetRecoilState, useRecoilValue } from 'recoil'
+import { currentArtistAtom, breadcrumbsSel } from '../pages/_app'
 import styles from '../styles/RecordingArtistList.module.scss'
 
 export default function RecordingArtistList({data}) {
 
-  const [currentArtist, setCurrentArtist] = useRecoilState(currentArtistAtom)
-  const currentBreadcrumbs = useRecoilValue(breadcrumbsSel)
-  const setPreviousBreadcrumbs = useSetRecoilState(prevBreadcrumbsAtom)
-  const setPrevItems = useSetRecoilState(prevItems)
-  const artist = useRecoilValue(currentArtistAtom)
-  const releaseGroup = useRecoilValue(currentReleaseGroupAtom)
-  const resetReleaseGroup = useResetRecoilState(currentReleaseGroupAtom)
-  const release = useRecoilValue(currentReleaseAtom)
-  const resetRelease = useResetRecoilState(currentReleaseAtom)
+  const currentArtist = useRecoilValue(currentArtistAtom)
+  const jumpToArtistAndSaveRevertValues = useSetRecoilState(breadcrumbsSel)
 
-  const handleArtistClick = (id, name) => {
-    return () => {
-      setPreviousBreadcrumbs(currentBreadcrumbs)
-      setPrevItems({
-        artist: artist,
-        releaseGroup: releaseGroup,
-        release: release
-      })
-      resetRelease()
-      resetReleaseGroup()
-      setCurrentArtist({id: id, name: name})
-    }
+  const handleArtistClick = (id, name) => () => {
+    jumpToArtistAndSaveRevertValues({artistId: id, artistName: name})
   }
 
   return (

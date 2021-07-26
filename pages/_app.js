@@ -106,6 +106,29 @@ export const breadcrumbsSel = selector({
       }
     }
     return bc
+  },
+  set: ({get, set, reset}, {artistId, artistName} = {artistId: null, artistName: null}) => {
+    // Jumping to a new artist from (e.g. from recording detail)
+    // Store the current artist/release/etc. So user can jump back.
+    if (artistId) {
+      set(prevBreadcrumbsAtom, get(breadcrumbsSel))
+      set(prevItems, {
+        artist: get(currentArtistAtom),
+        releaseGroup: get(currentReleaseGroupAtom),
+        release: get(currentReleaseAtom)
+      })
+      reset(currentReleaseAtom)
+      reset(currentReleaseGroupAtom)
+      set(currentArtistAtom, {id: artistId, name: artistName})
+    }
+    // Jump back.
+    else {
+      reset(prevBreadcrumbsAtom)
+      set(currentArtistAtom, get(prevItems).artist)
+      set(currentReleaseGroupAtom, get(prevItems).releaseGroup)
+      set(currentReleaseAtom, get(prevItems).release)
+      reset(prevItems)
+    }
   }
 })
 
@@ -115,7 +138,7 @@ export const prevBreadcrumbsAtom = atom({
 })
 
 export const prevItems = atom({
-  key: 'preItems',
+  key: 'prevItems',
   default: {artist: null, releaseGroup: null, release: null}
 })
 

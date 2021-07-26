@@ -1,10 +1,10 @@
-import {useCallback, useEffect, useMemo} from 'react'
-import {useRecoilValue, useRecoilState} from 'recoil'
+import {useEffect, useMemo} from 'react'
+import {useRecoilValue, useRecoilState, useResetRecoilState} from 'recoil'
 import {
          currentArtistAtom, currentArtistSlug,
          currentReleaseGroupAtom, currentReleaseGroupSlug,
          currentReleaseAtom, currentReleaseSlug,
-         trackMaxedAtom, dynamicPageTitle, prevItems
+         trackMaxedAtom, dynamicPageTitle
 } from './_app'
 import {useRouter} from 'next/router'
 import {getPushArgs} from '../lib/routes'
@@ -20,26 +20,28 @@ import Recording from '../components/recording'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons'
 
-export default function Home({aid}) {
+export default function Home() {
   const [currentArtist, setCurrentArtist] = useRecoilState(currentArtistAtom)
   const artistSlug = useRecoilValue(currentArtistSlug)
-  const [currentReleaseGroup, setCurrentReleaseGroup] = useRecoilState(currentReleaseGroupAtom)
+  const currentReleaseGroup = useRecoilValue(currentReleaseGroupAtom)
+  const resetReleaseGroup = useResetRecoilState(currentReleaseGroupAtom)
   const releaseGroupSlug = useRecoilValue(currentReleaseGroupSlug)
-  const [currentRelease, setCurrentRelease] = useRecoilState(currentReleaseAtom)
+  const currentRelease = useRecoilValue(currentReleaseAtom)
+  const resetRelease = useResetRecoilState(currentReleaseAtom)
   const releaseSlug = useRecoilValue(currentReleaseSlug)
-  const prevItemsTriggered = useRecoilValue(prevItems)
   const isTrackMaxed = useRecoilValue(trackMaxedAtom)
   const derivedPageTitle = useRecoilValue(dynamicPageTitle)
-  const prevItemsActivate = useRecoilValue(prevItems)
   const router = useRouter()
 
   useEffect(() => {
     if (currentArtist.id != router?.query?.aid) {
       setCurrentArtist({...currentArtist, id: router.query.aid})
     }
-  }, [])
+  }, [router.asPath])
 
   const handleSearchClick = () => {
+    resetRelease()
+    resetReleaseGroup()
     router.push("/", undefined, {shallow: true})
   }
 
