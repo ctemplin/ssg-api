@@ -4,6 +4,7 @@ import {
          currentArtistAtom, currentArtistSlug,
          currentReleaseGroupAtom, currentReleaseGroupSlug,
          currentReleaseAtom, currentReleaseSlug,
+         currentRecordingAtom, currentRecordingSlug,
          trackMaxedAtom, dynamicPageTitle
 } from './_app'
 import {useRouter} from 'next/router'
@@ -22,6 +23,7 @@ import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-i
 
 export default function Home() {
   const [currentArtist, setCurrentArtist] = useRecoilState(currentArtistAtom)
+  const resetArtist = useResetRecoilState(currentArtistAtom)
   const artistSlug = useRecoilValue(currentArtistSlug)
   const currentReleaseGroup = useRecoilValue(currentReleaseGroupAtom)
   const resetReleaseGroup = useResetRecoilState(currentReleaseGroupAtom)
@@ -29,19 +31,24 @@ export default function Home() {
   const currentRelease = useRecoilValue(currentReleaseAtom)
   const resetRelease = useResetRecoilState(currentReleaseAtom)
   const releaseSlug = useRecoilValue(currentReleaseSlug)
+  const currentRecording = useRecoilValue(currentRecordingAtom)
+  const resetRecording = useResetRecoilState(currentRecordingAtom)
+  const recordingSlug = useRecoilValue(currentRecordingSlug)
   const isTrackMaxed = useRecoilValue(trackMaxedAtom)
   const derivedPageTitle = useRecoilValue(dynamicPageTitle)
   const router = useRouter()
 
   useEffect(() => {
-    if (currentArtist.id != router?.query?.aid) {
+    if (!currentArtist.id && router?.query?.aid) {
       setCurrentArtist({...currentArtist, id: router.query.aid})
     }
   }, [router.asPath])
 
   const handleSearchClick = () => {
+    resetArtist()
     resetRelease()
     resetReleaseGroup()
+    resetRecording()
     router.push("/", undefined, {shallow: true})
   }
 
@@ -61,6 +68,8 @@ export default function Home() {
       )
       router.replace.apply(this, pushArgs)
     }
+    resetRecording()
+    resetRelease()
   }, [currentReleaseGroup.id])
 
   useEffect(() => {
@@ -68,16 +77,23 @@ export default function Home() {
       let pushArgs = getPushArgs(
         router,
         [artistSlug, releaseGroupSlug, releaseSlug],
-        {rid: currentRelease.id,tid: null}
+        {rid: currentRelease.id, tid: null}
       )
+      resetRecording()
       router.replace.apply(this, pushArgs)
     }
   }, [currentRelease.id])
 
-  const handleTrackSelect = (tid, name, rgTitle, rTitle, title) => {
-    let pushArgs = getPushArgs(router, [name, rgTitle, rTitle, title], {tid: tid})
-    router.replace.apply(this, pushArgs)
-  }
+  useEffect(() => {
+    if (currentRecording.id && currentRecording.id != router.query.tid) {
+      let pushArgs = getPushArgs(
+        router,
+        [artistSlug, releaseGroupSlug, releaseSlug, recordingSlug], 
+        {tid: currentRecording.id}
+      )
+      router.replace.apply(this, pushArgs)
+    }
+  }, [currentRecording.id])
 
   const classNamesByRouteAndUi = (s, aid, tidNull, isMaxed) => {
     let c = [s.container]
@@ -168,15 +184,12 @@ export default function Home() {
           </div>
           <div className={styles.column}>
             {currentRelease.id &&
-            <Release
-              id={currentRelease.id}
-              handleTrackClick={handleTrackSelect}
-            />
+            <Release id={currentRelease.id} />
             }
           </div>
         </div>
-        {router.query.tid &&
-        <Recording id={router.query.tid} />
+        {currentRecording.id &&
+        <Recording id={currentRecording.id} />
         }
         </>
       }

@@ -89,6 +89,24 @@ export const currentReleaseSlug = selector({
   }
 })
 
+export const currentRecordingAtom = atom({
+  key: 'currentRecording',
+  default: {
+    id: null,
+    'artist-credit': [],
+    disambiguation: null,
+    'first-release-date': null,
+    length: null,
+    title: null,
+    video: null
+  }
+})
+
+export const currentRecordingSlug = selector({
+  key: 'currentRecordingSlug',
+  get: ({get}) => slugify(get(currentRecordingAtom).title)
+})
+
 export const breadcrumbsSel = selector({
   key: 'currentBreadcrumbs',
   get: ({get}) => {
@@ -102,6 +120,10 @@ export const breadcrumbsSel = selector({
         let currentRelease = get(currentReleaseAtom)
         if (currentReleaseAtom.id) {
           bc.push({id: currentReleaseAtom.id, label: currentReleaseAtom.title, slug: get(currentReleaseSlug)})
+          let currentRelease = get(currentRecordingAtom)
+          if (currentRecordingAtom.id) {
+            bc.push({id: currentRecordingAtom.id, label: currentRecordingAtom.title, slug: get(currentRecordingSlug)})
+          }
         }
       }
     }
@@ -115,8 +137,10 @@ export const breadcrumbsSel = selector({
       set(prevItems, {
         artist: get(currentArtistAtom),
         releaseGroup: get(currentReleaseGroupAtom),
-        release: get(currentReleaseAtom)
+        release: get(currentReleaseAtom),
+        recording: get(currentRecordingAtom)
       })
+      reset(currentRecordingAtom)
       reset(currentReleaseAtom)
       reset(currentReleaseGroupAtom)
       set(currentArtistAtom, {id: artistId, name: artistName})
@@ -127,6 +151,7 @@ export const breadcrumbsSel = selector({
       set(currentArtistAtom, get(prevItems).artist)
       set(currentReleaseGroupAtom, get(prevItems).releaseGroup)
       set(currentReleaseAtom, get(prevItems).release)
+      set(currentRecordingAtom, get(prevItems).recording)
       reset(prevItems)
     }
   }
@@ -139,7 +164,7 @@ export const prevBreadcrumbsAtom = atom({
 
 export const prevItems = atom({
   key: 'prevItems',
-  default: {artist: null, releaseGroup: null, release: null}
+  default: {artist: null, releaseGroup: null, release: null, recording: null}
 })
 
 export const dynamicPageTitle = selector({

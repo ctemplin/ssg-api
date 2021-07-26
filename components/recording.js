@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'
 import {useRecoilState} from 'recoil'
+import {currentRecordingAtom} from '../pages/_app'
 import {trackMaxedAtom} from '../pages/_app'
 import RecordingArtistList from './recordingArtistList'
 import YoutubeVideos from './youtubeVideos'
@@ -9,11 +10,12 @@ import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 export default function Recording({id}) {
 
-  const [data, setData] = useState()
+  const [data, setData] = useRecoilState(currentRecordingAtom)
   const [isLoading, setIsLoading] = useState(true)
   const [isMaxed, setIsMaxed] = useRecoilState(trackMaxedAtom)
 
   useEffect(() => {
+    setIsLoading(true)
     if (!id) return
     const getData = async () => {
       const url = new URL(`https://musicbrainz.org/ws/2/recording/${id}`)
@@ -23,7 +25,7 @@ export default function Recording({id}) {
         {headers: {"Accept": "application/json"}}
       )
       const json = await resp.json()
-      setData(json)
+      setData({...data, ...json})
       setIsLoading(false)
     }
     getData()
@@ -46,8 +48,7 @@ export default function Recording({id}) {
       {!isLoading &&
       <div className={styles.container}>
         {data.title}{` - `}
-        <RecordingArtistList data={data["artist-credit"]} />
-        <YoutubeVideos songTitle={data.title} artistName={data["artist-credit"][0].name}/>
+        <RecordingArtistList data={data['artist-credit']} />
       </div>
       }
     </div>

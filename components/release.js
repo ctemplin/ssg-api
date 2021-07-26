@@ -1,6 +1,6 @@
 import React,{useState, useEffect, useRef} from 'react'
-import { useRecoilState } from 'recoil'
-import { currentReleaseAtom } from '../pages/_app'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { currentRecordingAtom, currentReleaseAtom } from '../pages/_app'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMusic } from '@fortawesome/free-solid-svg-icons'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
@@ -9,10 +9,11 @@ import Image from 'next/image'
 import styles from '../styles/ResultBlock.module.scss'
 import formatDate from '../lib/dates'
 
-export default function Release({id, handleTrackClick}) {
+export default function Release({id}) {
 
   const [isLoading, setIsLoading] = useState(true)
   const [data, setData] = useRecoilState(currentReleaseAtom)
+  const setCurrentRecording = useSetRecoilState(currentRecordingAtom)
   const [hlRef, setHlRef] = useState()
   const [imgUrlSmall, setImgUrlSmall] = useState()
   const [showLargeImg, setShowLargeImg] = useState(false)
@@ -92,7 +93,7 @@ export default function Release({id, handleTrackClick}) {
   const handleClick = (id, title, i) => {
     return () => {
       setHlRef(trackEls.current[i])
-      handleTrackClick(id, null, null, null, title)
+      setCurrentRecording({id: id, title: title, 'artist-credit': []})
     }
   }
 
