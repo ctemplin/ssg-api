@@ -62,7 +62,7 @@ export default function Home({aid}) {
   }, [currentReleaseGroup.id])
 
   useEffect(() => {
-    if (currentRelease.id && currentRelease.id != router.query.rgid) {
+    if (currentRelease.id && currentRelease.id != router.query.rid) {
       let pushArgs = getPushArgs(
         router,
         [artistSlug, releaseGroupSlug, releaseSlug],
@@ -88,8 +88,8 @@ export default function Home({aid}) {
   const containerClassNames = useMemo(
     () =>
     classNamesByRouteAndUi(
-       styles, router.query.aid, (!router.query.tid), isTrackMaxed
-    ),[styles, router.query.aid, (!router.query.tid), isTrackMaxed]
+       styles, currentArtist.id, (!router.query.tid), isTrackMaxed
+    ),[styles, currentArtist.id, (!router.query.tid), isTrackMaxed]
   )
 
   const titleByPath = (artistId, releaseGroupId) => {
@@ -122,7 +122,7 @@ export default function Home({aid}) {
           overflow-y: overlay !important;
         }`}</style>
       </Head>
-      {router.query.aid &&
+      {currentArtist.id &&
         <div className={styles.columns}>
           <div className={`${styles.column} ${styles.headColumn}`}>
             <a onClick={handleSearchClick}>
@@ -141,7 +141,7 @@ export default function Home({aid}) {
           </div>
         </div>
       }
-      {!router.query.aid &&
+      {!currentArtist.id &&
         <>
         <div>{/* first grid row. reserved for header/menu */}</div>
         <div className={styles.artistSearchContainer}>
@@ -153,21 +153,21 @@ export default function Home({aid}) {
 
         </div>
         </>}
-      {router.query.aid &&
+      {currentArtist.id &&
         <>
         <div className={styles.columns}>
           <div className={styles.column}>
-            <Artist id={router.query.aid} />
+            <Artist id={currentArtist.id} />
           </div>
           <div className={styles.column}>
-            {router.query.rgid &&
-            <ReleaseGroup id={router.query.rgid} />
+            {currentReleaseGroup.id &&
+            <ReleaseGroup id={currentReleaseGroup.id} />
             }
           </div>
           <div className={styles.column}>
-            {router.query.rid &&
+            {currentRelease.id &&
             <Release
-              id={router.query.rid}
+              id={currentRelease.id}
               handleTrackClick={handleTrackSelect}
             />
             }

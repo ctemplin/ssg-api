@@ -1,6 +1,5 @@
 import { useRecoilState, useSetRecoilState, useRecoilValue, useResetRecoilState } from 'recoil'
 import { currentArtistAtom, currentReleaseGroupAtom, currentReleaseAtom, breadcrumbsSel, prevBreadcrumbsAtom, prevItems } from '../pages/_app'
-import { useRouter } from 'next/router'
 import styles from '../styles/RecordingArtistList.module.scss'
 
 export default function RecordingArtistList({data}) {
@@ -14,9 +13,8 @@ export default function RecordingArtistList({data}) {
   const resetReleaseGroup = useResetRecoilState(currentReleaseGroupAtom)
   const release = useRecoilValue(currentReleaseAtom)
   const resetRelease = useResetRecoilState(currentReleaseAtom)
-  const router = useRouter()
 
-  const handleArtistClick = (id) => {
+  const handleArtistClick = (id, name) => {
     return () => {
       setPreviousBreadcrumbs(currentBreadcrumbs)
       setPrevItems({
@@ -26,7 +24,7 @@ export default function RecordingArtistList({data}) {
       })
       resetRelease()
       resetReleaseGroup()
-      setCurrentArtist({id: id})
+      setCurrentArtist({id: id, name: name})
     }
   }
 
@@ -37,7 +35,7 @@ export default function RecordingArtistList({data}) {
       <span key={_.artist.id}>
         {_.artist.id && _.artist.id != currentArtist.id ?
           <a className={styles.link}
-            onClick={handleArtistClick(_.artist.id)}
+            onClick={handleArtistClick(_.artist.id, _.artist.name)}
           >
               {`${_.name}`}
           </a> : ` ${_.name}`}
