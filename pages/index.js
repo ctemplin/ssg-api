@@ -6,7 +6,7 @@ import {
          currentReleaseAtom, currentReleaseSlug,
          currentRecordingAtom, currentRecordingSlug,
          trackMaxedAtom, dynamicPageTitle
-} from './_app'
+} from '../models/musicbrainz'
 import {useRouter} from 'next/router'
 import {getPushArgs} from '../lib/routes'
 import Head from 'next/head'

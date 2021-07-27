@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { currentArtistAtom, currentReleaseGroupAtom } from '../pages/_app'
+import { currentArtistAtom, currentReleaseGroupAtom } from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicrophoneAlt, faSort } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/ResultBlock.module.scss'

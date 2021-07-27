@@ -1,6 +1,6 @@
 import React,{useState, useEffect, useRef} from 'react'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { currentRecordingAtom, currentReleaseAtom } from '../pages/_app'
+import { currentRecordingAtom, currentReleaseAtom } from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMusic } from '@fortawesome/free-solid-svg-icons'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'

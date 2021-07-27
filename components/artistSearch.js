@@ -5,7 +5,7 @@ import { searchTermsAtom,
          searchHlIndexAtom,
          searchScrollTopAtom,
          currentArtistAtom
-} from '../pages/_app'
+} from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/ArtistSearch.module.scss'

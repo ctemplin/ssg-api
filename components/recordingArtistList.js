@@ -1,5 +1,5 @@
 import { useSetRecoilState, useRecoilValue } from 'recoil'
-import { currentArtistAtom, breadcrumbsSel } from '../pages/_app'
+import { currentArtistAtom, breadcrumbsSel } from '../models/musicbrainz'
 import styles from '../styles/RecordingArtistList.module.scss'
 
 export default function RecordingArtistList({credits}) {

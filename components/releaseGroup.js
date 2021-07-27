@@ -1,6 +1,6 @@
 import React,{useState, useEffect, useRef, useMemo} from 'react'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { currentReleaseGroupAtom, currentReleaseAtom } from '../pages/_app'
+import { currentReleaseGroupAtom, currentReleaseAtom } from '../models/musicbrainz'
 import useAsyncReference from '../lib/asyncReference'
 import {useCookies} from 'react-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
