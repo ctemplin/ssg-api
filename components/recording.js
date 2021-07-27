@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
-import {useRecoilState} from 'recoil'
+import {useRecoilState, useRecoilValue} from 'recoil'
 import {currentRecordingAtom} from '../pages/_app'
+import {recordingCredits} from '../pages/_app'
 import {trackMaxedAtom} from '../pages/_app'
 import RecordingArtistList from './recordingArtistList'
 import YoutubeVideos from './youtubeVideos'
@@ -11,6 +12,7 @@ import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 export default function Recording({id}) {
 
   const [data, setData] = useRecoilState(currentRecordingAtom)
+  const credits = useRecoilValue(recordingCredits)
   const [isLoading, setIsLoading] = useState(true)
   const [isMaxed, setIsMaxed] = useRecoilState(trackMaxedAtom)
 
@@ -48,7 +50,7 @@ export default function Recording({id}) {
       {!isLoading &&
       <div className={styles.container}>
         {data.title}{` - `}
-        <RecordingArtistList data={data['artist-credit']} />
+        <RecordingArtistList credits={credits}/>
       </div>
       }
     </div>

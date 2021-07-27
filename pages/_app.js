@@ -102,6 +102,16 @@ export const currentRecordingAtom = atom({
   }
 })
 
+export const recordingCredits = selector({
+  key: 'currentRecordingSel',
+  get: ({get}) => {
+    const rec = get(currentRecordingAtom)
+    return rec['artist-credit'].map(_ => {
+      return {id: _.artist.id, name: _.name, joinphrase: _.joinphrase}
+    })
+  }
+})
+
 export const currentRecordingSlug = selector({
   key: 'currentRecordingSlug',
   get: ({get}) => slugify(get(currentRecordingAtom).title)
