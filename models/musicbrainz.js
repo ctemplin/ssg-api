@@ -1,15 +1,19 @@
 import { slugify, UPCASE } from '../lib/routes'
-
 import { atom, selector } from 'recoil';
+
+import { artistSearch } from '../data/musicbrainz'
 
 export const searchTermsAtom = atom({
   key: 'searchTerms',
   default: '',
 })
 
-export const searchResultsAtom = atom({
-  key: 'searchResults',
-  default: {matches: null},
+export const searchResultsSel = selector({
+  'key': 'searchResultsSel',
+  get: async({get}) => {
+    let searchTerms = get(searchTermsAtom)
+    return searchTerms ? artistSearch(searchTerms) : {matches: null}
+  }
 })
 
 export const searchScrollTopAtom = atom({

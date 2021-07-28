@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useRecoilState, useSetRecoilState, useResetRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState, useResetRecoilState, 
+         useRecoilValueLoadable } from 'recoil'
 import { searchTermsAtom,
-         searchResultsAtom,
+         searchResultsSel,
          searchHlIndexAtom,
          searchScrollTopAtom,
          currentArtistAtom
@@ -10,57 +11,35 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/ArtistSearch.module.scss'
 
-
 export default function ArtistSearch({}) {
 
   const defaultData = {matches: null}
   const [errored, setErrored] = useState(false)
   const [searchTerms, setSearchTerms] = useRecoilState(searchTermsAtom)
-  const [searchResults, setSearchResults] = useRecoilState(searchResultsAtom)
   const [scrollTop, setScrollTop] = useRecoilState(searchScrollTopAtom)
   const [hlIndex, setHlIndex] = useRecoilState(searchHlIndexAtom)
   const setCurrentArtist = useSetRecoilState(currentArtistAtom)
   const resetCurrentArtist = useResetRecoilState(currentArtistAtom)
 
-  useEffect(() => resetCurrentArtist(), [])
+
+  const searchQuery = useRecoilValueLoadable(searchResultsSel)
   
+  useEffect(() => resetCurrentArtist(), [])
+
   useEffect(() => {
-    const getData = async () => {
-      var url = new URL('https://musicbrainz.org/ws/2/artist')
-      const params = new URLSearchParams()
-      params.append("query", searchTerms)
-      params.append("limit", 20)
-      params.append("offset", 0)
-      url.search = params.toString()
-      const resp = await fetch(
-        url,
-        {
-          headers: {"Accept": "application/json"},
-        }
-      )
-      if (resp.status >= 200 && resp.status <= 299) {
-        const json = await resp.json()
-        setSearchResults(
-          {
-            matches:
-            json.artists.map(artist => {
-              return {
-                name: artist.name,
-                id: artist.id,
-              }
-            })
-          }
-        )
+    switch (searchQuery.state) {
+      case 'loading':
+        break;
+      case 'hasValue':
         setErrored(false)
-      } else {
+        break;
+      case 'hasError':
+        console.log(searchQuery.contents)
         setErrored(true)
-      }
+      default:
+        break;
     }
-    if (searchTerms.length && searchResults.matches == null) {
-      getData()
-      setHlIndex(0)
-    }
-  },[searchTerms, searchResults.matches, setSearchResults, setHlIndex])
+  },[searchQuery.state])
 
   useEffect(() => {
     inputRef.current.focus()
@@ -78,11 +57,9 @@ export default function ArtistSearch({}) {
     ms = newterms == searchTerms.slice(0,-1) ? 1000 : ms
     if (newterms.length > 1) {
       toRef = setTimeout(() => {
-        setSearchResults(defaultData)
         setSearchTerms(newterms)
       }, ms)
     } else {
-      setSearchResults(defaultData)
       setSearchTerms('')
     }
   }
@@ -205,18 +182,19 @@ export default function ArtistSearch({}) {
       />
       <div className={styles.inputContainer}>
         <input type="text" onKeyDown={handleKeyDown} onChange={handleChange} ref={inputRef} className={styles.input} defaultValue={searchTerms} placeholder="Artist search..."/>
-        {!errored && searchResults.matches &&
+        {!errored && searchQuery.state == 'hasValue' &&
         <>
-          {searchResults.matches?.length > 0 ?
+          {searchQuery.contents.matches?.length > 0 &&
             <div className={styles.searchIncResultList} id="searchIncResultList">
-            {searchResults.matches.map((_,i) =>
+            {searchQuery.contents.matches.map((_,i) =>
             <div className={`${styles.searchIncResult} ${hlIndex==i && styles.searchIncResultHl}`} index={i} rid={_.id} key={_.id}
               onClick={handleClick(_.id, _.name)} onKeyDown={handleKeyDown} onMouseEnter={handleMouseEnter} onFocus={handleMouseEnter} tabIndex="0">
               {_.name}
             </div>
             )}
             </div>
-          :
+          }
+          {searchQuery.contents.matches?.length == 0 && searchTerms &&
             <div className={styles.searchIncResultList} id="searchIncResultList">
               <div className={`${styles.searchIncResult} ${styles.searchIncResultWarn}`}>No results found</div>
             </div>
