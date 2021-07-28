@@ -40,6 +40,7 @@ export async function artistSearch(terms) {
 export async function artistLookup(id) {
   const resultMapper = (json) => {
     return ({
+      id: id,
       name: json.name,
       lsBegin: json['life-span']?.begin,
       lsEnd: json['life-span']?.end,

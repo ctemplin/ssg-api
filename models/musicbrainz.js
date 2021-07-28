@@ -17,12 +17,6 @@ export const searchResultsSel = selector({
   }
 })
 
-export const artistLookup = selectorFamily({
-  'key': 'searchLookup',
-  get: (id) => async({get}) => {
-    return data.artistLookup(id)
-  }
-})
 export const searchScrollTopAtom = atom({
   key: 'searchScrollTop',
   default: 0
@@ -36,6 +30,13 @@ export const searchHlIndexAtom = atom({
 export const trackMaxedAtom = atom({
   key: 'trackMaxed',
   default: false
+})
+
+export const artistLookup = selectorFamily({
+  'key': 'searchLookup',
+  get: (id) => async({get}) => {
+    return await data.artistLookup(id)
+  }
 })
 
 export const currentArtistAtom = atom({

@@ -1,13 +1,12 @@
-import React,{useState, useEffect} from 'react'
-import { useRecoilValueLoadable, useSetRecoilState } from 'recoil'
-import { currentReleaseGroupAtom } from '../models/musicbrainz'
+import React, { useEffect, useState } from 'react'
+import { useRecoilState, useRecoilValueLoadable, useSetRecoilState } from 'recoil'
+import { artistLookup, currentArtistAtom, currentReleaseGroupAtom } from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicrophoneAlt, faSort } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/ResultBlock.module.scss'
-import formatDate, {extractYear, sortDateStrings} from '../lib/dates'
+import formatDate, { extractYear, sortDateStrings } from '../lib/dates'
 import ResultSectionHeader from './resultSectionHeader'
 import NetworkError from './networkError'
-import { artistLookup } from '../models/musicbrainz'
 
 export default function Artist({id}) {
 
@@ -20,13 +19,16 @@ export default function Artist({id}) {
   const [sortCfg, setSortCfg] = useState({column: 'default', dir: 'asc'})
   const [showSortMenu, setShowSortMenu] = useState(false)
 
-  const data = useRecoilValueLoadable(artistLookup(id))
+  const [data, setCurrentArtist] = useRecoilState(currentArtistAtom)
+
+  const fetchData = useRecoilValueLoadable(artistLookup(id))
 
   useEffect(() => {
-    switch (data.state) {
+    switch (fetchData.state) {
       case 'loading':
         break;
       case 'hasValue':
+        setCurrentArtist(fetchData.contents)
         setErrored(false)
         break;
       case 'hasError':
@@ -35,7 +37,7 @@ export default function Artist({id}) {
       default:
         break;
     }
-  },[data.state])
+  },[fetchData.state])
 
   function handleClick(id, title) {
     return () => {
@@ -71,8 +73,8 @@ export default function Artist({id}) {
     }
   }
 
-  const lsBeginFmt = data.contents.lsBegin ? formatDate(data.contents.lsBegin) : ''
-  const lsEndFmt = data.contents.lsEnd ? formatDate(data.contents.lsEnd) : 'present'
+  const lsBeginFmt = data.lsBegin ? formatDate(data.lsBegin) : ''
+  const lsEndFmt = data.lsEnd ? formatDate(data.lsEnd) : 'present'
   const varyingFieldNames = ["type1", "type2"]
   let prevItem = null
 
@@ -82,12 +84,12 @@ export default function Artist({id}) {
       <div>
         <div className={styles.blockType}>Artist</div>
         {errored &&
-          <NetworkError errorMsg={data.contents.message} />
+          <NetworkError errorMsg={data.contents?.message} />
         }
         {!errored &&
         <>
         <div className={styles.blockHeader}>
-          <span className={styles.blockHeaderTitle}>{data.contents.name}</span>
+          <span className={styles.blockHeaderTitle}>{data.name}</span>
           <FontAwesomeIcon
             className={styles.resultHeaderIcon}
             height="1.4em"
@@ -100,10 +102,10 @@ export default function Artist({id}) {
         </>
         }
       </div>
-      {!errored && data.contents.releaseGroups &&
+      {!errored && data.releaseGroups &&
       <>
         <div className={styles.count}>
-          Releases: {data.contents.releaseGroups.length} found
+          Releases: {data.releaseGroups.length} found
           <div className={styles.sortContainer}>
             <FontAwesomeIcon
               className={styles.resultUtilIcon}
@@ -129,7 +131,7 @@ export default function Artist({id}) {
           </div>
         </div>
         <div className={styles.resultsList}>
-        {Array.from(data.contents.releaseGroups).sort(sortRgs).map((_,i) => {
+        {Array.from(data.releaseGroups).sort(sortRgs).map((_,i) => {
           const ret = (
             <>
             {sortCfg.column == 'default' &&
