@@ -66,6 +66,7 @@ $column-gap: 0.75rem !default;
 
 .headColumn {
   display: flex;
+  overflow-x: hidden;
 }
 
 .toolbar {
