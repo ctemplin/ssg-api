@@ -44,7 +44,7 @@ export default function Release({id}) {
         {
           ...data,
           title: json.title,
-          date: date == "Invalid Date" ? null : date,
+          date: date,
           country: json.country,
           hasCoverArt: json['cover-art-archive']?.artwork,
           tracks:

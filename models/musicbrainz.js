@@ -34,7 +34,7 @@ export const trackMaxedAtom = atom({
 })
 
 export const artistLookup = selectorFamily({
-  'key': 'searchLookup',
+  'key': 'artistLookup',
   get: (id) => async({get}) => {
     return await data.artistLookup(id)
   }
@@ -68,11 +68,55 @@ export const currentArtistSlug = selector({
   get: ({get}) => slugify(get(currentArtistAtom).name)
 })
 
+export const releaseGroupLookup = selectorFamily({
+  'key': 'releaseGroupLookup',
+  get: (id) => async({get}) => {
+    return await data.releaseGroupLookup(id)
+  }
+})
+
 export const currentReleaseGroupAtom = atom({
   key: 'currentReleaseGroup',
   default: {
     id: null,
-    title: null
+    title: null,
+    firstReleaseDate: null,
+    releases: []
+  }
+})
+
+export const currentReleaseGroupPanelFormat = selector({
+  key: 'currentReleaseGroupPanelFormat',
+  get: ({get}) => {
+    const raw = get(currentReleaseGroupAtom)
+    return ({
+      ...raw,
+      firstReleaseDate: formatDate(raw.firstReleaseDate) || null
+    })
+  }
+})
+
+export const releaseGroupCountries = selector({
+  key: 'releaseGroupCountries',
+  get: ({get}) => {
+    const _countries = new Set()
+    const rg = get(currentReleaseGroupAtom)
+    rg.releases.map(
+      release => _countries.add(release.country || "??")
+    )
+    return _countries
+  }
+})
+
+export const releaseGroupFilteredReleases = selectorFamily({
+  key: 'releaseGroupFilteredReleases',
+  get: (anyCountryMatch, userCountries) => ({get}) => {
+    const countryFilter = anyCountryMatch ?
+    (_,i,a) => a.length == 1 || userCountries.current.has(_.country)
+    :
+    (_,i,a) => true
+
+    return get(currentReleaseGroupAtom).releases?.filter(countryFilter)
   }
 })
 

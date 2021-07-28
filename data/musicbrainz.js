@@ -64,3 +64,29 @@ export async function artistLookup(id) {
   )
   return results
 }
+
+export async function releaseGroupLookup(id) {
+  const resultMapper = (json) => {
+    return ({
+      id: json.id,
+      title: json.title,
+      firstReleaseDate: json['first-release-date'],
+      releases:
+        json['releases'].map(release => {
+          return {
+            id: release.id,
+            title: release.title,
+            date: release['date'],
+            country: release.country || "??"
+          }
+        })
+      })
+  }
+
+  const results = await fetchData(
+    `https://musicbrainz.org/ws/2/release-group/${id}`,
+    [["inc", "releases"]],
+    resultMapper
+  )
+  return results
+}

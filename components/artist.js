@@ -43,7 +43,7 @@ export default function Artist({id}) {
   function handleClick(id, title) {
     return () => {
       setHlId(id)
-      setCurrentReleaseGroup({id: id, title: title})
+      setCurrentReleaseGroup({id: id, title: title, releases: []})
     }
   }
 
