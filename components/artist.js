@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useRecoilState, useRecoilValueLoadable, useSetRecoilState } from 'recoil'
-import { artistLookup, currentArtistAtom, currentReleaseGroupAtom } from '../models/musicbrainz'
+import { useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil'
+import { artistLookup, currentArtistAtom, currentArtistPanelFormat, currentReleaseGroupAtom } from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicrophoneAlt, faSort } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/ResultBlock.module.scss'
-import formatDate, { extractYear, sortDateStrings } from '../lib/dates'
+import { extractYear, sortDateStrings } from '../lib/dates'
 import ResultSectionHeader from './resultSectionHeader'
 import NetworkError from './networkError'
 
@@ -19,7 +19,8 @@ export default function Artist({id}) {
   const [sortCfg, setSortCfg] = useState({column: 'default', dir: 'asc'})
   const [showSortMenu, setShowSortMenu] = useState(false)
 
-  const [data, setCurrentArtist] = useRecoilState(currentArtistAtom)
+  const data = useRecoilValue(currentArtistPanelFormat)
+  const setCurrentArtist = useSetRecoilState(currentArtistAtom)
 
   const fetchData = useRecoilValueLoadable(artistLookup(id))
 
@@ -73,8 +74,6 @@ export default function Artist({id}) {
     }
   }
 
-  const lsBeginFmt = data.lsBegin ? formatDate(data.lsBegin) : ''
-  const lsEndFmt = data.lsEnd ? formatDate(data.lsEnd) : 'present'
   const varyingFieldNames = ["type1", "type2"]
   let prevItem = null
 
@@ -97,7 +96,7 @@ export default function Artist({id}) {
           />
         </div>
         <div className={styles.blockHeaderDate}>
-          {lsBeginFmt && `${lsBeginFmt} to ${lsEndFmt}`}
+          {data.lsBegin && `${data.lsBegin} to ${data.lsEnd}`}
         </div>
         </>
         }

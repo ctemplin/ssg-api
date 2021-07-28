@@ -1,5 +1,6 @@
 import { slugify, UPCASE } from '../lib/routes'
-import { atom, selector, selectorFamily } from 'recoil';
+import { atom, selector, selectorFamily } from 'recoil'
+import formatDate from '../lib/dates'
 
 // import { artistSearch, artistLookup } from '../data/musicbrainz'
 import * as data from '../data/musicbrainz'
@@ -47,6 +48,18 @@ export const currentArtistAtom = atom({
     lsBegin: null,
     lsEnd: null,
     releaseGroups: []
+  }
+})
+
+export const currentArtistPanelFormat = selector({
+  key: 'currentArtistPanelFormat',
+  get: ({get}) => {
+    const raw = get(currentArtistAtom)
+    return ({
+      ...raw,
+      lsBegin: raw.lsBegin ? formatDate(raw.lsBegin) : '',
+      lsEnd: raw.lsEnd ? formatDate(raw.lsEnd) : 'present'
+    })
   }
 })
 
