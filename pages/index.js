@@ -143,7 +143,7 @@ export default function Home() {
       {currentArtist.id &&
         <div className={styles.columns}>
           <div className={`${styles.column} ${styles.headColumn}`}>
-            <a onClick={handleSearchClick}>
+            <a onClick={handleSearchClick} className={styles.toolbar}>
             <FontAwesomeIcon
               className={styles.icon}
               height="1em"

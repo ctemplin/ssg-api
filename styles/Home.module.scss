@@ -65,7 +65,13 @@ $column-gap: 0.75rem !default;
 }
 
 .headColumn {
-  place-self: center;
+  display: flex;
+}
+
+.toolbar {
+  flex: 0 0;
+  display: block;
+  white-space: nowrap;
 }
 
 .column:last-child:not(:only-child) {

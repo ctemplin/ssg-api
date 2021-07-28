@@ -1,7 +1,21 @@
-.crumbs {
-  font-size: 1.1em;
+
+.leadIn {
+  flex: 0 0;
+  display: block;
+  white-space: nowrap;
+  margin-right: 0.5em;
 }
 
-.crumbs > a {
-  text-decoration: underline;  
+.crumb {
+  flex: 2 0;
+  font-size: .9em;
+  place-self: center;
+  text-decoration: underline;
+  white-space: nowrap;
+  overflow-y: clip; 
+}
+
+.separator {
+  flex: 0 0;
+  margin: 0 0.25em;
 }

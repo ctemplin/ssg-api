@@ -123,11 +123,11 @@ export const breadcrumbsSel = selector({
       if (currentReleaseGroup.id) {
         bc.push({id: currentReleaseGroup.id, label: currentReleaseGroup.title, slug: get(currentReleaseGroupSlug)})
         let currentRelease = get(currentReleaseAtom)
-        if (currentReleaseAtom.id) {
-          bc.push({id: currentReleaseAtom.id, label: currentReleaseAtom.title, slug: get(currentReleaseSlug)})
-          let currentRelease = get(currentRecordingAtom)
-          if (currentRecordingAtom.id) {
-            bc.push({id: currentRecordingAtom.id, label: currentRecordingAtom.title, slug: get(currentRecordingSlug)})
+        if (currentRelease.id) {
+          bc.push({id: currentRelease.id, label: currentRelease.title, slug: get(currentReleaseSlug)})
+          let currentRecording = get(currentRecordingAtom)
+          if (currentRecording.id) {
+            bc.push({id: currentRecording.id, label: currentRecording.title, slug: get(currentRecordingSlug)})
           }
         }
       }

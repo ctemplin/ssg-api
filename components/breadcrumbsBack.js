@@ -8,18 +8,34 @@ export default function BreadcrumbsBack() {
   const restorePreviousView = useSetRecoilState(breadcrumbsSel)
   const handleClick = () => restorePreviousView()
 
+  function breadcrumbOrNot(_, i, arr) {
+    const include = (i,l) => {
+      return (i == 0 || i == l-1)
+    }
+
+    const style = (i) => {
+      return {"flex-grow": i*2}
+    }
+
+    return (
+      <>
+      {include(i,arr.length) && 
+      <>
+      <a key={_.id} onClick={handleClick} className={styles.crumb} style={style(i)}>{_.label}</a>
+      {i < arr.length -1 && <span className={styles.separator}> - </span>}
+      </>
+      }
+      </>
+    )
+  }
+
   return (
     <>
     {prevBreadcrumbs?.[0]?.id &&
-    <span className={styles.crumbs}>
-      <span>| Return to: </span>
-      {prevBreadcrumbs.map((_, i, arr) =>
-        <>
-        <a key={_.id} onClick={handleClick} >{_.label}</a>
-        {i < arr.length -1 && <span> - </span>}
-        </>
-      )}
-    </span>
+    <>
+      <span className={styles.leadIn}>| Return to:</span>
+      {prevBreadcrumbs.map(breadcrumbOrNot)}
+    </>
     }
     </>
   )
