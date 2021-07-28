@@ -203,7 +203,7 @@ export default function ArtistSearch({}) {
         }
         {errored &&
           <div className={styles.searchIncResultList} id="searchIncResultList">
-            <div className={`${styles.searchIncResult} ${styles.searchIncResultWarn}`}>A network error occurred.</div>
+            <div className={`${styles.searchIncResult} ${styles.searchIncResultWarn}`}>{searchQuery.contents.message}</div>
           </div>
         }
       </div>

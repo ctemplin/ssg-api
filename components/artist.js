@@ -1,17 +1,17 @@
 import React,{useState, useEffect} from 'react'
-import { useRecoilState, useSetRecoilState } from 'recoil'
-import { currentArtistAtom, currentReleaseGroupAtom } from '../models/musicbrainz'
+import { useRecoilValueLoadable, useSetRecoilState } from 'recoil'
+import { currentReleaseGroupAtom } from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicrophoneAlt, faSort } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/ResultBlock.module.scss'
 import formatDate, {extractYear, sortDateStrings} from '../lib/dates'
 import ResultSectionHeader from './resultSectionHeader'
 import NetworkError from './networkError'
+import { artistLookup } from '../models/musicbrainz'
 
 export default function Artist({id}) {
 
   const [hlId, setHlId] = useState(null)
-  const [data, setData] = useRecoilState(currentArtistAtom)
   const setCurrentReleaseGroup = useSetRecoilState(currentReleaseGroupAtom)
   const [errored, setErrored] = useState(false)
   const sortColumns = [
@@ -20,46 +20,22 @@ export default function Artist({id}) {
   const [sortCfg, setSortCfg] = useState({column: 'default', dir: 'asc'})
   const [showSortMenu, setShowSortMenu] = useState(false)
 
+  const data = useRecoilValueLoadable(artistLookup(id))
+
   useEffect(() => {
-    async function getData(){
-      if (!id) return
-      var url = new URL('https://musicbrainz.org/ws/2/artist/' + id)
-      const params = new URLSearchParams()
-      params.append("inc", "release-groups")
-      url.search = params.toString()
-      const resp = await fetch(
-        url,
-        {
-          headers: {"Accept": "application/json"},
-        }
-      )
-      if (resp.status >= 200 && resp.status <= 299) {
-        const json = await resp.json()
-        setData(
-          {...data,
-            name: json.name,
-            lsBegin: json['life-span']?.begin,
-            lsEnd: json['life-span']?.end,
-            releaseGroups:
-              json['release-groups'].map(album => {
-                return {
-                  id: album.id,
-                  title: album.title,
-                  type1: album['primary-type'],
-                  type2: album['secondary-types']?.[0],
-                  firstReleaseDate: album['first-release-date']
-                }
-              })
-          }
-        )
+    switch (data.state) {
+      case 'loading':
+        break;
+      case 'hasValue':
         setErrored(false)
-      } else {
+        break;
+      case 'hasError':
+        console.log(data.contents)
         setErrored(true)
-      }
+      default:
+        break;
     }
-    getData()
-  }
-  ,[id])
+  },[data.state])
 
   function handleClick(id, title) {
     return () => {
@@ -95,8 +71,8 @@ export default function Artist({id}) {
     }
   }
 
-  const lsBeginFmt = data.lsBegin ? formatDate(data.lsBegin) : ''
-  const lsEndFmt = data.lsEnd ? formatDate(data.lsEnd) : 'present'
+  const lsBeginFmt = data.contents.lsBegin ? formatDate(data.contents.lsBegin) : ''
+  const lsEndFmt = data.contents.lsEnd ? formatDate(data.contents.lsEnd) : 'present'
   const varyingFieldNames = ["type1", "type2"]
   let prevItem = null
 
@@ -106,12 +82,12 @@ export default function Artist({id}) {
       <div>
         <div className={styles.blockType}>Artist</div>
         {errored &&
-          <NetworkError errorMsg="A network error occurred. Please try again later." />
+          <NetworkError errorMsg={data.contents.message} />
         }
         {!errored &&
         <>
         <div className={styles.blockHeader}>
-          <span className={styles.blockHeaderTitle}>{data.name}</span>
+          <span className={styles.blockHeaderTitle}>{data.contents.name}</span>
           <FontAwesomeIcon
             className={styles.resultHeaderIcon}
             height="1.4em"
@@ -124,10 +100,10 @@ export default function Artist({id}) {
         </>
         }
       </div>
-      {!errored && data.releaseGroups &&
+      {!errored && data.contents.releaseGroups &&
       <>
         <div className={styles.count}>
-          Releases: {data.releaseGroups.length} found
+          Releases: {data.contents.releaseGroups.length} found
           <div className={styles.sortContainer}>
             <FontAwesomeIcon
               className={styles.resultUtilIcon}
@@ -153,7 +129,7 @@ export default function Artist({id}) {
           </div>
         </div>
         <div className={styles.resultsList}>
-        {Array.from(data.releaseGroups).sort(sortRgs).map((_,i) => {
+        {Array.from(data.contents.releaseGroups).sort(sortRgs).map((_,i) => {
           const ret = (
             <>
             {sortCfg.column == 'default' &&
