@@ -1,6 +1,6 @@
 import { slugify, UPCASE } from '../lib/routes'
 import { atom, selector, selectorFamily } from 'recoil'
-import formatDate from '../lib/dates'
+import formatDate, { formatMilliseconds } from '../lib/dates'
 
 // import { artistSearch, artistLookup } from '../data/musicbrainz'
 import * as data from '../data/musicbrainz'
@@ -125,6 +125,13 @@ export const currentReleaseGroupSlug = selector({
   get: ({get}) => slugify(get(currentReleaseGroupAtom).title)
 })
 
+export const releaseLookup = selectorFamily({
+  'key': 'releaseLookup',
+  get: (id) => async({get}) => {
+    return await data.releaseLookup(id)
+  }
+})
+
 export const currentReleaseAtom = atom({
   key: 'currentRelease',
   default: {
@@ -134,6 +141,18 @@ export const currentReleaseAtom = atom({
     country: null,
     hasCoverArt: false,
     tracks: []
+  }
+})
+
+export const currentReleasePanelFormat = selector({
+  key: 'currentReleasePanelFormat',
+  get: ({get}) => {
+    const raw = get(currentReleaseAtom)
+    return ({
+      ...raw,
+      date: formatDate(raw.data),
+      tracks: raw.tracks.map(_=> ({..._, length: formatMilliseconds(_.length)}))
+    })
   }
 })
 

@@ -1,70 +1,42 @@
-import React,{useState, useEffect, useRef} from 'react'
-import { useRecoilState, useSetRecoilState } from 'recoil'
-import { currentRecordingAtom, currentReleaseAtom } from '../models/musicbrainz'
+import React, { useState, useEffect, useRef } from 'react'
+import { useRecoilValueLoadable, useRecoilValue, useSetRecoilState } from 'recoil'
+import { releaseLookup, currentReleaseAtom, currentReleasePanelFormat, currentRecordingAtom } from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMusic } from '@fortawesome/free-solid-svg-icons'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import CoverArt from '../components/coverArt'
 import Image from 'next/image'
 import styles from '../styles/ResultBlock.module.scss'
-import formatDate from '../lib/dates'
 
 export default function Release({id}) {
 
   const [isLoading, setIsLoading] = useState(true)
-  const [data, setData] = useRecoilState(currentReleaseAtom)
+  const [errored, setErrored] = useState(false)
+  const data = useRecoilValue(currentReleasePanelFormat)
+  const setCurrentRelease = useSetRecoilState(currentReleaseAtom)
   const setCurrentRecording = useSetRecoilState(currentRecordingAtom)
   const [hlRef, setHlRef] = useState()
   const [imgUrlSmall, setImgUrlSmall] = useState()
   const [showLargeImg, setShowLargeImg] = useState(false)
 
-  const formatLength = (ms) => {
-    var mins = Math.floor(ms/60000)
-    var secs = Math.floor((ms % 60000) / 1000)
-    secs = secs.toString().padStart(2,'0')
-    return `${mins}:${secs}`
-  }
+  const fetchData = useRecoilValueLoadable(releaseLookup(id))
 
   useEffect(() => {
-    setIsLoading(true)
-    const getData = async () => {
-      var url = new URL('https://musicbrainz.org/ws/2/release/' + id)
-      const params = new URLSearchParams()
-      params.append("inc", "recordings")
-      url.search = params.toString()
-      const resp = await fetch(
-        url,
-        {
-          headers: {"Accept": "application/json"},
-        }
-      )
-      const json = await resp.json()
-      const date = formatDate(json.date)
-      setData(
-        {
-          ...data,
-          title: json.title,
-          date: date,
-          country: json.country,
-          hasCoverArt: json['cover-art-archive']?.artwork,
-          tracks:
-          json.media?.[0]?.tracks?.map(track => {
-            return {
-              id: track.id,
-              rid: track.recording?.id,
-              title: track.title,
-              position: track.position,
-              length: formatLength(track['length']),
-            }
-          })
-        }
-      )
-      setIsLoading(false)
+    switch (fetchData.state) {
+      case 'loading':
+        break;
+      case 'hasValue':
+        setCurrentRelease(fetchData.contents)
+        setIsLoading(false)
+        setErrored(false)
+        break;
+      case 'hasError':
+        console.log(fetchData.contents)
+        setErrored(true)
+      default:
+        break;
     }
-    getData()
-    const listDiv = scrollableRef.current
-    if (listDiv) listDiv.scrollTop = 0
-  },[id])
+  },[fetchData.state])
 
   const handleCoverArtSmall = (url) => {
     setImgUrlSmall(url)
