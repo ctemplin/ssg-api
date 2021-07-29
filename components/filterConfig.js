@@ -1,10 +1,13 @@
 import {useState} from 'react'
+import { useRecoilValue } from 'recoil'
+import { userCountriesAtom, releaseGroupCountries } from '../models/musicbrainz'
 import styles from '../styles/FilterConfig.module.scss'
 
-export default function FilterConfig(
-  {countries, userCountries, handleChange, persistChange, handleClose}
-){
 
+export default function FilterConfig({handleChange, persistChange, handleClose}){
+    
+  const userCountries = useRecoilValue(userCountriesAtom)
+  const countries = useRecoilValue(releaseGroupCountries)
   const [isChanged, setIsChanged] = useState(false)
 
   const handleCheckboxChange = function(e) {
@@ -22,7 +25,7 @@ export default function FilterConfig(
           type="checkbox"
           name={_}
           onChange={handleCheckboxChange}
-          checked={userCountries.current.has(_)}
+          checked={userCountries.has(_)}
           className={styles.cb}
         />
       </label>

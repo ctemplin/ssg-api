@@ -1,9 +1,12 @@
 import { slugify, UPCASE } from '../lib/routes'
 import { atom, selector, selectorFamily } from 'recoil'
 import formatDate, { formatMilliseconds } from '../lib/dates'
-
-// import { artistSearch, artistLookup } from '../data/musicbrainz'
 import * as data from '../data/musicbrainz'
+
+export const userCountriesAtom = atom({
+  key: 'userCountries',
+  default: new Set(['US', '??'])
+})
 
 export const searchTermsAtom = atom({
   key: 'searchTerms',
@@ -108,11 +111,23 @@ export const releaseGroupCountries = selector({
   }
 })
 
+export const releaseGroupUserCountryMatch = selector({
+  key: 'releaseGroupUserCountryMatch',
+  get: ({get}) => {
+    const userCountries = get(userCountriesAtom)
+    const rgCountries = Array.from(get(releaseGroupCountries))
+    let _anyCountryMatch = rgCountries.some(
+      _ => userCountries.has(_)
+    )
+    return _anyCountryMatch
+  }
+})
+
 export const releaseGroupFilteredReleases = selectorFamily({
   key: 'releaseGroupFilteredReleases',
-  get: (anyCountryMatch, userCountries) => ({get}) => {
+  get: (anyCountryMatch) => ({get}) => {
     const countryFilter = anyCountryMatch ?
-    (_,i,a) => a.length == 1 || userCountries.current.has(_.country)
+    (_,i,a) => a.length == 1 || get(userCountriesAtom).has(_.country)
     :
     (_,i,a) => true
 
@@ -150,7 +165,7 @@ export const currentReleasePanelFormat = selector({
     const raw = get(currentReleaseAtom)
     return ({
       ...raw,
-      date: formatDate(raw.data),
+      date: formatDate(raw.date),
       tracks: raw.tracks.map(_=> ({..._, length: formatMilliseconds(_.length)}))
     })
   }

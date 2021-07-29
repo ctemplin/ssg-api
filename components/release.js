@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useRecoilValueLoadable, useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilValueLoadable, useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
 import { releaseLookup, currentReleaseAtom, currentReleasePanelFormat, currentRecordingAtom } from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMusic } from '@fortawesome/free-solid-svg-icons'
@@ -12,31 +12,30 @@ export default function Release({id}) {
 
   const [isLoading, setIsLoading] = useState(true)
   const [errored, setErrored] = useState(false)
-  const data = useRecoilValue(currentReleasePanelFormat)
+  const dispData = useRecoilValue(currentReleasePanelFormat)
   const setCurrentRelease = useSetRecoilState(currentReleaseAtom)
-  const setCurrentRecording = useSetRecoilState(currentRecordingAtom)
-  const [hlRef, setHlRef] = useState()
+  const [currentRecording, setCurrentRecording] = useRecoilState(currentRecordingAtom)
   const [imgUrlSmall, setImgUrlSmall] = useState()
   const [showLargeImg, setShowLargeImg] = useState(false)
 
-  const fetchData = useRecoilValueLoadable(releaseLookup(id))
+  const dataFetcher = useRecoilValueLoadable(releaseLookup(id))
 
   useEffect(() => {
-    switch (fetchData.state) {
+    switch (dataFetcher.state) {
       case 'loading':
         break;
       case 'hasValue':
-        setCurrentRelease(fetchData.contents)
+        setCurrentRelease(dataFetcher.contents)
         setIsLoading(false)
         setErrored(false)
         break;
       case 'hasError':
-        console.log(fetchData.contents)
+        console.log(dataFetcher.contents)
         setErrored(true)
       default:
         break;
     }
-  },[fetchData.state])
+  },[id, dataFetcher.state])
 
   const handleCoverArtSmall = (url) => {
     setImgUrlSmall(url)
@@ -51,7 +50,7 @@ export default function Release({id}) {
   const ReleaseDate = function({show}) {
     if (show) {
       return (
-        <div className={styles.blockHeaderDate}>{data.date}</div>
+        <div className={styles.blockHeaderDate}>{dispData.date}</div>
       )
     } else {
       return null
@@ -60,17 +59,15 @@ export default function Release({id}) {
 
   useEffect(() => {
     head.current?.scrollIntoView({behavior: "smooth"})
-  },[data.id])
+  },[dispData.id])
 
   const handleClick = (id, title, i) => {
     return () => {
-      setHlRef(trackEls.current[i])
       setCurrentRecording({id: id, title: title, 'artist-credit': []})
     }
   }
 
   const head = useRef()
-  const trackEls = useRef([])
 
   return (
   <div ref={head} className={styles.block}>
@@ -84,17 +81,17 @@ export default function Release({id}) {
       />
       :
       <>
-      <div className={`${styles.blockHeader} ${data.hasCoverArt && styles.blockHeaderArt}`}>
+      <div className={`${styles.blockHeader} ${dispData.hasCoverArt && styles.blockHeaderArt}`}>
         <div>
           <div className={styles.blockHeaderTitle}>
-            {data.title}
+            {dispData.title}
             <span className={styles.releaseCountry}>
-              {data.country ? `(${data.country})` : ``}
+              {dispData.country ? `(${dispData.country})` : ``}
             </span>
           </div>
-          <ReleaseDate show={data.hasCoverArt} />
+          <ReleaseDate show={dispData.hasCoverArt} />
         </div>
-        {data.hasCoverArt && imgUrlSmall ?
+        {dispData.hasCoverArt && imgUrlSmall ?
         <>
           <a onClick={toggleImgModal}>
             <Image
@@ -112,19 +109,22 @@ export default function Release({id}) {
           />
         }
       </div>
-      <ReleaseDate show={!data.hasCoverArt} />
+      <ReleaseDate show={!dispData.hasCoverArt} />
       </>
       }
     </div>
-    {(!isLoading) && data.tracks ?
+    {(!isLoading) && dispData.tracks ?
     <>
-      <div className={styles.count}>Tracks: {data.tracks.length} found</div>
+      <div className={styles.count}>Tracks: {dispData.tracks.length} found</div>
       <div className={styles.resultsList} ref={scrollableRef}>
-        {data.tracks.map((_,i) =>
+        {dispData.tracks.map((_,i) =>
           <div
+            key={_.id}
             onClick={handleClick(_.rid, _.title, i)}
-            ref={(el) => trackEls.current[i] = el}
-            key={_.id} className={styles.resultItem}
+            className={`
+              ${styles.resultItem} 
+              ${_.rid == currentRecording.id && styles.resultItemHl}
+            `}
           >
             <span className={styles.trackPosition}>{`${_.position}. `}</span>
             <span className={styles.trackTitle}>{_.title}</span>
@@ -136,8 +136,8 @@ export default function Release({id}) {
     :
     <></>
     }
-    {data?.id && data?.hasCoverArt &&
-        <CoverArt id={data?.id}
+    {dispData?.id && dispData?.hasCoverArt &&
+        <CoverArt id={dispData?.id}
           handleCoverArtSmall={handleCoverArtSmall}
           handleCloseClick={toggleImgModal} showLargeImg={showLargeImg} />
     }

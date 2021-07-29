@@ -1,12 +1,14 @@
 import {useEffect, useMemo} from 'react'
-import {useRecoilValue, useRecoilState, useResetRecoilState} from 'recoil'
+import {useRecoilValue, useRecoilState, useSetRecoilState, useResetRecoilState} from 'recoil'
 import {
          currentArtistAtom, currentArtistSlug,
          currentReleaseGroupAtom, currentReleaseGroupSlug,
          currentReleaseAtom, currentReleaseSlug,
          currentRecordingAtom, currentRecordingSlug,
-         trackMaxedAtom, dynamicPageTitle
+         trackMaxedAtom, dynamicPageTitle,
+         userCountriesAtom
 } from '../models/musicbrainz'
+import {useCookies} from 'react-cookie'
 import {useRouter} from 'next/router'
 import {getPushArgs} from '../lib/routes'
 import Head from 'next/head'
@@ -36,7 +38,13 @@ export default function Home() {
   const recordingSlug = useRecoilValue(currentRecordingSlug)
   const isTrackMaxed = useRecoilValue(trackMaxedAtom)
   const derivedPageTitle = useRecoilValue(dynamicPageTitle)
+  const setUserCountries = useSetRecoilState(userCountriesAtom)
+  const [cookies,] = useCookies()
   const router = useRouter()
+
+  useEffect(() => {
+    if (cookies.countries) {setUserCountries(new Set(cookies.countries))}
+  },[])
 
   useEffect(() => {
     if (!currentArtist.id && router?.query?.aid) {
