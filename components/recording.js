@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
-import {useRecoilState, useRecoilValue} from 'recoil'
-import {currentRecordingAtom} from '../models/musicbrainz'
+import {useRecoilState, useRecoilValue, useRecoilValueLoadable, useSetRecoilState} from 'recoil'
+import {recordingLookup, currentRecordingAtom, currentRecordingPanelFormat} from '../models/musicbrainz'
 import {recordingCredits} from '../models/musicbrainz'
 import {trackMaxedAtom} from '../models/musicbrainz'
 import RecordingArtistList from './recordingArtistList'
@@ -11,27 +11,29 @@ import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 export default function Recording({id}) {
 
-  const [data, setData] = useRecoilState(currentRecordingAtom)
-  const credits = useRecoilValue(recordingCredits)
   const [isLoading, setIsLoading] = useState(true)
   const [isMaxed, setIsMaxed] = useRecoilState(trackMaxedAtom)
+  const dispData = useRecoilValue(currentRecordingPanelFormat)
+  const setCurrentRecording = useSetRecoilState(currentRecordingAtom)
+  const credits = useRecoilValue(recordingCredits)
+  const dataFetcher = useRecoilValueLoadable(recordingLookup(id))
 
   useEffect(() => {
-    setIsLoading(true)
-    if (!id) return
-    const getData = async () => {
-      const url = new URL(`https://musicbrainz.org/ws/2/recording/${id}`)
-      url.searchParams.append("inc", "artist-credits")
-      const resp = await fetch(
-        url,
-        {headers: {"Accept": "application/json"}}
-      )
-      const json = await resp.json()
-      setData({...data, ...json})
-      setIsLoading(false)
+    switch (dataFetcher.state) {
+      case 'loading':
+        break;
+      case 'hasValue':
+        setCurrentRecording(dataFetcher.contents)
+        setIsLoading(false)
+        break;
+      case 'hasError':
+        setIsLoading(false)
+        console.log(dataFetcher.contents)
+        break;
+      default:
+        break;
     }
-    getData()
-  },[id])
+  }, [id, dataFetcher.state])
 
   useEffect(() => {
     return () => {
@@ -49,7 +51,7 @@ export default function Recording({id}) {
     </div>
       {!isLoading &&
       <div className={styles.container}>
-        {data.title}{` - `}
+        {dispData.title}{` - `}
         <RecordingArtistList credits={credits}/>
       </div>
       }

@@ -119,3 +119,24 @@ export async function releaseLookup(id) {
   )
   return results
 }
+
+export async function recordingLookup(id) {
+  const resultMapper = (json) => {
+      return ({
+        id: json.id,
+        title: json.title,
+        disambiguation: json.disambiguation,
+        firstReleaseDate: json['first-release-date'],
+        length: json.length,
+        video: json.video,
+        artistCredits: json['artist-credit']
+      })
+  }
+
+  const results = await fetchData(
+    `https://musicbrainz.org/ws/2/recording/${id}`,
+    [["inc", "artist-credits"]],
+    resultMapper
+  )
+  return results
+}

@@ -183,24 +183,41 @@ export const currentReleaseSlug = selector({
   }
 })
 
+export const recordingLookup = selectorFamily({
+  key: 'recordingLookeup',
+  get: (id) => async ({get}) => {
+    return await data.recordingLookup(id)
+  }
+})
+
 export const currentRecordingAtom = atom({
   key: 'currentRecording',
   default: {
     id: null,
-    'artist-credit': [],
+    artistCredits: [],
     disambiguation: null,
-    'first-release-date': null,
+    firstReleaseDate: null,
     length: null,
     title: null,
     video: null
   }
 })
 
+export const currentRecordingPanelFormat = selector({
+  key: 'currentRecordingPanelFormat',
+  get: ({get}) => {
+    const raw = get(currentRecordingAtom)
+    return ({
+      title: raw.title
+    })
+  }
+})
+
 export const recordingCredits = selector({
-  key: 'currentRecordingSel',
+  key: 'recordingCredits',
   get: ({get}) => {
     const rec = get(currentRecordingAtom)
-    return rec['artist-credit'].map(_ => {
+    return rec.artistCredits.map(_ => {
       return {id: _.artist.id, name: _.name, joinphrase: _.joinphrase}
     })
   }

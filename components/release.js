@@ -31,6 +31,7 @@ export default function Release({id}) {
         break;
       case 'hasError':
         console.log(dataFetcher.contents)
+        setIsLoading(false)
         setErrored(true)
       default:
         break;
@@ -63,7 +64,7 @@ export default function Release({id}) {
 
   const handleClick = (id, title, i) => {
     return () => {
-      setCurrentRecording({id: id, title: title, 'artist-credit': []})
+      setCurrentRecording({id: id, title: title, artistCredits: []})
     }
   }
 
