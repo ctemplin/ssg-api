@@ -1,13 +1,17 @@
 import {useEffect, useMemo} from 'react'
 import {useRecoilValue, useRecoilState, useSetRecoilState, useResetRecoilState} from 'recoil'
 import {
-         currentArtistAtom, currentArtistSlug,
-         currentReleaseGroupAtom, currentReleaseGroupSlug,
-         currentReleaseAtom, currentReleaseSlug,
-         currentRecordingAtom, currentRecordingSlug,
+         artistLookup, currentArtistAtom,
+         currentArtistPanelFormat, currentArtistSlug,
+         releaseGroupLookup, currentReleaseGroupAtom,
+         currentReleaseGroupPanelFormat, currentReleaseGroupSlug,
+         releaseLookup, currentReleaseAtom,
+         currentReleasePanelFormat, currentReleaseSlug,
+         recordingLookup, currentRecordingAtom,
+         currentRecordingPanelFormat, currentRecordingSlug,
          trackMaxedAtom, dynamicPageTitle,
-         userCountriesAtom
-} from '../models/musicbrainz'
+         userCountriesAtom,
+         } from '../models/musicbrainz'
 import {useCookies} from 'react-cookie'
 import {useRouter} from 'next/router'
 import {getPushArgs} from '../lib/routes'
@@ -16,6 +20,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.scss'
 import ArtistSearch from '../components/artistSearch'
 import BreadcrumbsBack from '../components/breadcrumbsBack'
+import withMbz from '../components/mbzComponent'
 import Artist from '../components/artist'
 import ReleaseGroup from '../components/releaseGroup'
 import Release from '../components/release'
@@ -41,6 +46,12 @@ export default function Home() {
   const setUserCountries = useSetRecoilState(userCountriesAtom)
   const [cookies,] = useCookies()
   const router = useRouter()
+
+  // Wrapped components
+  const Artist_MBZ = withMbz(Artist)
+  const ReleaseGroup_MBZ = withMbz(ReleaseGroup)
+  const Release_MBZ = withMbz(Release)
+  const Recording_MBZ = withMbz(Recording)
 
   useEffect(() => {
     if (cookies.countries) {setUserCountries(new Set(cookies.countries))}
@@ -127,7 +138,8 @@ export default function Home() {
     return title
   }
 
-  // Only update title if the artist has changed (or blanked for a new search)
+  // Only update title if the artist or releaseGroup has changed
+  // (or blanked for a new search)
   const pageTitle = useMemo(
     () => titleByPath(currentArtist.id, currentReleaseGroup.id), [currentArtist.id, currentReleaseGroup.id]
   )
@@ -183,21 +195,33 @@ export default function Home() {
         <>
         <div className={styles.columns}>
           <div className={styles.column}>
-            <Artist id={currentArtist.id} />
+            <Artist_MBZ
+              lookup={artistLookup}
+              atom={currentArtistAtom} 
+              dispSel={currentArtistPanelFormat} />
           </div>
           <div className={styles.column}>
             {currentReleaseGroup.id &&
-            <ReleaseGroup id={currentReleaseGroup.id} />
+            <ReleaseGroup_MBZ 
+              lookup={releaseGroupLookup}
+              atom={currentReleaseGroupAtom}
+              dispSel={currentReleaseGroupPanelFormat} />
             }
           </div>
           <div className={styles.column}>
             {currentRelease.id &&
-            <Release id={currentRelease.id} />
+            <Release_MBZ
+              lookup={releaseLookup}
+              atom={currentReleaseAtom}
+              dispSel={currentReleasePanelFormat} />
             }
           </div>
         </div>
         {currentRecording.id &&
-        <Recording id={currentRecording.id} />
+        <Recording_MBZ
+          lookup={recordingLookup}
+          atom={currentRecordingAtom}
+          dispSel={currentRecordingPanelFormat} />
         }
         </>
       }

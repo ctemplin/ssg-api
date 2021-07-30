@@ -1,39 +1,17 @@
-import {useState, useEffect} from 'react'
-import {useRecoilState, useRecoilValue, useRecoilValueLoadable, useSetRecoilState} from 'recoil'
-import {recordingLookup, currentRecordingAtom, currentRecordingPanelFormat} from '../models/musicbrainz'
-import {recordingCredits} from '../models/musicbrainz'
-import {trackMaxedAtom} from '../models/musicbrainz'
+import { useEffect } from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { recordingCredits } from '../models/musicbrainz'
+import { trackMaxedAtom } from '../models/musicbrainz'
 import RecordingArtistList from './recordingArtistList'
 import YoutubeVideos from './youtubeVideos'
 import styles from '../styles/Recording.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
-export default function Recording({id}) {
+export default function Recording({dispData, isLoading=true, errored=false}) {
 
-  const [isLoading, setIsLoading] = useState(true)
   const [isMaxed, setIsMaxed] = useRecoilState(trackMaxedAtom)
-  const dispData = useRecoilValue(currentRecordingPanelFormat)
-  const setCurrentRecording = useSetRecoilState(currentRecordingAtom)
   const credits = useRecoilValue(recordingCredits)
-  const dataFetcher = useRecoilValueLoadable(recordingLookup(id))
-
-  useEffect(() => {
-    switch (dataFetcher.state) {
-      case 'loading':
-        break;
-      case 'hasValue':
-        setCurrentRecording(dataFetcher.contents)
-        setIsLoading(false)
-        break;
-      case 'hasError':
-        setIsLoading(false)
-        console.log(dataFetcher.contents)
-        break;
-      default:
-        break;
-    }
-  }, [id, dataFetcher.state])
 
   useEffect(() => {
     return () => {

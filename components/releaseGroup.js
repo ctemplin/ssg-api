@@ -1,47 +1,25 @@
-import React,{useState, useEffect, useRef, useMemo} from 'react'
-import {useCookies} from 'react-cookie'
-import { useRecoilValue, useRecoilValueLoadable, useSetRecoilState, useRecoilState } from 'recoil'
+import React,{ useState, useEffect, useRef } from 'react'
+import { useCookies } from 'react-cookie'
+import { useRecoilValue, useRecoilState } from 'recoil'
 import {
-  userCountriesAtom,
-  releaseGroupLookup, currentReleaseGroupAtom, currentReleaseGroupPanelFormat,
-  releaseGroupCountries, releaseGroupUserCountryMatch, currentReleaseAtom,
-  releaseGroupFilteredReleases
-  } from '../models/musicbrainz'
+  userCountriesAtom, releaseGroupCountries,
+  releaseGroupUserCountryMatch, currentReleaseAtom,
+  releaseGroupFilteredReleases } from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCompactDisc, faFilter } from '@fortawesome/free-solid-svg-icons'
 import FilterConfig from './filterConfig'
 import styles from '../styles/ResultBlock.module.scss'
 import modalStyles from '../styles/Modal.module.scss'
 
-export default function ReleaseGroup({id}) {
+export default function ReleaseGroup({dispData}) {
 
   const [cookies, setCookie] = useCookies()
   const [currentRelease, setCurrentRelease] = useRecoilState(currentReleaseAtom)
-  const [errored, setErrored] = useState(false)
   const [userCountries, setUserCountries] = useRecoilState(userCountriesAtom)
   const [showFilterConfig, setShowFilterConfig] = useState(false)
   const rgCountries = useRecoilValue(releaseGroupCountries)
   const anyCountryMatch = useRecoilValue(releaseGroupUserCountryMatch)
-  const setCurrentReleaseGroup = useSetRecoilState(currentReleaseGroupAtom)
-  const dispData = useRecoilValue(currentReleaseGroupPanelFormat)
   const filteredReleases = useRecoilValue(releaseGroupFilteredReleases(anyCountryMatch))
-  const dataFetcher = useRecoilValueLoadable(releaseGroupLookup(id))
-
-  useEffect(() => {
-    switch (dataFetcher.state) {
-      case 'loading':
-        break;
-      case 'hasValue':
-        setCurrentReleaseGroup(dataFetcher.contents)
-        setErrored(false)
-        break;
-      case 'hasError':
-        console.log(dataFetcher.contents)
-        setErrored(true)
-      default:
-        break;
-    }
-  },[id, dataFetcher.state])
 
   const handleClick = (id, title, country, date, i) => {
     return () => {

@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { useRecoilValue, useRecoilValueLoadable, useSetRecoilState,
-         useRecoilState } from 'recoil'
-import { artistLookup, currentArtistAtom, currentArtistPanelFormat,
-         currentReleaseGroupAtom } from '../models/musicbrainz'
+import React, { useState } from 'react'
+import { useRecoilState } from 'recoil'
+import { currentReleaseGroupAtom } from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicrophoneAlt, faSort } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/ResultBlock.module.scss'
@@ -10,36 +8,14 @@ import { extractYear, sortDateStrings } from '../lib/dates'
 import ResultSectionHeader from './resultSectionHeader'
 import NetworkError from './networkError'
 
-export default function Artist({id}) {
+export default function Artist({dispData, isLoading=true, errored=false, errorMsg}) {
 
   const [currentReleaseGroup, setCurrentReleaseGroup] = useRecoilState(currentReleaseGroupAtom)
-  const [errored, setErrored] = useState(false)
   const sortColumns = [
     ['default', 'Type/Date'], ['title', 'Title'], ['firstReleaseDate', 'Date']
   ]
   const [sortCfg, setSortCfg] = useState({column: 'default', dir: 'asc'})
   const [showSortMenu, setShowSortMenu] = useState(false)
-
-  const dispData = useRecoilValue(currentArtistPanelFormat)
-  const setCurrentArtist = useSetRecoilState(currentArtistAtom)
-
-  const dataFetcher = useRecoilValueLoadable(artistLookup(id))
-
-  useEffect(() => {
-    switch (dataFetcher.state) {
-      case 'loading':
-        break;
-      case 'hasValue':
-        setCurrentArtist(dataFetcher.contents)
-        setErrored(false)
-        break;
-      case 'hasError':
-        console.log(dataFetcher.contents)
-        setErrored(true)
-      default:
-        break;
-    }
-  },[id, dataFetcher.state])
 
   function handleClick(id, title) {
     return () => {
@@ -83,7 +59,7 @@ export default function Artist({id}) {
       <div>
         <div className={styles.blockType}>Artist</div>
         {errored &&
-          <NetworkError errorMsg={dataFetcher.contents?.message} />
+          <NetworkError errorMsg={errorMsg} />
         }
         {!errored &&
         <>

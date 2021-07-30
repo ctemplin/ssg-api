@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useRecoilValueLoadable, useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
-import { releaseLookup, currentReleaseAtom, currentReleasePanelFormat, currentRecordingAtom } from '../models/musicbrainz'
+import { useRecoilState } from 'recoil'
+import { currentRecordingAtom } from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMusic } from '@fortawesome/free-solid-svg-icons'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
@@ -8,35 +8,11 @@ import CoverArt from '../components/coverArt'
 import Image from 'next/image'
 import styles from '../styles/ResultBlock.module.scss'
 
-export default function Release({id}) {
+export default function Release({dispData, isLoading=true}) {
 
-  const [isLoading, setIsLoading] = useState(true)
-  const [errored, setErrored] = useState(false)
-  const dispData = useRecoilValue(currentReleasePanelFormat)
-  const setCurrentRelease = useSetRecoilState(currentReleaseAtom)
   const [currentRecording, setCurrentRecording] = useRecoilState(currentRecordingAtom)
   const [imgUrlSmall, setImgUrlSmall] = useState()
   const [showLargeImg, setShowLargeImg] = useState(false)
-
-  const dataFetcher = useRecoilValueLoadable(releaseLookup(id))
-
-  useEffect(() => {
-    switch (dataFetcher.state) {
-      case 'loading':
-        break;
-      case 'hasValue':
-        setCurrentRelease(dataFetcher.contents)
-        setIsLoading(false)
-        setErrored(false)
-        break;
-      case 'hasError':
-        console.log(dataFetcher.contents)
-        setIsLoading(false)
-        setErrored(true)
-      default:
-        break;
-    }
-  },[id, dataFetcher.state])
 
   const handleCoverArtSmall = (url) => {
     setImgUrlSmall(url)
@@ -96,7 +72,7 @@ export default function Release({id}) {
         <>
           <a onClick={toggleImgModal}>
             <Image
-              src={imgUrlSmall.indexOf(id) > -1 ? imgUrlSmall : '/cover-art-placeholder.svg'}
+              src={imgUrlSmall.indexOf(dispData.id) > -1 ? imgUrlSmall : '/cover-art-placeholder.svg'}
               width={60} height={60}
               layout="fixed" alt="Album Art Thumbnail"
               className={styles.resultHeaderImage}/>
