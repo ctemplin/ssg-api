@@ -36,7 +36,7 @@ export default function ReleaseGroup({id}) {
         setErrored(false)
         break;
       case 'hasError':
-        console.log(dispData.contents)
+        console.log(dataFetcher.contents)
         setErrored(true)
       default:
         break;

@@ -34,7 +34,7 @@ export default function Artist({id}) {
         setErrored(false)
         break;
       case 'hasError':
-        console.log(dispData.contents)
+        console.log(dataFetcher.contents)
         setErrored(true)
       default:
         break;
@@ -83,7 +83,7 @@ export default function Artist({id}) {
       <div>
         <div className={styles.blockType}>Artist</div>
         {errored &&
-          <NetworkError errorMsg={dispData.contents?.message} />
+          <NetworkError errorMsg={dataFetcher.contents?.message} />
         }
         {!errored &&
         <>
