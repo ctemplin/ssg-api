@@ -14,7 +14,7 @@ export default function BreadcrumbsBack() {
     }
 
     const style = (i) => {
-      return {"flex-grow": i*2}
+      return {"flexGrow": i*2}
     }
 
     return (
