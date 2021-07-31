@@ -1,49 +1,22 @@
-import React,{useEffect, useState} from 'react'
+import React,{ useState } from 'react'
 import Image from 'next/image'
 import styles from '../styles/ResultBlock.module.scss'
 import modalStyles from  '../styles/Modal.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner, faSadTear, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 
-export default function CoverArt({id, showLargeImg, handleCoverArtSmall, handleCloseClick}) {
+export default function CoverArt({imgUrlLarge, showLargeImg, handleCloseClick}) {
 
-  const [imgUrlSmall, setImgUrlSmall] = useState()
-  const [imgUrlLarge, setImgUrlLarge] = useState()
-  const [isLoading, setIsLoading] = useState(true)
-  const [isError, setIsError] = useState(false)
-
-  useEffect(() =>  {
-    setIsLoading(true)
-    setIsError(false)
-    async function getData() {
-      const resp = await fetch(
-        'https://coverartarchive.org/release/' + id,
-        {
-          headers: {"Accept": "application/json"}
-        }
-      )
-      const json = await resp.json()
-      let preferredImage = json.images?.find(_ => _.front == true)
-      preferredImage = preferredImage ?? json.images?.[0]
-      if (preferredImage) {
-        setImgUrlSmall(preferredImage.thumbnails?.small?.replace(/^http[^s]:/, 'https:'))
-        setImgUrlLarge(preferredImage.image.replace(/^http[^s]:/, 'https:'))
-      }
-    }
-    getData()
-  },[id])
-
-  useEffect(() => {
-    handleCoverArtSmall(imgUrlSmall)
-  }, [imgUrlSmall, handleCoverArtSmall])
+  const [isImgLoading, setIsImgLoading] = useState(true)
+  const [imgErrored, setImgErrored] = useState(false)
 
   const handleOnLoad = function() {
-    setTimeout(() => setIsLoading(false), 500)
+    setTimeout(() => setIsImgLoading(false), 500)
   }
 
   const handleError = function() {
-    setIsLoading(false)
-    setIsError(true)
+    setIsImgLoading(false)
+    setImgErrored(true)
   }
 
   return(
@@ -52,10 +25,21 @@ export default function CoverArt({id, showLargeImg, handleCoverArtSmall, handleC
       <div className={`${modalStyles.modal} ${modalStyles.isActive}`}>
         <div className={modalStyles.modalBackground} onClick={handleCloseClick}></div>
         <div className={modalStyles.modalContent}>
-        {!isError &&
-        <a onClick={handleCloseClick} className={`${isLoading && styles.largeCoverArtHidden}`}><Image onLoad={handleOnLoad} src={imgUrlLarge} className={`${isLoading && styles.largeCoverArtHidden}`} width={640} height={640} objectFit="scale-down" alt="Album Art" onError={handleError}/></a>
+        {!imgErrored &&
+        <a
+          onClick={handleCloseClick}
+          className={`${isImgLoading && styles.largeCoverArtHidden}`}>
+          <Image
+            onLoad={handleOnLoad}
+            src={imgUrlLarge}
+            className={`${isImgLoading && styles.largeCoverArtHidden}`}
+            width={640} height={640}
+            objectFit="scale-down"
+            alt="Album Art"
+            onError={handleError} />
+        </a>
         }
-        {!isError && isLoading &&
+        {!imgErrored && isImgLoading &&
         <div onClick={handleCloseClick} className={styles.largeCoverArtLoading}>
           <FontAwesomeIcon
             className={styles.resultBlockLoadingIcon}
@@ -64,7 +48,7 @@ export default function CoverArt({id, showLargeImg, handleCoverArtSmall, handleC
           />
         </div>
         }
-        {isError &&
+        {imgErrored &&
         <div onClick={handleCloseClick} className={styles.largeCoverArtLoading}>
           <div className={styles.largeCoverArtError}>
             <FontAwesomeIcon

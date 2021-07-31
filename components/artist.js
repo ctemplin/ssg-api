@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useRecoilState } from 'recoil'
-import { currentReleaseGroupAtom } from '../models/musicbrainz'
+import { useRecoilState, useResetRecoilState } from 'recoil'
+import { currentReleaseGroupAtom, currentReleaseAtom, newDefaultsWithId } from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicrophoneAlt, faSort } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/ResultBlock.module.scss'
@@ -11,6 +11,7 @@ import NetworkError from './networkError'
 export default function Artist({dispData, isLoading=true, errored=false, errorMsg}) {
 
   const [currentReleaseGroup, setCurrentReleaseGroup] = useRecoilState(currentReleaseGroupAtom)
+  const resetRelease = useResetRecoilState(currentReleaseAtom)
   const sortColumns = [
     ['default', 'Type/Date'], ['title', 'Title'], ['firstReleaseDate', 'Date']
   ]
@@ -19,7 +20,8 @@ export default function Artist({dispData, isLoading=true, errored=false, errorMs
 
   function handleClick(id, title) {
     return () => {
-      setCurrentReleaseGroup({...currentReleaseGroup, id: id})
+      resetRelease()
+      setCurrentReleaseGroup(newDefaultsWithId(currentReleaseGroup, id))
     }
   }
 

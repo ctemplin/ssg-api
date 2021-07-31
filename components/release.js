@@ -1,22 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { useRecoilState } from 'recoil'
+import React, { useEffect, useRef } from 'react'
+import { useRecoilState, useRecoilValueLoadable } from 'recoil'
 import { currentRecordingAtom } from '../models/musicbrainz'
+import { currentReleaseCoverArtAtom, coverArtLookup } from '../models/coverartartchive'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMusic } from '@fortawesome/free-solid-svg-icons'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-import CoverArt from '../components/coverArt'
-import Image from 'next/image'
+import withMbz from '../components/mbzComponent'
+import CoverArtThumbnail from './coverArtThumbnail'
 import styles from '../styles/ResultBlock.module.scss'
 
-export default function Release({dispData, isLoading=true}) {
+export default function Release({dispData, isLoading=true, errored=false, errorMsg}) {
 
+  const [currentReleaseCoverArt, setCurrentReleaseCoverArt] = useRecoilState(currentReleaseCoverArtAtom)
   const [currentRecording, setCurrentRecording] = useRecoilState(currentRecordingAtom)
-  const [imgUrlSmall, setImgUrlSmall] = useState()
-  const [showLargeImg, setShowLargeImg] = useState(false)
 
-  const handleCoverArtSmall = (url) => {
-    setImgUrlSmall(url)
-  }
+  const CoverArtThumbnail_MBZ = withMbz(CoverArtThumbnail)
+
+  useEffect(() => {
+    if (dispData.hasCoverArt && !currentReleaseCoverArt.id) {
+      setCurrentReleaseCoverArt({id: dispData.id})
+    }
+  },[dispData.hasCoverArt])
 
   const toggleImgModal = (e) => {
     setShowLargeImg(!showLargeImg)
@@ -50,7 +54,7 @@ export default function Release({dispData, isLoading=true}) {
   <div ref={head} className={styles.block}>
     <div>
       <div className={styles.blockType}>Recording</div>
-      {isLoading ?
+      {!dispData.title ?
       <FontAwesomeIcon
         className={styles.resultBlockLoadingIcon}
         icon={faSpinner}
@@ -68,29 +72,25 @@ export default function Release({dispData, isLoading=true}) {
           </div>
           <ReleaseDate show={dispData.hasCoverArt} />
         </div>
-        {dispData.hasCoverArt && imgUrlSmall ?
-        <>
-          <a onClick={toggleImgModal}>
-            <Image
-              src={imgUrlSmall.indexOf(dispData.id) > -1 ? imgUrlSmall : '/cover-art-placeholder.svg'}
-              width={60} height={60}
-              layout="fixed" alt="Album Art Thumbnail"
-              className={styles.resultHeaderImage}/>
-          </a>
-        </>
-        :
-        <FontAwesomeIcon
-          className={styles.resultHeaderIcon}
-          height="1.3em"
-          icon={faMusic}
+        {dispData.hasCoverArt ?
+          <CoverArtThumbnail_MBZ
+            lookup={coverArtLookup}
+            atom={currentReleaseCoverArtAtom}
+            dispSel={currentReleaseCoverArtAtom}
           />
-        }
+        :
+          <FontAwesomeIcon
+            className={styles.resultHeaderIcon}
+            height="1.3em"
+            icon={faMusic}
+            />
+          }
       </div>
       <ReleaseDate show={!dispData.hasCoverArt} />
       </>
       }
     </div>
-    {(!isLoading) && dispData.tracks ?
+    {(dispData.title) && dispData.tracks ?
     <>
       <div className={styles.count}>Tracks: {dispData.tracks.length} found</div>
       <div className={styles.resultsList} ref={scrollableRef}>
@@ -112,11 +112,6 @@ export default function Release({dispData, isLoading=true}) {
     </>
     :
     <></>
-    }
-    {dispData?.id && dispData?.hasCoverArt &&
-        <CoverArt id={dispData?.id}
-          handleCoverArtSmall={handleCoverArtSmall}
-          handleCloseClick={toggleImgModal} showLargeImg={showLargeImg} />
     }
   </div>
   )

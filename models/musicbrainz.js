@@ -3,6 +3,14 @@ import { atom, selector, selectorFamily } from 'recoil'
 import formatDate, { formatMilliseconds } from '../lib/dates'
 import * as data from '../data/musicbrainz'
 
+export function newDefaultsWithId(atomValue, id) {
+  let newDefaults = Object.fromEntries(Object.entries(atomValue).map(
+    _ => [_[0], _[1] instanceof Array ? [] : null])
+  )
+  newDefaults.id = id
+  return newDefaults
+}
+
 export const userCountriesAtom = atom({
   key: 'userCountries',
   default: new Set(['US', '??'])
@@ -154,7 +162,7 @@ export const currentReleaseAtom = atom({
     title: null,
     date: null,
     country: null,
-    hasCoverArt: false,
+    hasCoverArt: null,
     tracks: []
   }
 })

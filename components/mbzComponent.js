@@ -7,10 +7,12 @@ const withMbz = (Component) => ({lookup, atom, dispSel}) => {
   const [errored, setErrored] = useState(false)
   const [errorMsg, setErrorMsg] = useState()
   const [atomValue, setAtom] = useRecoilState(atom)
-  const dataFetcher = useRecoilValueLoadable(lookup(atomValue.id))
+  var dataFetcher = null
+  if (atomValue.id) dataFetcher = useRecoilValueLoadable(lookup(atomValue.id))
   const dispData = useRecoilValue(dispSel)
   
   useEffect(() => {
+    if (!dataFetcher) return;
     switch (dataFetcher.state) {
       case 'loading':
         break;
@@ -27,7 +29,7 @@ const withMbz = (Component) => ({lookup, atom, dispSel}) => {
       default:
         break;
     }
-  },[atomValue.id, dataFetcher.state])
+  },[atomValue.id, dataFetcher?.state])
 
   return <Component
            dispData={dispData} isLoading={isLoading}

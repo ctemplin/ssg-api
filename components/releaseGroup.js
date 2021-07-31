@@ -1,10 +1,11 @@
 import React,{ useState, useEffect, useRef } from 'react'
 import { useCookies } from 'react-cookie'
-import { useRecoilValue, useRecoilState } from 'recoil'
+import { useRecoilValue, useRecoilState, useResetRecoilState } from 'recoil'
 import {
   userCountriesAtom, releaseGroupCountries,
-  releaseGroupUserCountryMatch, currentReleaseAtom,
-  releaseGroupFilteredReleases } from '../models/musicbrainz'
+  releaseGroupUserCountryMatch, releaseGroupFilteredReleases,
+  currentReleaseAtom, newDefaultsWithId } from '../models/musicbrainz'
+import { currentReleaseCoverArtAtom } from '../models/coverartartchive'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCompactDisc, faFilter } from '@fortawesome/free-solid-svg-icons'
 import FilterConfig from './filterConfig'
@@ -15,6 +16,7 @@ export default function ReleaseGroup({dispData}) {
 
   const [cookies, setCookie] = useCookies()
   const [currentRelease, setCurrentRelease] = useRecoilState(currentReleaseAtom)
+  const resetCoverArt = useResetRecoilState(currentReleaseCoverArtAtom)
   const [userCountries, setUserCountries] = useRecoilState(userCountriesAtom)
   const [showFilterConfig, setShowFilterConfig] = useState(false)
   const rgCountries = useRecoilValue(releaseGroupCountries)
@@ -23,7 +25,8 @@ export default function ReleaseGroup({dispData}) {
 
   const handleClick = (id, title, country, date, i) => {
     return () => {
-      setCurrentRelease({id: id, title: title, country: country, date: date, tracks: []})
+      resetCoverArt()
+      setCurrentRelease(newDefaultsWithId(currentRelease, id))
     }
   }
 
