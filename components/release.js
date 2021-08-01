@@ -16,12 +16,6 @@ export default function Release({dispData, isLoading=true, errored=false, errorM
 
   const CoverArtThumbnail_MBZ = withMbz(CoverArtThumbnail)
 
-  useEffect(() => {
-    if (dispData.hasCoverArt && !currentReleaseCoverArt.id) {
-      setCurrentReleaseCoverArt({id: dispData.id})
-    }
-  },[dispData.hasCoverArt])
-
   const toggleImgModal = (e) => {
     setShowLargeImg(!showLargeImg)
   }

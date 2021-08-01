@@ -1,6 +1,6 @@
 import React,{ useState, useEffect, useRef } from 'react'
 import { useCookies } from 'react-cookie'
-import { useRecoilValue, useRecoilState, useResetRecoilState } from 'recoil'
+import { useRecoilValue, useRecoilState } from 'recoil'
 import {
   userCountriesAtom, releaseGroupCountries,
   releaseGroupUserCountryMatch, releaseGroupFilteredReleases,
@@ -16,7 +16,7 @@ export default function ReleaseGroup({dispData}) {
 
   const [cookies, setCookie] = useCookies()
   const [currentRelease, setCurrentRelease] = useRecoilState(currentReleaseAtom)
-  const resetCoverArt = useResetRecoilState(currentReleaseCoverArtAtom)
+  const [, setCoverArt] = useRecoilState(currentReleaseCoverArtAtom)
   const [userCountries, setUserCountries] = useRecoilState(userCountriesAtom)
   const [showFilterConfig, setShowFilterConfig] = useState(false)
   const rgCountries = useRecoilValue(releaseGroupCountries)
@@ -25,7 +25,7 @@ export default function ReleaseGroup({dispData}) {
 
   const handleClick = (id, title, country, date, i) => {
     return () => {
-      resetCoverArt()
+      setCoverArt({id: id})
       setCurrentRelease(newDefaultsWithId(currentRelease, id))
     }
   }

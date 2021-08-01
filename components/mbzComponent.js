@@ -7,8 +7,7 @@ const withMbz = (Component) => ({lookup, atom, dispSel}) => {
   const [errored, setErrored] = useState(false)
   const [errorMsg, setErrorMsg] = useState()
   const [atomValue, setAtom] = useRecoilState(atom)
-  var dataFetcher = null
-  if (atomValue.id) dataFetcher = useRecoilValueLoadable(lookup(atomValue.id))
+  const dataFetcher = useRecoilValueLoadable(lookup(atomValue.id))
   const dispData = useRecoilValue(dispSel)
   
   useEffect(() => {
