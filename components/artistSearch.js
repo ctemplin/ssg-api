@@ -21,10 +21,9 @@ export default function ArtistSearch({}) {
   const setCurrentArtist = useSetRecoilState(currentArtistAtom)
   const resetCurrentArtist = useResetRecoilState(currentArtistAtom)
 
-
   const searchQuery = useRecoilValueLoadable(searchResultsSel)
   
-  useEffect(() => resetCurrentArtist(), [])
+  useEffect(() => resetCurrentArtist(), [resetCurrentArtist])
 
   useEffect(() => {
     switch (searchQuery.state) {
@@ -39,7 +38,7 @@ export default function ArtistSearch({}) {
       default:
         break;
     }
-  },[searchQuery.state])
+  },[searchQuery.state, searchQuery.contents])
 
   useEffect(() => {
     inputRef.current.focus()

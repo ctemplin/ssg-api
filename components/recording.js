@@ -17,7 +17,7 @@ export default function Recording({dispData, isLoading=true, errored=false}) {
     return () => {
       setIsMaxed(false)
     }
-  },[])
+  },[setIsMaxed])
 
   return (
     <div className={styles.pseudoColumns}>
@@ -31,6 +31,7 @@ export default function Recording({dispData, isLoading=true, errored=false}) {
       <div className={styles.container}>
         {dispData.title}{` - `}
         <RecordingArtistList credits={credits}/>
+        <YoutubeVideos songTitle={dispData.title} artistName={credits[0]?.name}/>
       </div>
       }
     </div>

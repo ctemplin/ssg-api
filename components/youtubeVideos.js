@@ -27,7 +27,7 @@ export default function YoutubeVideos({songTitle, artistName}) {
       }
     }
     if(songTitle) youTubeSearch()
-  },[songTitle])
+  },[songTitle, artistName])
 
   return (
     <>

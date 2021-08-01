@@ -29,7 +29,7 @@ const withMbz = (InnerComponent) => {
       default:
         break;
     }
-  },[atomValue.id, dataFetcher?.state])
+  },[atomValue.id, dataFetcher?.state, dataFetcher, atomValue, setAtom])
 
   return <InnerComponent
            dispData={dispData} isLoading={isLoading}

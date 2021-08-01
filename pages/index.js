@@ -1,4 +1,4 @@
-import {useEffect, useMemo} from 'react'
+import {useCallback, useEffect, useMemo} from 'react'
 import {useRecoilValue, useRecoilState, useSetRecoilState, useResetRecoilState} from 'recoil'
 import {
          artistLookup, currentArtistAtom,
@@ -55,13 +55,13 @@ export default function Home() {
 
   useEffect(() => {
     if (cookies.countries) {setUserCountries(new Set(cookies.countries))}
-  },[])
+  },[cookies.countries, setUserCountries])
 
   useEffect(() => {
     if (!currentArtist.id && router?.query?.aid) {
       setCurrentArtist({...currentArtist, id: router.query.aid})
     }
-  }, [router.asPath])
+  }, [router.query.aid, currentArtist, setCurrentArtist])
 
   const handleSearchClick = () => {
     resetArtist()
@@ -76,7 +76,7 @@ export default function Home() {
       let pushArgs = getPushArgs(router, [artistSlug], {aid: currentArtist.id, rgid: null, rid: null, tid: null})
       router.push.apply(this, pushArgs)
     }
-  }, [currentArtist.id])
+  }, [router, currentArtist.id, artistSlug])
 
   useEffect(() => {
     if (currentReleaseGroup.id && currentReleaseGroup.id != router.query.rgid) {
@@ -89,7 +89,9 @@ export default function Home() {
     }
     resetRecording()
     resetRelease()
-  }, [currentReleaseGroup.id])
+  }, [router, currentReleaseGroup.id,
+      artistSlug, releaseGroupSlug,
+      resetRelease, resetRecording])
 
   useEffect(() => {
     if (currentRelease.id && currentRelease.id != router.query.rid) {
@@ -98,10 +100,11 @@ export default function Home() {
         [artistSlug, releaseGroupSlug, releaseSlug],
         {rid: currentRelease.id, tid: null}
       )
-      resetRecording()
       router.replace.apply(this, pushArgs)
     }
-  }, [currentRelease.id])
+  }, [router, currentRelease.id,
+      artistSlug, releaseGroupSlug, releaseSlug,
+      resetRecording])
 
   useEffect(() => {
     if (currentRecording.id && currentRecording.id != router.query.tid) {
@@ -112,7 +115,8 @@ export default function Home() {
       )
       router.replace.apply(this, pushArgs)
     }
-  }, [currentRecording.id])
+  }, [router, currentRecording.id,
+      artistSlug, releaseGroupSlug, releaseSlug, recordingSlug])
 
   const classNamesByRouteAndUi = (s, aid, tidNull, isMaxed) => {
     let c = [s.container]
@@ -126,22 +130,23 @@ export default function Home() {
     () =>
     classNamesByRouteAndUi(
        styles, currentArtist.id, (!router.query.tid), isTrackMaxed
-    ),[styles, currentArtist.id, (!router.query.tid), isTrackMaxed]
+    ),[currentArtist.id, router.query.tid, isTrackMaxed]
   )
 
-  const titleByPath = (artistId, releaseGroupId) => {
+  const titleByPath = useCallback((artistId, releaseGroupId) => {
     let title = "MusicBrainz Explorer"
     if (artistId == null && releaseGroupId == null) 
       { title = "MusicBrainz Explorer - Search for your Sound" }
     else 
       { title = derivedPageTitle }
     return title
-  }
+  }, [derivedPageTitle])
 
   // Only update title if the artist or releaseGroup has changed
   // (or blanked for a new search)
   const pageTitle = useMemo(
-    () => titleByPath(currentArtist.id, currentReleaseGroup.id), [currentArtist.id, currentReleaseGroup.id]
+    () => titleByPath(currentArtist.id, currentReleaseGroup.id), 
+    [titleByPath, currentArtist.id, currentReleaseGroup.id]
   )
 
   return (
