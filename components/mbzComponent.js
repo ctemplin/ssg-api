@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil'
 
-const withMbz = (Component) => ({lookup, atom, dispSel}) => {
+const withMbz = (InnerComponent) => {
+  const OuterComponent = ({lookup, atom, dispSel}) => {
 
   const [isLoading, setIsLoading] = useState(true)
   const [errored, setErrored] = useState(false)
@@ -30,9 +31,12 @@ const withMbz = (Component) => ({lookup, atom, dispSel}) => {
     }
   },[atomValue.id, dataFetcher?.state])
 
-  return <Component
+  return <InnerComponent
            dispData={dispData} isLoading={isLoading}
            errored={errored} errorMsg={errorMsg} />
+}
+  OuterComponent.displayName = `WithMbz(${InnerComponent.name})`
+  return OuterComponent
 }
 
 export default withMbz
