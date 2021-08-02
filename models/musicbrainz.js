@@ -3,11 +3,21 @@ import { atom, selector, selectorFamily } from 'recoil'
 import formatDate, { formatMilliseconds } from '../lib/dates'
 import * as data from '../data/musicbrainz'
 
-export function newDefaultsWithId(atomValue, id) {
+/**
+ * Create a new atom value with arbitrary initial props.
+ * This allows callers to reset and atom with partial values 
+ * needed (prior to data access), without knowing/recreating all the other
+ * default values.
+ * IMPORTANT: assumes all values default to null except Arrays which
+ * default to empty.
+ * @param atomValue 
+ * @param newProps 
+ */
+export function newDefaultsWithProps(atomValue, newProps) {
   let newDefaults = Object.fromEntries(Object.entries(atomValue).map(
     _ => [_[0], _[1] instanceof Array ? [] : null])
   )
-  newDefaults.id = id
+  Object.assign(newDefaults, newProps)
   return newDefaults
 }
 

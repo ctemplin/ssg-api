@@ -1,11 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useRecoilState, useSetRecoilState, useResetRecoilState, 
+import { useRecoilState, useResetRecoilState, 
          useRecoilValueLoadable } from 'recoil'
 import { searchTermsAtom,
          searchResultsSel,
          searchHlIndexAtom,
          searchScrollTopAtom,
-         currentArtistAtom
+         currentArtistAtom,
+         currentReleaseGroupAtom,
+         currentReleaseAtom,
+         currentRecordingAtom,
+         newDefaultsWithProps
 } from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -13,17 +17,16 @@ import styles from '../styles/ArtistSearch.module.scss'
 
 export default function ArtistSearch({}) {
 
-  const defaultData = {matches: null}
   const [errored, setErrored] = useState(false)
   const [searchTerms, setSearchTerms] = useRecoilState(searchTermsAtom)
   const [scrollTop, setScrollTop] = useRecoilState(searchScrollTopAtom)
   const [hlIndex, setHlIndex] = useRecoilState(searchHlIndexAtom)
-  const setCurrentArtist = useSetRecoilState(currentArtistAtom)
-  const resetCurrentArtist = useResetRecoilState(currentArtistAtom)
+  const [currentArtist, setCurrentArtist] = useRecoilState(currentArtistAtom)
+  const resetReleaseGroup = useResetRecoilState(currentReleaseGroupAtom)
+  const resetRelease = useResetRecoilState(currentReleaseAtom)
+  const resetRecording = useResetRecoilState(currentRecordingAtom)
 
   const searchQuery = useRecoilValueLoadable(searchResultsSel)
-  
-  useEffect(() => resetCurrentArtist(), [resetCurrentArtist])
 
   useEffect(() => {
     switch (searchQuery.state) {
@@ -66,7 +69,12 @@ export default function ArtistSearch({}) {
   const handleClick = (id, name) => {
     return () => {
       setScrollTop(document.getElementById('searchIncResultList')?.scrollTop)
-      setCurrentArtist({id: id, name: name})
+      resetRecording()
+      resetRelease()
+      resetReleaseGroup()
+      setCurrentArtist(
+        newDefaultsWithProps(currentArtist, {id: id, name: name})
+      )
     }
   }
 

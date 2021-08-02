@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useRecoilState, useRecoilValueLoadable } from 'recoil'
-import { currentRecordingAtom } from '../models/musicbrainz'
+import { currentRecordingAtom, newDefaultsWithProps } from '../models/musicbrainz'
 import { currentReleaseCoverArtAtom, coverArtLookup } from '../models/coverartartchive'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMusic } from '@fortawesome/free-solid-svg-icons'
@@ -38,7 +38,9 @@ export default function Release({dispData, isLoading=true, errored=false, errorM
 
   const handleClick = (id, title, i) => {
     return () => {
-      setCurrentRecording({id: id, title: title, artistCredits: []})
+      setCurrentRecording(
+        newDefaultsWithProps(currentRecording, {id: id, title: title})
+      )
     }
   }
 

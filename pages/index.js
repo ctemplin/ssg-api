@@ -14,7 +14,7 @@ import {
          } from '../models/musicbrainz'
 import {useCookies} from 'react-cookie'
 import {useRouter} from 'next/router'
-import {getPushArgs} from '../lib/routes'
+import {getRouterArgs} from '../lib/routes'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.scss'
@@ -71,52 +71,44 @@ export default function Home() {
     router.push("/", undefined, {shallow: true})
   }
 
+  /**
+   * Sync the browser address bar (path and querystring) to reflect the 
+   * state of the current resources (artist, release group, release, recording).
+   */
   useEffect(() => {
-    if (currentArtist.id && currentArtist.id != router.query.aid) {
-      let pushArgs = getPushArgs(router, [artistSlug], {aid: currentArtist.id, rgid: null, rid: null, tid: null})
-      router.push.apply(this, pushArgs)
-    }
-  }, [router, currentArtist.id, artistSlug])
-
-  useEffect(() => {
-    if (currentReleaseGroup.id && currentReleaseGroup.id != router.query.rgid) {
-      let pushArgs = getPushArgs(
-        router,
-        [artistSlug, releaseGroupSlug],
-        {rgid: currentReleaseGroup.id, rid: null, tid: null}
+    const resources = [
+      [currentArtist.id, 'aid', artistSlug],
+      [currentReleaseGroup.id, 'rgid', releaseGroupSlug],
+      [currentRelease.id, 'rid', releaseSlug],
+      [currentRecording.id, 'tid', recordingSlug]
+    ]
+    let slugs = []
+    const queryParams = {}
+    // look thru resources in order (artist -> recording) for a discrepancy
+    let wasChangeFound = !resources.every((resource, i, arr) => {
+      if (resource[0] && resource[0] != router.query[resource[1]]) {
+        // get all the slugs for resources up to and including this one
+        arr.slice(0, i+1).forEach(s => {
+          slugs.push(s[2])
+          queryParams[s[1]] = s[0]
+        })
+        // break loop. additional path segments and params will be truncated
+        return false;
+      }
+      return true; //continue loop
+    })
+    if (wasChangeFound) {
+      let routerArgs = getRouterArgs(
+        router, slugs, queryParams
       )
-      router.replace.apply(this, pushArgs)
+      // Replace url (no history update)
+      router.replace.apply(this, routerArgs)
     }
-    resetRecording()
-    resetRelease()
-  }, [router, currentReleaseGroup.id,
-      artistSlug, releaseGroupSlug,
-      resetRelease, resetRecording])
-
-  useEffect(() => {
-    if (currentRelease.id && currentRelease.id != router.query.rid) {
-      let pushArgs = getPushArgs(
-        router,
-        [artistSlug, releaseGroupSlug, releaseSlug],
-        {rid: currentRelease.id, tid: null}
-      )
-      router.replace.apply(this, pushArgs)
-    }
-  }, [router, currentRelease.id,
-      artistSlug, releaseGroupSlug, releaseSlug,
-      resetRecording])
-
-  useEffect(() => {
-    if (currentRecording.id && currentRecording.id != router.query.tid) {
-      let pushArgs = getPushArgs(
-        router,
-        [artistSlug, releaseGroupSlug, releaseSlug, recordingSlug], 
-        {tid: currentRecording.id}
-      )
-      router.replace.apply(this, pushArgs)
-    }
-  }, [router, currentRecording.id,
-      artistSlug, releaseGroupSlug, releaseSlug, recordingSlug])
+  }, 
+  [ router,
+    currentArtist.id, currentReleaseGroup.id, currentRelease.id, currentRecording.id,
+    artistSlug, releaseGroupSlug, releaseSlug, recordingSlug ]
+  )
 
   const classNamesByRouteAndUi = (s, aid, tidNull, isMaxed) => {
     let c = [s.container]
