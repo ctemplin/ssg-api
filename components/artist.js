@@ -21,6 +21,7 @@ export default function Artist({dispData, isLoading=true, errored=false, errorMs
 
   function handleClick(id, title) {
     return () => {
+      resetRecording()
       resetRelease()
       setCurrentReleaseGroup(newDefaultsWithProps(
         currentReleaseGroup, {id: id, title: title})

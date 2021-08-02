@@ -12,6 +12,7 @@ import {
          trackMaxedAtom, dynamicPageTitle,
          userCountriesAtom,
          } from '../models/musicbrainz'
+import {currentReleaseCoverArtAtom} from '../models/coverartartchive'
 import {useCookies} from 'react-cookie'
 import {useRouter} from 'next/router'
 import {getRouterArgs} from '../lib/routes'
@@ -32,13 +33,14 @@ export default function Home() {
   const [currentArtist, setCurrentArtist] = useRecoilState(currentArtistAtom)
   const resetArtist = useResetRecoilState(currentArtistAtom)
   const artistSlug = useRecoilValue(currentArtistSlug)
-  const currentReleaseGroup = useRecoilValue(currentReleaseGroupAtom)
+  const [currentReleaseGroup, setCurrentReleaseGroup] = useRecoilState(currentReleaseGroupAtom)
   const resetReleaseGroup = useResetRecoilState(currentReleaseGroupAtom)
   const releaseGroupSlug = useRecoilValue(currentReleaseGroupSlug)
-  const currentRelease = useRecoilValue(currentReleaseAtom)
+  const [currentRelease, setCurrentRelease] = useRecoilState(currentReleaseAtom)
   const resetRelease = useResetRecoilState(currentReleaseAtom)
   const releaseSlug = useRecoilValue(currentReleaseSlug)
-  const currentRecording = useRecoilValue(currentRecordingAtom)
+  const [coverArt, setCoverArt] = useRecoilState(currentReleaseCoverArtAtom)
+  const [currentRecording, setCurrentRecording] = useRecoilState(currentRecordingAtom)
   const resetRecording = useResetRecoilState(currentRecordingAtom)
   const recordingSlug = useRecoilValue(currentRecordingSlug)
   const isTrackMaxed = useRecoilValue(trackMaxedAtom)
@@ -57,11 +59,24 @@ export default function Home() {
     if (cookies.countries) {setUserCountries(new Set(cookies.countries))}
   },[cookies.countries, setUserCountries])
 
+  // Rehydrate from pasted url
   useEffect(() => {
     if (!currentArtist.id && router?.query?.aid) {
       setCurrentArtist({...currentArtist, id: router.query.aid})
+      if (!currentReleaseGroup.id && router?.query?.rgid) {
+        setCurrentReleaseGroup({...currentReleaseGroup, id: router.query.rgid})
+        if (!currentRelease.id && router?.query?.rid) {
+          setCurrentRelease({...currentRelease, id: router.query.rid})
+          setCoverArt({...coverArt, id: router.query.rid})
+          if (!currentRecording.id && router?.query?.tid) {
+            setCurrentRecording({...currentRecording, id: router.query.tid})
+          }
+        }
+      }
     }
-  }, [router.query.aid, currentArtist, setCurrentArtist])
+  }, [ router.query, 
+       currentArtist, currentReleaseGroup, currentRelease, currentRecording,
+       setCurrentArtist, setCurrentReleaseGroup, setCurrentRelease, setCurrentRecording])
 
   const handleSearchClick = () => {
     resetArtist()
