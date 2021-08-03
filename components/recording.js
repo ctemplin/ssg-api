@@ -2,13 +2,17 @@ import { useEffect } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { recordingCredits } from '../models/musicbrainz'
 import { trackMaxedAtom } from '../models/musicbrainz'
+import { youtubeVideoSearch, youtubeVideoResults } from '../models/youtube'
 import RecordingArtistList from './recordingArtistList'
 import YoutubeVideos from './youtubeVideos'
 import styles from '../styles/Recording.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import withMbz from './mbzComponent'
 
 export default function Recording({dispData, isLoading=true}) {
+
+  const YouTubeVideos_MB = withMbz(YoutubeVideos)
 
   const [isMaxed, setIsMaxed] = useRecoilState(trackMaxedAtom)
   const credits = useRecoilValue(recordingCredits)
@@ -31,7 +35,11 @@ export default function Recording({dispData, isLoading=true}) {
       <div className={styles.container}>
         {dispData.title}{` - `}
         <RecordingArtistList credits={credits}/>
-        <YoutubeVideos songTitle={dispData.title} artistName={credits[0]?.name}/>
+        <YouTubeVideos_MB
+          lookup={youtubeVideoSearch}
+          atom={youtubeVideoResults}
+          dispSel={youtubeVideoResults}
+        />
       </div>
       }
     </div>
