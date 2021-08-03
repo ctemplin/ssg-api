@@ -18,6 +18,7 @@ export default function CoverArtThumbnail({dispData}) {
       <Image
         src={dispData.imgUrlSmall}
         width={60} height={60}
+        priority
         layout="fixed" alt="Album Art Thumbnail"
         className={styles.resultHeaderImage}/>
       :

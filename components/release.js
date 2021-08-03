@@ -68,19 +68,23 @@ export default function Release({dispData, isLoading=true, errored=false, errorM
           </div>
           <ReleaseDate show={dispData.hasCoverArt} />
         </div>
-        {dispData.hasCoverArt ?
-          <CoverArtThumbnail_MBZ
-            lookup={coverArtLookup}
-            atom={currentReleaseCoverArtAtom}
-            dispSel={currentReleaseCoverArtAtom}
-          />
-        :
-          <FontAwesomeIcon
-            className={styles.resultHeaderIcon}
-            height="1.3em"
-            icon={faMusic}
+        {dispData.hasCoverArt != null &&
+          <>
+          {dispData.hasCoverArt ?
+            <CoverArtThumbnail_MBZ
+              lookup={coverArtLookup}
+              atom={currentReleaseCoverArtAtom}
+              dispSel={currentReleaseCoverArtAtom}
             />
+          :
+            <FontAwesomeIcon
+              className={styles.resultHeaderIcon}
+              height="1.3em"
+              icon={faMusic}
+              />
           }
+          </>
+        }
       </div>
       <ReleaseDate show={!dispData.hasCoverArt} />
       </>
