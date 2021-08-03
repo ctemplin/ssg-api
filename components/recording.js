@@ -8,7 +8,7 @@ import styles from '../styles/Recording.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
-export default function Recording({dispData, isLoading=true, errored=false}) {
+export default function Recording({dispData, isLoading=true}) {
 
   const [isMaxed, setIsMaxed] = useRecoilState(trackMaxedAtom)
   const credits = useRecoilValue(recordingCredits)
@@ -31,7 +31,7 @@ export default function Recording({dispData, isLoading=true, errored=false}) {
       <div className={styles.container}>
         {dispData.title}{` - `}
         <RecordingArtistList credits={credits}/>
-        <YoutubeVideos songTitle={dispData.title} artistName={credits[0]?.name}/>
+        {/* <YoutubeVideos songTitle={dispData.title} artistName={credits[0]?.name}/> */}
       </div>
       }
     </div>

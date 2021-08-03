@@ -8,7 +8,7 @@ import { extractYear, sortDateStrings } from '../lib/dates'
 import ResultSectionHeader from './resultSectionHeader'
 import NetworkError from './networkError'
 
-export default function Artist({dispData, isLoading=true, errored=false, errorMsg}) {
+export default function Artist({dispData, errored=false, errorMsg}) {
 
   const [currentReleaseGroup, setCurrentReleaseGroup] = useRecoilState(currentReleaseGroupAtom)
   const resetRelease = useResetRecoilState(currentReleaseAtom)

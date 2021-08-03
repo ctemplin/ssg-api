@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useRecoilState, useRecoilValueLoadable } from 'recoil'
+import { useRecoilState } from 'recoil'
 import { currentRecordingAtom, newDefaultsWithProps } from '../models/musicbrainz'
 import { currentReleaseCoverArtAtom, coverArtLookup } from '../models/coverartartchive'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,9 +9,8 @@ import withMbz from '../components/mbzComponent'
 import CoverArtThumbnail from './coverArtThumbnail'
 import styles from '../styles/ResultBlock.module.scss'
 
-export default function Release({dispData, isLoading=true, errored=false, errorMsg}) {
+export default function Release({dispData}) {
 
-  const [currentReleaseCoverArt, setCurrentReleaseCoverArt] = useRecoilState(currentReleaseCoverArtAtom)
   const [currentRecording, setCurrentRecording] = useRecoilState(currentRecordingAtom)
 
   const CoverArtThumbnail_MBZ = withMbz(CoverArtThumbnail)
