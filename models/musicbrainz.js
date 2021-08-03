@@ -5,13 +5,13 @@ import * as data from '../data/musicbrainz'
 
 /**
  * Create a new atom value with arbitrary initial props.
- * This allows callers to reset and atom with partial values 
+ * This allows callers to reset and atom with partial values
  * needed (prior to data access), without knowing/recreating all the other
  * default values.
  * IMPORTANT: assumes all values default to null except Arrays which
  * default to empty.
- * @param atomValue 
- * @param newProps 
+ * @param atomValue
+ * @param newProps
  */
 export function newDefaultsWithProps(atomValue, newProps) {
   let newDefaults = Object.fromEntries(Object.entries(atomValue).map(
@@ -309,7 +309,7 @@ export const prevItems = atom({
 export const dynamicPageTitle = selector({
   key: 'dynamicPageTitle',
   get: ({get}) => {
-    const crumbs = 
+    const crumbs =
     [
       get(currentArtistAtom).name,
       get(currentReleaseGroupAtom).title,

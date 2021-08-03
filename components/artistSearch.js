@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useRecoilState, useResetRecoilState, 
+import { useRecoilState, useResetRecoilState,
          useRecoilValueLoadable } from 'recoil'
 import { searchTermsAtom,
          searchResultsSel,
@@ -113,7 +113,7 @@ export default function ArtistSearch({}) {
       let vizItemOffset = elem.offsetTop - parentScrollTop
       if (this.step == -1 && p.scrollTop == 0) {
         // already at the top
-        return false 
+        return false
       }
       if (this.step == 1 && (totContainerHeight - (vizContainerHeight + parentScrollTop)) == 1) {
         // already at the bottom
@@ -134,7 +134,7 @@ export default function ArtistSearch({}) {
     ArrowDown: new listNavKey(Math.min,  1, null, .6),
     ArrowUp:   new listNavKey(Math.max, -1,   -1, .6)
   }
-  
+
   const handleKeyDown = (e) => {
     const listEl = document.getElementById("searchIncResultList")
     let navKey = UPDOWNKEYNAMES[e.key]

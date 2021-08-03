@@ -74,7 +74,7 @@ export default function Home() {
         }
       }
     }
-  }, [ router.query, 
+  }, [ router.query,
        currentArtist, currentReleaseGroup, currentRelease, currentRecording,
        setCurrentArtist, setCurrentReleaseGroup, setCurrentRelease, setCurrentRecording])
 
@@ -87,7 +87,7 @@ export default function Home() {
   }
 
   /**
-   * Sync the browser address bar (path and querystring) to reflect the 
+   * Sync the browser address bar (path and querystring) to reflect the
    * state of the current resources (artist, release group, release, recording).
    */
   useEffect(() => {
@@ -119,7 +119,7 @@ export default function Home() {
       // Replace url (no history update)
       router.replace.apply(this, routerArgs)
     }
-  }, 
+  },
   [ router,
     currentArtist.id, currentReleaseGroup.id, currentRelease.id, currentRecording.id,
     artistSlug, releaseGroupSlug, releaseSlug, recordingSlug ]
@@ -142,9 +142,9 @@ export default function Home() {
 
   const titleByPath = useCallback((artistId, releaseGroupId) => {
     let title = "MusicBrainz Explorer"
-    if (artistId == null && releaseGroupId == null) 
+    if (artistId == null && releaseGroupId == null)
       { title = "MusicBrainz Explorer - Search for your Sound" }
-    else 
+    else
       { title = derivedPageTitle }
     return title
   }, [derivedPageTitle])
@@ -152,7 +152,7 @@ export default function Home() {
   // Only update title if the artist or releaseGroup has changed
   // (or blanked for a new search)
   const pageTitle = useMemo(
-    () => titleByPath(currentArtist.id, currentReleaseGroup.id), 
+    () => titleByPath(currentArtist.id, currentReleaseGroup.id),
     [titleByPath, currentArtist.id, currentReleaseGroup.id]
   )
 
@@ -209,12 +209,12 @@ export default function Home() {
           <div className={styles.column}>
             <Artist_MBZ
               lookup={artistLookup}
-              atom={currentArtistAtom} 
+              atom={currentArtistAtom}
               dispSel={currentArtistPanelFormat} />
           </div>
           <div className={styles.column}>
             {currentReleaseGroup.id &&
-            <ReleaseGroup_MBZ 
+            <ReleaseGroup_MBZ
               lookup={releaseGroupLookup}
               atom={currentReleaseGroupAtom}
               dispSel={currentReleaseGroupPanelFormat} />

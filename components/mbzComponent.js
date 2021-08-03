@@ -10,7 +10,7 @@ const withMbz = (InnerComponent) => {
   const [atomValue, setAtom] = useRecoilState(atom)
   const dataFetcher = useRecoilValueLoadable(lookup(atomValue.id))
   const dispData = useRecoilValue(dispSel)
-  
+
   useEffect(() => {
     if (!dataFetcher) return;
     switch (dataFetcher.state) {

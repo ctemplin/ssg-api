@@ -98,7 +98,7 @@ export default function Release({dispData}) {
             key={_.id}
             onClick={handleClick(_.rid, _.title, i)}
             className={`
-              ${styles.resultItem} 
+              ${styles.resultItem}
               ${_.rid == currentRecording.id && styles.resultItemHl}
             `}
           >
