@@ -31,7 +31,7 @@ export default function Recording({dispData, isLoading=true}) {
       <div className={styles.container}>
         {dispData.title}{` - `}
         <RecordingArtistList credits={credits}/>
-        {/* <YoutubeVideos songTitle={dispData.title} artistName={credits[0]?.name}/> */}
+        <YoutubeVideos songTitle={dispData.title} artistName={credits[0]?.name}/>
       </div>
       }
     </div>
