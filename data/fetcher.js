@@ -8,7 +8,7 @@ export default async function fetchData(url, params, mapFunc) {
     _url.search = _params.toString()
   } catch (error) {
     // relative url for function calls
-    _url = `${url}?${_params.toString()}` 
+    _url = `${url}?${_params.toString()}`
   }
   const resp = await fetch(_url, {headers: {"Accept": "application/json"}})
   if (resp.status >= 200 && resp.status <= 299) {

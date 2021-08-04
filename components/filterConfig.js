@@ -3,9 +3,8 @@ import { useRecoilValue } from 'recoil'
 import { userCountriesAtom, releaseGroupCountries } from '../models/musicbrainz'
 import styles from '../styles/FilterConfig.module.scss'
 
-
 export default function FilterConfig({handleChange, persistChange, handleClose}){
-    
+
   const userCountries = useRecoilValue(userCountriesAtom)
   const countries = useRecoilValue(releaseGroupCountries)
   const [isChanged, setIsChanged] = useState(false)

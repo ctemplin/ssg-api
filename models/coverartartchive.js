@@ -13,6 +13,6 @@ export const currentReleaseCoverArtAtom = atom({
 export const coverArtLookup = selectorFamily({
   'key': 'coverArtLookup',
   get: (id) => async({get}) => {
-    return  await data.coverArtLookup(id) 
+    return  await data.coverArtLookup(id)
   }
 })

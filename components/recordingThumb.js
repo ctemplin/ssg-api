@@ -13,14 +13,14 @@ export default function RecordingThumb({videoId, title, imgSrc, imgWidth, imgHei
         <Image src={imgSrc} width={imgWidth} height={imgHeight} alt={title} />
         <span className={styles.videoIcon} >
         <FontAwesomeIcon
-           className={styles.videoIconLayer} 
+           className={styles.videoIconLayer}
           icon={faCircle}
           width={30}
           height={30}
           color="#FFF"
         />
         <FontAwesomeIcon
-         className={styles.videoIconLayer} 
+         className={styles.videoIconLayer}
           icon={faPlayCircle}
           width={30}
           height={30}

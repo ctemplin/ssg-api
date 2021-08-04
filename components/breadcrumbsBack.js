@@ -19,7 +19,7 @@ export default function BreadcrumbsBack() {
 
     return (
       <>
-      {include(i,arr.length) && 
+      {include(i,arr.length) &&
       <>
       <a key={_.id} onClick={handleClick} className={styles.crumb} style={style(i)}>{_.label}</a>
       {i < arr.length -1 && <span className={styles.separator}> - </span>}

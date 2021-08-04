@@ -75,7 +75,7 @@ export default function Home() {
       }
     }
   }, [ router.query,
-       currentArtist, currentReleaseGroup, currentRelease, coverArt, 
+       currentArtist, currentReleaseGroup, currentRelease, coverArt,
        currentRecording,
        setCurrentArtist, setCurrentReleaseGroup, setCurrentRelease,
        setCoverArt, setCurrentRecording])
