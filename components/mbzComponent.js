@@ -13,7 +13,6 @@ const withMbz = (InnerComponent) => {
   const dispData = useRecoilValue(dispParams ? dispSel(params) : dispSel)
 
   useEffect(() => {
-    if (!dataFetcher) return;
     switch (dataFetcher.state) {
       case 'loading':
         break;
@@ -30,7 +29,7 @@ const withMbz = (InnerComponent) => {
       default:
         break;
     }
-  },[atomValue.id, dataFetcher?.state, dataFetcher, atomValue, setAtom])
+  },[atomValue.id, dataFetcher.state, dataFetcher.contents, atomValue, setAtom])
 
   return <InnerComponent
            dispData={dispData} isLoading={isLoading}

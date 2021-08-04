@@ -75,8 +75,10 @@ export default function Home() {
       }
     }
   }, [ router.query,
-       currentArtist, currentReleaseGroup, currentRelease, currentRecording,
-       setCurrentArtist, setCurrentReleaseGroup, setCurrentRelease, setCurrentRecording])
+       currentArtist, currentReleaseGroup, currentRelease, coverArt, 
+       currentRecording,
+       setCurrentArtist, setCurrentReleaseGroup, setCurrentRelease,
+       setCoverArt, setCurrentRecording])
 
   const handleSearchClick = () => {
     resetArtist()
