@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, Fragment } from 'react'
 import { useRecoilState, useResetRecoilState } from 'recoil'
 import { currentReleaseGroupAtom, currentReleaseAtom, currentRecordingAtom, newDefaultsWithProps } from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -38,6 +38,9 @@ export default function Artist(
 
   const varyingFieldNames = ["type1", "type2"]
   let prevItem = null
+  const didTypeChange = (item) => {
+    return !prevItem || varyingFieldNames.some(fn => item[fn] != prevItem[fn])
+  }
 
   return (
     <div className={styles.block}>
@@ -94,12 +97,11 @@ export default function Artist(
         <div className={styles.resultsList}>
         {Array.from(dispData.releaseGroups).map((_,i) => {
           const ret = (
-            <>
-            {selParams.column == 'default' &&
-              <ResultSectionHeader curItem={_} prevItem={prevItem}
-                fieldNames={varyingFieldNames} />
+            <Fragment key={`${_.id}`}>
+            {selParams.column == 'default' && didTypeChange(_) &&
+              <ResultSectionHeader type1={_.type1} type2={_.type2}/>
             }
-            <div onClick={handleClick(_.id, _.title)} key={_.id}
+            <div onClick={handleClick(_.id, _.title)}
               className={`
                 ${i % 2 ? styles.resultItemAlt : styles.resultItem}
                 ${_.id == currentReleaseGroup.id ? styles.resultItemHl:''}
@@ -110,7 +112,7 @@ export default function Artist(
                 {extractYear(_.firstReleaseDate) ?? ``}
               </span>
             </div>
-            </>
+            </Fragment>
           )
           prevItem = _
           return ret
