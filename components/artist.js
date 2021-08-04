@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useRecoilState, useResetRecoilState } from 'recoil'
 import { currentReleaseGroupAtom, currentReleaseAtom, currentRecordingAtom, newDefaultsWithProps } from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicrophoneAlt, faSort } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/ResultBlock.module.scss'
-import { extractYear, sortDateStrings } from '../lib/dates'
+import { extractYear } from '../lib/dates'
 import ResultSectionHeader from './resultSectionHeader'
 import NetworkError from './networkError'
 
-export default function Artist({dispData, errored=false, errorMsg}) {
+export default function Artist(
+  {dispData, errored=false, errorMsg, selParams, setSelParams}) {
 
   const [currentReleaseGroup, setCurrentReleaseGroup] = useRecoilState(currentReleaseGroupAtom)
   const resetRelease = useResetRecoilState(currentReleaseAtom)
@@ -16,7 +17,6 @@ export default function Artist({dispData, errored=false, errorMsg}) {
   const sortColumns = [
     ['default', 'Type/Date'], ['title', 'Title'], ['firstReleaseDate', 'Date']
   ]
-  const [sortCfg, setSortCfg] = useState({column: 'default', dir: 'asc'})
   const [showSortMenu, setShowSortMenu] = useState(false)
 
   function handleClick(id, title) {
@@ -29,30 +29,10 @@ export default function Artist({dispData, errored=false, errorMsg}) {
     }
   }
 
-  const sortRgs = (a,b) => {
-    let ret = 0
-    switch (sortCfg.column) {
-      case 'default':
-        ret = 0
-        break
-      case 'firstReleaseDate':
-        ret = sortDateStrings(a.firstReleaseDate, b.firstReleaseDate)
-        break
-      case 'title':
-        if (a.title == b.title) {
-          ret = 0
-          break
-        }
-        ret = a.title > b.title ? 1 : -1
-        break
-    }
-    return ret
-  }
-
   const handleSortChoice = (column) => {
     return () => {
-      setSortCfg({column: column, dir:'asc'})
       setShowSortMenu(false)
+      setSelParams({column: column, dir:'asc'})
     }
   }
 
@@ -101,7 +81,7 @@ export default function Artist({dispData, errored=false, errorMsg}) {
                   key={_[0]}
                   className={`
                     ${styles.sortChoice}
-                    ${_[0]==sortCfg.column && styles.sortChoiceActive}
+                    ${_[0] == selParams.column && styles.sortChoiceActive}
                   `}
                   onClick={handleSortChoice(_[0])}>
                   {_[1]}
@@ -112,10 +92,10 @@ export default function Artist({dispData, errored=false, errorMsg}) {
           </div>
         </div>
         <div className={styles.resultsList}>
-        {Array.from(dispData.releaseGroups).sort(sortRgs).map((_,i) => {
+        {Array.from(dispData.releaseGroups).map((_,i) => {
           const ret = (
             <>
-            {sortCfg.column == 'default' &&
+            {selParams.column == 'default' &&
               <ResultSectionHeader curItem={_} prevItem={prevItem}
                 fieldNames={varyingFieldNames} />
             }

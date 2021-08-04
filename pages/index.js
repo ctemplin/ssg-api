@@ -2,7 +2,7 @@ import {useCallback, useEffect, useMemo} from 'react'
 import {useRecoilValue, useRecoilState, useSetRecoilState, useResetRecoilState} from 'recoil'
 import {
          artistLookup, currentArtistAtom,
-         currentArtistPanelFormat, currentArtistSlug,
+         currentArtistPanelFormatSorted, currentArtistSlug,
          releaseGroupLookup, currentReleaseGroupAtom,
          currentReleaseGroupPanelFormat, currentReleaseGroupSlug,
          releaseLookup, currentReleaseAtom,
@@ -210,7 +210,8 @@ export default function Home() {
             <Artist_MBZ
               lookup={artistLookup}
               atom={currentArtistAtom}
-              dispSel={currentArtistPanelFormat} />
+              dispSel={currentArtistPanelFormatSorted}
+              dispParams={{column: 'default', dir: 'asc'}} />
           </div>
           <div className={styles.column}>
             {currentReleaseGroup.id &&

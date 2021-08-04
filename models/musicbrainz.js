@@ -1,6 +1,6 @@
 import { slugify, UPCASE } from '../lib/routes'
 import { atom, selector, selectorFamily } from 'recoil'
-import formatDate, { formatMilliseconds } from '../lib/dates'
+import formatDate, { formatMilliseconds, sortDateStrings } from '../lib/dates'
 import * as data from '../data/musicbrainz'
 
 /**
@@ -80,6 +80,33 @@ export const currentArtistPanelFormat = selector({
       ...raw,
       lsBegin: raw.lsBegin ? formatDate(raw.lsBegin) : '',
       lsEnd: raw.lsEnd ? formatDate(raw.lsEnd) : 'present'
+    })
+  }
+})
+
+export const currentArtistPanelFormatSorted = selectorFamily({
+  key: 'currentArtistPanelFormatSorted',
+  get: (sortBy = {column: null, dir:'asc'}) => ({get}) => {
+
+    const sortRgs = (a,b) => {
+      let ret
+      switch (sortBy.column) {
+        case 'firstReleaseDate':
+          ret = sortDateStrings(a.firstReleaseDate, b.firstReleaseDate)
+          break
+        case 'title':
+          ret = a.title == b.title ? 0 : a.title > b.title ? 1 : -1
+          break
+        default:
+          ret = 0
+      }
+      return ret
+    }
+
+    const data = get(currentArtistPanelFormat)
+    return ({
+      ...data,
+      releaseGroups: [...data.releaseGroups].sort(sortRgs)
     })
   }
 })
