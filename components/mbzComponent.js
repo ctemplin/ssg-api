@@ -4,9 +4,9 @@ import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil'
 const withMbz = (InnerComponent) => {
   const OuterComponent = ({lookup, atom, dispSel, dispParams}) => {
 
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState()
   const [errored, setErrored] = useState(false)
-  const [errorMsg, setErrorMsg] = useState()
+  const [errorMsg, setErrorMsg] = useState(null)
   const [atomValue, setAtom] = useRecoilState(atom)
   const [params, setParams] = useState(dispParams)
   const dataFetcher = useRecoilValueLoadable(lookup(atomValue.id))
@@ -15,6 +15,7 @@ const withMbz = (InnerComponent) => {
   useEffect(() => {
     switch (dataFetcher.state) {
       case 'loading':
+        setIsLoading(true)
         break;
       case 'hasValue':
         setAtom(dataFetcher.contents)
@@ -31,10 +32,13 @@ const withMbz = (InnerComponent) => {
     }
   },[atomValue.id, dataFetcher.state, dataFetcher.contents, atomValue, setAtom])
 
+  const handleParamsChange = (params) => setParams(params)
+
   return <InnerComponent
-           dispData={dispData} isLoading={isLoading}
+           dispData={dispData}
            errored={errored} errorMsg={errorMsg}
-           selParams={params} setSelParams={setParams} />
+           isLoading={isLoading}
+          />
 }
   OuterComponent.displayName = `WithMbz(${InnerComponent.name})`
   return OuterComponent

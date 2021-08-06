@@ -57,6 +57,7 @@ export const trackMaxedAtom = atom({
 export const artistLookup = selectorFamily({
   'key': 'artistLookup',
   get: (id) => async({get}) => {
+    if (!id) return get(currentArtistAtom)
     return await data.artistLookup(id)
   }
 })
@@ -119,6 +120,7 @@ export const currentArtistSlug = selector({
 export const releaseGroupLookup = selectorFamily({
   'key': 'releaseGroupLookup',
   get: (id) => async({get}) => {
+    if (!id) return get(currentReleaseGroupAtom)
     return await data.releaseGroupLookup(id)
   }
 })
@@ -188,6 +190,7 @@ export const currentReleaseGroupSlug = selector({
 export const releaseLookup = selectorFamily({
   'key': 'releaseLookup',
   get: (id) => async({get}) => {
+    if (!id) return get(currentReleaseAtom)
     return await data.releaseLookup(id)
   }
 })
@@ -231,6 +234,7 @@ export const currentReleaseSlug = selector({
 export const recordingLookup = selectorFamily({
   key: 'recordingLookeup',
   get: (id) => async ({get}) => {
+    if (!id) return get(currentRecordingAtom)
     return await data.recordingLookup(id)
   }
 })
@@ -340,10 +344,13 @@ export const dynamicPageTitle = selector({
     [
       get(currentArtistAtom).name,
       get(currentReleaseGroupAtom).title,
-      get(currentReleaseAtom).title
     ]
     const str = crumbs.filter(_=>_).join(' - ').trim()
-    let ret = 'MbEx - ' + str
+    let ret = ""
+    if (str.length)
+      ret = 'MbEx - ' + str
+    else
+      ret = "MusicBrainz Explorer - Search for your Sound"
     return ret
   }
 })

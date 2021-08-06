@@ -12,7 +12,7 @@ export default function YoutubeVideos({dispData, isLoading, errored, errorMsg}) 
         {isLoading && <p>loading</p>}
         {errored &&
         <NetworkError
-          errorMsg="{errorMsg}"
+          errorMsg={errorMsg}
           style={{'flexDirection': 'row'}}
         />
         }

@@ -20,6 +20,7 @@ export const youtubeVideoSearch = selectorFamily({
   get: () => async({get}) => {
     const rec = get(currentRecordingAtom)
     const artist = get(currentArtistAtom)
+    if (!rec.id) return get(youtubeVideoResults)
     const params = [['q', `${rec.title} ${artist.name}`]]
     return await data.youtubeVideoSearch(params)
   }

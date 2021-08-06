@@ -1,19 +1,19 @@
-import { useState, Fragment } from 'react'
-import { useRecoilState, useResetRecoilState } from 'recoil'
-import { currentReleaseGroupAtom, currentReleaseAtom, currentRecordingAtom, newDefaultsWithProps } from '../models/musicbrainz'
+import React, { useState, Fragment } from 'react'
+import { useRecoilState, useResetRecoilState, useRecoilValue } from 'recoil'
+import { currentReleaseGroupAtom, currentReleaseAtom, currentRecordingAtom,
+  newDefaultsWithProps, currentArtistPanelFormatSorted} from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMicrophoneAlt, faSort } from '@fortawesome/free-solid-svg-icons'
+import { faMicrophoneAlt, faSortAmountUp, faSortAmountDown } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/ResultBlock.module.scss'
 import { extractYear } from '../lib/dates'
 import ResultSectionHeader from './resultSectionHeader'
 import NetworkError from './networkError'
 
 export default function Artist(
-  {dispData, errored=false, errorMsg, selParams, setSelParams}) {
+  {dispData, errored=false, errorMsg}) {
 
+  const [sortCfg, setSortCfg] = useState({column: 'default', dir: 'asc'})
   const [currentReleaseGroup, setCurrentReleaseGroup] = useRecoilState(currentReleaseGroupAtom)
-  const resetRelease = useResetRecoilState(currentReleaseAtom)
-  const resetRecording = useResetRecoilState(currentRecordingAtom)
   const sortColumns = [
     ['default', 'Type/Date'], ['title', 'Title'], ['firstReleaseDate', 'Date']
   ]
@@ -21,8 +21,6 @@ export default function Artist(
 
   function handleClick(id, title) {
     return () => {
-      resetRecording()
-      resetRelease()
       setCurrentReleaseGroup(newDefaultsWithProps(
         currentReleaseGroup, {id: id, title: title})
       )
@@ -31,8 +29,12 @@ export default function Artist(
 
   const handleSortChoice = (column) => {
     return () => {
+      let dir = 'asc'
+      if (column == sortCfg.column) {
+        dir = sortCfg.dir == 'asc' ? 'desc' : 'asc'
+      }
       setShowSortMenu(false)
-      setSelParams({column: column, dir:'asc'})
+      setSortCfg({column: column, dir: dir})
     }
   }
 
@@ -74,7 +76,7 @@ export default function Artist(
             <FontAwesomeIcon
               className={styles.resultUtilIcon}
               height="1.3em"
-              icon={faSort}
+              icon={sortCfg.dir == 'desc' ? faSortAmountDown : faSortAmountUp}
               onClick={() => setShowSortMenu(!showSortMenu)}
             />
             <div className={`${showSortMenu ? styles.sortMenu : styles.sortMenuHidden}`}>
@@ -84,7 +86,7 @@ export default function Artist(
                   key={_[0]}
                   className={`
                     ${styles.sortChoice}
-                    ${_[0] == selParams.column && styles.sortChoiceActive}
+                    ${_[0] == sortCfg.column && styles.sortChoiceActive}
                   `}
                   onClick={handleSortChoice(_[0])}>
                   {_[1]}
@@ -98,7 +100,7 @@ export default function Artist(
         {Array.from(dispData.releaseGroups).map((_,i) => {
           const ret = (
             <Fragment key={`${_.id}`}>
-            {selParams.column == 'default' && didTypeChange(_) &&
+            {sortCfg.column == 'default' && didTypeChange(_) &&
               <ResultSectionHeader type1={_.type1} type2={_.type2}/>
             }
             <div onClick={handleClick(_.id, _.title)}

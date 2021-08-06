@@ -4,7 +4,7 @@ import { useRecoilValue, useRecoilState, useResetRecoilState } from 'recoil'
 import {
   userCountriesAtom, releaseGroupCountries,
   releaseGroupUserCountryMatch, releaseGroupFilteredReleases,
-  currentReleaseAtom, currentRecordingAtom, newDefaultsWithProps } from '../models/musicbrainz'
+  currentReleaseAtom, newDefaultsWithProps } from '../models/musicbrainz'
 import { currentReleaseCoverArtAtom } from '../models/coverartartchive'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCompactDisc, faFilter } from '@fortawesome/free-solid-svg-icons'
@@ -15,7 +15,7 @@ import modalStyles from '../styles/Modal.module.scss'
 export default function ReleaseGroup({dispData}) {
 
   const [cookies, setCookie] = useCookies()
-  const resetRecording = useResetRecoilState(currentRecordingAtom)
+  const resetRelease = useResetRecoilState(currentReleaseAtom)
   const [currentRelease, setCurrentRelease] = useRecoilState(currentReleaseAtom)
   const [, setCoverArt] = useRecoilState(currentReleaseCoverArtAtom)
   const [userCountries, setUserCountries] = useRecoilState(userCountriesAtom)
@@ -26,13 +26,18 @@ export default function ReleaseGroup({dispData}) {
 
   const handleClick = (id, title, country, date, i) => {
     return () => {
-      resetRecording()
       setCoverArt({id: id})
       setCurrentRelease(newDefaultsWithProps(
         currentRelease, {id: id, title: title, country: country, date: date}
       ))
     }
   }
+
+  useEffect(() => {
+    // if (dispData.id == null) {
+      resetRelease()
+    // }
+  },[dispData.id])
 
   useEffect(() => {
     head.current?.scrollIntoView({behavior: "smooth"})
@@ -88,6 +93,7 @@ export default function ReleaseGroup({dispData}) {
   const releasesScrollable = useRef()
   const head = useRef()
 
+  if (!dispData.id) { return null }
   return (
     <div ref={head} className={styles.block}>
       <div>

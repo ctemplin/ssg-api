@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useResetRecoilState } from 'recoil'
 import { currentRecordingAtom, newDefaultsWithProps } from '../models/musicbrainz'
 import { currentReleaseCoverArtAtom, coverArtLookup } from '../models/coverartartchive'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,12 +12,17 @@ import styles from '../styles/ResultBlock.module.scss'
 export default function Release({dispData}) {
 
   const [currentRecording, setCurrentRecording] = useRecoilState(currentRecordingAtom)
+  const resetRecording = useResetRecoilState(currentRecordingAtom)
+  const resetCoverArt = useResetRecoilState(currentReleaseCoverArtAtom)
 
   const CoverArtThumbnail_MBZ = withMbz(CoverArtThumbnail)
 
-  const toggleImgModal = (e) => {
-    setShowLargeImg(!showLargeImg)
-  }
+  useEffect(() => {
+    // if (dispData.id == null) {
+      resetCoverArt()
+      resetRecording()
+    // }
+  },[dispData.id])
 
   const scrollableRef = useRef()
 
@@ -35,7 +40,7 @@ export default function Release({dispData}) {
     head.current?.scrollIntoView({behavior: "smooth"})
   },[dispData.id])
 
-  const handleClick = (id, title, i) => {
+  const handleClick = (id, title) => {
     return () => {
       setCurrentRecording(
         newDefaultsWithProps(currentRecording, {id: id, title: title})
@@ -45,6 +50,7 @@ export default function Release({dispData}) {
 
   const head = useRef()
 
+  if (!dispData.id) { return null }
   return (
   <div ref={head} className={styles.block}>
     <div>
@@ -96,7 +102,7 @@ export default function Release({dispData}) {
         {dispData.tracks.map((_,i) =>
           <div
             key={_.id}
-            onClick={handleClick(_.rid, _.title, i)}
+            onClick={handleClick(_.rid, _.title)}
             className={`
               ${styles.resultItem}
               ${_.rid == currentRecording.id && styles.resultItemHl}
