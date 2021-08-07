@@ -88,7 +88,6 @@ export const currentArtistPanelFormat = selector({
 export const currentArtistPanelFormatSorted = selectorFamily({
   key: 'currentArtistPanelFormatSorted',
   get: (sortBy = {column: null, dir:'asc'}) => ({get}) => {
-
     const sortRgs = (a,b) => {
       let ret
       switch (sortBy.column) {
@@ -103,11 +102,12 @@ export const currentArtistPanelFormatSorted = selectorFamily({
       }
       return ret
     }
-
     const data = get(currentArtistPanelFormat)
+    let _rgs = [...data.releaseGroups].sort(sortRgs)
+    if (sortBy.dir == 'desc') { _rgs.reverse() }
     return ({
       ...data,
-      releaseGroups: [...data.releaseGroups].sort(sortRgs)
+      releaseGroups: _rgs
     })
   }
 })
