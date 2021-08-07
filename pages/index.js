@@ -10,9 +10,8 @@ import {
          recordingLookup, currentRecordingAtom,
          currentRecordingPanelFormat,
          trackMaxedAtom,
-        //  userCountriesAtom,
          } from '../models/musicbrainz'
-// import {useCookies} from 'react-cookie'
+import {useCookies} from 'react-cookie'
 import {useRouter} from 'next/router'
 import HeadTag from '../components/head'
 import Image from 'next/image'
@@ -35,7 +34,6 @@ export default function Home() {
   const resetRelease = useResetRecoilState(currentReleaseAtom)
   const resetRecording = useResetRecoilState(currentRecordingAtom)
   const isTrackMaxed = useRecoilValue(trackMaxedAtom)
-  // const [cookies,] = useCookies()
   const router = useRouter()
 
   // Wrapped components
@@ -60,10 +58,6 @@ export default function Home() {
     resetRecording()
     router.push("/", undefined, {shallow: true})
   }
-
-  // useEffect(() => {
-  //   if (cookies.countries) {setUserCountries(new Set(cookies.countries))}
-  // },[cookies.countries, setUserCountries])
 
   const classNamesByRouteAndUi = (s, aid, isMaxed) => {
     let c = [s.container]

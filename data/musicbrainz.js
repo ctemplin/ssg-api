@@ -14,7 +14,7 @@ export async function artistSearch(terms) {
     'https://musicbrainz.org/ws/2/artist',
     [
       ["query", terms],
-      ["limit", 20]
+      ["limit", 20],
       ["offset", 0]
     ],
     resultMapper

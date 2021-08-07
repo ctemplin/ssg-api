@@ -21,9 +21,26 @@ export function newDefaultsWithProps(atomValue, newProps) {
   return newDefaults
 }
 
+// Used if no 'countries' cookie detected.
+// TODO: detect user location and set appropriately.
+function getDefaultCountries() {
+  return new Set(['US', '??'])
+}
+
 export const userCountriesAtom = atom({
   key: 'userCountries',
-  default: new Set(['US', '??'])
+  default: null
+})
+
+export const userCountriesOrDefault = selector({
+  key: 'userCountriesOrDefault',
+  set: ({set}, {countries} = {countries: []}) => {
+    if (countries.length) {
+      set(userCountriesAtom, countries instanceof Set ? countries : new Set(countries))
+    } else {
+      set(userCountriesAtom, getDefaultCountries())
+    }
+  }
 })
 
 export const searchTermsAtom = atom({
@@ -102,12 +119,11 @@ export const currentArtistPanelFormatSorted = selectorFamily({
       }
       return ret
     }
+
     const data = get(currentArtistPanelFormat)
-    let _rgs = [...data.releaseGroups].sort(sortRgs)
-    if (sortBy.dir == 'desc') { _rgs.reverse() }
     return ({
       ...data,
-      releaseGroups: _rgs
+      releaseGroups: [...data.releaseGroups].sort(sortRgs)
     })
   }
 })

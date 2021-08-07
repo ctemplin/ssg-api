@@ -1,10 +1,12 @@
 import React,{ useState, useEffect, useRef } from 'react'
 import { useCookies } from 'react-cookie'
-import { useRecoilValue, useRecoilState, useResetRecoilState } from 'recoil'
+import { useRecoilValue, useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil'
 import {
-  userCountriesAtom, releaseGroupCountries,
+  userCountriesAtom, userCountriesOrDefault,
+  releaseGroupCountries,
   releaseGroupUserCountryMatch, releaseGroupFilteredReleases,
-  currentReleaseAtom, newDefaultsWithProps } from '../models/musicbrainz'
+  currentReleaseAtom, newDefaultsWithProps }
+  from '../models/musicbrainz'
 import { currentReleaseCoverArtAtom } from '../models/coverartartchive'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCompactDisc, faFilter } from '@fortawesome/free-solid-svg-icons'
@@ -17,11 +19,21 @@ export default function ReleaseGroup({dispData}) {
   const [cookies, setCookie] = useCookies()
   const resetRelease = useResetRecoilState(currentReleaseAtom)
   const [currentRelease, setCurrentRelease] = useRecoilState(currentReleaseAtom)
+  const setUserCountriesOrDefault = useSetRecoilState(userCountriesOrDefault)
   const [userCountries, setUserCountries] = useRecoilState(userCountriesAtom)
   const [showFilterConfig, setShowFilterConfig] = useState(false)
   const rgCountries = useRecoilValue(releaseGroupCountries)
   const anyCountryMatch = useRecoilValue(releaseGroupUserCountryMatch)
   const filteredReleases = useRecoilValue(releaseGroupFilteredReleases(anyCountryMatch))
+
+  // If countries not set load countries from cookie or
+  // pass empty array, in which case selector will find defaults.
+  // Keeping eslint happy with all the dependencies. This hook will be triggered
+  // frequently but will noop after atom is set for the first time.
+  const loadCountries = () => {
+    userCountries ? ()=>{} : setUserCountriesOrDefault({countries: cookies.countries ?? []})
+  }
+  useEffect(loadCountries, [cookies.countries, userCountries, setUserCountriesOrDefault])
 
   const handleClick = (id, title, country, date, i) => {
     return () => {
