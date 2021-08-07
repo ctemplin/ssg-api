@@ -26,7 +26,7 @@ export default function RouterSync({qsIds}) {
   const recordingSlug = useRecoilValue(currentRecordingSlug)
 
     // Rehydrate from refresh, pasted url, bookmark, etc
-  const updateUnsetResourcesFromQueryString = useRecoilTransaction_UNSTABLE(
+  const initResourcesFromQueryString = useRecoilTransaction_UNSTABLE(
     qsIds ?
       ({get, set}) => (qsIds) => {
         let ret = {} // track which ids have been set
@@ -61,7 +61,7 @@ export default function RouterSync({qsIds}) {
   )
 
   useEffect(() => {
-    updateUnsetResourcesFromQueryString(qsIds)
+    initResourcesFromQueryString(qsIds)
   }, [])
 
   /**
