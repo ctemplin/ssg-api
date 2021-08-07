@@ -10,10 +10,11 @@ import ResultSectionHeader from './resultSectionHeader'
 import NetworkError from './networkError'
 
 export default function Artist(
-  {dispData, errored=false, errorMsg}) {
+  {dispData, errored=false, errorMsg, params, setParams}) {
 
-  const [sortCfg, setSortCfg] = useState({column: 'default', dir: 'asc'})
   const [currentReleaseGroup, setCurrentReleaseGroup] = useRecoilState(currentReleaseGroupAtom)
+  // Alias the generic HOC "params" to something meaningful
+  const [sortCfg, setSortCfg] = [params, setParams]
   const sortColumns = [
     ['default', 'Type/Date'], ['title', 'Title'], ['firstReleaseDate', 'Date']
   ]

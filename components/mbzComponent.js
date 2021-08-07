@@ -32,12 +32,12 @@ const withMbz = (InnerComponent) => {
     }
   },[atomValue.id, dataFetcher.state, dataFetcher.contents, atomValue, setAtom])
 
-  const handleParamsChange = (params) => setParams(params)
-
   return <InnerComponent
            dispData={dispData}
            errored={errored} errorMsg={errorMsg}
            isLoading={isLoading}
+           params={params}
+           setParams={setParams}
           />
 }
   OuterComponent.displayName = `WithMbz(${InnerComponent.name})`
