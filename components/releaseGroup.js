@@ -23,6 +23,10 @@ export default function ReleaseGroup({dispData}) {
   const anyCountryMatch = useRecoilValue(releaseGroupUserCountryMatch)
   const filteredReleases = useRecoilValue(releaseGroupFilteredReleases(anyCountryMatch))
 
+  useEffect(() => {
+    if (cookies.countries) {setUserCountries(new Set(cookies.countries))}
+  },[])
+
   const handleClick = (id, title, country, date, i) => {
     return () => {
       setCurrentRelease(newDefaultsWithProps(
