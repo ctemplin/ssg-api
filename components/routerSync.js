@@ -68,39 +68,39 @@ export default function RouterSync({qsIds}) {
    * Sync the browser address bar (path and querystring) to reflect the
    * state of the current resources (artist, release group, release, recording).
    */
-  useEffect(() => {
-    const resources = [
-      [currentArtist.id, 'aid', artistSlug],
-      [currentReleaseGroup.id, 'rgid', releaseGroupSlug],
-      [currentRelease.id, 'rid', releaseSlug],
-      [currentRecording.id, 'tid', recordingSlug]
-    ]
-    let slugs = []
-    const queryParams = {}
-    // look thru resources in order (artist -> recording) for a discrepancy
-    let wasChangeFound = !resources.every((resource, i, arr) => {
-      if (resource[0] && resource[0] != router.query[resource[1]]) {
-        // get all the slugs for resources up to and including this one
-        arr.slice(0, i+1).forEach(s => {
-          slugs.push(s[2])
-          queryParams[s[1]] = s[0]
-        })
-        // break loop. additional path segments and params will be truncated
-        return false;
-      }
-      return true; //continue loop
-    })
-    if (wasChangeFound) {
-      let routerArgs = getRouterArgs(
-        router, slugs, queryParams
-      )
-      // Replace url (no history update)
-      // router.replace.apply(this, routerArgs)
-    }
-  },
-  [ router,
-    currentArtist.id, currentReleaseGroup.id, currentRelease.id, currentRecording.id,
-    artistSlug, releaseGroupSlug, releaseSlug, recordingSlug ]
-  )
+  // useEffect(() => {
+  //   const resources = [
+  //     [currentArtist.id, 'aid', artistSlug],
+  //     [currentReleaseGroup.id, 'rgid', releaseGroupSlug],
+  //     [currentRelease.id, 'rid', releaseSlug],
+  //     [currentRecording.id, 'tid', recordingSlug]
+  //   ]
+  //   let slugs = []
+  //   const queryParams = {}
+  //   // look thru resources in order (artist -> recording) for a discrepancy
+  //   let wasChangeFound = !resources.every((resource, i, arr) => {
+  //     if (resource[0] && resource[0] != router.query[resource[1]]) {
+  //       // get all the slugs for resources up to and including this one
+  //       arr.slice(0, i+1).forEach(s => {
+  //         slugs.push(s[2])
+  //         queryParams[s[1]] = s[0]
+  //       })
+  //       // break loop. additional path segments and params will be truncated
+  //       return false;
+  //     }
+  //     return true; //continue loop
+  //   })
+  //   if (wasChangeFound) {
+  //     let routerArgs = getRouterArgs(
+  //       router, slugs, queryParams
+  //     )
+  //     // Replace url (no history update)
+  //     router.replace.apply(this, routerArgs)
+  //   }
+  // },
+  // [ router,
+  //   currentArtist.id, currentReleaseGroup.id, currentRelease.id, currentRecording.id,
+  //   artistSlug, releaseGroupSlug, releaseSlug, recordingSlug ]
+  // )
   return null
 }
