@@ -14,14 +14,13 @@ export default function Release({dispData}) {
   const [currentRecording, setCurrentRecording] = useRecoilState(currentRecordingAtom)
   const resetRecording = useResetRecoilState(currentRecordingAtom)
   const resetCoverArt = useResetRecoilState(currentReleaseCoverArtAtom)
+  const [, setCoverArt] = useRecoilState(currentReleaseCoverArtAtom)
 
   const CoverArtThumbnail_MBZ = withMbz(CoverArtThumbnail)
 
   useEffect(() => {
-    // if (dispData.id == null) {
-      resetCoverArt()
+      setCoverArt({id: dispData.id})
       resetRecording()
-    // }
   },[dispData.id])
 
   const scrollableRef = useRef()

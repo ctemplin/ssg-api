@@ -25,11 +25,10 @@ export default function Recording({dispData, isLoading=true}) {
   },[setIsMaxed])
 
   useEffect(() => {
-    // if (dispData.id == null) {
-      resetYoutube()
-    // }
+    resetYoutube()
   },[dispData.id])
 
+  if (!dispData.id) return null
   return (
     <div className={styles.pseudoColumns}>
     <div className={styles.collapse} onClick={() => setIsMaxed(!isMaxed)}>

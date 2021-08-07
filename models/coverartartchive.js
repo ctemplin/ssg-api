@@ -13,6 +13,7 @@ export const currentReleaseCoverArtAtom = atom({
 export const coverArtLookup = selectorFamily({
   'key': 'coverArtLookup',
   get: (id) => async({get}) => {
+    if (!id) return get(currentReleaseCoverArtAtom)
     return  await data.coverArtLookup(id)
   }
 })

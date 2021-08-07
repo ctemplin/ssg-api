@@ -257,6 +257,7 @@ export const currentRecordingPanelFormat = selector({
   get: ({get}) => {
     const raw = get(currentRecordingAtom)
     return ({
+      id: raw.id,
       title: raw.title
     })
   }

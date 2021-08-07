@@ -17,7 +17,6 @@ export default function ReleaseGroup({dispData}) {
   const [cookies, setCookie] = useCookies()
   const resetRelease = useResetRecoilState(currentReleaseAtom)
   const [currentRelease, setCurrentRelease] = useRecoilState(currentReleaseAtom)
-  const [, setCoverArt] = useRecoilState(currentReleaseCoverArtAtom)
   const [userCountries, setUserCountries] = useRecoilState(userCountriesAtom)
   const [showFilterConfig, setShowFilterConfig] = useState(false)
   const rgCountries = useRecoilValue(releaseGroupCountries)
@@ -26,7 +25,6 @@ export default function ReleaseGroup({dispData}) {
 
   const handleClick = (id, title, country, date, i) => {
     return () => {
-      setCoverArt({id: id})
       setCurrentRelease(newDefaultsWithProps(
         currentRelease, {id: id, title: title, country: country, date: date}
       ))
@@ -34,9 +32,7 @@ export default function ReleaseGroup({dispData}) {
   }
 
   useEffect(() => {
-    // if (dispData.id == null) {
-      resetRelease()
-    // }
+    resetRelease()
   },[dispData.id])
 
   useEffect(() => {
