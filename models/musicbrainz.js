@@ -120,11 +120,12 @@ export const currentArtistPanelFormatSorted = selectorFamily({
       }
       return ret
     }
-
     const data = get(currentArtistPanelFormat)
+    let _rgs = [...data.releaseGroups].sort(sortRgs)
+    if (sortBy.dir == 'desc') { _rgs.reverse() }
     return ({
       ...data,
-      releaseGroups: [...data.releaseGroups].sort(sortRgs)
+      releaseGroups: _rgs
     })
   }
 })
