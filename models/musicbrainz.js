@@ -2,6 +2,7 @@ import { slugify, UPCASE } from '../lib/routes'
 import { atom, selector, selectorFamily } from 'recoil'
 import formatDate, { formatMilliseconds, sortDateStrings } from '../lib/dates'
 import * as data from '../data/musicbrainz'
+import { currentReleaseCoverArtAtom } from './coverartartchive'
 
 /**
  * Create a new atom value with arbitrary initial props.
@@ -330,14 +331,22 @@ export const breadcrumbsSel = selector({
       reset(currentRecordingAtom)
       reset(currentReleaseAtom)
       reset(currentReleaseGroupAtom)
-      set(currentArtistAtom, {id: artistId, name: artistName})
+      set(
+        currentArtistAtom, 
+        newDefaultsWithProps(
+          get(currentArtistAtom),
+          {id: artistId, name: artistName}
+        )
+      )
     }
     // Jump back.
     else {
       reset(prevBreadcrumbsAtom)
       set(currentArtistAtom, get(prevItems).artist)
       set(currentReleaseGroupAtom, get(prevItems).releaseGroup)
-      set(currentReleaseAtom, get(prevItems).release)
+      let prevRelease = get(prevItems).release
+      set(currentReleaseAtom, prevRelease)
+      set(currentReleaseCoverArtAtom, {id: prevRelease.id})
       set(currentRecordingAtom, get(prevItems).recording)
       reset(prevItems)
     }
