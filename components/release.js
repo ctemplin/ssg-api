@@ -21,7 +21,7 @@ export default function Release({dispData}) {
   useEffect(() => {
       setCoverArt({id: dispData.id})
       resetRecording()
-  },[dispData.id])
+  },[dispData.id, setCoverArt, resetRecording])
 
   const scrollableRef = useRef()
 

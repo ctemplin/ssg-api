@@ -45,7 +45,7 @@ export default function ReleaseGroup({dispData}) {
 
   useEffect(() => {
     resetRelease()
-  },[dispData.id])
+  },[dispData.id, resetRelease])
 
   useEffect(() => {
     head.current?.scrollIntoView({behavior: "smooth"})

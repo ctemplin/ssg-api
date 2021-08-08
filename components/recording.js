@@ -26,7 +26,7 @@ export default function Recording({dispData, isLoading=true}) {
 
   useEffect(() => {
     resetYoutube()
-  },[dispData.id])
+  },[dispData.id, resetYoutube])
 
   if (!dispData.id) return null
   return (

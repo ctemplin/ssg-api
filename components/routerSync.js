@@ -56,13 +56,13 @@ export default function RouterSync({qsIds}) {
         return ret
       }
     :
-    ({get}) => {}
-    , []
+    ({get}) => {},
+    []
   )
 
   useEffect(() => {
     initResourcesFromQueryString(qsIds)
-  }, [])
+  }, [initResourcesFromQueryString, qsIds])
 
   /**
    * Sync the browser address bar (path and querystring) to reflect the
