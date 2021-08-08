@@ -65,10 +65,9 @@ export default function Release({dispData}) {
       <div className={`${styles.blockHeader} ${dispData.hasCoverArt && styles.blockHeaderArt}`}>
         <div>
           <div className={styles.blockHeaderTitle}>
-            {dispData.title}
-            <span className={styles.releaseCountry}>
-              {dispData.country ? `(${dispData.country})` : ``}
-            </span>
+            {/* Title & country-span on 1 line for proper spacing/wrapping */}
+            {dispData.title} <span className={styles.releaseCountry}>
+            {dispData.country ? `(${dispData.country})` : ``}</span>
           </div>
           <ReleaseDate show={dispData.hasCoverArt} />
         </div>

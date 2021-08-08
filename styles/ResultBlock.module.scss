@@ -131,8 +131,8 @@ span.releaseTitle {
 }
 
 span.releaseCountry {
+  display: inline-flex;
   font-size: smaller;
-  margin-left: .3em;
 }
 
 span.releaseDate {
