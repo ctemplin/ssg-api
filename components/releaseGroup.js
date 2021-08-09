@@ -1,11 +1,12 @@
 import React,{ useState, useEffect, useRef } from 'react'
 import { useCookies } from 'react-cookie'
-import { useRecoilValue, useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil'
+import { 
+  useRecoilValue, useRecoilState, useResetRecoilState, useSetRecoilState} from 'recoil'
 import {
   userCountriesAtom, userCountriesOrDefault,
   releaseGroupCountries,
   releaseGroupUserCountryMatch, releaseGroupFilteredReleases,
-  currentReleaseAtom, newDefaultsWithProps }
+  currentReleaseAtom, resetThenSetValue }
   from '../models/musicbrainz'
 import { currentReleaseCoverArtAtom } from '../models/coverartartchive'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -19,6 +20,7 @@ export default function ReleaseGroup({dispData}) {
   const [cookies, setCookie] = useCookies()
   const resetRelease = useResetRecoilState(currentReleaseAtom)
   const [currentRelease, setCurrentRelease] = useRecoilState(currentReleaseAtom)
+  const resetThenSet = useSetRecoilState(resetThenSetValue)
   const setUserCountriesOrDefault = useSetRecoilState(userCountriesOrDefault)
   const [userCountries, setUserCountries] = useRecoilState(userCountriesAtom)
   const [showFilterConfig, setShowFilterConfig] = useState(false)
@@ -35,11 +37,11 @@ export default function ReleaseGroup({dispData}) {
   }
   useEffect(loadCountries, [cookies.countries, userCountries, setUserCountriesOrDefault])
 
-  const handleClick = (id, title, country, date, i) => {
+  const handleClick = (id, title, country, date) => {
     return () => {
-      setCurrentRelease(newDefaultsWithProps(
-        currentRelease, {id: id, title: title, country: country, date: date}
-      ))
+      resetThenSet({ 
+        atom: currentReleaseAtom, id: id, title: title, country: country, date: date
+      })
     }
   }
 
@@ -133,7 +135,7 @@ export default function ReleaseGroup({dispData}) {
         <div className={styles.resultsList} ref={releasesScrollable}>
           {filteredReleases.map((_,i) =>
           <div
-            onClick={handleClick(_.id, _.title, _.country, _.date, i)}
+            onClick={handleClick(_.id, _.title, _.country, _.date)}
             key={_.id}
             className={`
               ${i % 2 ? styles.resultItemAlt : styles.resultItem}

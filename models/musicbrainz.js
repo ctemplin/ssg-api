@@ -4,23 +4,14 @@ import formatDate, { formatMilliseconds, sortDateStrings } from '../lib/dates'
 import * as data from '../data/musicbrainz'
 import { currentReleaseCoverArtAtom } from './coverartartchive'
 
-/**
- * Create a new atom value with arbitrary initial props.
- * This allows callers to reset and atom with partial values
- * needed (prior to data access), without knowing/recreating all the other
- * default values.
- * IMPORTANT: assumes all values default to null except Arrays which
- * default to empty.
- * @param atomValue
- * @param newProps
- */
-export function newDefaultsWithProps(atomValue, newProps) {
-  let newDefaults = Object.fromEntries(Object.entries(atomValue).map(
-    _ => [_[0], _[1] instanceof Array ? [] : null])
-  )
-  Object.assign(newDefaults, newProps)
-  return newDefaults
-}
+
+export const resetThenSetValue = selector ({
+  key: 'resetThenSetValue',
+  set: ({get, set, reset}, {atom, ...rest}) => {
+    reset(atom)
+    set(atom, {...get(atom), ...rest})
+  } 
+})
 
 // Used if no 'countries' cookie detected.
 // TODO: detect user location and set appropriately.
@@ -332,13 +323,7 @@ export const breadcrumbsSel = selector({
       reset(currentRecordingAtom)
       reset(currentReleaseAtom)
       reset(currentReleaseGroupAtom)
-      set(
-        currentArtistAtom, 
-        newDefaultsWithProps(
-          get(currentArtistAtom),
-          {id: artistId, name: artistName}
-        )
-      )
+      set(resetThenSetValue, {atom: currentArtistAtom, id: artistId, name: artistName})
     }
     // Jump back.
     else {

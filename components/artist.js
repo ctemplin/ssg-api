@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react'
-import { useRecoilState, useResetRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { currentReleaseGroupAtom, currentReleaseAtom, currentRecordingAtom,
-  newDefaultsWithProps, currentArtistPanelFormatSorted} from '../models/musicbrainz'
+  resetThenSetValue, currentArtistPanelFormatSorted} from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicrophoneAlt, faSortAmountUp, faSortAmountDown } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/ResultBlock.module.scss'
@@ -12,7 +12,8 @@ import NetworkError from './networkError'
 export default function Artist(
   {dispData, errored=false, errorMsg, params, setParams}) {
 
-  const [currentReleaseGroup, setCurrentReleaseGroup] = useRecoilState(currentReleaseGroupAtom)
+  const currentReleaseGroup = useRecoilValue(currentReleaseGroupAtom)
+  const resetThenSet = useSetRecoilState(resetThenSetValue)
   // Alias the generic HOC "params" to something meaningful
   const [sortCfg, setSortCfg] = [params, setParams]
   const sortColumns = [
@@ -22,9 +23,7 @@ export default function Artist(
 
   function handleClick(id, title) {
     return () => {
-      setCurrentReleaseGroup(newDefaultsWithProps(
-        currentReleaseGroup, {id: id, title: title})
-      )
+      resetThenSet({atom: currentReleaseGroupAtom, id: id, title: title})
     }
   }
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useRecoilState, useResetRecoilState,
-         useRecoilValueLoadable } from 'recoil'
+         useRecoilValueLoadable, 
+         useSetRecoilState} from 'recoil'
 import { searchTermsAtom,
          searchResultsSel,
          searchHlIndexAtom,
@@ -9,7 +10,7 @@ import { searchTermsAtom,
          currentReleaseGroupAtom,
          currentReleaseAtom,
          currentRecordingAtom,
-         newDefaultsWithProps
+         resetThenSetValue
 } from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -21,10 +22,10 @@ export default function ArtistSearch({}) {
   const [searchTerms, setSearchTerms] = useRecoilState(searchTermsAtom)
   const [scrollTop, setScrollTop] = useRecoilState(searchScrollTopAtom)
   const [hlIndex, setHlIndex] = useRecoilState(searchHlIndexAtom)
-  const [currentArtist, setCurrentArtist] = useRecoilState(currentArtistAtom)
   const resetReleaseGroup = useResetRecoilState(currentReleaseGroupAtom)
   const resetRelease = useResetRecoilState(currentReleaseAtom)
   const resetRecording = useResetRecoilState(currentRecordingAtom)
+  const resetThenSet = useSetRecoilState(resetThenSetValue)
 
   const searchQuery = useRecoilValueLoadable(searchResultsSel)
 
@@ -72,9 +73,7 @@ export default function ArtistSearch({}) {
       resetRecording()
       resetRelease()
       resetReleaseGroup()
-      setCurrentArtist(
-        newDefaultsWithProps(currentArtist, {id: id, name: name})
-      )
+      resetThenSet({atom: currentArtistAtom, id: id, name: name})
     }
   }
 

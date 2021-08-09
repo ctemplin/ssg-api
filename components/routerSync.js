@@ -1,14 +1,15 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { getRouterArgs } from '../lib/routes'
-import { useRecoilState, useRecoilValue, useRecoilTransaction_UNSTABLE } from 'recoil'
+import { useRecoilState, useRecoilValue,
+         useSetRecoilState } from 'recoil'
 import { currentReleaseCoverArtAtom } from '../models/coverartartchive'
 import {
-  newDefaultsWithProps,
   currentArtistAtom, currentArtistSlug,
   currentRecordingAtom, currentRecordingSlug,
   currentReleaseAtom, currentReleaseGroupAtom,
-  currentReleaseGroupSlug, currentReleaseSlug
+  currentReleaseGroupSlug, currentReleaseSlug,
+  resetThenSetValue
 } from '../models/musicbrainz'
 
 
@@ -24,45 +25,28 @@ export default function RouterSync({qsIds}) {
   const coverArt = useRecoilValue(currentReleaseCoverArtAtom)
   const currentRecording = useRecoilValue(currentRecordingAtom)
   const recordingSlug = useRecoilValue(currentRecordingSlug)
+  const resetThenSet = useSetRecoilState(resetThenSetValue)
 
-    // Rehydrate from refresh, pasted url, bookmark, etc
-  const initResourcesFromQueryString = useRecoilTransaction_UNSTABLE(
-    qsIds ?
-      ({get, set}) => (qsIds) => {
-        let ret = {} // track which ids have been set
-        let _aid = get(currentArtistAtom).id
-        if (!_aid && qsIds.aid) {
-          set(currentArtistAtom, newDefaultsWithProps(currentArtist,
-            {id: qsIds.aid}))
-          ret.aid = qsIds.aid
-          let _rgid = get(currentReleaseGroupAtom).id
-          if (!_rgid && qsIds.rgid) {
-            set(currentReleaseGroupAtom, newDefaultsWithProps(currentReleaseGroup,
-              {id: qsIds.rgid}))
-            ret.rgid = qsIds.rgid
-            let _rid = get(currentReleaseAtom).id
-            if (!_rid && qsIds.rid) {
-              set(currentReleaseAtom, newDefaultsWithProps(currentRelease,
-                {id: qsIds.rid}))
-              ret.rid = qsIds.rid
-              // let _tid = get(currentRecordingAtom).id
-              // if (!_tid && qsIds.tid) {
-              //   set(currentRecordingAtom, newDefaultsWithProps(currentRecording, 
-              //     {id: qsIds.tid}))
-              // }
-            }
-          }
-        }
-        return ret
-      }
-    :
-    ({get}) => {},
-    []
-  )
+  // Rehydrate from query string of pasted url, bookmark, etc
 
   useEffect(() => {
-    initResourcesFromQueryString(qsIds)
-  }, [initResourcesFromQueryString, qsIds])
+    let _aid = currentArtistAtom.id
+    if (!_aid && qsIds.aid) {
+      resetThenSet({atom: currentArtistAtom, id: qsIds.aid})
+      let _rgid = currentReleaseGroupAtom.id
+      if (!_rgid && qsIds.rgid) {
+        resetThenSet({atom: currentReleaseGroupAtom, id: qsIds.rgid})
+        let _rid = currentReleaseAtom.id
+        if (!_rid && qsIds.rid) {
+          resetThenSet({atom: currentReleaseAtom, id: qsIds.rid})
+          // let _tid = currentRecordingAtom.id
+          // if (!_tid && qsIds.tid) {
+          //   resetThenSet({atom: currentRecordingAtom, id: qsIds.tid})
+          // }
+        }
+      }
+    }
+  }, [qsIds])
 
   /**
    * Sync the browser address bar (path and querystring) to reflect the

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
-import { useRecoilState, useResetRecoilState } from 'recoil'
-import { currentRecordingAtom, newDefaultsWithProps } from '../models/musicbrainz'
+import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil'
+import { currentRecordingAtom, resetThenSetValue } from '../models/musicbrainz'
 import { currentReleaseCoverArtAtom, coverArtLookup } from '../models/coverartartchive'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMusic } from '@fortawesome/free-solid-svg-icons'
@@ -14,6 +14,7 @@ export default function Release({dispData}) {
   const [currentRecording, setCurrentRecording] = useRecoilState(currentRecordingAtom)
   const resetRecording = useResetRecoilState(currentRecordingAtom)
   const resetCoverArt = useResetRecoilState(currentReleaseCoverArtAtom)
+  const resetThenSet = useSetRecoilState(resetThenSetValue)
   const [, setCoverArt] = useRecoilState(currentReleaseCoverArtAtom)
 
   const CoverArtThumbnail_MBZ = withMbz(CoverArtThumbnail)
@@ -40,11 +41,7 @@ export default function Release({dispData}) {
   },[dispData.id])
 
   const handleClick = (id, title) => {
-    return () => {
-      setCurrentRecording(
-        newDefaultsWithProps(currentRecording, {id: id, title: title})
-      )
-    }
+    return () => resetThenSet({atom: currentRecordingAtom, id: id, title: title})
   }
 
   const head = useRef()
