@@ -142,8 +142,9 @@ export default function ReleaseGroup({dispData}) {
               ${_.id == currentRelease.id ? styles.resultItemHl:''}
             `}
           >
-            <span className={styles.releaseTitle}>{_.title}
-              <span className={styles.releaseCountry}>
+            {/* Title & country-span on 1 line for proper spacing/wrapping */}
+            <span className={styles.releaseTitle}>{_.title} <span
+              className={styles.releaseCountry}>
                 {isCountryNeeded() && _.country ? `(${_.country})` : ``}
               </span>
             </span>
