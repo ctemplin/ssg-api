@@ -1,3 +1,5 @@
+import { Fragment } from 'react'
+import { Fragemnt } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { prevBreadcrumbsAtom, breadcrumbsSel } from '../models/musicbrainz'
 import styles from '../styles/BreadcrumbsBack.module.scss'
@@ -20,10 +22,10 @@ export default function BreadcrumbsBack() {
     return (
       <>
       {include(i,arr.length) &&
-      <>
-      <a key={_.id} onClick={handleClick} className={styles.crumb} style={style(i)}>{_.label}</a>
+      <Fragment key={_.id}>
+      <a onClick={handleClick} className={styles.crumb} style={style(i)}>{_.label}</a>
       {i < arr.length -1 && <span className={styles.separator}> - </span>}
-      </>
+      </Fragment>
       }
       </>
     )
