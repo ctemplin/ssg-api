@@ -16,7 +16,9 @@
 }
 
 .container.halved {
-  grid-template-rows: 2em 50% auto;
+  @media screen and (min-width: $tablet) {
+    grid-template-rows: 2em 50% auto;
+  }
 }
 
 .container.maxed {
