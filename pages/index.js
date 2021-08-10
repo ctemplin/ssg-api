@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState, useMemo} from 'react'
+import {useEffect, useState, useMemo} from 'react'
 import {useRecoilValue, useResetRecoilState} from 'recoil'
 import {
          artistLookup, currentArtistAtom,
@@ -11,7 +11,6 @@ import {
          currentRecordingPanelFormat,
          trackMaxedAtom,
          } from '../models/musicbrainz'
-import {useCookies} from 'react-cookie'
 import {useRouter} from 'next/router'
 import HeadTag from '../components/head'
 import Image from 'next/image'
@@ -43,11 +42,13 @@ export default function Home() {
   const Recording_MBZ = withMbz(Recording)
 
   const [qsIds, setQsIds] = useState({})
+  // If we have as query string parse, store it and remove it from address bar.
   useEffect(() => {
     if (document.location) {
       const qs = require('querystringify')
-      setQsIds(qs.parse(window.location.search))
-      let foo = 1;
+      const _qsIds = qs.parse(window.location.search)
+      setQsIds(_qsIds)
+      if (_qsIds.aid) router.replace('/', undefined, { shallow: true })
     }
   }, [])
 
