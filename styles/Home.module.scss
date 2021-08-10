@@ -41,8 +41,8 @@ $column-gap: 0.75rem !default;
   display: block;
   margin-right: 0;
   margin-left: 0;
-  overflow-y: hidden;
   @media screen and (min-width: $tablet) {
+    overflow-y: hidden;
     display: flex;
   }
   @media screen and (min-width: $desktop) {

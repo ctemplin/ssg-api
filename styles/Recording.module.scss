@@ -25,6 +25,8 @@
 
 .pseudoColumns {
   width: 100%;
+  z-index: 2;
+  background-color: $grey-lighter;
   text-align: center;
   @media screen and (min-width: $desktop) {
     padding-left: 5vw;
