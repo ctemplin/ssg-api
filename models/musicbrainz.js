@@ -1,16 +1,39 @@
 import { slugify, UPCASE } from '../lib/routes'
-import { atom, selector, selectorFamily } from 'recoil'
+import { atom, constSelector, selector, selectorFamily, snapshot_UNSTABLE } from 'recoil'
 import formatDate, { formatMilliseconds, sortDateStrings } from '../lib/dates'
 import * as data from '../data/musicbrainz'
 import { currentReleaseCoverArtAtom } from './coverartartchive'
 
+// Object for storing each atom's unset (default) value the first time we 
+// encounter it.
+const atomDefaults = {}
 
+/**
+ * Create a new atom value with arbitrary initial props.
+ * This allows callers to reset an atom with partial values
+ * needed (prior to data access), without knowing/recreating all the other
+ * default values.
+ */
 export const resetThenSetValue = selector ({
   key: 'resetThenSetValue',
-  set: ({get, set, reset}, {atom, ...rest}) => {
-    reset(atom)
-    set(atom, {...get(atom), ...rest})
-  } 
+  set: ({set}, {atom, ...rest}) => {
+    set(atom, 
+      (prevValue) => {
+        // Defaults not already stored
+        if (!atomDefaults[atom.key]) {
+          const isDefault = snapshot_UNSTABLE().getInfo_UNSTABLE(atom).isSet
+          // Store incoming value as defaults.
+          atomDefaults[atom.key] = isDefault ? {...prevValue} :
+            // Backup in case atom was ininitally set by another method.
+            Object.fromEntries(Object.entries(prevValue).map(
+              _ => [_[0], _[1] instanceof Array ? [] : null]
+            ))
+          Object.freeze(atomDefaults[atom.key])
+        }
+        return {...atomDefaults[atom.key], ...rest}
+      }
+    )
+  }
 })
 
 // Used if no 'countries' cookie detected.
