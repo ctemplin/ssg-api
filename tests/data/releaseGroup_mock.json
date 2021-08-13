@@ -1,0 +1,102 @@
+{
+  "id": "3f974fbd-9db8-3dff-9466-b9ae6fd9146c",
+  "title": "Hot Rats",
+  "firstReleaseDate": "Oct 15, 1969",
+  "releases": [
+      {
+          "id": "6327a725-8554-4900-a268-bdba3cb03169",
+          "title": "Hot Rats",
+          "date": "1969-10-15",
+          "country": "US"
+      },
+      {
+          "id": "e3a389fd-9a87-4815-81b0-1a487cbf552c",
+          "title": "Hot Rats",
+          "date": "1973",
+          "country": "CA"
+      },
+      {
+          "id": "d1455825-eba1-3542-a5f7-fbcc091aaf75",
+          "title": "Hot Rats",
+          "date": "1987-09",
+          "country": "GB"
+      },
+      {
+          "id": "bd527306-0dd8-4d99-93c4-4267ff649776",
+          "title": "Hot Rats",
+          "date": "1987",
+          "country": "US"
+      },
+      {
+          "id": "68f4c740-33cd-3a52-aa2f-de390ca29480",
+          "title": "Hot Rats",
+          "date": "1995-05-02",
+          "country": "US"
+      },
+      {
+          "id": "a02f5868-1a4c-4e40-8e98-b4ae87625524",
+          "title": "Hot Rats",
+          "date": "1995",
+          "country": "??"
+      },
+      {
+          "id": "a1fe2b41-6031-30e4-8622-6f69a2a8edc4",
+          "title": "Hot Rats",
+          "date": "2001-09-21",
+          "country": "JP"
+      },
+      {
+          "id": "e6c5a5b6-8708-33c5-a0f8-68207a5e7d5c",
+          "title": "Hot Rats",
+          "date": "2008-05-21",
+          "country": "JP"
+      },
+      {
+          "id": "f66e9414-c2d0-458f-8211-5a9a059d1299",
+          "title": "Hot Rats",
+          "date": "2009-01-13",
+          "country": "US"
+      },
+      {
+          "id": "7d9e9efc-842d-4788-a2bc-fb0cb3e98248",
+          "title": "Hot Rats",
+          "date": "2012-01-01",
+          "country": "XW"
+      },
+      {
+          "id": "5b7aac56-44e5-468f-85aa-28e50eb4176a",
+          "title": "Hot Rats",
+          "date": "2012-07-27",
+          "country": "XE"
+      },
+      {
+          "id": "828b1ecc-8ebd-482a-8178-42cdb539fec3",
+          "title": "Hot Rats",
+          "date": "2012-07-31",
+          "country": "US"
+      },
+      {
+          "id": "7eca2440-044b-4250-b123-1658504b3c1e",
+          "title": "Hot Rats",
+          "date": "2016-08-26",
+          "country": "XE"
+      },
+      {
+          "id": "f127a840-d8d3-4a70-836f-2965133b6812",
+          "title": "Hot Rats",
+          "date": "2019-12",
+          "country": "XE"
+      },
+      {
+          "id": "34a5daa7-2090-478b-a5d3-c4e94ede739b",
+          "title": "Hot Rats",
+          "date": "2021",
+          "country": "??"
+      },
+      {
+          "id": "f69e67c5-43b6-4e2e-87c7-117da2556dbd",
+          "title": "Hot Rats",
+          "country": "??"
+      }
+  ]
+}

@@ -15,10 +15,10 @@ export default function FilterConfig({handleChange, persistChange, handleClose})
   }
 
   return (
-    <div className={styles.container}>
+    <div role="list" className={styles.container}>
       Countries
       {Array.from(countries).sort().map(_ =>
-      <label key={_} className={styles.row}>
+      <label role="listitem" key={_} className={styles.row}>
         <span className={styles.abbrev}>{_}</span>
         <input
           type="checkbox"

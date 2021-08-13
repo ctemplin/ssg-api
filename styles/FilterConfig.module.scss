@@ -6,7 +6,8 @@
   display: flex;
   flex-direction: column;
   font-size: larger;
-  align-items: center
+  align-items: center;
+  padding-inline-start: unset;
 }
 
 .row {
