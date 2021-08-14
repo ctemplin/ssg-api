@@ -81,7 +81,8 @@ export default function Home() {
       {currentArtist.id &&
         <div className={styles.columns}>
           <div className={`${styles.column} ${styles.headColumn}`}>
-            <a className={styles.toolbar} onClick={handleSearchClick}>
+            <a className={styles.toolbar} onClick={handleSearchClick}
+               aria-label="Back to artist search" >
             <FontAwesomeIcon
               className={styles.icon}
               height="1em"
@@ -104,7 +105,7 @@ export default function Home() {
           <ArtistSearch />
           <Image
             src="/headphones.svg" className={styles.headphones}
-            alt="" layout="fill" preload="true"
+            layout="fill" preload="true" alt="headphones"
           />
 
         </div>

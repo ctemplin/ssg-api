@@ -44,9 +44,37 @@ export default function Artist(
     return !prevItem || varyingFieldNames.some(fn => item[fn] != prevItem[fn])
   }
 
+  const AllItemRows = ({props, i}) => (props instanceof Array) ?
+    <GroupedItems items={props} i={i} />
+    :
+    <SingleItem item={props} i={i} />
+
+  const GroupedItems = ({items, i}) =>
+    <div key={`${items[0].id}`} role="group">
+      <ResultSectionHeader type1={items[0].type1} type2={items[0].type2} />
+      <ItemList items={items} />
+    </div>
+
+  const ItemList = ({items}) => 
+    items.map((item,i) => <SingleItem item={item} i={i} />)
+
+  const SingleItem = ({item, i}) => 
+    <Fragment key={`${item.id}`}>
+    <div onClick={handleClick(item.id, item.title)} role="listitem"
+      className={`
+        ${i % 2 ? styles.resultItemAlt : styles.resultItem}
+        ${item.id == currentReleaseGroup.id ? styles.resultItemHl:''}
+      `}
+    >
+      <span className={styles.releaseTitle}>{item.title}</span>
+      <span className={styles.releaseDate}>
+        {extractYear(item.firstReleaseDate) ?? ''}
+      </span>
+    </div>
+    </Fragment>
+
   return (
     <div className={styles.block}>
-
       <div>
         <div className={styles.blockType}>Artist</div>
         {errored &&
@@ -71,7 +99,7 @@ export default function Artist(
       {!errored && dispData.releaseGroups &&
       <>
         <div className={styles.count}>
-          Releases: {dispData.releaseGroups.length} found
+          Releases: {dispData.releaseGroups.flat().length} found
           <div className={styles.sortContainer}>
             <FontAwesomeIcon
               className={styles.resultUtilIcon}
@@ -96,30 +124,8 @@ export default function Artist(
             </div>
           </div>
         </div>
-        <div className={styles.resultsList}>
-        {Array.from(dispData.releaseGroups).map((_,i) => {
-          const ret = (
-            <Fragment key={`${_.id}`}>
-            {sortCfg.column == 'default' && didTypeChange(_) &&
-              <ResultSectionHeader type1={_.type1} type2={_.type2}/>
-            }
-            <div onClick={handleClick(_.id, _.title)}
-              className={`
-                ${i % 2 ? styles.resultItemAlt : styles.resultItem}
-                ${_.id == currentReleaseGroup.id ? styles.resultItemHl:''}
-              `}
-            >
-              <span className={styles.releaseTitle}>{_.title}</span>
-              <span className={styles.releaseDate}>
-                {extractYear(_.firstReleaseDate) ?? ``}
-              </span>
-            </div>
-            </Fragment>
-          )
-          prevItem = _
-          return ret
-        }
-        )}
+        <div className={styles.resultsList} role="list">
+        {dispData.releaseGroups.map((_,i) => <AllItemRows props={_} i={i} />)}
         </div>
       </>
       }
