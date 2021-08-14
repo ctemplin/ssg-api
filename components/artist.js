@@ -38,12 +38,6 @@ export default function Artist(
     }
   }
 
-  const varyingFieldNames = ["type1", "type2"]
-  let prevItem = null
-  const didTypeChange = (item) => {
-    return !prevItem || varyingFieldNames.some(fn => item[fn] != prevItem[fn])
-  }
-
   const AllItemRows = ({props, i}) => (props instanceof Array) ?
     <GroupedItems items={props} i={i} />
     :
