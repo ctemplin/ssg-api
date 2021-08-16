@@ -4,7 +4,7 @@ import formatDate, { formatMilliseconds, sortDateStrings } from '../lib/dates'
 import * as data from '../data/musicbrainz'
 import { currentReleaseCoverArtAtom } from './coverartartchive'
 
-// Object for storing each atom's unset (default) value the first time we 
+// Object for storing each atom's unset (default) value the first time we
 // encounter it.
 const atomDefaults = {}
 
@@ -17,7 +17,7 @@ const atomDefaults = {}
 export const resetThenSetValue = selector ({
   key: 'resetThenSetValue',
   set: ({set}, {atom, ...rest}) => {
-    set(atom, 
+    set(atom,
       (prevValue) => {
         // Defaults not already stored
         if (!atomDefaults[atom.key]) {

@@ -13,18 +13,18 @@ export default function GroupableResults({props, i}) {
     return () => {
       resetThenSet({atom: currentReleaseGroupAtom, id: id, title: title})
     }
-  } 
+  }
 
-  const GroupedItems = ({items, i}) => 
+  const GroupedItems = ({items, i}) =>
   <div key={`${items[0].id}`} role="group" aria-labelledby={`group_${i}`}>
     <ResultSectionHeader type1={items[0].type1} type2={items[0].type2} i={i} />
     <ItemList items={items} />
   </div>
 
-  const ItemList = ({items}) => 
+  const ItemList = ({items}) =>
   items.map((item,i) => <SingleItem item={item} i={i} key={item.id ?? i}/>)
 
-  const SingleItem = ({item, i}) => 
+  const SingleItem = ({item, i}) =>
   <Fragment key={`${item.id}`}>
   <div onClick={handleClick(item.id, item.title)} role="listitem"
     className={`

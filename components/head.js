@@ -21,4 +21,4 @@ export default function Head() {
       }`}</style>
     </NextHead>
   )
-} 
+}

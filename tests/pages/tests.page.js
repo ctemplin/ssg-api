@@ -5,7 +5,7 @@ import { currentReleaseGroupAtom, userCountriesAtom } from '../../models/musicbr
 import { useSetRecoilState } from 'recoil'
 import releaseGroupData from '../data/releaseGroup_mock.json'
 
-export default function Home() {  
+export default function Home() {
 
   const setCountries = useSetRecoilState(userCountriesAtom)
   const setReleaseGroups = useSetRecoilState(currentReleaseGroupAtom)

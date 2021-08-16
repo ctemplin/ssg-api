@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useRecoilState, useResetRecoilState,
-         useRecoilValueLoadable, 
+         useRecoilValueLoadable,
          useSetRecoilState} from 'recoil'
 import { searchTermsAtom,
          searchResultsSel,

@@ -7,7 +7,7 @@ const withStateMgmt = (InnerComponent) => {
   const OuterComponent = () => {
   const setCurrentArtist = useSetRecoilState(currentArtistAtom)
   const dispData = useRecoilValue(currentArtistPanelFormatSorted())
-  
+
   useEffect(() => {
     setCurrentArtist(artistData)
   }, [])
@@ -17,6 +17,6 @@ const withStateMgmt = (InnerComponent) => {
 }
   OuterComponent.displayName = `WithStateMgmt(${InnerComponent.name})`
   return OuterComponent
-} 
+}
 
 export default withStateMgmt

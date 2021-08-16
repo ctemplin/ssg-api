@@ -1,6 +1,6 @@
 import React,{ useState, useEffect, useRef } from 'react'
 import { useCookies } from 'react-cookie'
-import { 
+import {
   useRecoilValue, useRecoilState, useResetRecoilState, useSetRecoilState} from 'recoil'
 import {
   userCountriesAtom, userCountriesOrDefault,
@@ -39,7 +39,7 @@ export default function ReleaseGroup({dispData}) {
 
   const handleClick = (id, title, country, date) => {
     return () => {
-      resetThenSet({ 
+      resetThenSet({
         atom: currentReleaseAtom, id: id, title: title, country: country, date: date
       })
     }
