@@ -4,33 +4,57 @@ import userEvent from '@testing-library/user-event'
 import Artist from '../../components/artist'
 import withStateMgmt from './withStateMgmt'
 
-describe('Renders artist list of releaseGroups with various groups.', () => {
+describe('Artist component', () => {
 
   const ArtistWithStateMgmt = withStateMgmt(Artist)
 
-  it('', () => {
-    render(<ArtistWithStateMgmt />)
+  beforeEach(() => render(<ArtistWithStateMgmt />))
 
+  it('initially groups releaseGroups by type and sorts them by date.', () => {
     let typeHeaders = screen.getAllByRole('group')
     expect(typeHeaders).toHaveLength(7)
     let listItems = screen.getAllByRole('listitem')
     expect(listItems).toHaveLength(20)
-
     expect(listItems[0]).toHaveTextContent("Blacklisted")
     expect(listItems[6]).toHaveTextContent("Truckdriver Gladiator Mule")
-
-    let sortDialog = screen.getByRole("dialog")
-    expect(sortDialog).toHaveClass("sortMenuHidden")
-    let filterIcon = screen.getByTitle("Sort the Releases").parentElement
-    expect(filterIcon).toBeVisible()
-    userEvent.click(filterIcon)
-    expect(sortDialog).not.toHaveClass("sortMenuHidden")
-    let sortOptions = getAllByRole(sortDialog, 'checkbox')
-    expect(sortOptions).toHaveLength(3)
-    expect(sortOptions[0]).toBeChecked()
-    expect(sortOptions[1]).not.toBeChecked()
-    expect(sortOptions[2]).not.toBeChecked()
-    userEvent.click(sortOptions[1])
-    expect(sortDialog).toHaveClass("sortMenuHidden")
   })
+
+  describe('Sort options', () => {
+    let sortDialog, sortOptions, filterIcon
+
+    beforeEach(() => {
+      sortDialog = screen.getByRole("dialog")
+      sortOptions = getAllByRole(sortDialog, 'checkbox')
+      filterIcon = screen.getByTitle("Sort the Releases").parentElement
+    })
+
+    it('hides the sort dialog by default.', () => {
+      expect(sortDialog).toHaveClass("sortMenuHidden")
+    })
+
+    it('contains three sort options.', () => {
+      expect(sortOptions).toHaveLength(3)
+    })
+
+    it('checks only the first sort option by default.', () => {
+      expect(sortOptions[0]).toBeChecked()
+      expect(sortOptions[1]).not.toBeChecked()
+      expect(sortOptions[2]).not.toBeChecked()
+    })
+
+    it('displays the sort icon.', () => {
+      expect(filterIcon).toBeVisible()
+    })
+
+    it('displays the sort dialog on icon click.', () => {
+      userEvent.click(filterIcon)
+      expect(sortDialog).not.toHaveClass("sortMenuHidden")
+    })
+
+    it('hides the sort menu after option is clicked', () => {
+      userEvent.click(sortOptions[1])
+      expect(sortDialog).toHaveClass("sortMenuHidden")
+    })
+  })
+
 })
