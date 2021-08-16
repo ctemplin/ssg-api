@@ -20,11 +20,11 @@ describe('Renders artist list of releaseGroups with various groups.', () => {
     expect(listItems[6]).toHaveTextContent("Truckdriver Gladiator Mule")
 
     let sortDialog = screen.getByRole("dialog")
-    // expect(sortDialog).not.toBeVisible()
+    expect(sortDialog).toHaveClass("sortMenuHidden")
     let filterIcon = screen.getByTitle("Sort the Releases").parentElement
     expect(filterIcon).toBeVisible()
     userEvent.click(filterIcon)
-    // expect(sortDialog).toBeVisible()
+    expect(sortDialog).not.toHaveClass("sortMenuHidden")
 
 
   })
