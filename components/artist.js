@@ -66,6 +66,8 @@ export default function Artist(
               {sortColumns.map(_ =>
                 <div
                   key={_[0]}
+                  role="checkbox"
+                  aria-checked={_[0] == sortCfg.column}
                   className={`
                     ${styles.sortChoice}
                     ${_[0] == sortCfg.column && styles.sortChoiceActive}
