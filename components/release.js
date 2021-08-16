@@ -37,7 +37,9 @@ export default function Release({dispData}) {
   }
 
   useEffect(() => {
-    head.current?.scrollIntoView({behavior: "smooth"})
+    if (window.visualViewport?.width <= 768) {
+      head.current?.scrollIntoView({behavior: "smooth"})
+    }
   },[dispData.id])
 
   const handleClick = (id, title) => {

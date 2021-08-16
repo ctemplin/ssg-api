@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil'
 import { recordingCredits } from '../models/musicbrainz'
 import { trackMaxedAtom } from '../models/musicbrainz'
@@ -26,11 +26,15 @@ export default function Recording({dispData, isLoading=true}) {
 
   useEffect(() => {
     resetYoutube()
+    if (window.visualViewport?.width <= 768) {
+      head.current?.scrollIntoView({behavior: "smooth"})
+    }
   },[dispData.id, resetYoutube])
 
+  const head = useRef()
   if (!dispData.id) return null
   return (
-    <div className={styles.pseudoColumns}>
+    <div className={styles.pseudoColumns} ref={head}>
     <div className={styles.collapse} onClick={() => setIsMaxed(!isMaxed)}>
       <FontAwesomeIcon
         icon={isMaxed ? faChevronDown : faChevronUp}

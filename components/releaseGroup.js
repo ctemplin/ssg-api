@@ -50,7 +50,9 @@ export default function ReleaseGroup({dispData}) {
   },[dispData.id, resetRelease])
 
   useEffect(() => {
-    head.current?.scrollIntoView({behavior: "smooth"})
+    if (window.visualViewport?.width <= 768) {
+      head.current?.scrollIntoView({behavior: "smooth"})
+    }
   },[dispData?.id])
 
   const handleFilterClick = (e) => {
