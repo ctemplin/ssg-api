@@ -58,9 +58,10 @@ export default function Artist(
               className={styles.resultUtilIcon}
               height="1.3em"
               icon={sortCfg.dir == 'desc' ? faSortAmountDown : faSortAmountUp}
+              title="Sort the Releases"
               onClick={() => setShowSortMenu(!showSortMenu)}
             />
-            <div className={`${showSortMenu ? styles.sortMenu : styles.sortMenuHidden}`}>
+            <div className={`${showSortMenu ? styles.sortMenu : styles.sortMenuHidden}`} role="dialog">
               <div>
               {sortColumns.map(_ =>
                 <div
