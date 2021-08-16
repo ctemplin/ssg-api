@@ -30,5 +30,7 @@ describe('Renders artist list of releaseGroups with various groups.', () => {
     expect(sortOptions[0]).toBeChecked()
     expect(sortOptions[1]).not.toBeChecked()
     expect(sortOptions[2]).not.toBeChecked()
+    userEvent.click(sortOptions[1])
+    expect(sortDialog).toHaveClass("sortMenuHidden")
   })
 })

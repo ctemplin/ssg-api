@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { currentArtistAtom, currentArtistPanelFormatSorted } from '../../models/musicbrainz'
 import artistData from '../data/artist_mock.json'
@@ -7,6 +7,7 @@ const withStateMgmt = (InnerComponent) => {
   const OuterComponent = () => {
   const setCurrentArtist = useSetRecoilState(currentArtistAtom)
   const dispData = useRecoilValue(currentArtistPanelFormatSorted())
+  const [params, setParams] = useState({column: 'default', dir: 'asc'})
 
   useEffect(() => {
     setCurrentArtist(artistData)
@@ -18,12 +19,12 @@ const withStateMgmt = (InnerComponent) => {
         dispData={dispData}
         errored={false} errorMsg={null}
         isLoading={false}
-        params={{column: 'default', dir: 'asc'}}
-        setParams={null}
+        params={params}
+        setParams={setParams}
       />
     case 'GroupableResults':
       return dispData.releaseGroups.map((_,i) =>
-        <InnerComponent props={_}  i={i} key={_.id ?? i} /> )
+        <InnerComponent props={_} i={i} key={_.id ?? i} /> )
     default:
       break;
   }
