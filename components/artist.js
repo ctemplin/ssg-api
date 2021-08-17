@@ -64,14 +64,9 @@ export default function Artist(
             <div className={`${showSortMenu ? styles.sortMenu : styles.sortMenuHidden}`} role="dialog">
               <div>
               {sortColumns.map(_ =>
-                <div
+                <div role="checkbox" aria-checked={_[0] == sortCfg.column}
+                className={`${_[0] == sortCfg.column ? styles.sortChoiceActive : styles.sortChoice}`}
                   key={_[0]}
-                  role="checkbox"
-                  aria-checked={_[0] == sortCfg.column}
-                  className={`
-                    ${styles.sortChoice}
-                    ${_[0] == sortCfg.column && styles.sortChoiceActive}
-                  `}
                   onClick={handleSortChoice(_[0])}>
                   {_[1]}
                 </div>

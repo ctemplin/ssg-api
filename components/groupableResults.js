@@ -24,20 +24,25 @@ export default function GroupableResults({props, i}) {
   const ItemList = ({items}) =>
   items.map((item,i) => <SingleItem item={item} i={i} key={item.id ?? i}/>)
 
-  const SingleItem = ({item, i}) =>
-  <Fragment key={`${item.id}`}>
-  <div onClick={handleClick(item.id, item.title)} role="listitem"
-    className={`
-      ${i % 2 ? styles.resultItemAlt : styles.resultItem}
-      ${item.id == currentReleaseGroup.id ? styles.resultItemHl:''}
-    `}
-  >
-    <span className={styles.releaseTitle}>{item.title}</span>
-    <span className={styles.releaseDate}>
-      {extractYear(item.firstReleaseDate) ?? ''}
-    </span>
-  </div>
-  </Fragment>
+  const SingleItem = ({item, i}) => {
+    const classNames = () => {
+      let cn = []
+      cn.push(i % 2 ? styles.resultItemAlt : styles.resultItem)
+      cn.push(item.id == currentReleaseGroup.id ? styles.resultItemHl : '')
+      return cn.join(' ').trim()
+    }
+    return (
+      <Fragment key={`${item.id}`}>
+      <div role="listitem" className={classNames()}
+        onClick={handleClick(item.id, item.title)} >
+        <span className={styles.releaseTitle}>{item.title}</span>
+        <span className={styles.releaseDate}>
+          {extractYear(item.firstReleaseDate) ?? ''}
+        </span>
+      </div>
+      </Fragment>
+    )
+  }
 
   return (
     (props.length && (props instanceof Array)

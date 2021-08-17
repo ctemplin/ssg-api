@@ -1,0 +1,25 @@
+.sortContainer
+  position: relative
+
+.sortMenuHidden
+  display: none
+
+.sortMenu
+  position: absolute
+  right: 0px
+  background-color: white
+  border: solid thin $info
+  border-radius: .5em
+  padding: .3em .5em
+  font-size: 1.2em
+  white-space: nowrap
+
+.sortChoice
+  cursor: pointer
+  &::before
+    content: '☐ '
+
+.sortChoiceActive
+  cursor: pointer
+  &::before
+    content: '☑ '
