@@ -68,26 +68,59 @@ describe('Artist component', () => {
       expect(sortOptions[2]).not.toBeChecked()
     })
 
-    describe.only.each([
+    describe.each([
       ['Title', 3, "Be and Bring Me Home", 17, "Truckdriver Gladiator Mule"],
       ['Date',  0, "Car Songs",            16, "Be and Bring Me Home"]
     ])('by %s', (sortText, index1, title1, index2, title2) => {
 
-      it('removes group headers', () => {
+      beforeEach(() => {
         userEvent.click(filterIcon)
         userEvent.click(getByText(sortDialog, sortText))
-        typeHeaders = screen.queryByRole('group')
-        expect(typeHeaders).toBeNull()
         listItems = screen.getAllByRole('listitem')
-        expect(listItems).toHaveLength(liCount)
       })
 
-      it(`places "${title1}" at #${index1}`, () => {
-        expect(listItems[index1]).toHaveTextContent(title1)
+      describe('in ascending order', () => {
+        it('removes group headers', () => {
+          typeHeaders = screen.queryByRole('group')
+          expect(typeHeaders).toBeNull()
+        })
+
+        it('maintains item count', () => {
+          expect(listItems).toHaveLength(liCount)
+        })
+
+        it(`places "${title1}" at #${index1}`, () => {
+          expect(listItems[index1]).toHaveTextContent(title1)
+        })
+
+        it(`places "${title2}" at #${index2}`, () => {
+          expect(listItems[index2]).toHaveTextContent(title2)
+        })
       })
 
-      it(`places "${title2}" at #${index2}`, () => {
-        expect(listItems[index2]).toHaveTextContent(title2)
+      describe('in descending order', () => {
+        beforeEach(() => {
+          userEvent.click(filterIcon)
+          userEvent.click(getByText(sortDialog, sortText))
+          listItems = screen.getAllByRole('listitem')
+        })
+
+        it('removes group headers', () => {
+          typeHeaders = screen.queryByRole('group')
+          expect(typeHeaders).toBeNull()
+        })
+
+        it('maintains item count', () => {
+          expect(listItems).toHaveLength(liCount)
+        })
+
+        it(`places "${title1}" at #${liCount-1-index1}`, () => {
+          expect(listItems[liCount-1-index1]).toHaveTextContent(title1)
+        })
+
+        it(`places "${title2}" at #${liCount-1-index2}`, () => {
+          expect(listItems[liCount-1-index2]).toHaveTextContent(title2)
+        })
       })
 
     })
