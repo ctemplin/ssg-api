@@ -8,13 +8,14 @@ describe('Artist component', () => {
 
   const ArtistWithStateMgmt = withStateMgmt(Artist)
   let typeHeaders, listItems
+  const groupCount = 7
   const liCount = 20
 
   beforeEach(() => render(<ArtistWithStateMgmt />))
 
   it('initially groups releaseGroups by type and sorts them by date.', () => {
     typeHeaders = screen.getAllByRole('group')
-    expect(typeHeaders).toHaveLength(7)
+    expect(typeHeaders).toHaveLength(groupCount)
     listItems = screen.getAllByRole('listitem')
     expect(listItems).toHaveLength(liCount)
     expect(listItems[0]).toHaveTextContent("Blacklisted")
@@ -69,21 +70,34 @@ describe('Artist component', () => {
     })
 
     describe.each([
-      ['Title', 3, "Be and Bring Me Home", 17, "Truckdriver Gladiator Mule"],
-      ['Date',  0, "Car Songs",            16, "Be and Bring Me Home"]
-    ])('by %s', (sortText, index1, title1, index2, title2) => {
+      ['Type/Date', 0, "Blacklisted",          17, "She's Not There", true],
+      ['Title',     3, "Be and Bring Me Home", 17, "Truckdriver Gladiator Mule", false],
+      ['Date',      0, "Car Songs",            16, "Be and Bring Me Home", false]
+    ])('by %s', (sortText, index1, title1, index2, title2, expectGroups) => {
 
       beforeEach(() => {
         userEvent.click(filterIcon)
         userEvent.click(getByText(sortDialog, sortText))
+        // If default click again to restore ascending order.
+        if (sortText == 'Type/Date') {
+          userEvent.click(filterIcon)
+          userEvent.click(getByText(sortDialog, sortText))
+        }
         listItems = screen.getAllByRole('listitem')
       })
 
       describe('in ascending order', () => {
-        it('removes group headers', () => {
-          typeHeaders = screen.queryByRole('group')
-          expect(typeHeaders).toBeNull()
-        })
+        if (expectGroups) {
+          it('displays group headers', () => {
+            typeHeaders = screen.getAllByRole('group')
+            expect(typeHeaders).toHaveLength(groupCount)
+          })
+        } else {
+          it('removes group headers', () => {
+            typeHeaders = screen.queryByRole('group')
+            expect(typeHeaders).toBeNull()
+          })
+        }
 
         it('maintains item count', () => {
           expect(listItems).toHaveLength(liCount)
@@ -105,10 +119,17 @@ describe('Artist component', () => {
           listItems = screen.getAllByRole('listitem')
         })
 
-        it('removes group headers', () => {
-          typeHeaders = screen.queryByRole('group')
-          expect(typeHeaders).toBeNull()
-        })
+        if (expectGroups) {
+          it('displays group headers', () => {
+            typeHeaders = screen.getAllByRole('group')
+            expect(typeHeaders).toHaveLength(groupCount)
+          })
+        } else {
+          it('removes group headers', () => {
+            typeHeaders = screen.queryByRole('group')
+            expect(typeHeaders).toBeNull()
+          })
+        }
 
         it('maintains item count', () => {
           expect(listItems).toHaveLength(liCount)

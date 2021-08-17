@@ -136,14 +136,19 @@ export const currentArtistPanelFormatSorted = selectorFamily({
     }
     const data = get(currentArtistPanelFormat)
     let _rgs = [...data.releaseGroups].sort(sortRgs)
-    if (sortBy.dir == 'desc') { _rgs.reverse() }
 
     const _rgsGrouped = []
     if ((sortBy.column ?? 'default') == 'default') {
       const cats = new Set(_rgs.map(_ => (_.type1 ?? '') + (_.type2 ?? '')))
-      cats.forEach(c => {
+      Array.from(cats).sort().forEach(c => {
         _rgsGrouped.push(_rgs.filter(i => (i.type1 ?? '') + (i.type2 ?? '') == c))
       })
+    }
+
+    if (sortBy.dir == 'desc') { 
+      _rgs.reverse() 
+      _rgsGrouped.forEach(_ => _.reverse())
+      _rgsGrouped.reverse()
     }
 
     return ({

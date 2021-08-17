@@ -35,7 +35,7 @@ export async function artistLookup(id) {
             id: album.id,
             title: album.title,
             type1: album['primary-type'],
-            type2: album['secondary-types']?.[0],
+            type2: album['secondary-types']?.[0] ?? null,
             firstReleaseDate: album['first-release-date']
           }
         })
