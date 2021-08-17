@@ -72,11 +72,11 @@ describe('Artist component', () => {
       expect(sortOptions[2]).not.toBeChecked()
     })
 
-    describe.each([
-      ['Type/Date', 0, "Blacklisted",          17, "She's Not There", true],
-      ['Title',     3, "Be and Bring Me Home", 17, "Truckdriver Gladiator Mule", false],
-      ['Date',      0, "Car Songs",            16, "Be and Bring Me Home", false]
-    ])('by %s', (sortText, index1, title1, index2, title2, expectGroups) => {
+    describe.only.each([
+      [ 'Type/Date', true,  'Blacklisted', 'Man'],
+      [ 'Title',     false, '2000-03-30: Republik, Calgary', 'iTunes Originals'],
+      [ 'Date',      false, 'Car Songs', '2004-07-16: The Fillmore, San Franci']
+    ])('by %s', (sortText, expectGroups, firstTitle, lastTitle) => {
 
       beforeEach(() => {
         userEvent.click(filterIcon)
@@ -111,12 +111,12 @@ describe('Artist component', () => {
           expect(listItems).toHaveLength(liCount)
         })
 
-        it(`places "${title1}" at #${index1}`, () => {
-          expect(listItems[index1]).toHaveTextContent(title1)
+        it(`places "${firstTitle}" first`, () => {
+          expect(listItems[0]).toHaveTextContent(firstTitle)
         })
 
-        it(`places "${title2}" at #${index2}`, () => {
-          expect(listItems[index2]).toHaveTextContent(title2)
+        it(`places "${lastTitle}" last (#${liCount-1})`, () => {
+          expect(listItems[liCount-1]).toHaveTextContent(lastTitle)
         })
       })
 
@@ -147,12 +147,12 @@ describe('Artist component', () => {
           expect(listItems).toHaveLength(liCount)
         })
 
-        it(`places "${title1}" at #${liCount-1-index1}`, () => {
-          expect(listItems[liCount-1-index1]).toHaveTextContent(title1)
+        it(`places "${firstTitle}" last (#${liCount-1})`, () => {
+          expect(listItems[liCount-1]).toHaveTextContent(firstTitle)
         })
 
-        it(`places "${title2}" at #${liCount-1-index2}`, () => {
-          expect(listItems[liCount-1-index2]).toHaveTextContent(title2)
+        it(`places "${lastTitle}" first`, () => {
+          expect(listItems[0]).toHaveTextContent(lastTitle)
         })
       })
 
