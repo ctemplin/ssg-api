@@ -10,6 +10,8 @@ describe('Artist component', () => {
   let typeHeaders, listItems
   const groupCount = 7
   const liCount = 20
+  const sortIconAttrName = 'data-icon'
+  const sortIconAttrVal = {asc: 'sort-amount-up', desc: 'sort-amount-down'}
 
   beforeEach(() => render(<ArtistWithStateMgmt />))
 
@@ -47,6 +49,7 @@ describe('Artist component', () => {
 
     it('displays the sort icon.', () => {
       expect(filterIcon).toBeVisible()
+      expect(filterIcon).toHaveAttribute(sortIconAttrName, sortIconAttrVal.asc)
     })
 
     it('displays the sort dialog when the icon is clicked.', () => {
@@ -87,6 +90,11 @@ describe('Artist component', () => {
       })
 
       describe('in ascending order', () => {
+
+        it(`displays "${sortIconAttrVal.asc}" icon`, () =>
+          expect(filterIcon).toHaveAttribute(sortIconAttrName, sortIconAttrVal.asc)
+        )
+
         if (expectGroups) {
           it('displays group headers', () => {
             typeHeaders = screen.getAllByRole('group')
@@ -118,6 +126,10 @@ describe('Artist component', () => {
           userEvent.click(getByText(sortDialog, sortText))
           listItems = screen.getAllByRole('listitem')
         })
+
+        it(`displays "${sortIconAttrVal.desc}" icon`, () =>
+          expect(filterIcon).toHaveAttribute(sortIconAttrName, sortIconAttrVal.desc)
+        )
 
         if (expectGroups) {
           it('displays group headers', () => {
