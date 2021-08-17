@@ -72,7 +72,7 @@ describe('Artist component', () => {
       expect(sortOptions[2]).not.toBeChecked()
     })
 
-    describe.only.each([
+    describe.each([
       [ 'Type/Date', true,  'Blacklisted', 'Man'],
       [ 'Title',     false, '2000-03-30: Republik, Calgary', 'iTunes Originals'],
       [ 'Date',      false, 'Car Songs', '2004-07-16: The Fillmore, San Franci']
