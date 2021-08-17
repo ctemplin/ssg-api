@@ -68,26 +68,18 @@ describe('Artist component', () => {
       expect(sortOptions[2]).not.toBeChecked()
     })
 
-    it('removes headers when sorting by Title', () => {
+    it.each([
+      ['Title', 3, "Be and Bring Me Home", 17, "Truckdriver Gladiator Mule"],
+      ['Date',  0, "Car Songs",            16, "Be and Bring Me Home"]
+    ])('removes headers when sorting by %s', (sortText, index1, title1, index2, title2) => {
       userEvent.click(filterIcon)
-      userEvent.click(getByText(sortDialog, 'Title'))
+      userEvent.click(getByText(sortDialog, sortText))
       typeHeaders = screen.queryByRole('group')
       expect(typeHeaders).toBeNull()
       listItems = screen.getAllByRole('listitem')
       expect(listItems).toHaveLength(liCount)
-      expect(listItems[3]).toHaveTextContent("Be and Bring Me Home")
-      expect(listItems[17]).toHaveTextContent("Truckdriver Gladiator Mule")
-    })
-
-    it('removes headers when sorting by Date', () => {
-      userEvent.click(filterIcon)
-      userEvent.click(getByText(sortDialog, 'Date'))
-      typeHeaders = screen.queryByRole('group')
-      expect(typeHeaders).toBeNull()
-      listItems = screen.getAllByRole('listitem')
-      expect(listItems).toHaveLength(liCount)
-      expect(listItems[0]).toHaveTextContent("Car Songs")
-      expect(listItems[16]).toHaveTextContent("Be and Bring Me Home")
+      expect(listItems[index1]).toHaveTextContent(title1)
+      expect(listItems[index2]).toHaveTextContent(title2)
     })
 
   })
