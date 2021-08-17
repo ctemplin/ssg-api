@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "inspect-test": "node --inspect node_modules/.bin/jest --runInBand ${1}"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
