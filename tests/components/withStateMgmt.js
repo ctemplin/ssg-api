@@ -6,8 +6,8 @@ import artistData from '../data/artist_mock.json'
 const withStateMgmt = (InnerComponent) => {
   const OuterComponent = () => {
   const setCurrentArtist = useSetRecoilState(currentArtistAtom)
-  const dispData = useRecoilValue(currentArtistPanelFormatSorted())
   const [params, setParams] = useState({column: 'default', dir: 'asc'})
+  const dispData = useRecoilValue(currentArtistPanelFormatSorted(params))
 
   useEffect(() => {
     setCurrentArtist(artistData)
