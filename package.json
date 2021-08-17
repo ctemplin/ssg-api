@@ -7,6 +7,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest --watch",
+    "testv": "jest --watch --verbose",
     "inspect-test": "node --inspect node_modules/.bin/jest --runInBand ${1}"
   },
   "dependencies": {
