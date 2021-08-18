@@ -79,7 +79,7 @@ export default function Home() {
       <RouterSync qsIds={qsIds} />
       }
       {currentArtist.id &&
-        <div className={styles.columns}>
+        <div className={styles.columns} role="navigation">
           <div className={`${styles.column} ${styles.headColumn}`}>
             <a className={styles.toolbar} onClick={handleSearchClick}
                aria-label="Back to artist search" >
@@ -101,7 +101,7 @@ export default function Home() {
       {!currentArtist.id &&
         <>
         <div>{/* first grid row. reserved for header/menu */}</div>
-        <div className={styles.artistSearchContainer}>
+        <div className={styles.artistSearchContainer} role="search">
           <ArtistSearch />
           <Image
             src="/headphones.svg" className={styles.headphones}
@@ -112,7 +112,7 @@ export default function Home() {
         </>}
       {currentArtist.id &&
         <>
-        <div className={styles.columns}>
+        <div className={styles.columns} role="main">
           <div className={styles.column}>
             <Artist_MBZ
               lookup={artistLookup}

@@ -191,9 +191,9 @@ export default function ArtistSearch({}) {
         {!errored && searchQuery.state == 'hasValue' &&
         <>
           {searchQuery.contents.matches?.length > 0 &&
-            <div className={styles.searchIncResultList} id="searchIncResultList">
+            <div className={styles.searchIncResultList} id="searchIncResultList" role="list">
             {searchQuery.contents.matches.map((_,i) =>
-            <div className={`${styles.searchIncResult} ${hlIndex==i && styles.searchIncResultHl}`} index={i} rid={_.id} key={_.id}
+            <div className={`${styles.searchIncResult} ${hlIndex==i && styles.searchIncResultHl}`} index={i} rid={_.id} key={_.id} role="listitem"
               onClick={handleClick(_.id, _.name)} onKeyDown={handleKeyDown} onMouseEnter={handleMouseEnter} onFocus={handleMouseEnter} tabIndex="0">
               {_.name}
             </div>
@@ -201,8 +201,8 @@ export default function ArtistSearch({}) {
             </div>
           }
           {searchQuery.contents.matches?.length == 0 && searchTerms &&
-            <div className={styles.searchIncResultList} id="searchIncResultList">
-              <div className={`${styles.searchIncResult} ${styles.searchIncResultWarn}`}>No results found</div>
+            <div className={styles.searchIncResultList} id="searchIncResultList" role="list">
+              <div className={`${styles.searchIncResult} ${styles.searchIncResultWarn}`} role="listitem">No results found</div>
             </div>
           }
         </>
