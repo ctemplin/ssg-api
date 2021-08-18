@@ -6,7 +6,7 @@ describe('Non-production page for testing various libraries and features.', () =
 
     const { container } = render(<TestPage />)
 
-    const headers = screen.getAllByRole('heading', {level: 2})
+    const headers = screen.getAllByRole('heading', {level: 3})
     expect(headers[0].textContent).toBe('secondary primary')
     expect(headers[1].textContent).toBe('primary')
     expect(headers[2].textContent).toBe('secondary')

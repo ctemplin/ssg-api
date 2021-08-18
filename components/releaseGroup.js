@@ -108,7 +108,7 @@ export default function ReleaseGroup({dispData}) {
   if (!dispData.id) { return null }
   return (
     <div ref={head} className={styles.block}>
-      <div>
+      <h2 className={styles.blockTypeH}>
         <div className={styles.blockType}>Release</div>
         <div className={styles.blockHeader}>
           <span className={styles.blockHeaderTitle}>{dispData.title}</span>
@@ -119,7 +119,7 @@ export default function ReleaseGroup({dispData}) {
           />
         </div>
         <div className={styles.blockHeaderDate}>{dispData.firstReleaseDate}</div>
-      </div>
+      </h2>
       {dispData.releases &&
       <>
         <div className={styles.countFilter}>

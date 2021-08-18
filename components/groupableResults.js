@@ -34,6 +34,7 @@ export default function GroupableResults({props, i}) {
     return (
       <Fragment key={`${item.id}`}>
       <div role="listitem" className={classNames()}
+        aria-current={item.id == currentReleaseGroup.id ? true : null}
         onClick={handleClick(item.id, item.title)} >
         <span className={styles.releaseTitle}>{item.title}</span>
         <span className={styles.releaseDate}>

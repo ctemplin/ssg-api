@@ -8,6 +8,14 @@
   max-height: 100%;
 }
 
+h2.blockTypeH {
+  display: unset;
+  font-size: unset;
+  margin-block: unset;
+  margin-inline: unset;
+  font-weight: unset;
+}
+
 .blockType {
   font-variant: small-caps;
   background-color: $grey-lighter;

@@ -51,7 +51,7 @@ export default function Release({dispData}) {
   if (!dispData.id) { return null }
   return (
   <div ref={head} className={styles.block}>
-    <div>
+    <h2 className={styles.blockTypeH}>
       <div className={styles.blockType}>Recording</div>
       {!dispData.title ?
       <FontAwesomeIcon
@@ -91,7 +91,7 @@ export default function Release({dispData}) {
       <ReleaseDate show={!dispData.hasCoverArt} />
       </>
       }
-    </div>
+    </h2>
     {(dispData.title) && dispData.tracks ?
     <>
       <div className={styles.count}>Tracks: {dispData.tracks.length} found</div>

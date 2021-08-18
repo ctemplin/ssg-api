@@ -28,7 +28,7 @@ export default function Artist(
 
   return (
     <div className={styles.block}>
-      <div>
+      <h2 className={styles.blockTypeH}>
         <div className={styles.blockType}>Artist</div>
         {errored &&
           <NetworkError errorMsg={errorMsg} />
@@ -48,11 +48,11 @@ export default function Artist(
         </div>
         </>
         }
-      </div>
+      </h2>
       {!errored && dispData.releaseGroups &&
       <>
         <div className={styles.count}>
-          Releases: {dispData.releaseGroups.flat().length} found
+          <span id="releaseListLbl" >Releases: {dispData.releaseGroups.flat().length} found</span>
           <div className={styles.sortContainer}>
             <FontAwesomeIcon
               className={styles.resultUtilIcon}
@@ -77,7 +77,7 @@ export default function Artist(
             </div>
           </div>
         </div>
-        <div className={styles.resultsList} role="list">
+        <div className={styles.resultsList} role="list" aria-labelledby="releaseListLbl">
         {dispData.releaseGroups.map((_,i) => <GroupableResults props={_} i={i} key={_.id ?? i}/>)}
         </div>
       </>
