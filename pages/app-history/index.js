@@ -21,7 +21,8 @@ export async function getStaticProps(context) {
     let deploys = json.filter(_ => ["ready", "building"].includes(_.state))
     let _ = {}
     deploys = deploys.map(deploy => (
-      { created_at: _.created_at, 
+      { id: _.id,
+        created_at: _.created_at, 
         state: _.state, 
         title: _.title, 
         branch: _.branch } = deploy )
@@ -38,7 +39,7 @@ export default function AppHistory({deploys}) {
   return (
     <>
     {deploys.map(_=>
-      <div>{_.created_at} {_.title} {_.branch}</div>
+      <div key={_.id}>{_.created_at} {_.title} {_.branch}</div>
     )}
     </>
   )
