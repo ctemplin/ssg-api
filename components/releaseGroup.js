@@ -134,11 +134,11 @@ export default function ReleaseGroup({dispData}) {
           />
           <span>Versions: {dispData.releases.length - filteredReleases.length} filtered out</span>
         </div>
-        <div className={styles.resultsList} ref={releasesScrollable}>
+        <div className={styles.resultsList} ref={releasesScrollable} role="list">
           {filteredReleases.map((_,i) =>
           <div
             onClick={handleClick(_.id, _.title, _.country, _.date)}
-            key={_.id}
+            key={_.id} role="listitem"
             className={`
               ${i % 2 ? styles.resultItemAlt : styles.resultItem}
               ${_.id == currentRelease.id ? styles.resultItemHl:''}

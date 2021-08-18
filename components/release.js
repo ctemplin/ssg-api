@@ -95,10 +95,10 @@ export default function Release({dispData}) {
     {(dispData.title) && dispData.tracks ?
     <>
       <div className={styles.count}>Tracks: {dispData.tracks.length} found</div>
-      <div className={styles.resultsList} ref={scrollableRef}>
+      <div className={styles.resultsList} ref={scrollableRef} role="list"> 
         {dispData.tracks.map((_,i) =>
           <div
-            key={_.id}
+            key={_.id} role="listitem"
             onClick={handleClick(_.rid, _.title)}
             className={`
               ${styles.resultItem}
