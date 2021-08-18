@@ -133,10 +133,12 @@ export default function Home() {
               dispSel={currentReleasePanelFormat} />
           </div>
         </div>
-        <Recording_MBZ
-          lookup={recordingLookup}
-          atom={currentRecordingAtom}
-          dispSel={currentRecordingPanelFormat} />
+        <div role="main" aria-label="Track details">
+          <Recording_MBZ
+            lookup={recordingLookup}
+            atom={currentRecordingAtom}
+            dispSel={currentRecordingPanelFormat} />
+        </div>
         </>
       }
       <footer className={styles.footer}>

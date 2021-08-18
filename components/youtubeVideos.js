@@ -6,7 +6,7 @@ export default function YoutubeVideos({dispData, isLoading, errored, errorMsg}) 
 
   return (
     <>
-    <p>YouTube:</p>
+    <p id="youtubeListLbl">YouTube:</p>
     {isLoading || errored &&
       <>
         {isLoading && <p>loading</p>}
@@ -19,7 +19,7 @@ export default function YoutubeVideos({dispData, isLoading, errored, errorMsg}) 
       </>
     }
     {!isLoading && !errored &&
-      <div className={styles.resultItemList}>
+      <div className={styles.resultItemList} role="list" aria-labelledby="youtubeListLbl">
       {dispData.items.map((_) => {
         return (
           <RecordingThumb key={_.id.videoId} videoId={_.id.videoId}

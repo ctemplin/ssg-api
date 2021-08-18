@@ -6,11 +6,11 @@ import { faPlayCircle, faCircle } from '@fortawesome/free-solid-svg-icons'
 export default function RecordingThumb({videoId, title, imgSrc, imgWidth, imgHeight}) {
 
   return (
-    <div className={styles.resultItem} key={videoId}>
+    <div className={styles.resultItem} key={videoId} role="listitem">
       <a href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank" rel="noreferrer">
       {imgSrc &&
         <>
-        <Image src={imgSrc} width={imgWidth} height={imgHeight} alt={title} />
+        <Image src={imgSrc} width={imgWidth} height={imgHeight} alt="video thumbnail" />
         <span className={styles.videoIcon} >
         <FontAwesomeIcon
            className={styles.videoIconLayer}
