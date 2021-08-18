@@ -94,8 +94,9 @@ export default function Release({dispData}) {
     </h2>
     {(dispData.title) && dispData.tracks ?
     <>
-      <div className={styles.count}>Tracks: {dispData.tracks.length} found</div>
-      <div className={styles.resultsList} ref={scrollableRef} role="list"> 
+      <div className={styles.count}><span id="recordingListLbl">Tracks: {dispData.tracks.length} found</span></div>
+      <div className={styles.resultsList} ref={scrollableRef} role="list"
+        aria-labelledby="recordingListLbl"> 
         {dispData.tracks.map((_,i) =>
           <div
             key={_.id} role="listitem"

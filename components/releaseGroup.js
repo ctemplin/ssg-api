@@ -132,9 +132,10 @@ export default function ReleaseGroup({dispData}) {
             icon={faFilter}
             onClick={handleFilterClick}
           />
-          <span>Versions: {dispData.releases.length - filteredReleases.length} filtered out</span>
+          <span id="releaseListLbl" >Versions: {dispData.releases.length - filteredReleases.length} filtered out</span>
         </div>
-        <div className={styles.resultsList} ref={releasesScrollable} role="list">
+        <div className={styles.resultsList} ref={releasesScrollable} role="list"
+          aria-labelledby="releaseListLbl">
           {filteredReleases.map((_,i) =>
           <div
             onClick={handleClick(_.id, _.title, _.country, _.date)}

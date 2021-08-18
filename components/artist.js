@@ -52,7 +52,7 @@ export default function Artist(
       {!errored && dispData.releaseGroups &&
       <>
         <div className={styles.count}>
-          <span id="releaseListLbl" >Releases: {dispData.releaseGroups.flat().length} found</span>
+          <span id="releaseGroupListLbl" >Releases: {dispData.releaseGroups.flat().length} found</span>
           <div className={styles.sortContainer}>
             <FontAwesomeIcon
               className={styles.resultUtilIcon}
@@ -77,7 +77,7 @@ export default function Artist(
             </div>
           </div>
         </div>
-        <div className={styles.resultsList} role="list" aria-labelledby="releaseListLbl">
+        <div className={styles.resultsList} role="list" aria-labelledby="releaseGroupListLbl">
         {dispData.releaseGroups.map((_,i) => <GroupableResults props={_} i={i} key={_.id ?? i}/>)}
         </div>
       </>
