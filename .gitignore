@@ -3,7 +3,7 @@
 # dependencies
 /node_modules
 /netlify/functions/node_modules
-/netlify/functions/next_image
+/netlify/functions/next_*
 /.pnp
 .pnp.js
 
