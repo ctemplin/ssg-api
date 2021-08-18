@@ -60,11 +60,13 @@ export default function Artist(
               icon={sortCfg.dir == 'desc' ? faSortAmountDown : faSortAmountUp}
               title="Sort the Releases"
               onClick={() => setShowSortMenu(!showSortMenu)}
+              aria-haspopup="true"
             />
-            <div className={`${showSortMenu ? styles.sortMenu : styles.sortMenuHidden}`} role="dialog">
-              <div>
+            <div className={`${showSortMenu ? styles.sortMenu : styles.sortMenuHidden}`}
+              role="dialog" aria-label="Sort options. Select active option to reverse sort." >
+              <div role="group">
               {sortColumns.map(_ =>
-                <div role="checkbox" aria-checked={_[0] == sortCfg.column}
+                <div role="checkbox" aria-multiselectable="false" aria-checked={_[0] == sortCfg.column}
                 className={`${_[0] == sortCfg.column ? styles.sortChoiceActive : styles.sortChoice}`}
                   key={_[0]}
                   onClick={handleSortChoice(_[0])}>

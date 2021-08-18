@@ -7,16 +7,19 @@ import withStateMgmt from './withStateMgmt'
 describe('Artist component', () => {
 
   const ArtistWithStateMgmt = withStateMgmt(Artist)
-  let typeHeaders, listItems
+  let container, resultsList, typeHeaders, listItems
   const groupCount = 7
   const liCount = 20
   const sortIconAttrName = 'data-icon'
   const sortIconAttrVal = {asc: 'sort-amount-up', desc: 'sort-amount-down'}
 
-  beforeEach(() => render(<ArtistWithStateMgmt />))
+  beforeEach(() => { 
+    container = render(<ArtistWithStateMgmt />).container
+    resultsList = container.querySelector('.resultsList')
+  })
 
   it('initially groups releaseGroups by type and sorts them by date.', () => {
-    typeHeaders = screen.getAllByRole('group')
+    typeHeaders = getAllByRole(resultsList, 'group')
     expect(typeHeaders).toHaveLength(groupCount)
     listItems = screen.getAllByRole('listitem')
     expect(listItems).toHaveLength(liCount)
@@ -52,7 +55,11 @@ describe('Artist component', () => {
       expect(filterIcon).toHaveAttribute(sortIconAttrName, sortIconAttrVal.asc)
     })
 
-    it('displays the sort dialog when the icon is clicked.', () => {
+    it('displays/hides the sort dialog when the icon is clicked.', () => {
+      userEvent.click(filterIcon)
+      expect(sortDialog).not.toHaveClass("sortMenuHidden")
+      userEvent.click(filterIcon)
+      expect(sortDialog).toHaveClass("sortMenuHidden")
       userEvent.click(filterIcon)
       expect(sortDialog).not.toHaveClass("sortMenuHidden")
     })
@@ -97,12 +104,12 @@ describe('Artist component', () => {
 
         if (expectGroups) {
           it('displays group headers', () => {
-            typeHeaders = screen.getAllByRole('group')
+            typeHeaders = getAllByRole(resultsList, 'group')
             expect(typeHeaders).toHaveLength(groupCount)
           })
         } else {
           it('removes group headers', () => {
-            typeHeaders = screen.queryByRole('group')
+            typeHeaders = screen.queryByRole(resultsList, 'group')
             expect(typeHeaders).toBeNull()
           })
         }
@@ -133,12 +140,12 @@ describe('Artist component', () => {
 
         if (expectGroups) {
           it('displays group headers', () => {
-            typeHeaders = screen.getAllByRole('group')
+            typeHeaders = getAllByRole(resultsList, 'group')
             expect(typeHeaders).toHaveLength(groupCount)
           })
         } else {
           it('removes group headers', () => {
-            typeHeaders = screen.queryByRole('group')
+            typeHeaders = screen.queryByRole(resultsList, 'group')
             expect(typeHeaders).toBeNull()
           })
         }
