@@ -33,6 +33,7 @@
     "@testing-library/user-event": "^13.1.9",
     "babel-jest": "^27.0.6",
     "babel-loader": "^8.2.2",
+    "critters": "^0.0.10",
     "eslint": "^7.28.0",
     "eslint-config-next": "^11.0.0",
     "jest": "^27.0.6",
