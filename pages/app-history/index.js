@@ -1,5 +1,6 @@
-import React from 'react'
 import * as fetch from 'node-fetch'
+import HeadTag from '../../components/head'
+import styles from '../../styles/AppHistory.module.sass'
 
 export async function getStaticProps(context) {
   const url = new URL(
@@ -19,27 +20,32 @@ export async function getStaticProps(context) {
   if (resp.status >= 200 && resp.status <= 299) {
     const json = await resp.json()
     let deploys = json.filter(_ => ["ready", "building"].includes(_.state))
-    let _ = {}
-    deploys = deploys.map(deploy => (
-      { id: _.id,
-        created_at: _.created_at, 
-        state: _.state, 
-        title: _.title, 
-        branch: _.branch } = deploy )
-        )
+    deploys = deploys.map(_ => (
+      { id:         _.id,
+        createdAt:  new Date(_.created_at).toLocaleString('us-EN'),
+        state:      _.state,
+        title:      _.title,
+        branch:     _.branch }
+    ))
     return {
-      props: {deploys}
+      props: {title: 'About', deploys: deploys},
+      revalidate: false
     }
   } else {
     throw new Error(`Error: ${resp.status} ${resp.statusText} on ${url}`)
   }
 }
 
-export default function AppHistory({deploys}) {
+export default function AppHistory({title, deploys}) {
   return (
     <>
+    <HeadTag title={title} />
     {deploys.map(_=>
-      <div key={_.id}>{_.created_at} {_.title} {_.branch}</div>
+      <div className={styles.deployRow} key={_.id}>
+        <span>{_.createdAt}</span>
+        <span>{_.title}</span>
+        <span>{_.branch}</span>
+      </div>
     )}
     </>
   )

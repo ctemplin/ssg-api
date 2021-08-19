@@ -386,20 +386,34 @@ export const prevItems = atom({
   default: {artist: null, releaseGroup: null, release: null, recording: null}
 })
 
-export const dynamicPageTitle = selector({
+export const pageTitleTemplates = atom({
+  key: 'pageTitleTemplates',
+  default: {
+    short: "MbEx - ",
+    long:  "MusicBrainz Explorer - Search for your Sound"
+  }
+})
+
+export const dynamicPageTitle = selectorFamily({
   key: 'dynamicPageTitle',
-  get: ({get}) => {
-    const crumbs =
-    [
-      get(currentArtistAtom).name,
-      get(currentReleaseGroupAtom).title,
-    ]
-    const str = crumbs.filter(_=>_).join(' - ').trim()
+  get: (title=null) => ({get}) => {
     let ret = ""
-    if (str.length)
-      ret = 'MbEx - ' + str
-    else
-      ret = "MusicBrainz Explorer - Search for your Sound"
+    const tmpls = get(pageTitleTemplates)
+    if (title) {
+      ret = tmpls.short + title
+    }
+    else {
+      const crumbs =
+      [
+        get(currentArtistAtom).name,
+        get(currentReleaseGroupAtom).title,
+      ]
+      const str = crumbs.filter(_=>_).join(' - ').trim()
+      if (str.length)
+        ret = tmpls.short + str
+      else
+        ret = tmpls.long
+    }
     return ret
   }
 })

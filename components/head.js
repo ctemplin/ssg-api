@@ -2,8 +2,8 @@ import NextHead from 'next/head'
 import { useRecoilValue } from 'recoil'
 import { dynamicPageTitle } from '../models/musicbrainz'
 
-export default function Head() {
-  const pageTitle = useRecoilValue(dynamicPageTitle)
+export default function Head({title}) {
+  const pageTitle = useRecoilValue(dynamicPageTitle(title))
 
   return (
     <NextHead>
