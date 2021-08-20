@@ -1,2 +1,61 @@
+@import './initial-variables'
+
+.container
+  display: flex
+  flex-direction: column
+  align-items: center
+  background-color: #dbdbdb
+  padding: 0 0
+  @media screen and (min-width: $desktop)
+    padding: 0 2vw
+  & .column
+    flex: auto
+    width: 80%
+    max-width: 760px
+    background-color: $grey-light
+    padding: 2.5em
+
 .deployRow
   display: flex
+
+.logo
+  display: block
+  border-radius: 1em
+  // border: thin solid #000 !important
+
+.category
+  text-align: center
+  background-color: white
+
+.toolBlock
+  display: flex
+  flex-direction: column
+  @media screen and (min-width: $desktop)
+    flex-direction: row
+  margin-bottom: 2rem
+  & .text
+    flex: 1 1
+    &:last-child
+      margin: 0 2em
+      & *:first-child
+        display: inline
+  & .toolLogo
+    flex: 1 1
+    margin-left: 0vw
+    width: 100%
+    height: auto
+    text-align: center
+    &:first-child
+      @media screen and (min-width: $desktop)
+        margin: 0 0 0 -6em
+
+.toolBlockAlt
+  @media screen and (min-width: $desktop)
+    flex-direction: row-reverse
+  & .toolLogo
+    &:first-child
+      @media screen and (min-width: $desktop)
+        margin: 0 -7em 0 0
+        text-align: right
+
+
