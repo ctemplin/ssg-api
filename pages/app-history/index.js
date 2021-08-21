@@ -53,14 +53,13 @@ export default function AppHistory({title, deploys}) {
       var dir = sEl.scrollTop < st.current ? 'up' : 'down'
       var codeBlocks = document.querySelectorAll('.' + styles.codeBg)
       codeBlocks.forEach((el) => {
-        if (el.offsetTop < document.body.clientHeight ) {
+        if (el.offsetTop - st.current < sEl.clientHeight) {
           el.scrollBy(0, dir === 'up' ? -3 : 3)
         }
       })
 
       if (sEl.scrollTop > st.current) {
         var toolBlocks = document.querySelectorAll('.' + styles.toolBlock)
-        // console.log(toolBlocks.length)
         toolBlocks.forEach((el) => {
           var n = el.offsetTop - sEl.scrollTop
           if (n < 550) {
