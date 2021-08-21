@@ -49,29 +49,43 @@ export default function AppHistory({title, deploys}) {
     const onScroll = (e,) => {
       if (e.eventPhase !== 2) return
 
-      var dir = e.srcElement.scrollTop < st.current ? 'up' : 'down'
+      var sEl = e.srcElement.scrollingElement ?? e.srcElement
+      var dir = sEl.scrollTop < st.current ? 'up' : 'down'
       var codeBlocks = document.querySelectorAll('.' + styles.codeBg)
-      codeBlocks.forEach((el) => el.scrollBy(0, dir === 'up' ? -5 : 5))
+      codeBlocks.forEach((el) => {
+        if (el.offsetTop < document.body.clientHeight ) {
+          el.scrollBy(0, dir === 'up' ? -3 : 3)
+        }
+      })
 
-      if (e.srcElement.scrollTop > st.current) {
+      if (sEl.scrollTop > st.current) {
         var toolBlocks = document.querySelectorAll('.' + styles.toolBlock)
         // console.log(toolBlocks.length)
         toolBlocks.forEach((el) => {
-          var n = el.offsetTop - document.body.scrollTop
+          var n = el.offsetTop - sEl.scrollTop
           if (n < 550) {
             el.classList.add(styles.toolBlockFocus)
           }
         })
       }
+      else if (sEl.scrollTop === 0) {
+        var toolBlocks = document.querySelectorAll('.' + styles.toolBlock)
+        toolBlocks.forEach((el) => {
+          el.classList.remove(styles.toolBlockFocus)
+        })
+      }
       
-      st.current = e.srcElement.scrollTop
+      st.current = sEl.scrollTop
     }
+    document.addEventListener('scroll', onScroll)
     document.body.addEventListener('scroll', onScroll)
     document.querySelectorAll('.' + styles.codeBg).forEach(
-      (el) => el.addEventListener('scroll', onBgScroll)
+      (el) => {
+        el.addEventListener('scroll', onBgScroll)
+      }
     )
     return () => {
-      document.body.removeEventListener('scroll', onScroll)
+      document.removeEventListener('scroll', onScroll)
       document.querySelectorAll('.' + styles.codeBg).forEach(
         (el) => el.removeEventListener('scroll', onBgScroll)
       )
@@ -121,6 +135,9 @@ export default function AppHistory({title, deploys}) {
           </div>
           <div className={styles.text}><h3>Recoil</h3> </div>
         </div>
+        <div className={styles.codeBg}>
+          <pre>{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}</pre>
+        </div>
         <h2 className={styles.category} id="APIs">APIs</h2>
         <div className={styles.toolBlock}>
           <div className={styles.toolLogo}>
@@ -131,6 +148,9 @@ export default function AppHistory({title, deploys}) {
               />
           </div>
           <div className={styles.text}><h3>MusicBrainz API</h3></div>
+        </div>
+        <div className={styles.codeBg}>
+          <pre>{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}</pre>
         </div>
         <div className={`${styles.toolBlock} ${styles.toolBlockAlt}`}>
           <div className={styles.toolLogo}>

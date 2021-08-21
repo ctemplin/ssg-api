@@ -1,5 +1,5 @@
 @import './initial-variables'
-$blockTransTime: 2.0s
+$blockTransTime: 1.5s
 
 .container
   display: flex
@@ -81,12 +81,13 @@ $blockTransTime: 2.0s
     opacity: 100%
     transform: scale(1.0)
     transform-origin: 120% center
-    transition: all 1.75s ease-out 0.25s
+    transition: all 1s ease-out .5s
 
 .codeBg
   overflow: hidden
   max-height: 20em
   opacity: 25%
+  margin-bottom: 4em
   &::-webkit-scrollbar
     width: 0px
 
