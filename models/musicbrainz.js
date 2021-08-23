@@ -1,7 +1,8 @@
 import { slugify, UPCASE } from '../lib/routes'
-import { atom, constSelector, selector, selectorFamily, snapshot_UNSTABLE } from 'recoil'
+import { atom, selector, selectorFamily, snapshot_UNSTABLE } from 'recoil'
 import formatDate, { formatMilliseconds, sortDateStrings } from '../lib/dates'
 import * as data from '../data/musicbrainz'
+import { pageTitleTemplates } from './app.js'
 import { currentReleaseCoverArtAtom } from './coverartartchive'
 
 // Object for storing each atom's unset (default) value the first time we
@@ -384,14 +385,6 @@ export const prevBreadcrumbsAtom = atom({
 export const prevItems = atom({
   key: 'prevItems',
   default: {artist: null, releaseGroup: null, release: null, recording: null}
-})
-
-export const pageTitleTemplates = atom({
-  key: 'pageTitleTemplates',
-  default: {
-    short: "MbEx - ",
-    long:  "MusicBrainz Explorer - Search for your Sound"
-  }
 })
 
 export const dynamicPageTitle = selectorFamily({
