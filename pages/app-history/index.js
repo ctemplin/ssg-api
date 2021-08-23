@@ -103,11 +103,11 @@ export default function AppHistory({title, deploys}) {
     <div className={styles.container}>
       <div className={styles.column}>
 
-        <h1>Header</h1>
+        <h1 className={styles.h}>Header</h1>
         <p>Consectetur laboris non velit cupidatat consequat sit aliquip do aliqua laboris. Sunt quis veniam exercitation quis deserunt commodo fugiat nisi laborum. Consequat officia eiusmod aliqua eu. Aute duis esse ipsum nulla enim ad enim. Esse eiusmod minim cillum nisi quis cillum incididunt nisi eu ipsum anim laborum laboris. Cillum exercitation pariatur nisi cillum nostrud irure officia exercitation. Non sit voluptate ad exercitation.</p>
 
         <p>Quis aliqua culpa consequat irure consequat. Ut ea aliqua anim adipisicing. Mollit labore reprehenderit eu do.</p>
-        <h2 className={styles.category}>Packages</h2>
+        <h2 className={`${styles.h} ${styles.category}`}>Packages</h2>
         <div className={styles.toolBlock} id="nextjsBlock">
           <div className={styles.toolLogo}>
             <Image
@@ -132,12 +132,12 @@ export default function AppHistory({title, deploys}) {
                 width="375" height="125"
               />
           </div>
-          <div className={styles.text}><h3>Recoil</h3> </div>
+          <div className={styles.text}>There's no shortage of alternatives to React's solid but decentralized state management. Recoil is not only officially blessed by, creator of React, Facebook, it also has many features to recommend it. MusicBrainz Explorere benefits from Recoil's seemless handling of asynchronous data fetching and caching among other features.</div>
         </div>
         <div className={styles.codeBg}>
           <pre>{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}</pre>
         </div>
-        <h2 className={styles.category} id="APIs">APIs</h2>
+        <h2 className={`${styles.h} ${styles.category}`} id="APIs">APIs</h2>
         <div className={styles.toolBlock}>
           <div className={styles.toolLogo}>
             <Image
@@ -161,7 +161,7 @@ export default function AppHistory({title, deploys}) {
           </div>
           <div className={`${styles.text} ${styles.faText}`}><h3>Netlify API</h3></div>
         </div>
-        <h2 className={styles.category}>Design</h2>
+        <h2 className={`${styles.h} ${styles.category}`}>Design</h2>
         <div className={styles.toolBlock}>
           <div className={styles.toolLogo}>
             <Image
