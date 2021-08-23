@@ -48,10 +48,13 @@ $blockTransTime: 1.5s
   & .toolLogo
     flex: 0 0
     margin-left: 0vw
-    width: 100%
     height: auto
     text-align: center
     z-index: 2
+    & .logoWrapper
+      width: 100%
+      @media screen and (min-width: $desktop)
+        width: max-content
   & .text
     display: inline
     & *:first-child

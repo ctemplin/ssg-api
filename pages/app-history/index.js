@@ -1,5 +1,6 @@
 import * as fetch from 'node-fetch'
 import HeadTag from '../../components/head'
+import ToolLogo from '../../components/toolLogo'
 import Image from 'next/image'
 import styles from '../../styles/AppHistory.module.sass'
 import { useEffect, useRef } from 'react'
@@ -109,13 +110,7 @@ export default function AppHistory({title, deploys}) {
         <p>Quis aliqua culpa consequat irure consequat. Ut ea aliqua anim adipisicing. Mollit labore reprehenderit eu do.</p>
         <h2 className={`${styles.h} ${styles.category}`}>Packages</h2>
         <div className={styles.toolBlock} id="nextjsBlock">
-          <div className={styles.toolLogo}>
-            <Image
-                src="/nextjs_logo.png" className={styles.logo}
-                layout="fixed" alt="NextJs Logo"
-                width="360" height="190"
-              />
-          </div>
+          <ToolLogo src="/nextjs_logo.png" alt="NextJs Logo" width={360} height={190} />
           <div className={styles.text}>NextJS is React for "static" sites. This allows for on-demand, CDN-based deployments. Most of the dynamic data used in this app is requested directly by the browser (<a href="#APIs">see APIs</a> for MusicBraninz). Other API calls (Youtube, etc.) require private credentials. Such API calls are hosted as on-demand server functions.
 
 
@@ -125,13 +120,7 @@ export default function AppHistory({title, deploys}) {
           <pre>{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}</pre>
         </div>
         <div className={`${styles.toolBlock} ${styles.toolBlockAlt}`}>
-          <div className={styles.toolLogo}>
-            <Image
-                src="/recoiljs_logo.png" className={styles.logo}
-                layout="fixed" alt="RecoilJs Logo"
-                width="375" height="125"
-              />
-          </div>
+          <ToolLogo src="/recoiljs_logo.png" alt="RecoilJs Logo" width={375} height={125} />
           <div className={styles.text}>There's no shortage of alternatives to React's solid but decentralized state management. Recoil is not only officially blessed by, creator of React, Facebook, it also has many features to recommend it. MusicBrainz Explorere benefits from Recoil's seemless handling of asynchronous data fetching and caching among other features.</div>
         </div>
         <div className={styles.codeBg}>
@@ -139,37 +128,19 @@ export default function AppHistory({title, deploys}) {
         </div>
         <h2 className={`${styles.h} ${styles.category}`} id="APIs">APIs</h2>
         <div className={styles.toolBlock}>
-          <div className={styles.toolLogo}>
-            <Image
-                src="/musicbrainz_logo.png" className={styles.logo}
-                layout="fixed" alt="Musicbrainz Logo"
-                width="360" height="106"
-              />
-          </div>
+          <ToolLogo src="/musicbrainz_logo.png" alt="MusicBrainz Logo" width={360} height={106} />
           <div className={styles.text}><h3>MusicBrainz API</h3></div>
         </div>
         <div className={styles.codeBg}>
           <pre>{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}</pre>
         </div>
         <div className={`${styles.toolBlock} ${styles.toolBlockAlt}`}>
-          <div className={styles.toolLogo}>
-            <Image
-                src="/netlify_logo.png" className={styles.logo}
-                layout="fixed" alt="Netlify Logo"
-                width="368" height="100"
-              />
-          </div>
+          <ToolLogo src="/netlify_logo.png" alt="Netlify Logo" width={375} height={100} />
           <div className={`${styles.text} ${styles.faText}`}><h3>Netlify API</h3></div>
         </div>
         <h2 className={`${styles.h} ${styles.category}`}>Design</h2>
         <div className={styles.toolBlock}>
-          <div className={styles.toolLogo}>
-            <Image
-                src="/fontawesome_logo.png" className={styles.logo}
-                layout="fixed" alt="FontAwesome Logo"
-                width="400" height="80"
-              />
-          </div>
+          <ToolLogo src="/fontawesome_logo.png" alt="FontAwesome Logo" width={400} height={80} />
           <div className={`${styles.text} ${styles.faText}`}><h3>FontAwesome</h3></div>
         </div>
 
