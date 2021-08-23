@@ -111,7 +111,7 @@ export default function AppHistory({title, deploys}) {
         <h2 className={`${styles.h} ${styles.category}`}>Packages</h2>
         <div className={styles.toolBlock} id="nextjsBlock">
           <ToolLogo src="/nextjs_logo.png" alt="NextJs Logo" width={360} height={190} />
-          <div className={styles.text}>NextJS is React for "static" sites. This allows for on-demand, CDN-based deployments. Most of the dynamic data used in this app is requested directly by the browser (<a href="#APIs">see APIs</a> for MusicBraninz). Other API calls (Youtube, etc.) require private credentials. Such API calls are hosted as on-demand server functions.
+          <div className={styles.text}>NextJS is React for &ldquo;static&rdquo; sites. This allows for on-demand, CDN-based deployments. Most of the dynamic data used in this app is requested directly by the browser (<a href="#APIs">see APIs</a> for MusicBraninz). Other API calls (Youtube, etc.) require private credentials. Such API calls are hosted as on-demand server functions.
 
 
           </div>
@@ -121,7 +121,7 @@ export default function AppHistory({title, deploys}) {
         </div>
         <div className={`${styles.toolBlock} ${styles.toolBlockAlt}`}>
           <ToolLogo src="/recoiljs_logo.png" alt="RecoilJs Logo" width={375} height={125} />
-          <div className={styles.text}>There's no shortage of alternatives to React's solid but decentralized state management. Recoil is not only officially blessed by, creator of React, Facebook, it also has many features to recommend it. MusicBrainz Explorere benefits from Recoil's seemless handling of asynchronous data fetching and caching among other features.</div>
+          <div className={styles.text}>There&apos;s no shortage of alternatives to React&apos;s solid but decentralized state management. Recoil is not only officially blessed by, creator of React, Facebook, it also has many features to recommend it. MusicBrainz Explorere benefits from Recoil&apos;s seemless handling of asynchronous data fetching and caching among other features.</div>
         </div>
         <div className={styles.codeBg}>
           <pre>{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}</pre>
