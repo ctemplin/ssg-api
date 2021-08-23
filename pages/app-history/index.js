@@ -53,11 +53,12 @@ export default function AppHistory({title, mostRecentDate, deploys}) {
     }
 
     const onScroll = (e,) => {
+      var doc = document
       if (e.eventPhase !== 2) return
 
       var sEl = e.srcElement.scrollingElement ?? e.srcElement
       var dir = sEl.scrollTop < st.current ? 'up' : 'down'
-      var codeBlocks = document.querySelectorAll('.' + styles.codeBg)
+      var codeBlocks = doc.querySelectorAll('.' + styles.codeBg)
       codeBlocks.forEach((el) => {
         if (el.offsetTop - st.current < sEl.clientHeight) {
           el.scrollBy(0, dir === 'up' ? -3 : 3)
@@ -65,16 +66,19 @@ export default function AppHistory({title, mostRecentDate, deploys}) {
       })
 
       if (sEl.scrollTop > st.current) {
-        var toolBlocks = document.querySelectorAll('.' + styles.toolBlock)
+        var toolBlocks = doc.querySelectorAll('.' + styles.toolBlock)
         toolBlocks.forEach((el) => {
           var n = el.offsetTop - sEl.scrollTop
-          if (n < window.innerHeight*.6) {
+          var body = doc.scrollingElement.scrollTop > 0 ? 
+            doc.scrollingElement : doc.body
+          if (n < window.innerHeight*.6 || 
+            body.scrollHeight - body.scrollTop <= window.innerHeight + 10 ) {
             el.classList.add(styles.toolBlockFocus)
           }
         })
       }
       else if (sEl.scrollTop === 0) {
-        var toolBlocks = document.querySelectorAll('.' + styles.toolBlock)
+        var toolBlocks = doc.querySelectorAll('.' + styles.toolBlock)
         toolBlocks.forEach((el) => {
           el.classList.remove(styles.toolBlockFocus)
         })
