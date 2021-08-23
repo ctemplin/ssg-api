@@ -13,7 +13,7 @@ export default function CoverArtThumbnail({dispData}) {
 
   return(
     <>
-    <a onClick={toggleImgModal}>
+    <a onClick={toggleImgModal} className={styles.resultHeaderImageLink}>
       {dispData.imgUrlSmall ?
       <Image
         src={dispData.imgUrlSmall}
