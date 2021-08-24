@@ -13,6 +13,7 @@ import {
          } from '../models/musicbrainz'
 import {useRouter} from 'next/router'
 import HeadTag from '../components/head'
+import Link from 'next/link'
 import Image from 'next/image'
 import styles from '../styles/Home.module.scss'
 import ArtistSearch from '../components/artistSearch'
@@ -24,7 +25,8 @@ import ReleaseGroup from '../components/releaseGroup'
 import Release from '../components/release'
 import Recording from '../components/recording'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faKeyboard, faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faKeyboard, faArrowLeft, faSearch,
+         faMusic, faBrain, faMap } from '@fortawesome/free-solid-svg-icons'
 
 export default function Home() {
   const currentArtist = useRecoilValue(currentArtistAtom)
@@ -95,6 +97,25 @@ export default function Home() {
             />
             </a>
             <BreadcrumbsBack />
+            <Link href="/about">
+            <a>
+            <FontAwesomeIcon
+              className={styles.icon}
+              height="1em"
+              icon={faMusic}
+            />
+                        <FontAwesomeIcon
+              className={styles.icon}
+              height="1em"
+              icon={faBrain}
+            />
+                        <FontAwesomeIcon
+              className={styles.icon}
+              height="1em"
+              icon={faMap}
+            />
+            </a>
+            </Link>
           </div>
         </div>
       }

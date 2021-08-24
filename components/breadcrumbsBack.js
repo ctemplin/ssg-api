@@ -35,7 +35,9 @@ export default function BreadcrumbsBack() {
     {prevBreadcrumbs?.[0]?.id &&
     <>
       <span className={styles.leadIn}>| Return to:</span>
-      {prevBreadcrumbs.map(breadcrumbOrNot)}
+      <span className={styles.crumbs}>
+        {prevBreadcrumbs.map(breadcrumbOrNot)}
+      </span>
     </>
     }
     </>
