@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import styles from '../styles/AppHistory.module.sass'
+import styles from '../styles/About.module.sass'
 
 export default function toolLogo(props) {
   const { src, alt, width, height, hasBorder, color } = {...props}

@@ -4,7 +4,7 @@ import { appNamesAtom } from '../../models/app'
 import fetchData from '../../data/fetcher'
 import HeadTag from '../../components/head'
 import ToolLogo from '../../components/toolLogo'
-import styles from '../../styles/AppHistory.module.sass'
+import styles from '../../styles/About.module.sass'
 
 export async function getStaticProps(context) {
 
@@ -39,7 +39,7 @@ export async function getStaticProps(context) {
   return results
 }
 
-export default function AppHistory({title, mostRecentDate, deploys}) {
+export default function About({title, mostRecentDate, deploys}) {
 
   const appNames = useRecoilValue(appNamesAtom)
   const st = useRef(0)
