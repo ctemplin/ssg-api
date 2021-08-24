@@ -1,28 +1,14 @@
 import { Fragment, useEffect, useRef } from 'react'
 import { useRecoilValue } from 'recoil'
 import { appNamesAtom } from '../../models/app'
-import * as fetch from 'node-fetch'
+import fetchData from '../../data/fetcher'
 import HeadTag from '../../components/head'
 import ToolLogo from '../../components/toolLogo'
 import styles from '../../styles/AppHistory.module.sass'
 
 export async function getStaticProps(context) {
-  const url = new URL(
-    `https://api.netlify.com/api/v1/sites/${process.env.SITE_ID}/deploys`
-  )
-  url.searchParams.append('page', '1')
-  url.searchParams.append('per_page', '40')
-  const resp = await fetch(url,
-    {
-      headers: {
-        'User-Agent': 'mb.christemplin.com (ctemplin@gmail.com)',
-        'Authorization': `Bearer ${process.env.NETLIFY_OAUTH_TOKEN}`,
-        'Accept': 'application/json'
-      }
-    }
-  )
-  if (resp.status >= 200 && resp.status <= 299) {
-    const json = await resp.json()
+
+  const resultMapper = (json) => {
     let deploys = json.filter(_ => ["ready", "building"].includes(_.state))
     var dtFmt = Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' })
     const mostRecentDate = dtFmt.format(new Date(deploys[0].created_at)) 
@@ -38,9 +24,19 @@ export async function getStaticProps(context) {
       props: {title: 'About', mostRecentDate: mostRecentDate, deploys: deploys},
       revalidate: false
     }
-  } else {
-    throw new Error(`Error: ${resp.status} ${resp.statusText} on ${url}`)
   }
+
+  const results = await fetchData(
+    `https://api.netlify.com/api/v1/sites/${process.env.SITE_ID}/deploys`,
+    [['page', '1'], ['per_page', '40']],
+    resultMapper,
+    {
+      'User-Agent': 'mb.christemplin.com (ctemplin@gmail.com)',
+      'Authorization': `Bearer ${process.env.NETLIFY_OAUTH_TOKEN}`,
+      'Accept': 'application/json'
+    }
+  )
+  return results
 }
 
 export default function AppHistory({title, mostRecentDate, deploys}) {

@@ -1,4 +1,8 @@
-export default async function fetchData(url, params, mapFunc) {
+export default async function fetchData(url, params, mapFunc, headers={}) {
+
+  if (!fetch)
+    fetch = require('node-fetch')
+
   const _params = new URLSearchParams()
   params.forEach(param => _params.append(...param))
   var _url
@@ -10,7 +14,7 @@ export default async function fetchData(url, params, mapFunc) {
     // relative url for function calls
     _url = `${url}?${_params.toString()}`
   }
-  const resp = await fetch(_url, {headers: {"Accept": "application/json"}})
+  const resp = await fetch(_url, {headers: {"Accept": "application/json", ...headers}})
   if (resp.status >= 200 && resp.status <= 299) {
     const json = await resp.json()
     return mapFunc(json)
