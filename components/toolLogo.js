@@ -2,7 +2,7 @@ import Image from 'next/image'
 import styles from '../styles/About.module.sass'
 
 export default function toolLogo(props) {
-  const { src, alt, width, height, hasBorder, color } = {...props}
+  const { src, alt, width, height, hasBorder, color, url=null } = {...props}
   
   const classNames = () => {
     const ret = [styles.logo]
@@ -11,7 +11,7 @@ export default function toolLogo(props) {
     return ret.join(' ').trim()
   }
   return (
-    <div className={styles.toolLogo}>
+    <a href={url} target="tool" className={styles.toolLogo}>
       {/* Wrapper div/class allows responsive image to work with flex-box
           yet remain fixed-sized in desktop mode. */}
       <div className={styles.logoWrapper}>
@@ -19,6 +19,6 @@ export default function toolLogo(props) {
           src={src} layout="intrinsic" alt={alt} width={width} height={height} 
           className={classNames()} />
       </div>
-    </div>
+    </a>
     )
   }

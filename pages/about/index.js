@@ -126,7 +126,8 @@ export default function About({title, mostRecentDate, deploys}) {
         <h2 className={`${styles.h} ${styles.category}`}>Packages</h2>
         <div className={styles.toolBlock} id="nextjsBlock">
           <ToolLogo src="/nextjs_logo.png" alt="NextJs Logo"
-            width={360} height={190} />
+            width={360} height={190}
+            url="https://github.com/vercel/next.js#readme" />
           <div className={styles.text}>NextJS is React for &ldquo;static&rdquo; sites. This allows for on-demand, CDN-based deployments. Most of the dynamic data used in {appNames.short} is requested directly by the browser (<a href="#APIs">see APIs</a> for MusicBrainz). Other API calls (Youtube, etc.) require private credentials. Such API calls are hosted as on-demand server functions.
           </div>
         </div>
@@ -135,7 +136,8 @@ export default function About({title, mostRecentDate, deploys}) {
         </div>
         <div className={`${styles.toolBlock} ${styles.toolBlockAlt}`}>
           <ToolLogo src="/recoiljs_logo.png" alt="RecoilJs Logo"
-            width={375} height={125} hasBorder={true} color="blue" />
+            width={375} height={125} hasBorder={true} color="blue"
+            url="https://github.com/facebookexperimental/Recoil#readme" />
           <div className={styles.text}>There&apos;s no shortage of alternatives to React&apos;s solid but decentralized state management. Recoil is not only officially blessed by, creator of React, Facebook, it also has many features to recommend it. MbEx benefits from Recoil&apos;s easy handling of asynchronous data fetching and automatic caching among other features.</div>
         </div>
         <div className={styles.codeBg}>
@@ -144,21 +146,24 @@ export default function About({title, mostRecentDate, deploys}) {
         <h2 className={`${styles.h} ${styles.category}`} id="APIs">APIs</h2>
         <div className={styles.toolBlock}>
           <ToolLogo src="/musicbrainz_logo.png" alt="MusicBrainz Logo"
-            width={360} height={106} hasBorder={true} color="orange" />
-          <div className={styles.text}><h3>MusicBrainz API</h3></div>
+            width={360} height={106} hasBorder={true} color="orange"
+            url="https://musicbrainz.org/doc/MusicBrainz_API" />
+          <div className={styles.text}>MusicBrainz API is very nice to work with</div>
         </div>
         <div className={styles.codeBg}>
           <pre>{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}</pre>
         </div>
         <div className={`${styles.toolBlock} ${styles.toolBlockAlt}`}>
           <ToolLogo src="/netlify_logo.png" alt="Netlify Logo"
-            width={375} height={100} hasBorder={true} color="teal" />
+            width={375} height={100} hasBorder={true} color="teal" 
+            url="https://open-api.netlify.com" />
           <div className={`${styles.text}`}><h3>Netlify API</h3></div>
         </div>
         <h2 className={`${styles.h} ${styles.category}`}>Design</h2>
         <div className={styles.toolBlock}>
           <ToolLogo src="/fontawesome_logo.png" alt="FontAwesome Logo"
-            width={400} height={80} />
+            width={400} height={80}
+            url="https://github.com/FortAwesome/Font-Awesome#readme" />
           <div className={`${styles.text}`}><h3>FontAwesome</h3></div>
         </div>
       </div>
