@@ -1,6 +1,7 @@
 [dev]
   functions = "netlify/functions/"
   functionsPort = 9000
+  autoLaunch = false
 [build]
   command = "npm run build"
   functions = "lambda"
