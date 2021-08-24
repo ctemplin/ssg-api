@@ -129,7 +129,8 @@ export default function AppHistory({title, mostRecentDate, deploys}) {
 
         <h2 className={`${styles.h} ${styles.category}`}>Packages</h2>
         <div className={styles.toolBlock} id="nextjsBlock">
-          <ToolLogo src="/nextjs_logo.png" alt="NextJs Logo" width={360} height={190} />
+          <ToolLogo src="/nextjs_logo.png" alt="NextJs Logo"
+            width={360} height={190} />
           <div className={styles.text}>NextJS is React for &ldquo;static&rdquo; sites. This allows for on-demand, CDN-based deployments. Most of the dynamic data used in {appNames.short} is requested directly by the browser (<a href="#APIs">see APIs</a> for MusicBrainz). Other API calls (Youtube, etc.) require private credentials. Such API calls are hosted as on-demand server functions.
           </div>
         </div>
@@ -137,7 +138,8 @@ export default function AppHistory({title, mostRecentDate, deploys}) {
           <pre>{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}</pre>
         </div>
         <div className={`${styles.toolBlock} ${styles.toolBlockAlt}`}>
-          <ToolLogo src="/recoiljs_logo.png" alt="RecoilJs Logo" width={375} height={125} />
+          <ToolLogo src="/recoiljs_logo.png" alt="RecoilJs Logo"
+            width={375} height={125} hasBorder={true} color="blue" />
           <div className={styles.text}>There&apos;s no shortage of alternatives to React&apos;s solid but decentralized state management. Recoil is not only officially blessed by, creator of React, Facebook, it also has many features to recommend it. MbEx benefits from Recoil&apos;s seemless handling of asynchronous data fetching and caching among other features.</div>
         </div>
         <div className={styles.codeBg}>
@@ -145,20 +147,23 @@ export default function AppHistory({title, mostRecentDate, deploys}) {
         </div>
         <h2 className={`${styles.h} ${styles.category}`} id="APIs">APIs</h2>
         <div className={styles.toolBlock}>
-          <ToolLogo src="/musicbrainz_logo.png" alt="MusicBrainz Logo" width={360} height={106} />
+          <ToolLogo src="/musicbrainz_logo.png" alt="MusicBrainz Logo"
+            width={360} height={106} hasBorder={true} color="orange" />
           <div className={styles.text}><h3>MusicBrainz API</h3></div>
         </div>
         <div className={styles.codeBg}>
           <pre>{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}</pre>
         </div>
         <div className={`${styles.toolBlock} ${styles.toolBlockAlt}`}>
-          <ToolLogo src="/netlify_logo.png" alt="Netlify Logo" width={375} height={100} />
-          <div className={`${styles.text} ${styles.faText}`}><h3>Netlify API</h3></div>
+          <ToolLogo src="/netlify_logo.png" alt="Netlify Logo"
+            width={375} height={100} hasBorder={true} color="teal" />
+          <div className={`${styles.text}`}><h3>Netlify API</h3></div>
         </div>
         <h2 className={`${styles.h} ${styles.category}`}>Design</h2>
         <div className={styles.toolBlock}>
-          <ToolLogo src="/fontawesome_logo.png" alt="FontAwesome Logo" width={400} height={80} />
-          <div className={`${styles.text} ${styles.faText}`}><h3>FontAwesome</h3></div>
+          <ToolLogo src="/fontawesome_logo.png" alt="FontAwesome Logo"
+            width={400} height={80} />
+          <div className={`${styles.text}`}><h3>FontAwesome</h3></div>
         </div>
       </div>
     </div>
