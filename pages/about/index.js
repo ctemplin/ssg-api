@@ -136,7 +136,7 @@ export default function AppHistory({title, mostRecentDate, deploys}) {
         <div className={`${styles.toolBlock} ${styles.toolBlockAlt}`}>
           <ToolLogo src="/recoiljs_logo.png" alt="RecoilJs Logo"
             width={375} height={125} hasBorder={true} color="blue" />
-          <div className={styles.text}>There&apos;s no shortage of alternatives to React&apos;s solid but decentralized state management. Recoil is not only officially blessed by, creator of React, Facebook, it also has many features to recommend it. MbEx benefits from Recoil&apos;s seemless handling of asynchronous data fetching and caching among other features.</div>
+          <div className={styles.text}>There&apos;s no shortage of alternatives to React&apos;s solid but decentralized state management. Recoil is not only officially blessed by, creator of React, Facebook, it also has many features to recommend it. MbEx benefits from Recoil&apos;s easy handling of asynchronous data fetching and automatic caching among other features.</div>
         </div>
         <div className={styles.codeBg}>
           <pre>{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}</pre>
