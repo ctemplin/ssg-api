@@ -11,7 +11,7 @@ export default function toolLogo(props) {
     return ret.join(' ').trim()
   }
   return (
-    <a href={url} target="tool" className={styles.toolLogo}>
+    <a href={url} target="tool" className={styles.toolLogo} role="heading" aria-level={3} >
       {/* Wrapper div/class allows responsive image to work with flex-box
           yet remain fixed-sized in desktop mode. */}
       <div className={styles.logoWrapper}>
