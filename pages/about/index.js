@@ -5,9 +5,9 @@ import fetchData from '../../data/fetcher'
 import HeadTag from '../../components/head'
 import ToolLogo from '../../components/toolLogo'
 import styles from '../../styles/About.module.sass'
-import { recoilExample } from './recoilExample'
-import { nextjsExample } from './nextjsExample'
-import { musicbrainzExample } from './musicbrainzExample'
+import { recoilExample } from '../../components/about/recoilExample'
+import { nextjsExample } from '../../components/about/nextjsExample'
+import { musicbrainzExample } from '../../components/about/musicbrainzExample'
 
 export async function getStaticProps(context) {
 
