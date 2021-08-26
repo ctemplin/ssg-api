@@ -130,68 +130,80 @@ export default function About({title, mostRecentDate, deploys}) {
           <p>Read on for details about some of the many fine tools used to create it.</p>
 
           <h2 className={`${styles.h} ${styles.category}`}>Packages</h2>
-          <div className={styles.toolBlock} id="nextjsBlock">
-            <ToolLogo src="/nextjs_logo.png" alt="NextJs"
-              width={360} height={190}
-              url="https://github.com/vercel/next.js#readme" />
-            <div className={styles.text}>NextJS is React for &ldquo;static&rdquo; sites. This allows for on-demand, CDN-based deployments. Most of the dynamic data used in {appNames.short} is requested directly by the browser (<a href="#APIs">see APIs</a> for MusicBrainz). Other API calls (Youtube, etc.) require private credentials. Such API calls are hosted as on-demand server functions.
+          <div className={styles.toolContainer} >
+            <div className={styles.toolBlock} id="nextjsBlock">
+              <ToolLogo src="/nextjs_logo.png" alt="NextJs"
+                width={360} height={190}
+                url="https://github.com/vercel/next.js#readme" />
+              <div className={styles.text}>NextJS is React for &ldquo;static&rdquo; sites. This allows for on-demand, CDN-based deployments. Most of the dynamic data used in {appNames.short} is requested directly by the browser (<a href="#APIs">see APIs</a> for MusicBrainz). Other API calls (Youtube, etc.) require private credentials. Such API calls are hosted as on-demand server functions.
+              </div>
+            </div>
+            <div className={styles.codeBg} role="figure" aria-label="NextJS Code Example" aria-hidden={true} >
+              <div>
+                <pre>{nextjsExample.body}</pre>
+              </div>
+              <div>
+                <pre>{nextjsExample.body}</pre>
+              </div>
             </div>
           </div>
-          <div className={styles.codeBg} role="figure" aria-label="NextJS Code Example" aria-hidden={true} >
-            <div>
-              <pre>{nextjsExample.body}</pre>
+          <div className={styles.toolContainer} >
+            <div className={`${styles.toolBlock} ${styles.toolBlockAlt}`}>
+              <ToolLogo src="/recoiljs_logo.png" alt="RecoilJs"
+                width={375} height={125} hasBorder={true} color="blue"
+                url="https://github.com/facebookexperimental/Recoil#readme" />
+              <div className={styles.text}>There&apos;s no shortage of alternatives to React&apos;s solid but decentralized state management. Recoil is not only officially blessed by, creator of React, Facebook, it also has many features to recommend it. MbEx benefits from Recoil&apos;s easy handling of asynchronous data fetching and automatic caching among other features.</div>
             </div>
-            <div>
-              <pre>{nextjsExample.body}</pre>
-            </div>
-          </div>
-          <div className={`${styles.toolBlock} ${styles.toolBlockAlt}`}>
-            <ToolLogo src="/recoiljs_logo.png" alt="RecoilJs"
-              width={375} height={125} hasBorder={true} color="blue"
-              url="https://github.com/facebookexperimental/Recoil#readme" />
-            <div className={styles.text}>There&apos;s no shortage of alternatives to React&apos;s solid but decentralized state management. Recoil is not only officially blessed by, creator of React, Facebook, it also has many features to recommend it. MbEx benefits from Recoil&apos;s easy handling of asynchronous data fetching and automatic caching among other features.</div>
-          </div>
-          <div className={styles.codeBg} role="figure" aria-label="Recoil Code Example" aria-hidden={true} >
-            <div>
-              <pre>{recoilExample.body}</pre>
-            </div>
-            <div>
-              <pre>{recoilExample.body}</pre>
+            <div className={styles.codeBg} role="figure" aria-label="Recoil Code Example" aria-hidden={true} >
+              <div>
+                <pre>{recoilExample.body}</pre>
+              </div>
+              <div>
+                <pre>{recoilExample.body}</pre>
+              </div>
             </div>
           </div>
           <h2 className={`${styles.h} ${styles.category}`} id="APIs">APIs</h2>
-          <div className={styles.toolBlock}>
-            <ToolLogo src="/musicbrainz_logo.png" alt="MusicBrainz"
-              width={360} height={106} hasBorder={true} color="orange"
-              url="https://musicbrainz.org/doc/MusicBrainz_API" />
-            <div className={styles.text}>MusicBrainz API is great to work with. Absolutely minimal credential hurdles to clear, a consistent data structure, and the option to include entity relationships makes drilling down into the data simple with minimal network calls. </div>
-          </div>
-          <div className={styles.codeBg} role="figure" aria-label="Musicbrainz API Code Example" aria-hidden={true} >
-            <div>
-              <pre>{musicbrainzExample.body}</pre>
+          <div className={styles.toolContainer} >
+            <div className={styles.toolBlock}>
+              <ToolLogo src="/musicbrainz_logo.png" alt="MusicBrainz"
+                width={360} height={106} hasBorder={true} color="orange"
+                url="https://musicbrainz.org/doc/MusicBrainz_API" />
+              <div className={styles.text}>MusicBrainz API is great to work with. Absolutely minimal credential hurdles to clear, a consistent data structure, and the option to include entity relationships makes drilling down into the data simple with minimal network calls. </div>
             </div>
-            <div>
-              <pre>{musicbrainzExample.body}</pre>
+            <div className={styles.codeBg} role="figure" aria-label="Musicbrainz API Code Example" aria-hidden={true} >
+              <div>
+                <pre>{musicbrainzExample.body}</pre>
+              </div>
+              <div>
+                <pre>{musicbrainzExample.body}</pre>
+              </div>
             </div>
           </div>
-          <div className={`${styles.toolBlock} ${styles.toolBlockAlt}`}>
-            <ToolLogo src="/netlify_logo.png" alt="Netlify"
-              width={375} height={100} hasBorder={true} color="teal" 
-              url="https://open-api.netlify.com" />
-            <div className={`${styles.text}`}>Why is the hosting provider listed with data providers? Well, it&apos;s true, Netlify offers terrific hosting, it also has a comprehensive API. MbEx makes modest use of it, but what&apos;s a NextJS app without using <code>getStaticProps()</code>? This page does just that by querying the Netlify API at deploy-time, retrieving the most recent deploys and building the ad-hoc release log that you&apos;ll find at the top of the page.</div>
+          <div className={styles.toolContainer} >
+            <div className={`${styles.toolBlock} ${styles.toolBlockAlt}`}>
+              <ToolLogo src="/netlify_logo.png" alt="Netlify"
+                width={375} height={100} hasBorder={true} color="teal" 
+                url="https://open-api.netlify.com" />
+              <div className={`${styles.text}`}>Why is the hosting provider listed with data providers? Well, it&apos;s true, Netlify primarily offers hosting, it also has a comprehensive API. MbEx makes modest use of it, but what&apos;s a NextJS app without using <code>getStaticProps()</code>? This page does just that by querying the Netlify API at deploy-time, retrieving the most recent deploys and building the ad-hoc release log that you&apos;ll find at the top of the page.</div>
+            </div>
           </div>
           <h2 className={`${styles.h} ${styles.category}`}>Design</h2>
-          <div className={styles.toolBlock}>
-            <ToolLogo src="/fontawesome_logo.png" alt="FontAwesome"
-              width={400} height={80}
-              url="https://github.com/FortAwesome/Font-Awesome#readme" />
-            <div className={`${styles.text}`}>Free, high-quality SVG icons? That&apos;s...uh...awesome. Even better, FortAwesome (no that&apos;s not a typo) makes the them all available as React components.</div>
+          <div className={styles.toolContainer} >
+            <div className={styles.toolBlock}>
+              <ToolLogo src="/fontawesome_logo.png" alt="FontAwesome"
+                width={400} height={80}
+                url="https://github.com/FortAwesome/Font-Awesome#readme" />
+              <div className={`${styles.text}`}>Free, high-quality SVG icons? That&apos;s...uh...awesome. Even better, FortAwesome (no that&apos;s not a typo) makes them all available as React components.</div>
+            </div>
           </div>
-          <div className={`${styles.toolBlock} ${styles.toolBlockAlt}`}>
-            <ToolLogo src="/bulma_logo.png" alt="Bulma"
-              width={375} height={100} 
-              url="https://github.com/jgthms/bulma#readme" />
-            <div className={`${styles.text}`}>Special thanks to Bulma. While it&apos;s not included in MbEx&apos;s packages (for size and simplicity), it&apos;s there in spirit. Smart default variable definitions and a mobile-first responsive strategy make Bulma a great choice for a clean and simple CSS framework.</div>
+          <div className={styles.toolContainer} >
+            <div className={`${styles.toolBlock} ${styles.toolBlockAlt}`}>
+              <ToolLogo src="/bulma_logo.png" alt="Bulma"
+                width={375} height={100} 
+                url="https://github.com/jgthms/bulma#readme" />
+              <div className={`${styles.text}`}>Special thanks to Bulma! While it&apos;s not included in MbEx&apos;s packages per se (for size and simplicity), it&apos;s there in spirit. Smart default variable definitions and a mobile-first responsive strategy make Bulma a great choice for a clean and simple CSS framework.</div>
+            </div>
           </div>
         </div>
       </div>
