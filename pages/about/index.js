@@ -171,7 +171,7 @@ export default function About({title, mostRecentDate, deploys}) {
           <ToolLogo src="/netlify_logo.png" alt="Netlify Logo"
             width={375} height={100} hasBorder={true} color="teal" 
             url="https://open-api.netlify.com" />
-          <div className={`${styles.text}`}><h3>Netlify API</h3></div>
+          <div className={`${styles.text}`}>Why is the hosting provider listed with data providers? Well, it&apos;s true, Netlify offers terrific hosting, it also has a comprehensive API. MbEx makes modest use of it, but what&apos;s a NextJS app without using <code>getStaticProps()</code>? This page does just that by querying the Netlify API at deploy-time, retrieving the most recent deploys and building the ad-hoc release log that you&apos;ll find at the top of the page.</div>
         </div>
         <h2 className={`${styles.h} ${styles.category}`}>Design</h2>
         <div className={styles.toolBlock}>
@@ -179,6 +179,12 @@ export default function About({title, mostRecentDate, deploys}) {
             width={400} height={80}
             url="https://github.com/FortAwesome/Font-Awesome#readme" />
           <div className={`${styles.text}`}><h3>FontAwesome</h3></div>
+        </div>
+        <div className={`${styles.toolBlock} ${styles.toolBlockAlt}`}>
+          <ToolLogo src="/bulma_logo.png" alt="Bulma Logo"
+            width={375} height={100} 
+            url="https://github.com/jgthms/bulma#readme" />
+          <div className={`${styles.text}`}>Special thanks to Bulma. While it&apos;s not included in MbEx&apos;s packages (for size and simplicity), it&apos;s there in spirit. Smart default variable definitions and a mobile-first responsive strategy make Bulma a great choice for a clean and simple CSS framework.</div>
         </div>
       </div>
     </div>
