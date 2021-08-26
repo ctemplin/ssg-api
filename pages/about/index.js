@@ -5,6 +5,9 @@ import fetchData from '../../data/fetcher'
 import HeadTag from '../../components/head'
 import ToolLogo from '../../components/toolLogo'
 import styles from '../../styles/About.module.sass'
+import { recoilExample } from './recoilExample'
+import { nextjsExample } from './nextjsExample'
+import { musicbrainzExample } from './musicbrainzExample'
 
 export async function getStaticProps(context) {
 
@@ -57,7 +60,8 @@ export default function About({title, mostRecentDate, deploys}) {
       var codeBlocks = doc.querySelectorAll('.' + styles.codeBg)
       codeBlocks.forEach((el) => {
         if (el.offsetTop - st.current < sEl.clientHeight) {
-          el.scrollBy(0, dir === 'up' ? -3 : 3)
+          el.children[0].scrollBy(0, dir === 'up' ? -1 : 1)
+          el.children[1].scrollBy(0, dir === 'up' ? -3 : 3)
         }
       })
 
@@ -96,11 +100,6 @@ export default function About({title, mostRecentDate, deploys}) {
     }
   }, [])
 
-  const pre =
-`useEffect(() => {
-  setCoverArt({id: dispData.id})
-  resetRecording()
-},[dispData.id, setCoverArt, resetRecording])`
 
   return (
     <>
@@ -132,7 +131,12 @@ export default function About({title, mostRecentDate, deploys}) {
           </div>
         </div>
         <div className={styles.codeBg}>
-          <pre>{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}</pre>
+          <div>
+            <pre>{nextjsExample.body}</pre>
+          </div>
+          <div>
+            <pre>{nextjsExample.body}</pre>
+          </div>
         </div>
         <div className={`${styles.toolBlock} ${styles.toolBlockAlt}`}>
           <ToolLogo src="/recoiljs_logo.png" alt="RecoilJs Logo"
@@ -141,17 +145,27 @@ export default function About({title, mostRecentDate, deploys}) {
           <div className={styles.text}>There&apos;s no shortage of alternatives to React&apos;s solid but decentralized state management. Recoil is not only officially blessed by, creator of React, Facebook, it also has many features to recommend it. MbEx benefits from Recoil&apos;s easy handling of asynchronous data fetching and automatic caching among other features.</div>
         </div>
         <div className={styles.codeBg}>
-          <pre>{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}</pre>
+          <div>
+            <pre>{recoilExample.body}</pre>
+          </div>
+          <div>
+            <pre>{recoilExample.body}</pre>
+          </div>
         </div>
         <h2 className={`${styles.h} ${styles.category}`} id="APIs">APIs</h2>
         <div className={styles.toolBlock}>
           <ToolLogo src="/musicbrainz_logo.png" alt="MusicBrainz Logo"
             width={360} height={106} hasBorder={true} color="orange"
             url="https://musicbrainz.org/doc/MusicBrainz_API" />
-          <div className={styles.text}>MusicBrainz API is very nice to work with</div>
+          <div className={styles.text}>MusicBrainz API is great to work with. Absolutely minimal credential hurdles to clear, a consistent data structure, and the option to include entity relationships makes drilling down into the data simple with minimal network calls. </div>
         </div>
         <div className={styles.codeBg}>
-          <pre>{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}{pre}</pre>
+          <div>
+            <pre>{musicbrainzExample.body}</pre>
+          </div>
+          <div>
+            <pre>{musicbrainzExample.body}</pre>
+          </div>
         </div>
         <div className={`${styles.toolBlock} ${styles.toolBlockAlt}`}>
           <ToolLogo src="/netlify_logo.png" alt="Netlify Logo"
