@@ -12,7 +12,7 @@ $blockTransTime: 1.5s
   & .column
     flex: auto
     width: 100%
-    max-width: 760px
+    max-width: 48rem
     background-color: $white-ter
     padding: 0.25em 8px 0 0.5em
     @media screen and (min-width: $tablet)
@@ -29,14 +29,23 @@ $blockTransTime: 1.5s
     height: 2em
     align-self: flex-start
   & details
+    flex: 1 0
     & summary
-      display: inline list-item
+      flex: 0 0
+      min-height: 2em
+      list-style-position: outside
+      margin-top: 0.33em
+      margin-left: 1.25em
       align-items: center
 
 .deploysDl
   background-color: $grey-lighter
+  min-width: calc(100% + 2em)
   max-height: 10em
+  margin-block-start: 0.5em
   overflow-y: scroll
+  &::-webkit-scrollbar-track
+    background: $grey-lighter
   & dt
     font-family: monospace
     color: $cyan
@@ -158,7 +167,7 @@ $blockTransTime: 1.5s
     overflow: hidden
     position: absolute
   & div:first-child
-    left: 20vw
+    left: 50%
     font-size: .5em
     opacity: 20%
   & div:last-child
