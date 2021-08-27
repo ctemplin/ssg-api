@@ -17,7 +17,6 @@ export default function Head({title}) {
         font-weight: 400;
         line-height: 1.5;
         height: 100% !important;
-        overflow-y: overlay !important;
       }`}</style>
     </NextHead>
   )
