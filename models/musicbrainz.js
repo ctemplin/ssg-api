@@ -82,11 +82,6 @@ export const searchHlIndexAtom = atom({
   default: 0
 })
 
-export const trackMaxedAtom = atom({
-  key: 'trackMaxed',
-  default: false
-})
-
 export const artistLookup = selectorFamily({
   'key': 'artistLookup',
   get: (id) => async({get}) => {

@@ -9,7 +9,6 @@ import {
          currentReleasePanelFormat,
          recordingLookup, currentRecordingAtom,
          currentRecordingPanelFormat,
-         trackMaxedAtom,
          } from '../models/musicbrainz'
 import {useRouter} from 'next/router'
 import HeadTag from '../components/head'
@@ -34,7 +33,6 @@ export default function Home() {
   const resetReleaseGroup = useResetRecoilState(currentReleaseGroupAtom)
   const resetRelease = useResetRecoilState(currentReleaseAtom)
   const resetRecording = useResetRecoilState(currentRecordingAtom)
-  const isTrackMaxed = useRecoilValue(trackMaxedAtom)
   const router = useRouter()
 
   // Wrapped components
@@ -62,20 +60,8 @@ export default function Home() {
     router.push("/", undefined, {shallow: true})
   }
 
-  const classNamesByRouteAndUi = (s, aid, isMaxed) => {
-    let c = [s.container]
-    if (aid) c.push(isMaxed ? s.maxed : s.halved)
-    else c.push(s.searching)
-    return c.join(' ')
-  }
-
-  const containerClassNames = useMemo(
-    () => classNamesByRouteAndUi(styles, currentArtist.id, isTrackMaxed),
-    [currentArtist.id, isTrackMaxed]
-  )
-
   return (
-    <div className={containerClassNames}>
+    <div className={`${styles.container} ${currentArtist.aid ? '' : styles.searching}`}>
       <HeadTag />
       {qsIds.aid &&
       <RouterSync qsIds={qsIds} />
@@ -154,7 +140,7 @@ export default function Home() {
               dispSel={currentReleasePanelFormat} />
           </div>
         </div>
-        <div role="main" aria-label="Track details">
+        <div className={styles.trackDetails} role="main" aria-label="Track details">
           <Recording_MBZ
             lookup={recordingLookup}
             atom={currentRecordingAtom}

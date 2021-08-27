@@ -11,18 +11,6 @@
   }
 }
 
-.maxIcon {
-  width: 1em;
-  height: 1em;
-  cursor: pointer;
-}
-
-.collapse {
-  @media screen and (min-width: $tablet) {
-    display: none;
-  }
-}
-
 .pseudoColumns {
   width: 100%;
   z-index: 2;

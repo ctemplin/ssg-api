@@ -2,8 +2,10 @@
 
 .container {
   min-height: calc(100vh - .75em);
+  max-height: 10px;
   padding: 0 .2rem;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   grid-template-rows: 2em auto auto;
   background-color: $grey-lighter;
   @media screen and (min-width: $tablet) {
@@ -15,15 +17,6 @@
   grid-template-rows: 0 auto 0;
 }
 
-.container.halved {
-  @media screen and (min-width: $tablet) {
-    grid-template-rows: 2em 50% auto;
-  }
-}
-
-.container.maxed {
-  grid-template-rows: 2em 2em auto;
-}
 .main {
   padding: 5rem 0;
   /* flex: 1; */
@@ -55,6 +48,7 @@ $column-gap: 0.75rem !default;
 }
 
 .column {
+  flex: 1 0;
   display: block;
   padding: 0.5rem 0.25rem 0 0.25rem;
   @media screen and (min-width: $tablet) {
@@ -68,12 +62,17 @@ $column-gap: 0.75rem !default;
 }
 
 .headColumn {
+  flex: 1 0 2em;
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
   overflow: hidden;
   padding: unset;
   max-height: 1.5em;
+}
+
+.trackDetails {
+  flex: 1 0;
 }
 
 .toolbar {
