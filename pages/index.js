@@ -155,7 +155,7 @@ export default function Home() {
           icon={faKeyboard}
         />
         <span>
-          Made with <a href="https://nextjs.org">NextJS</a> and the <a href="https://musicbrainz.org/doc/MusicBrainz_API">MusicBrainz API</a>
+          Made with NextJS and the MusicBrainz API. <Link href="/about">More...</Link>
         </span>
       </footer>
     </div>
