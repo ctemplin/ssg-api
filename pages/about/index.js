@@ -127,7 +127,7 @@ export default function About({title, mostRecentDate, deploys}) {
         <div role="main">
           <h1 className={styles.h}    >About {appNames.long} ({appNames.short})</h1>
           <p>Thanks for using the app! We hope you find it useful/fun/interesting.</p>
-          <p>Read on for details about some of the many fine tools used to create it.</p>
+          <p>It was created using many fine tools. Read on for details about some of them.</p>
 
           <h2 className={`${styles.h} ${styles.category}`}>Packages</h2>
           <div className={styles.toolContainer} >
@@ -152,7 +152,7 @@ export default function About({title, mostRecentDate, deploys}) {
               <ToolLogo src="/recoiljs_logo.png" alt="RecoilJs"
                 width={375} height={125} hasBorder={true} color="blue"
                 url="https://github.com/facebookexperimental/Recoil#readme" />
-              <div className={styles.text}>There&apos;s no shortage of alternatives to React&apos;s solid but decentralized state management. Recoil is not only officially blessed by, creator of React, Facebook, it also has many features to recommend it. MbEx benefits from Recoil&apos;s easy handling of asynchronous data fetching and automatic caching among other features.</div>
+              <div className={styles.text}>There&apos;s no shortage of alternatives to React&apos;s solid but decentralized state management. Recoil is not only officially blessed by, creator of React, Facebook, it also has many features to recommend it. {appNames.short} benefits from Recoil&apos;s easy handling of asynchronous data fetching and automatic caching among other features.</div>
             </div>
             <div className={styles.codeBg} role="figure" aria-label="Recoil Code Example" aria-hidden={true} >
               <div>
@@ -185,7 +185,7 @@ export default function About({title, mostRecentDate, deploys}) {
               <ToolLogo src="/netlify_logo.png" alt="Netlify"
                 width={375} height={100} hasBorder={true} color="teal" 
                 url="https://open-api.netlify.com" />
-              <div className={`${styles.text}`}>Why is the hosting provider listed with data providers? Well, it&apos;s true, Netlify primarily offers hosting, it also has a comprehensive API. MbEx makes modest use of it, but what&apos;s a NextJS app without using <code>getStaticProps()</code>? This page does just that by querying the Netlify API at deploy-time, retrieving the most recent deploys and building the ad-hoc release log that you&apos;ll find at the top of the page.</div>
+              <div className={`${styles.text}`}>Why is the hosting provider listed with data providers? Well, it&apos;s true, Netlify primarily offers hosting, it also has a comprehensive API. {appNames.short} makes modest use of it, but what&apos;s a NextJS app without using <code>getStaticProps()</code>? This page does just that by querying the Netlify API at deploy-time, retrieving the most recent deploys and building the ad-hoc release log that you&apos;ll find at the top of the page.</div>
             </div>
           </div>
           <h2 className={`${styles.h} ${styles.category}`}>Design</h2>
@@ -202,7 +202,7 @@ export default function About({title, mostRecentDate, deploys}) {
               <ToolLogo src="/bulma_logo.png" alt="Bulma"
                 width={375} height={100} 
                 url="https://github.com/jgthms/bulma#readme" />
-              <div className={`${styles.text}`}>Special thanks to Bulma! While it&apos;s not included in MbEx&apos;s packages per se (for size and simplicity), it&apos;s there in spirit. Smart default variable definitions and a mobile-first responsive strategy make Bulma a great choice for a clean and simple CSS framework.</div>
+              <div className={`${styles.text}`}>Special thanks to Bulma! While it&apos;s not included in {appNames.short}&apos;s packages per se (for size and simplicity), it&apos;s there in spirit. Smart default variable definitions and a mobile-first responsive strategy make Bulma a great choice for a clean and simple CSS framework.</div>
             </div>
           </div>
         </div>
