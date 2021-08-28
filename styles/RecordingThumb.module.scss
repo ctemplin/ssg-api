@@ -9,10 +9,15 @@
   }
 }
 
+.resultItem a {
+  display: block;
+}
+
 .videoIcon {
+  display: inline-block;
   position: relative;
-  top: 60px;
   left: -120px;
+  top: -90px;
 }
 
 .videoIconLayer {
