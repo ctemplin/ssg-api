@@ -74,32 +74,27 @@ export default function Home() {
             <FontAwesomeIcon
               className={styles.icon}
               height="1em"
-              icon={faArrowLeft}
-            />
+              icon={faArrowLeft} />
             <FontAwesomeIcon
               className={styles.icon}
               height="1em"
-              icon={faSearch}
-            />
+              icon={faSearch} />
             </a>
             <BreadcrumbsBack />
             <Link href="/about">
-            <a>
+            <a className={styles.toolbar} >
             <FontAwesomeIcon
               className={styles.icon}
               height="1em"
-              icon={faMusic}
-            />
-                        <FontAwesomeIcon
+              icon={faMusic} />
+            <FontAwesomeIcon
               className={styles.icon}
               height="1em"
-              icon={faBrain}
-            />
-                        <FontAwesomeIcon
+              icon={faBrain} />
+            <FontAwesomeIcon
               className={styles.icon}
               height="1em"
-              icon={faMap}
-            />
+              icon={faMap} />
             </a>
             </Link>
           </div>

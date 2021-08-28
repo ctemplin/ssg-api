@@ -82,13 +82,13 @@
 }
 
 .toolbar {
-  flex: 0 0;
   display: block;
   white-space: nowrap;
+  cursor: pointer;
 }
 
-.toolbar {
-  cursor: pointer;
+.toolbar:hover > svg {
+  color: $info;
 }
 
 .column:last-child:not(:only-child) {
