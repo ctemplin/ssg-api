@@ -30,7 +30,7 @@ export async function artistLookup(id) {
       lsBegin: json['life-span']?.begin,
       lsEnd: json['life-span']?.end,
       releaseGroups:
-        json['release-groups'].map(album => {
+        json['release-groups']?.map(album => {
           return {
             id: album.id,
             title: album.title,
@@ -38,7 +38,7 @@ export async function artistLookup(id) {
             type2: album['secondary-types']?.[0] ?? null,
             firstReleaseDate: album['first-release-date']
           }
-        })
+        }) ?? []
       })
   }
 
@@ -57,14 +57,14 @@ export async function releaseGroupLookup(id) {
       title: json.title,
       firstReleaseDate: json['first-release-date'],
       releases:
-        json['releases'].map(release => {
+        json['releases']?.map(release => {
           return {
             id: release.id,
             title: release.title,
             date: release['date'],
             country: release.country || "??"
           }
-        })
+        }) ?? []
       })
   }
 
@@ -93,7 +93,7 @@ export async function releaseLookup(id) {
           position: track.position,
           length: track.length,
         }
-      })
+      }) ?? []
     })
   }
 
@@ -114,7 +114,7 @@ export async function recordingLookup(id) {
         firstReleaseDate: json['first-release-date'],
         length: json.length,
         video: json.video,
-        artistCredits: json['artist-credit']
+        artistCredits: json['artist-credit'] ?? []
       })
   }
 
