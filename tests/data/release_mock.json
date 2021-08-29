@@ -1,0 +1,138 @@
+{
+  "id": "deec603f-bb01-4094-b538-25e5fe62ed86",
+  "disambiguation": "",
+  "status": "Official",
+  "packaging": null,
+  "country": "US",
+  "text-representation": { "language": null, "script": null },
+  "date": "1969",
+  "quality": "normal",
+  "packaging-id": null,
+  "release-events": [
+    {
+      "date": "1969",
+      "area": {
+        "type": null,
+        "disambiguation": "",
+        "iso-3166-1-codes": ["US"],
+        "id": "489ce91b-6658-3307-9877-795b68554c98",
+        "sort-name": "United States",
+        "type-id": null,
+        "name": "United States"
+      }
+    }
+  ],
+  "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+  "asin": null,
+  "media": [
+    {
+      "position": 1,
+      "title": "",
+      "format": "12\" Vinyl",
+      "tracks": [
+        {
+          "number": "A1",
+          "id": "4e8807ef-c556-4b19-ac0f-c090063faae7",
+          "position": 1,
+          "length": 511000,
+          "recording": {
+            "disambiguation": "",
+            "id": "b64fb51e-a551-4fbc-888c-02be04a8c20e",
+            "title": "Doin' That Thing",
+            "first-release-date": "1969",
+            "video": false,
+            "length": 510800
+          },
+          "title": "Doin' That Thing"
+        },
+        {
+          "position": 2,
+          "number": "A2",
+          "id": "26e76d5a-9136-4f1f-becc-62c7244a898e",
+          "title": "With These Hands",
+          "recording": {
+            "disambiguation": "",
+            "id": "b92e7bf9-9411-4c91-a798-b4397389ca81",
+            "video": false,
+            "first-release-date": "1969",
+            "title": "With These Hands",
+            "length": 335000
+          },
+          "length": 335000
+        },
+        {
+          "recording": {
+            "video": false,
+            "first-release-date": "1969",
+            "title": "Burnin' Coal",
+            "length": 398440,
+            "disambiguation": "",
+            "id": "342a5671-4f1a-4b9b-9b03-b6a47e9d8a63"
+          },
+          "title": "Burnin' Coal",
+          "length": 400000,
+          "position": 3,
+          "id": "4f581cbd-cf2d-4b42-920b-89bbf8f77fa6",
+          "number": "A3"
+        },
+        {
+          "recording": {
+            "length": 346066,
+            "title": "Benjamin",
+            "first-release-date": "1969",
+            "video": false,
+            "id": "598f7404-b9f3-465d-9446-ca46a9ba7f02",
+            "disambiguation": ""
+          },
+          "title": "Benjamin",
+          "length": 347000,
+          "position": 4,
+          "id": "3666c240-1da4-4c5c-8b4e-12000f6f97b1",
+          "number": "B1"
+        },
+        {
+          "number": "B2",
+          "id": "f317b94c-c840-4c08-94fe-b03d49f19f50",
+          "position": 5,
+          "length": 399000,
+          "title": "Love For Sale",
+          "recording": {
+            "title": "Love For Sale",
+            "video": false,
+            "first-release-date": "1969",
+            "length": 395733,
+            "disambiguation": "",
+            "id": "a603e779-a2f7-4e25-8ff6-f55d36a51934"
+          }
+        },
+        {
+          "position": 6,
+          "number": "B3",
+          "id": "7353120b-ba16-4dab-8383-c60ca2df9398",
+          "recording": {
+            "title": "Roberta",
+            "video": false,
+            "first-release-date": "1969",
+            "length": 531160,
+            "disambiguation": "",
+            "id": "d2dbb22d-fab2-4e1d-b3d0-97d382426854"
+          },
+          "title": "Roberta",
+          "length": 537000
+        }
+      ],
+      "track-count": 6,
+      "format-id": "3e9080b0-5e6c-34ab-bd15-f526b6306a64",
+      "track-offset": 0
+    }
+  ],
+  "barcode": null,
+  "title": "Much Les",
+  "cover-art-archive": {
+    "count": 4,
+    "back": true,
+    "darkened": false,
+    "front": true,
+    "artwork": true
+  }
+}

@@ -5,22 +5,25 @@ import { currentArtistAtom, currentArtistPanelFormatSorted,
          releaseLookup, currentReleasePanelFormat
 } from '../../models/musicbrainz'
 import withMbz from '../../components/mbzComponent'
-import Release from '../../components/release'
 import artistData from '../data/artist_mock.json'
 import { currentReleaseAtom, resetThenSetValue } from '../../models/musicbrainz'
 
 const withStateMgmt = (InnerComponent) => {
-  const OuterComponent = () => {
+  const OuterComponent = ({id}) => {
   const setCurrentArtist = useSetRecoilState(currentArtistAtom)
-  const setCurrentRelease = useSetRecoilState(currentReleaseAtom)
   const [params, setParams] = useState({column: 'default', dir: 'asc'})
   const dispData = useRecoilValue(currentArtistPanelFormatSorted(params))
   const Release_MBZ = withMbz(InnerComponent)
   const resetThenSet = useSetRecoilState(resetThenSetValue)
 
   useEffect(() => {
+    // Loading (formatted) JSON direct from mock
     setCurrentArtist(artistData)
-    resetThenSet({atom: currentReleaseAtom, id: '553912a9-2b42-40da-98ea-d8c2e63b9dfb'})
+
+    // Loading (API) JSON thru data layer with msw
+    if (InnerComponent.name == "Release") {
+      resetThenSet({atom: currentReleaseAtom, id: id})
+    }
 
     return () =>  {
       cleanup()
