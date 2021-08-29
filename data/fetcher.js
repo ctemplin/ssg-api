@@ -1,7 +1,6 @@
-export default async function fetchData(url, params, mapFunc, headers={}) {
+import fetch from 'node-fetch'
 
-  if (!fetch)
-    fetch = require('node-fetch')
+export default async function fetchData(url, params, mapFunc, headers={}) {
 
   const _params = new URLSearchParams()
   params.forEach(param => _params.append(...param))

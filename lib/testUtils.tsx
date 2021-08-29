@@ -4,7 +4,7 @@ import { RecoilRoot } from 'recoil'
 
 const Providers: React.FC<Object> = (props) => {
   return (
-      <RecoilRoot>{props.children}</RecoilRoot>
+    <RecoilRoot>{props.children}</RecoilRoot>
   )
 }
 

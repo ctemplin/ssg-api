@@ -1,0 +1,37 @@
+{
+  "quality": "low",
+  "status": "Official",
+  "id": "553912a9-2b42-40da-98ea-d8c2e63b9dfb",
+  "packaging-id": "e724a489-a7e8-30a1-a17c-30dfd6831202",
+  "asin": null,
+  "country": "GB",
+  "disambiguation": "Black Gatefold Vinyl - remastered",
+  "cover-art-archive": {
+    "artwork": false,
+    "front": false,
+    "darkened": false,
+    "count": 0,
+    "back": false
+  },
+  "packaging": "Gatefold Cover",
+  "media": [],
+  "release-events": [
+    {
+      "area": {
+        "type-id": null,
+        "name": "United Kingdom",
+        "type": null,
+        "iso-3166-1-codes": ["GB"],
+        "sort-name": "United Kingdom",
+        "id": "8a754a16-0027-3a29-b6d7-2b40ea0481ed",
+        "disambiguation": ""
+      },
+      "date": "2020-04-10"
+    }
+  ],
+  "barcode": null,
+  "text-representation": { "language": "eng", "script": "Latn" },
+  "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+  "date": "2020-04-10",
+  "title": "Bang Bang Rock & Roll"
+}
