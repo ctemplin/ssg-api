@@ -79,6 +79,9 @@
 
 .trackDetails {
   flex: 1 0;
+  @media screen and (min-width: $tablet) {
+    margin-top: 1em;
+  }
 }
 
 .toolbar {
@@ -93,6 +96,9 @@
 
 .column:last-child:not(:only-child) {
   margin-bottom: 2rem;
+  @media screen and (min-width: $tablet) {
+    margin-bottom: unset;
+  }
 }
 
 .footer {
