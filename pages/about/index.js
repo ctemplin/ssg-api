@@ -127,7 +127,7 @@ export default function About({title, mostRecentDate, deploys}) {
         <div role="main">
           <h1 className={styles.h}    >About {appNames.long} ({appNames.short})</h1>
           <p>Thanks for using the app! We hope you find it useful/fun/interesting.</p>
-          <p>It was created using many fine tools. Read on for details about some of them.</p>
+          <p>It was created with many fine tools. Read on for details about some of them.</p>
 
           <h2 className={`${styles.h} ${styles.category}`}>Packages</h2>
           <div className={styles.toolContainer} >
@@ -169,7 +169,7 @@ export default function About({title, mostRecentDate, deploys}) {
               <ToolLogo src="/musicbrainz_logo.png" alt="MusicBrainz"
                 width={360} height={106} hasBorder={true} color="orange"
                 url="https://musicbrainz.org/doc/MusicBrainz_API" />
-              <div className={styles.text}>MusicBrainz API is great to work with. Absolutely minimal credential hurdles to clear, a consistent data structure, and the option to include entity relationships makes drilling down into the data simple with minimal network calls. </div>
+              <div className={styles.text}>The MusicBrainz API is great to work with. Absolutely minimal credential hurdles to clear, a consistent data structure, and the option to include entity relationships makes drilling down into the data simple with minimal network calls. </div>
             </div>
             <div className={styles.codeBg} role="figure" aria-label="Musicbrainz API Code Example" aria-hidden={true} >
               <div>
