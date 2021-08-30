@@ -24,10 +24,6 @@ const withStateMgmt = (InnerComponent) => {
     if (InnerComponent.name == "Release") {
       resetThenSet({atom: currentReleaseAtom, id: id})
     }
-
-    return () =>  {
-      cleanup()
-    }
   }, [])
 
   switch (InnerComponent.name) {
