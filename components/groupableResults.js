@@ -3,7 +3,7 @@ import ResultSectionHeader from './resultSectionHeader'
 import { extractYear } from '../lib/dates'
 import styles from '../styles/ResultBlock.module.scss'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { currentReleaseGroupAtom, resetThenSetValue} from '../models/musicbrainz'
+import { currentReleaseGroupAtom, resetThenSetValue } from '../models/musicbrainz'
 
 export default function GroupableResults({props, i}) {
   const currentReleaseGroup = useRecoilValue(currentReleaseGroupAtom)

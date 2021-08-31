@@ -1,14 +1,12 @@
 import React,{ useState, useEffect, useRef } from 'react'
 import { useCookies } from 'react-cookie'
 import {
-  useRecoilValue, useRecoilState, useResetRecoilState, useSetRecoilState} from 'recoil'
+  useRecoilValue, useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil'
 import {
   userCountriesAtom, userCountriesOrDefault,
   releaseGroupCountries,
   releaseGroupUserCountryMatch, releaseGroupFilteredReleases,
-  currentReleaseAtom, resetThenSetValue }
-  from '../models/musicbrainz'
-import { currentReleaseCoverArtAtom } from '../models/coverartartchive'
+  currentReleaseAtom, resetThenSetValue } from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCompactDisc, faFilter } from '@fortawesome/free-solid-svg-icons'
 import FilterConfig from './filterConfig'
@@ -19,7 +17,7 @@ export default function ReleaseGroup({dispData}) {
 
   const [cookies, setCookie] = useCookies()
   const resetRelease = useResetRecoilState(currentReleaseAtom)
-  const [currentRelease, setCurrentRelease] = useRecoilState(currentReleaseAtom)
+  const currentRelease = useRecoilValue(currentReleaseAtom)
   const resetThenSet = useSetRecoilState(resetThenSetValue)
   const setUserCountriesOrDefault = useSetRecoilState(userCountriesOrDefault)
   const [userCountries, setUserCountries] = useRecoilState(userCountriesAtom)

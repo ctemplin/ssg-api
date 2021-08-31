@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useRecoilState, useResetRecoilState,
          useRecoilValueLoadable,
-         useSetRecoilState} from 'recoil'
+         useSetRecoilState } from 'recoil'
 import { searchTermsAtom,
          searchResultsSel,
          searchHlIndexAtom,

@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { userCountriesAtom, releaseGroupCountries } from '../models/musicbrainz'
 import styles from '../styles/FilterConfig.module.scss'

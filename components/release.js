@@ -13,9 +13,8 @@ export default function Release({dispData}) {
 
   const [currentRecording, setCurrentRecording] = useRecoilState(currentRecordingAtom)
   const resetRecording = useResetRecoilState(currentRecordingAtom)
-  const resetCoverArt = useResetRecoilState(currentReleaseCoverArtAtom)
   const resetThenSet = useSetRecoilState(resetThenSetValue)
-  const [, setCoverArt] = useRecoilState(currentReleaseCoverArtAtom)
+  const setCoverArt = useSetRecoilState(currentReleaseCoverArtAtom)
 
   const CoverArtThumbnail_MBZ = withMbz(CoverArtThumbnail)
 

@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faSadTear, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+import { faSadTear, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/NetworkError.module.scss'
 
 export default function NetworkError({errorMsg, style}) {
