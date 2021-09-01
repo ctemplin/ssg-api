@@ -1,4 +1,4 @@
-@import './initial-variables'
+@import ./initial-variables
 $blockTransTime: 1.5s
 
 .container
@@ -18,8 +18,6 @@ $blockTransTime: 1.5s
     @media screen and (min-width: $tablet)
       width: 80%
       padding: .5em 2.5em 2.5em 2.5em
-  & a
-    text-decoration: underline
 
 .header
   display: flex
@@ -37,6 +35,7 @@ $blockTransTime: 1.5s
       flex: 0 0
       min-height: 2em
       list-style-position: outside
+      cursor: pointer
       margin-top: 0.33em
       margin-left: 1.25em
       align-items: center
@@ -134,11 +133,13 @@ $blockTransTime: 1.5s
     margin-left: -10em
     padding-right: 10em
     transition: all $blockTransTime
+
 .toolBlockFocus.toolBlockAlt .toolLogo:first-child
   @media screen and (min-width: $desktop)
     margin-right: -10em
     padding-left: 10em
     transition: all $blockTransTime
+
 .toolBlockFocus
   & .text
     @media screen and (min-width: $desktop)

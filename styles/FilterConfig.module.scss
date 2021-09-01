@@ -1,4 +1,4 @@
-@import 'initial-variables.sass';
+@import 'initial-variables';
 
 .container {
   background-color: white;
@@ -33,7 +33,6 @@
 }
 
 .link {
-  text-decoration: underline;
   cursor: pointer;
 }
 

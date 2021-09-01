@@ -1,4 +1,4 @@
-@import 'initial-variables.sass';
+@import 'initial-variables';
 
 html,
 body {
@@ -11,7 +11,7 @@ body {
 
 a {
   color: inherit;
-  text-decoration: none;
+  text-decoration: underline;
   cursor: pointer;
 }
 

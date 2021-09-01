@@ -1,6 +1,5 @@
 import { useSetRecoilState, useRecoilValue } from 'recoil'
 import { currentArtistAtom, breadcrumbsSel } from '../models/musicbrainz'
-import styles from '../styles/RecordingArtistList.module.scss'
 
 export default function RecordingArtistList({credits}) {
 
@@ -17,7 +16,7 @@ export default function RecordingArtistList({credits}) {
       <span key={_.id}>
       <>
       {_.id != currentArtist.id ?
-        <a className={styles.link} onClick={handleClick(_.id, _.name)}>{_.name}</a>
+        <a onClick={handleClick(_.id, _.name)}>{_.name}</a>
       :
         <span>{_.name}</span>
       }
