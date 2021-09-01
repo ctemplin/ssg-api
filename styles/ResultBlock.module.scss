@@ -101,24 +101,20 @@ h2.blockTypeH {
   color: $grey-lighter;
 }
 
-.resultItem {
+%resultItem {
   display: flex;
-  padding: 0 0.25rem;
   padding: 0 .5rem 0 .25rem;
   justify-content: space-between;
-  background-color: white;
   cursor:pointer;
 }
 
-// Good use case for Sass (ie. concat 'Alt' and avoid duplication
-.resultItemAlt {
-  display: flex;
-  padding: 0 .5rem 0 .25rem;
-  justify-content: space-between;
-  // taken from bulma...initial-variables.sass
-  // inbetween $grey-lighter and $grey-lightest
-  background-color: hsl(0, 0%, 91%);
-  cursor:pointer;
+.resultItem {
+  @extend %resultItem;
+  background-color: white;
+  &Alt {
+    @extend %resultItem;
+    background-color: $grey-lighter-er
+  }
 }
 
 .resultItemHl {
