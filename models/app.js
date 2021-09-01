@@ -1,4 +1,4 @@
-import {  atom, selector } from 'recoil'
+import { atom, selector } from 'recoil'
 
 export const appNamesAtom = atom({
     key: 'appNamesAtom',
@@ -7,7 +7,7 @@ export const appNamesAtom = atom({
       long:  "MusicBrainz Explorer"
     }
   })
-  
+
 export const pageTitleTemplates = selector({
   key: 'pageTitleTemplates',
   get: ({get}) => {

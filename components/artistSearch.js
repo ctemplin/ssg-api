@@ -32,15 +32,15 @@ export default function ArtistSearch({}) {
   useEffect(() => {
     switch (searchQuery.state) {
       case 'loading':
-        break;
+        break
       case 'hasValue':
         setErrored(false)
-        break;
+        break
       case 'hasError':
         console.log(searchQuery.contents)
         setErrored(true)
       default:
-        break;
+        break
     }
   },[searchQuery.state, searchQuery.contents])
 

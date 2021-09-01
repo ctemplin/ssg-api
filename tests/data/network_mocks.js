@@ -37,11 +37,11 @@ export const handlers = [
     switch (req.params.rid) {
       case 'deec603f-bb01-4094-b538-25e5fe62ed86':
         resBody = releaseMock
-        break;
+        break
       case '553912a9-2b42-40da-98ea-d8c2e63b9dfb':
         resBody = releaseNoMediaMock
       default:
-        break;
+        break
     }
     return res(
       ctx.status(200),

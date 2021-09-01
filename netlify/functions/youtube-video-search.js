@@ -1,7 +1,6 @@
-exports.handler = async function(event, context) {
+exports.handler = async function(event) {
 
   const fetch = require('node-fetch')
-
   const url = new URL('https://youtube.googleapis.com/youtube/v3/search')
   url.searchParams.append('key', process.env.YOUTUBE_API_KEY)
   url.searchParams.append('part', 'snippet')

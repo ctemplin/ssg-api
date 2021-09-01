@@ -16,19 +16,19 @@ const withMbz = (InnerComponent) => {
       switch (dataFetcher.state) {
         case 'loading':
           setIsLoading(true)
-          break;
+          break
         case 'hasValue':
           setAtom(dataFetcher.contents)
           setIsLoading(false)
           setErrorMsg(null)
           setErrored(false)
-          break;
+          break
         case 'hasError':
           setIsLoading(false)
           setErrorMsg(dataFetcher.contents.message)
           setErrored(true)
         default:
-          break;
+          break
       }
     },[atomValue.id, dataFetcher.state, dataFetcher.contents, atomValue, setAtom])
 

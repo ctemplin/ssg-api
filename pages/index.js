@@ -1,31 +1,25 @@
-import {useEffect, useState, useMemo} from 'react'
-import {useRecoilValue, useResetRecoilState} from 'recoil'
-import {
-         artistLookup, currentArtistAtom,
-         currentArtistPanelFormatSorted,
-         releaseGroupLookup, currentReleaseGroupAtom,
-         currentReleaseGroupPanelFormat,
-         releaseLookup, currentReleaseAtom,
-         currentReleasePanelFormat,
-         recordingLookup, currentRecordingAtom,
-         currentRecordingPanelFormat,
-         } from '../models/musicbrainz'
-import {useRouter} from 'next/router'
-import HeadTag from '../components/head'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { useRecoilValue, useResetRecoilState } from 'recoil'
 import Image from 'next/image'
-import styles from '../styles/Home.module.scss'
+import Link from 'next/link'
+import Artist from '../components/artist'
 import ArtistSearch from '../components/artistSearch'
 import BreadcrumbsBack from '../components/breadcrumbsBack'
+import HeadTag from '../components/head'
+import Recording from '../components/recording'
+import Release from '../components/release'
+import ReleaseGroup from '../components/releaseGroup'
 import RouterSync from '../components/routerSync'
 import withMbz from '../components/mbzComponent'
-import Artist from '../components/artist'
-import ReleaseGroup from '../components/releaseGroup'
-import Release from '../components/release'
-import Recording from '../components/recording'
+import { artistLookup, currentArtistAtom,
+  currentArtistPanelFormatSorted, currentRecordingAtom,
+  currentRecordingPanelFormat, currentReleaseAtom, currentReleaseGroupAtom,
+  currentReleaseGroupPanelFormat, currentReleasePanelFormat,
+  recordingLookup, releaseGroupLookup, releaseLookup } from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faKeyboard, faArrowLeft, faSearch,
-         faMusic, faBrain, faMap } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faBrain, faKeyboard, faMap, faMusic, faSearch } from '@fortawesome/free-solid-svg-icons'
+import styles from '../styles/Home.module.scss'
 
 export default function Home() {
   const currentArtist = useRecoilValue(currentArtistAtom)
