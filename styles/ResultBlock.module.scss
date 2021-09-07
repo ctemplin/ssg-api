@@ -70,6 +70,7 @@ h2.blockTypeH {
 }
 
 .countFilter {
+  position: relative;
   display: flex;
   font-size: 0.75rem;
   padding: 0 0.25rem;
@@ -195,9 +196,4 @@ span.trackLength {
   grid-template-columns: 1fr 2fr 1fr;
   align-items: center;
   margin: 0 20vw;
-}
-
-.countryModal {
-  display: flex;
-  justify-content: space-around;
 }

@@ -11,7 +11,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCompactDisc, faFilter } from '@fortawesome/free-solid-svg-icons'
 import FilterConfig from './filterConfig'
 import styles from '../styles/ResultBlock.module.scss'
-import modalStyles from '../styles/Modal.module.scss'
 
 export default function ReleaseGroup({dispData}) {
 
@@ -21,7 +20,7 @@ export default function ReleaseGroup({dispData}) {
   const resetThenSet = useSetRecoilState(resetThenSetValue)
   const setUserCountriesOrDefault = useSetRecoilState(userCountriesOrDefault)
   const [userCountries, setUserCountries] = useRecoilState(userCountriesAtom)
-  const [showFilterConfig, setShowFilterConfig] = useState(false)
+  const [showFilterMenu, setShowFilterMenu] = useState(false)
   const rgCountries = useRecoilValue(releaseGroupCountries)
   const anyCountryMatch = useRecoilValue(releaseGroupUserCountryMatch)
   const filteredReleases = useRecoilValue(releaseGroupFilteredReleases(anyCountryMatch))
@@ -55,7 +54,7 @@ export default function ReleaseGroup({dispData}) {
 
   const handleFilterClick = (e) => {
     if (dispData.releases.length > 1) {
-      setShowFilterConfig(true)
+      setShowFilterMenu(true)
     }
   }
 
@@ -79,11 +78,11 @@ export default function ReleaseGroup({dispData}) {
       _ => (!rgCountries.has(_)) || rgCountries.has(_) && userCountries.has(_)
     )
     setCookie("countries", Array.from(new Set(allCountries)), {path: '/'})
-    setShowFilterConfig(false)
+    setShowFilterMenu(false)
   }
 
   const handleCloseClick = () => {
-    setShowFilterConfig(false)
+    setShowFilterMenu(false)
   }
 
   const isCountryNeeded = () => {
@@ -120,18 +119,32 @@ export default function ReleaseGroup({dispData}) {
       </h2>
       {dispData.releases &&
       <>
-        <div className={styles.countFilter}>
-          <FontAwesomeIcon
-            className={`
-              ${filteredReleases.length > 1 ?
-                styles.resultUtilIcon : styles.resultUtilIconDisabled}
-            `}
-            height="1.3em"
-            icon={faFilter}
-            title="Filter the Versions"
-          />
-          <span id="releaseListLbl" >Versions: {dispData.releases.length - filteredReleases.length} filtered out</span>
+        <div className={styles.count}>
+          <div className={styles.sortContainer}>
+            <FontAwesomeIcon
+              className={`
+                ${filteredReleases.length > 1 ?
+                  styles.resultUtilIcon : styles.resultUtilIconDisabled}
+              `}
+              height="1.3em"
+              icon={faFilter}
+              title="Filter the Versions"
+              onClick={() => setShowFilterMenu(!showFilterMenu)}
+            />
+            {showFilterMenu &&
+
+              <div className={`${showFilterMenu ? styles.sortMenu : styles.sortMenuHidden}`} role="dialog">
+              <FilterConfig
+              handleChange={handleCountryChange}
+              persistChange={persistCountryChanges}
+              handleClose={handleCloseClick}
+              anyCountryMatch={anyCountryMatch} />
+              </div>
+            }
+            <span id="releaseListLbl" >Versions: {dispData.releases.length - filteredReleases.length} filtered out</span>
+          </div>
         </div>
+
         <div className={styles.resultsList} ref={releasesScrollable} role="list"
           aria-labelledby="releaseListLbl">
           {filteredReleases.map((_,i) =>
@@ -153,18 +166,6 @@ export default function ReleaseGroup({dispData}) {
           </div>
           )}
         </div>
-        {showFilterConfig &&
-        <div className={`${modalStyles.modal} ${modalStyles.isActive}`} role="dialog">
-          <div className={modalStyles.modalBackground}></div>
-          <div className={`${modalStyles.modalContent} ${styles.countryModal}`}>
-            <FilterConfig
-              handleChange={handleCountryChange}
-              persistChange={persistCountryChanges}
-              handleClose={handleCloseClick}
-              anyCountryMatch={anyCountryMatch} />
-          </div>
-        </div>
-        }
       </>
       }
     </div>

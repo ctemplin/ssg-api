@@ -62,7 +62,7 @@ export default function Artist(
               onClick={() => setShowSortMenu(!showSortMenu)}
               aria-haspopup="true"
             />
-            <div className={`${showSortMenu ? styles.sortMenu : styles.sortMenuHidden}`}
+            <div className={`${styles.right} ${showSortMenu ? styles.sortMenu : styles.sortMenuHidden}`}
               role="dialog" aria-label="Sort options. Select active option to reverse sort." >
               <div role="group">
               {sortColumns.map(_ =>
