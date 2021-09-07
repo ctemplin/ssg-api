@@ -1,4 +1,5 @@
 import { rest } from 'msw'
+import releaseGroupMock from './releaseGroup_mock.json'
 import releaseMock from './release_mock.json'
 import releaseNoMediaMock from './release_no-media_mock.json'
 import coverArtArchiveMock from './coverArtArchive_mock.json'
@@ -29,6 +30,14 @@ export const handlers = [
     return res(
       ctx.status(200),
       ctx.json(coverArtArchiveMock)
+    )
+  }),
+
+  rest.get('https://musicbrainz.org/ws/2/release-group/:rgid', (req, res, ctx) => {
+    let resBody = releaseGroupMock
+    return res(
+      ctx.status(200),
+      ctx.json(resBody)
     )
   }),
 

@@ -128,7 +128,7 @@ export default function ReleaseGroup({dispData}) {
             `}
             height="1.3em"
             icon={faFilter}
-            onClick={handleFilterClick}
+            title="Filter the Versions"
           />
           <span id="releaseListLbl" >Versions: {dispData.releases.length - filteredReleases.length} filtered out</span>
         </div>
@@ -154,7 +154,7 @@ export default function ReleaseGroup({dispData}) {
           )}
         </div>
         {showFilterConfig &&
-        <div className={`${modalStyles.modal} ${modalStyles.isActive}`}>
+        <div className={`${modalStyles.modal} ${modalStyles.isActive}`} role="dialog">
           <div className={modalStyles.modalBackground}></div>
           <div className={`${modalStyles.modalContent} ${styles.countryModal}`}>
             <FilterConfig

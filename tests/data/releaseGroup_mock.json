@@ -1,102 +1,418 @@
 {
+  "secondary-type-ids": [],
+  "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+  "disambiguation": "",
   "id": "3f974fbd-9db8-3dff-9466-b9ae6fd9146c",
-  "title": "Hot Rats",
-  "firstReleaseDate": "Oct 15, 1969",
   "releases": [
-      {
-          "id": "6327a725-8554-4900-a268-bdba3cb03169",
-          "title": "Hot Rats",
+    {
+      "id": "6327a725-8554-4900-a268-bdba3cb03169",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "country": "US",
+      "status": "Official",
+      "barcode": null,
+      "date": "1969-10-15",
+      "release-events": [
+        {
           "date": "1969-10-15",
-          "country": "US"
-      },
-      {
-          "id": "e3a389fd-9a87-4815-81b0-1a487cbf552c",
-          "title": "Hot Rats",
+          "area": {
+            "name": "United States",
+            "iso-3166-1-codes": ["US"],
+            "sort-name": "United States",
+            "type": null,
+            "disambiguation": "",
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "type-id": null
+          }
+        }
+      ],
+      "packaging-id": null,
+      "disambiguation": "",
+      "title": "Hot Rats",
+      "packaging": null,
+      "quality": "normal",
+      "text-representation": { "script": "Latn", "language": "eng" }
+    },
+    {
+      "quality": "normal",
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "title": "Hot Rats",
+      "packaging": "Cardboard/Paper Sleeve",
+      "disambiguation": "disc side 1 label shows RS 6356 (30,926) - Manufactured and distributed by WEA MUSIC OF CANADA LTD",
+      "packaging-id": "f7101ce3-0384-39ce-9fde-fbbd0044d35f",
+      "date": "1973",
+      "release-events": [
+        {
           "date": "1973",
-          "country": "CA"
-      },
-      {
-          "id": "d1455825-eba1-3542-a5f7-fbcc091aaf75",
-          "title": "Hot Rats",
-          "date": "1987-09",
-          "country": "GB"
-      },
-      {
-          "id": "bd527306-0dd8-4d99-93c4-4267ff649776",
-          "title": "Hot Rats",
-          "date": "1987",
-          "country": "US"
-      },
-      {
-          "id": "68f4c740-33cd-3a52-aa2f-de390ca29480",
-          "title": "Hot Rats",
-          "date": "1995-05-02",
-          "country": "US"
-      },
-      {
-          "id": "a02f5868-1a4c-4e40-8e98-b4ae87625524",
-          "title": "Hot Rats",
-          "date": "1995",
-          "country": "??"
-      },
-      {
-          "id": "a1fe2b41-6031-30e4-8622-6f69a2a8edc4",
-          "title": "Hot Rats",
-          "date": "2001-09-21",
-          "country": "JP"
-      },
-      {
-          "id": "e6c5a5b6-8708-33c5-a0f8-68207a5e7d5c",
-          "title": "Hot Rats",
-          "date": "2008-05-21",
-          "country": "JP"
-      },
-      {
-          "id": "f66e9414-c2d0-458f-8211-5a9a059d1299",
-          "title": "Hot Rats",
-          "date": "2009-01-13",
-          "country": "US"
-      },
-      {
-          "id": "7d9e9efc-842d-4788-a2bc-fb0cb3e98248",
-          "title": "Hot Rats",
+          "area": {
+            "sort-name": "Canada",
+            "name": "Canada",
+            "iso-3166-1-codes": ["CA"],
+            "type": null,
+            "disambiguation": "",
+            "type-id": null,
+            "id": "71bbafaa-e825-3e15-8ca9-017dcad1748b"
+          }
+        }
+      ],
+      "barcode": "",
+      "status": "Official",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "id": "e3a389fd-9a87-4815-81b0-1a487cbf552c",
+      "country": "CA"
+    },
+    {
+      "disambiguation": "",
+      "title": "Hot Rats",
+      "packaging": null,
+      "quality": "normal",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "id": "d1455825-eba1-3542-a5f7-fbcc091aaf75",
+      "country": "GB",
+      "status": "Official",
+      "barcode": null,
+      "release-events": [
+        {
+          "area": {
+            "disambiguation": "",
+            "type": null,
+            "type-id": null,
+            "id": "8a754a16-0027-3a29-b6d7-2b40ea0481ed",
+            "sort-name": "United Kingdom",
+            "name": "United Kingdom",
+            "iso-3166-1-codes": ["GB"]
+          },
+          "date": "1987-09"
+        }
+      ],
+      "date": "1987-09",
+      "packaging-id": null
+    },
+    {
+      "packaging-id": null,
+      "date": "1987",
+      "release-events": [
+        {
+          "area": {
+            "sort-name": "United States",
+            "iso-3166-1-codes": ["US"],
+            "name": "United States",
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "type-id": null,
+            "type": null,
+            "disambiguation": ""
+          },
+          "date": "1987"
+        }
+      ],
+      "status": "Official",
+      "barcode": "0014431006623",
+      "country": "US",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "id": "bd527306-0dd8-4d99-93c4-4267ff649776",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "quality": "normal",
+      "packaging": null,
+      "title": "Hot Rats",
+      "disambiguation": ""
+    },
+    {
+      "country": "US",
+      "id": "68f4c740-33cd-3a52-aa2f-de390ca29480",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "barcode": "014431050824",
+      "status": "Official",
+      "release-events": [
+        {
+          "area": {
+            "iso-3166-1-codes": ["US"],
+            "name": "United States",
+            "sort-name": "United States",
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "type-id": null,
+            "type": null,
+            "disambiguation": ""
+          },
+          "date": "1995-05-02"
+        }
+      ],
+      "date": "1995-05-02",
+      "packaging-id": "ec27701a-4a22-37f4-bfac-6616e0f9750a",
+      "disambiguation": "",
+      "packaging": "Jewel Case",
+      "title": "Hot Rats",
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "quality": "normal"
+    },
+    {
+      "status": "Official",
+      "barcode": null,
+      "country": null,
+      "id": "a02f5868-1a4c-4e40-8e98-b4ae87625524",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "packaging-id": null,
+      "release-events": [{ "area": null, "date": "1995" }],
+      "date": "1995",
+      "disambiguation": "",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "quality": "normal",
+      "packaging": null,
+      "title": "Hot Rats"
+    },
+    {
+      "barcode": "4988112412651",
+      "status": "Official",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "id": "a1fe2b41-6031-30e4-8622-6f69a2a8edc4",
+      "country": "JP",
+      "packaging-id": null,
+      "date": "2001-09-21",
+      "release-events": [
+        {
+          "area": {
+            "iso-3166-1-codes": ["JP"],
+            "name": "Japan",
+            "sort-name": "Japan",
+            "type-id": null,
+            "id": "2db42837-c832-3c27-b4a3-08198f75693c",
+            "type": null,
+            "disambiguation": ""
+          },
+          "date": "2001-09-21"
+        }
+      ],
+      "disambiguation": "",
+      "quality": "normal",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "title": "Hot Rats",
+      "packaging": null
+    },
+    {
+      "packaging-id": null,
+      "release-events": [
+        {
+          "area": {
+            "type-id": null,
+            "id": "2db42837-c832-3c27-b4a3-08198f75693c",
+            "type": null,
+            "disambiguation": "",
+            "sort-name": "Japan",
+            "iso-3166-1-codes": ["JP"],
+            "name": "Japan"
+          },
+          "date": "2008-05-21"
+        }
+      ],
+      "date": "2008-05-21",
+      "status": "Official",
+      "barcode": "4988112417656",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "id": "e6c5a5b6-8708-33c5-a0f8-68207a5e7d5c",
+      "country": "JP",
+      "quality": "normal",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "title": "Hot Rats",
+      "packaging": null,
+      "disambiguation": ""
+    },
+    {
+      "packaging": "Gatefold Cover",
+      "title": "Hot Rats",
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "quality": "normal",
+      "disambiguation": "200g",
+      "release-events": [
+        {
+          "area": {
+            "sort-name": "United States",
+            "name": "United States",
+            "iso-3166-1-codes": ["US"],
+            "disambiguation": "",
+            "type": null,
+            "type-id": null,
+            "id": "489ce91b-6658-3307-9877-795b68554c98"
+          },
+          "date": "2009-01-13"
+        }
+      ],
+      "date": "2009-01-13",
+      "packaging-id": "e724a489-a7e8-30a1-a17c-30dfd6831202",
+      "country": "US",
+      "id": "f66e9414-c2d0-458f-8211-5a9a059d1299",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "status": "Official",
+      "barcode": ""
+    },
+    {
+      "title": "Hot Rats",
+      "packaging": "None",
+      "quality": "normal",
+      "text-representation": { "language": "eng", "script": null },
+      "disambiguation": "",
+      "date": "2012-01-01",
+      "release-events": [
+        {
           "date": "2012-01-01",
-          "country": "XW"
-      },
-      {
-          "id": "5b7aac56-44e5-468f-85aa-28e50eb4176a",
-          "title": "Hot Rats",
+          "area": {
+            "name": "[Worldwide]",
+            "iso-3166-1-codes": ["XW"],
+            "sort-name": "[Worldwide]",
+            "disambiguation": "",
+            "type": null,
+            "type-id": null,
+            "id": "525d4e18-3d00-31b9-a58b-a146a916de8f"
+          }
+        }
+      ],
+      "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "id": "7d9e9efc-842d-4788-a2bc-fb0cb3e98248",
+      "country": "XW",
+      "status": "Official",
+      "barcode": "824302778227"
+    },
+    {
+      "disambiguation": "2008 remaster",
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "quality": "normal",
+      "packaging": "Jewel Case",
+      "title": "Hot Rats",
+      "barcode": "824302384121",
+      "status": "Official",
+      "country": "XE",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "id": "5b7aac56-44e5-468f-85aa-28e50eb4176a",
+      "packaging-id": "ec27701a-4a22-37f4-bfac-6616e0f9750a",
+      "date": "2012-07-27",
+      "release-events": [
+        {
           "date": "2012-07-27",
-          "country": "XE"
-      },
-      {
-          "id": "828b1ecc-8ebd-482a-8178-42cdb539fec3",
-          "title": "Hot Rats",
+          "area": {
+            "disambiguation": "",
+            "type": null,
+            "type-id": null,
+            "id": "89a675c2-3e37-3518-b83c-418bad59a85a",
+            "sort-name": "Europe",
+            "name": "Europe",
+            "iso-3166-1-codes": ["XE"]
+          }
+        }
+      ]
+    },
+    {
+      "date": "2012-07-31",
+      "release-events": [
+        {
           "date": "2012-07-31",
-          "country": "US"
-      },
-      {
-          "id": "7eca2440-044b-4250-b123-1658504b3c1e",
-          "title": "Hot Rats",
+          "area": {
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "type-id": null,
+            "disambiguation": "",
+            "type": null,
+            "iso-3166-1-codes": ["US"],
+            "name": "United States",
+            "sort-name": "United States"
+          }
+        }
+      ],
+      "packaging-id": "ec27701a-4a22-37f4-bfac-6616e0f9750a",
+      "country": "US",
+      "id": "828b1ecc-8ebd-482a-8178-42cdb539fec3",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "barcode": "824302384121",
+      "status": "Official",
+      "packaging": "Jewel Case",
+      "title": "Hot Rats",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "quality": "normal",
+      "disambiguation": "2012 remaster"
+    },
+    {
+      "title": "Hot Rats",
+      "packaging": "Gatefold Cover",
+      "quality": "normal",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "disambiguation": "",
+      "date": "2016-08-26",
+      "release-events": [
+        {
           "date": "2016-08-26",
-          "country": "XE"
-      },
-      {
-          "id": "f127a840-d8d3-4a70-836f-2965133b6812",
-          "title": "Hot Rats",
+          "area": {
+            "type-id": null,
+            "id": "89a675c2-3e37-3518-b83c-418bad59a85a",
+            "disambiguation": "",
+            "type": null,
+            "sort-name": "Europe",
+            "iso-3166-1-codes": ["XE"],
+            "name": "Europe"
+          }
+        }
+      ],
+      "packaging-id": "e724a489-a7e8-30a1-a17c-30dfd6831202",
+      "id": "7eca2440-044b-4250-b123-1658504b3c1e",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "country": "XE",
+      "barcode": "824302384114",
+      "status": "Official"
+    },
+    {
+      "text-representation": { "language": null, "script": null },
+      "quality": "normal",
+      "packaging": null,
+      "title": "Hot Rats",
+      "disambiguation": "",
+      "packaging-id": null,
+      "date": "2019-12",
+      "release-events": [
+        {
           "date": "2019-12",
-          "country": "XE"
-      },
-      {
-          "id": "34a5daa7-2090-478b-a5d3-c4e94ede739b",
-          "title": "Hot Rats",
-          "date": "2021",
-          "country": "??"
-      },
-      {
-          "id": "f69e67c5-43b6-4e2e-87c7-117da2556dbd",
-          "title": "Hot Rats",
-          "country": "??"
-      }
-  ]
+          "area": {
+            "sort-name": "Europe",
+            "iso-3166-1-codes": ["XE"],
+            "name": "Europe",
+            "type-id": null,
+            "id": "89a675c2-3e37-3518-b83c-418bad59a85a",
+            "disambiguation": "",
+            "type": null
+          }
+        }
+      ],
+      "barcode": "824302384190",
+      "status": null,
+      "country": "XE",
+      "status-id": null,
+      "id": "f127a840-d8d3-4a70-836f-2965133b6812"
+    },
+    {
+      "disambiguation": "24‐bit 192.0 kHz – stereo",
+      "quality": "normal",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "title": "Hot Rats",
+      "packaging": "None",
+      "status": "Official",
+      "barcode": null,
+      "id": "34a5daa7-2090-478b-a5d3-c4e94ede739b",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "country": null,
+      "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b",
+      "release-events": [{ "area": null, "date": "2021" }],
+      "date": "2021"
+    },
+    {
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "id": "f69e67c5-43b6-4e2e-87c7-117da2556dbd",
+      "disambiguation": "",
+      "status": "Official",
+      "barcode": null,
+      "title": "Hot Rats",
+      "packaging": null,
+      "quality": "normal",
+      "packaging-id": null,
+      "text-representation": { "language": "eng", "script": "Latn" }
+    }
+  ],
+  "secondary-types": [],
+  "first-release-date": "1969-10-15",
+  "primary-type": "Album",
+  "title": "Hot Rats"
 }
