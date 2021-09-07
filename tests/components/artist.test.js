@@ -28,12 +28,12 @@ describe('Artist component', () => {
   })
 
   describe('Sort options', () => {
-    let sortDialog, sortOptions, filterIcon
+    let sortDialog, sortOptions, sortIcon
 
     beforeEach(() => {
       sortDialog = screen.getByRole("dialog")
       sortOptions = getAllByRole(sortDialog, 'checkbox')
-      filterIcon = screen.getByTitle("Sort the Releases").parentElement
+      sortIcon = screen.getByTitle("Sort the Releases").parentElement
     })
 
     it('hides the sort dialog by default.', () => {
@@ -51,27 +51,27 @@ describe('Artist component', () => {
     })
 
     it('displays the sort icon.', () => {
-      expect(filterIcon).toBeVisible()
-      expect(filterIcon).toHaveAttribute(sortIconAttrName, sortIconAttrVal.asc)
+      expect(sortIcon).toBeVisible()
+      expect(sortIcon).toHaveAttribute(sortIconAttrName, sortIconAttrVal.asc)
     })
 
     it('displays/hides the sort dialog when the icon is clicked.', () => {
-      userEvent.click(filterIcon)
+      userEvent.click(sortIcon)
       expect(sortDialog).not.toHaveClass("sortMenuHidden")
-      userEvent.click(filterIcon)
+      userEvent.click(sortIcon)
       expect(sortDialog).toHaveClass("sortMenuHidden")
-      userEvent.click(filterIcon)
+      userEvent.click(sortIcon)
       expect(sortDialog).not.toHaveClass("sortMenuHidden")
     })
 
     it('hides the sort menu when an option is clicked.', () => {
-      userEvent.click(filterIcon)
+      userEvent.click(sortIcon)
       userEvent.click(sortOptions[1])
       expect(sortDialog).toHaveClass("sortMenuHidden")
     })
 
     it('updates checks when an option is clicked.', () => {
-      userEvent.click(filterIcon)
+      userEvent.click(sortIcon)
       userEvent.click(sortOptions[1])
       expect(sortDialog).toHaveClass("sortMenuHidden")
       expect(sortOptions[0]).not.toBeChecked()
@@ -86,11 +86,11 @@ describe('Artist component', () => {
     ])('by %s', (sortText, expectGroups, firstTitle, lastTitle) => {
 
       beforeEach(() => {
-        userEvent.click(filterIcon)
+        userEvent.click(sortIcon)
         userEvent.click(getByText(sortDialog, sortText))
         // If default click again to restore ascending order.
         if (sortText == 'Type/Date') {
-          userEvent.click(filterIcon)
+          userEvent.click(sortIcon)
           userEvent.click(getByText(sortDialog, sortText))
         }
         listItems = screen.getAllByRole('listitem')
@@ -99,7 +99,7 @@ describe('Artist component', () => {
       describe('in ascending order', () => {
 
         it(`displays "${sortIconAttrVal.asc}" icon`, () =>
-          expect(filterIcon).toHaveAttribute(sortIconAttrName, sortIconAttrVal.asc)
+          expect(sortIcon).toHaveAttribute(sortIconAttrName, sortIconAttrVal.asc)
         )
 
         if (expectGroups) {
@@ -129,13 +129,13 @@ describe('Artist component', () => {
 
       describe('in descending order', () => {
         beforeEach(() => {
-          userEvent.click(filterIcon)
+          userEvent.click(sortIcon)
           userEvent.click(getByText(sortDialog, sortText))
           listItems = screen.getAllByRole('listitem')
         })
 
         it(`displays "${sortIconAttrVal.desc}" icon`, () =>
-          expect(filterIcon).toHaveAttribute(sortIconAttrName, sortIconAttrVal.desc)
+          expect(sortIcon).toHaveAttribute(sortIconAttrName, sortIconAttrVal.desc)
         )
 
         if (expectGroups) {
