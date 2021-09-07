@@ -65,8 +65,13 @@ h2.blockTypeH {
   display: flex;
   justify-content: space-between;
   align-content: center;
+  align-items: center;
   font-size: 0.75rem;
   padding: 0 0.25rem;
+  margin-bottom: 0.25em;
+}
+.count > span:first-child {
+  flex-grow: 1
 }
 
 .countFilter {
@@ -76,11 +81,15 @@ h2.blockTypeH {
   padding: 0 0.25rem;
 }
 
+.utilIconLabel {
+  text-align: right;
+}
+
 .resultUtilIcon {
+  display: block;
   color: $grey;
   line-height: inherit;
   align-self: center;
-  margin-right: 0.5ex;
   cursor: pointer;
 }
 

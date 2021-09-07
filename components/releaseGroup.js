@@ -120,6 +120,8 @@ export default function ReleaseGroup({dispData}) {
       {dispData.releases &&
       <>
         <div className={styles.count}>
+          <span id="releaseListLbl">Versions: {dispData.releases.length} found</span>
+          <span className={styles.utilIconLabel}> {dispData.releases.length - filteredReleases.length} filtered out</span>
           <div className={styles.sortContainer}>
             <FontAwesomeIcon
               className={`
@@ -141,7 +143,6 @@ export default function ReleaseGroup({dispData}) {
               anyCountryMatch={anyCountryMatch} />
               </div>
             }
-            <span id="releaseListLbl" >Versions: {dispData.releases.length - filteredReleases.length} filtered out</span>
           </div>
         </div>
 

@@ -7,7 +7,7 @@ import withStateMgmt from './withStateMgmt'
 describe('ReleaseGroup component', () => {
 
   const ReleaseGroupWithStateMgmt = withStateMgmt(ReleaseGroup)
-  let container, title, releaseList, countLbl, filterIcon, filterDialog
+  let container, title, releaseList, countLbl, filterLbl, filterIcon, filterDialog
   let rerender, debug
 
   describe('with normal data', () => {
@@ -22,7 +22,8 @@ describe('ReleaseGroup component', () => {
         }
         return false
       })
-      countLbl = await screen.findByText(/^Versions:\W.[0-9]*\Wfiltered out$/)
+      countLbl = await screen.findByText(/^Versions:\W.[0-9]*\Wfound$/)
+      filterLbl = await screen.findByText(/^[0-9]* filtered out$/)
       filterIcon = screen.getByTitle("Filter the Versions").parentElement
       releaseList = await screen.findByRole('list')
     })
@@ -31,8 +32,12 @@ describe('ReleaseGroup component', () => {
       expect(title).toBeVisible()
     })
 
+    it('displays a found count of "16"', () => {
+      expect(countLbl).toHaveTextContent(/^Versions:\W16\Wfound$/)
+    })
+
     it('displays a filtered count of "8"', () => {
-      expect(countLbl).toHaveTextContent(/^Versions:\W8\Wfiltered out$/)
+      expect(filterLbl).toHaveTextContent(/^8\Wfiltered\Wout$/)
     })
 
     it('does not render the filter dialog by default', () => {
