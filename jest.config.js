@@ -3,6 +3,7 @@ module.exports = {
   testEnvironment: 'jsdom',
   //testEnvironmentOptions: {resources: 'usable'},
   collectCoverageFrom: ['<rootDir>/components/**/*.{js,jsx,ts,tsx}'],
+  // setupFiles: ['@testing-library/react/dont-cleanup-after-each'],
   setupFilesAfterEnv: ['<rootDir>/.jest/setup.ts'],
   testPathIgnorePatterns: ['/node_modules/', '/.next/'],
   transform: {

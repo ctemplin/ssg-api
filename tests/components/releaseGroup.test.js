@@ -1,5 +1,6 @@
+import '@testing-library/react/dont-cleanup-after-each'
 import { render } from '@/lib/testUtils'
-import { findByRole, queryByRole, screen } from '@testing-library/dom'
+import { getByRole, getAllByRole, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ReleaseGroup from '../../components/releaseGroup'
 import withStateMgmt from './withStateMgmt'
@@ -7,8 +8,7 @@ import withStateMgmt from './withStateMgmt'
 describe('ReleaseGroup component', () => {
 
   const ReleaseGroupWithStateMgmt = withStateMgmt(ReleaseGroup)
-  let container, title, releaseList, countLbl, filterLbl, filterIcon, filterDialog
-  let rerender, debug
+  let container, title, countLbl, filterLbl, filterIcon, filterDialog
 
   describe('with normal data', () => {
     beforeAll(async() => {
@@ -24,8 +24,9 @@ describe('ReleaseGroup component', () => {
       })
       countLbl = await screen.findByText(/^Versions:\W.[0-9]*\Wfound$/)
       filterLbl = await screen.findByText(/^[0-9]* filtered out$/)
+      filterDialog = await screen.findByRole('dialog')
       filterIcon = screen.getByTitle("Filter the Versions").parentElement
-      releaseList = await screen.findByRole('list')
+      //releaseList = await screen.findByRole('list')
     })
 
     it('renders the tile', () => {
@@ -40,15 +41,39 @@ describe('ReleaseGroup component', () => {
       expect(filterLbl).toHaveTextContent(/^8\Wfiltered\Wout$/)
     })
 
-    it('does not render the filter dialog by default', () => {
-      filterDialog = screen.queryByRole('dialog')
-      expect(filterDialog).toBeNull()
+    it('does not displays the filter dialog by default', () => {
+      expect(filterDialog).toHaveClass('sortMenuHidden')
     })
 
-    // it('sets default country filters to "US" and "??"', () => {
-      // userEvent.click(filterIcon)
-      // filterDialog = screen.queryByRole('dialog')
-      // expect(filterDialog).not.toBeNull()
-    // })
+    describe('with clicked filter icon', () => {
+      let countryList, countries
+
+      beforeAll(async () => {
+        userEvent.click(filterIcon)
+        countryList = getByRole(filterDialog, 'list')
+        countries = getAllByRole(countryList, 'listitem')
+      })
+
+      it('displays the filter dialog', async() => {
+        expect(filterDialog).not.toHaveClass('sortMenuHidden')
+      })
+
+      it('displays 7 countries', () => {
+        expect(countries).toHaveLength(7)
+      })
+
+      it('checkboxes for "US" and "??" are checked by default', () => {
+        let expectedCheckedValues = ['US', '??']
+        countries.forEach((i) => {
+          let cb = getByRole(i, 'checkbox')
+          if (expectedCheckedValues.includes(cb.name)){
+            expect(cb).toBeChecked()
+          } else {
+            expect(cb).not.toBeChecked()
+          }
+        })
+      })
+
+    })
   })
 })

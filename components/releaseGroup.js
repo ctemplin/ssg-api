@@ -133,16 +133,13 @@ export default function ReleaseGroup({dispData}) {
               title="Filter the Versions"
               onClick={() => setShowFilterMenu(!showFilterMenu)}
             />
-            {showFilterMenu &&
-
-              <div className={`${showFilterMenu ? styles.sortMenu : styles.sortMenuHidden}`} role="dialog">
+            <div className={`${showFilterMenu ? styles.sortMenu : styles.sortMenuHidden}`} role="dialog">
               <FilterConfig
               handleChange={handleCountryChange}
               persistChange={persistCountryChanges}
               handleClose={handleCloseClick}
               anyCountryMatch={anyCountryMatch} />
-              </div>
-            }
+            </div>
           </div>
         </div>
 
