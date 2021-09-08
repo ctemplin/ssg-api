@@ -42,7 +42,7 @@ describe('ReleaseGroup component', () => {
     })
 
     it('does not displays the filter dialog by default', () => {
-      expect(filterDialog).toHaveClass('sortMenuHidden')
+      expect(filterDialog).toHaveClass('hidden')
     })
 
     describe('with clicked filter icon', () => {
@@ -55,7 +55,7 @@ describe('ReleaseGroup component', () => {
       })
 
       it('displays the filter dialog', async() => {
-        expect(filterDialog).not.toHaveClass('sortMenuHidden')
+        expect(filterDialog).not.toHaveClass('hidden')
       })
 
       it('displays 7 countries', () => {
@@ -92,9 +92,8 @@ describe('ReleaseGroup component', () => {
       })
 
       it('hides the filter dialog', async() => {
-        let closeLink = getByText(filterDialog, "close")
-        userEvent.click(closeLink)
-        expect(filterDialog).toHaveClass('sortMenuHidden')
+        userEvent.click(filterIcon)
+        expect(filterDialog).toHaveClass('hidden')
       })
 
     })

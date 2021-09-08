@@ -78,7 +78,6 @@ export default function ReleaseGroup({dispData}) {
       _ => (!rgCountries.has(_)) || rgCountries.has(_) && userCountries.has(_)
     )
     setCookie("countries", Array.from(new Set(allCountries)), {path: '/'})
-    setShowFilterMenu(false)
   }
 
   const handleCloseClick = () => {
@@ -122,27 +121,24 @@ export default function ReleaseGroup({dispData}) {
         <div className={styles.count}>
           <span id="releaseListLbl">Versions: {dispData.releases.length} found</span>
           <span className={styles.utilIconLabel}> {dispData.releases.length - filteredReleases.length} filtered out</span>
-          <div className={styles.sortContainer}>
-            <FontAwesomeIcon
-              className={`
-                ${filteredReleases.length > 1 ?
-                  styles.resultUtilIcon : styles.resultUtilIconDisabled}
-              `}
-              height="1.3em"
-              icon={faFilter}
-              title="Filter the Versions"
-              onClick={() => setShowFilterMenu(!showFilterMenu)}
-            />
-            <div className={`${showFilterMenu ? styles.sortMenu : styles.sortMenuHidden}`} role="dialog">
-              <FilterConfig
-              handleChange={handleCountryChange}
-              persistChange={persistCountryChanges}
-              handleClose={handleCloseClick}
-              anyCountryMatch={anyCountryMatch} />
-            </div>
-          </div>
+          <FontAwesomeIcon
+            className={`
+              ${filteredReleases.length > 1 ?
+                styles.resultUtilIcon : styles.resultUtilIconDisabled}
+            `}
+            height="1.3em"
+            icon={faFilter}
+            title="Filter the Versions"
+            onClick={() => setShowFilterMenu(!showFilterMenu)}
+          />
         </div>
-
+        <FilterConfig
+          handleChange={handleCountryChange}
+          persistChange={persistCountryChanges}
+          handleClose={handleCloseClick}
+          anyCountryMatch={anyCountryMatch} 
+          show={showFilterMenu}
+        />
         <div className={styles.resultsList} ref={releasesScrollable} role="list"
           aria-labelledby="releaseListLbl">
           {filteredReleases.map((_,i) =>
