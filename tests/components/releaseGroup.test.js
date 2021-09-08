@@ -1,6 +1,6 @@
 import '@testing-library/react/dont-cleanup-after-each'
 import { render } from '@/lib/testUtils'
-import { getByRole, getAllByRole, screen } from '@testing-library/react'
+import { getByRole, getAllByRole, getByText, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ReleaseGroup from '../../components/releaseGroup'
 import withStateMgmt from './withStateMgmt'
@@ -8,7 +8,7 @@ import withStateMgmt from './withStateMgmt'
 describe('ReleaseGroup component', () => {
 
   const ReleaseGroupWithStateMgmt = withStateMgmt(ReleaseGroup)
-  let container, title, countLbl, filterLbl, filterIcon, filterDialog
+  let container, title, countLbl, filterLbl, filterIcon, filterDialog, releaseList
 
   describe('with normal data', () => {
     beforeAll(async() => {
@@ -26,7 +26,7 @@ describe('ReleaseGroup component', () => {
       filterLbl = await screen.findByText(/^[0-9]* filtered out$/)
       filterDialog = await screen.findByRole('dialog')
       filterIcon = screen.getByTitle("Filter the Versions").parentElement
-      //releaseList = await screen.findByRole('list')
+      releaseList = await screen.findByLabelText(/^Versions:.*/)
     })
 
     it('renders the tile', () => {
@@ -62,7 +62,7 @@ describe('ReleaseGroup component', () => {
         expect(countries).toHaveLength(7)
       })
 
-      it('checkboxes for "US" and "??" are checked by default', () => {
+      it('checks the boxes for "US" and "??" and none other by default', () => {
         let expectedCheckedValues = ['US', '??']
         countries.forEach((i) => {
           let cb = getByRole(i, 'checkbox')
@@ -72,6 +72,29 @@ describe('ReleaseGroup component', () => {
             expect(cb).not.toBeChecked()
           }
         })
+      })
+
+      it('removes list items when countries are unchecked', async() => {
+        let usCbLbl = screen.getByLabelText('US')
+        userEvent.click(usCbLbl)
+        expect(usCbLbl).not.toBeChecked()
+        expect(filterLbl).toHaveTextContent(/^13\Wfiltered\Wout$/)
+        expect(getAllByRole(releaseList, 'listitem')).toHaveLength(3)
+      })
+
+      it('adds list items when countries are unchecked', async() => {
+        let xeCbLbl = screen.getByLabelText('XE')
+        expect(xeCbLbl).not.toBeChecked()
+        userEvent.click(xeCbLbl)
+        expect(xeCbLbl).toBeChecked()
+        expect(filterLbl).toHaveTextContent(/^10\Wfiltered\Wout$/)
+        expect(getAllByRole(releaseList, 'listitem')).toHaveLength(6)
+      })
+
+      it('hides the filter dialog', async() => {
+        let closeLink = getByText(filterDialog, "close")
+        userEvent.click(closeLink)
+        expect(filterDialog).toHaveClass('sortMenuHidden')
       })
 
     })
