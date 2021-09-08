@@ -6,7 +6,6 @@ import ReleaseGroup from '../../components/releaseGroup'
 import withStateMgmt from './withStateMgmt'
 
 describe('ReleaseGroup component', () => {
-
   const ReleaseGroupWithStateMgmt = withStateMgmt(ReleaseGroup)
   let container, title, countLbl, filterLbl, filterIcon, filterDialog, releaseList
 
@@ -58,13 +57,15 @@ describe('ReleaseGroup component', () => {
         expect(filterDialog).not.toHaveClass('hidden')
       })
 
-      it('displays 7 countries', () => {
-        expect(countries).toHaveLength(7)
+      it('displays 7 countries and one extra for "All"', () => {
+        expect(countries).toHaveLength(7 + 1)
       })
 
       it('checks the boxes for "US" and "??" and none other by default', () => {
         let expectedCheckedValues = ['US', '??']
-        countries.forEach((i) => {
+        countries.forEach((i, ind) => {
+          // skip the "All" checkbox
+          if (ind === 0) { return }
           let cb = getByRole(i, 'checkbox')
           if (expectedCheckedValues.includes(cb.name)){
             expect(cb).toBeChecked()

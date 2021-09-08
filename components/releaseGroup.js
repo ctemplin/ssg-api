@@ -137,7 +137,7 @@ export default function ReleaseGroup({dispData}) {
           persistChange={persistCountryChanges}
           handleClose={handleCloseClick}
           anyCountryMatch={anyCountryMatch} 
-          show={showFilterMenu}
+          isVisible={showFilterMenu}
         />
         <div className={styles.resultsList} ref={releasesScrollable} role="list"
           aria-labelledby="releaseListLbl">
