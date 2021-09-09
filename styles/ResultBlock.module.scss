@@ -163,9 +163,9 @@ span.trackTitle {
 
 span.trackLength {
   font-family: $font-families-mono;
-  font-stretch: condensed;
-  font-size: small;
-  margin: .5ex 0 0 2ex;
+  letter-spacing: -.1em;
+  font-size: 0.8em;
+  margin: 0.2em 0 0 1em;
 }
 
 .resultHeaderImageLink {
