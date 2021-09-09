@@ -1,6 +1,6 @@
 import '@testing-library/react/dont-cleanup-after-each'
 import { render } from '@/lib/testUtils'
-import { getByRole, getAllByRole, queryByLabelText, screen } from '@testing-library/react'
+import { getByRole, getAllByRole, getByLabelText, queryByLabelText, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ReleaseGroup from '../../components/releaseGroup'
 import withStateMgmt from './withStateMgmt'
@@ -45,11 +45,13 @@ describe('ReleaseGroup component', () => {
     })
 
     describe('opens filter config UI', () => {
-      let countryList, countries, expectedCheckedValues
+      let releaseGroupCountryCount = 7
+      let countryList, countries, expectedCheckedValues, allCb
 
       beforeAll(async () => {
         countryList = getByRole(filterDialog, 'list')
         countries = getAllByRole(countryList, 'listitem')
+        allCb = getByLabelText(countryList, 'All')
       })
 
       beforeEach(() => {
@@ -77,7 +79,7 @@ describe('ReleaseGroup component', () => {
       })
 
       it('displays 7 countries', () => {
-        expect(countries).toHaveLength(7)
+        expect(countries).toHaveLength(releaseGroupCountryCount)
       })
 
       it('checks the boxes for "US" and "??" and none other by default', () => {
@@ -112,6 +114,19 @@ describe('ReleaseGroup component', () => {
         expect(xeCbLbl).toBeChecked()
         expect(filterLbl).toHaveTextContent(/^5\Wfiltered\Wout$/)
         expect(getAllByRole(releaseList, 'listitem')).toHaveLength(11)
+      })
+
+      it('checks/unchecks all checkboxes', async() => {
+        expect(allCb).toBeChecked()
+        userEvent.click(allCb)
+        expect(allCb).not.toBeChecked()
+        let checkedCountries = getAllByRole(countryList, 'checkbox', {checked: true})
+        expect(checkedCountries).toHaveLength(releaseGroupCountryCount)
+
+        userEvent.click(allCb)
+        expect(allCb).toBeChecked()
+        checkedCountries = getAllByRole(countryList,'checkbox', {checked: true})
+        expect(checkedCountries).toHaveLength(1) // only allCb
       })
     })
   })
