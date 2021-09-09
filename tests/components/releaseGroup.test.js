@@ -97,7 +97,7 @@ describe('ReleaseGroup component', () => {
         })
       })
 
-      it('removes list items when countries are unchecked', async() => {
+      it('removes list items when countries are unchecked', () => {
         let usCbLbl = screen.getByLabelText('US')
         userEvent.click(usCbLbl)
         expect(usCbLbl).not.toBeChecked()
@@ -105,7 +105,7 @@ describe('ReleaseGroup component', () => {
         expect(getAllByRole(releaseList, 'listitem')).toHaveLength(3)
       })
 
-      it('adds list items when countries are checked', async() => {
+      it('adds list items when countries are checked', () => {
         let xeCbLbl = screen.getByLabelText('XE')
         expect(xeCbLbl).not.toBeChecked()
         userEvent.click(xeCbLbl)
