@@ -1,5 +1,5 @@
 import { render } from '@/lib/testUtils'
-import { screen, getAllByRole, getByText } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Artist from '../../components/artist'
 import withStateMgmt from './withStateMgmt'
@@ -19,7 +19,7 @@ describe('Artist component', () => {
   })
 
   it('initially groups releaseGroups by type and sorts them by date.', () => {
-    typeHeaders = getAllByRole(resultsList, 'group')
+    typeHeaders = within(resultsList).getAllByRole('group')
     expect(typeHeaders).toHaveLength(groupCount)
     listItems = screen.getAllByRole('listitem')
     expect(listItems).toHaveLength(liCount)
@@ -32,7 +32,7 @@ describe('Artist component', () => {
 
     beforeEach(() => {
       sortDialog = screen.getByRole("dialog")
-      sortOptions = getAllByRole(sortDialog, 'checkbox')
+      sortOptions = within(sortDialog).getAllByRole('checkbox')
       sortIcon = screen.getByTitle("Sort the Releases").parentElement
     })
 
@@ -87,11 +87,11 @@ describe('Artist component', () => {
 
       beforeEach(() => {
         userEvent.click(sortIcon)
-        userEvent.click(getByText(sortDialog, sortText))
+        userEvent.click(within(sortDialog).getByText(sortText))
         // If default click again to restore ascending order.
         if (sortText == 'Type/Date') {
           userEvent.click(sortIcon)
-          userEvent.click(getByText(sortDialog, sortText))
+          userEvent.click(within(sortDialog).getByText(sortText))
         }
         listItems = screen.getAllByRole('listitem')
       })
@@ -104,12 +104,12 @@ describe('Artist component', () => {
 
         if (expectGroups) {
           it('displays group headers', () => {
-            typeHeaders = getAllByRole(resultsList, 'group')
+            typeHeaders = within(resultsList).getAllByRole('group')
             expect(typeHeaders).toHaveLength(groupCount)
           })
         } else {
           it('removes group headers', () => {
-            typeHeaders = screen.queryByRole(resultsList, 'group')
+            typeHeaders = within(resultsList).queryByRole('group')
             expect(typeHeaders).toBeNull()
           })
         }
@@ -130,7 +130,7 @@ describe('Artist component', () => {
       describe('in descending order', () => {
         beforeEach(() => {
           userEvent.click(sortIcon)
-          userEvent.click(getByText(sortDialog, sortText))
+          userEvent.click(within(sortDialog).getByText(sortText))
           listItems = screen.getAllByRole('listitem')
         })
 
@@ -140,12 +140,12 @@ describe('Artist component', () => {
 
         if (expectGroups) {
           it('displays group headers', () => {
-            typeHeaders = getAllByRole(resultsList, 'group')
+            typeHeaders = within(resultsList).getAllByRole('group')
             expect(typeHeaders).toHaveLength(groupCount)
           })
         } else {
           it('removes group headers', () => {
-            typeHeaders = screen.queryByRole(resultsList, 'group')
+            typeHeaders = within(resultsList).queryByRole('group')
             expect(typeHeaders).toBeNull()
           })
         }

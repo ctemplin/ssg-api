@@ -1,6 +1,6 @@
 import '@testing-library/react/dont-cleanup-after-each'
 import { render } from '@/lib/testUtils'
-import { getByRole, getAllByRole, getByLabelText, queryByLabelText, screen } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ReleaseGroup from '../../components/releaseGroup'
 import withStateMgmt from './withStateMgmt'
@@ -49,9 +49,9 @@ describe('ReleaseGroup component', () => {
       let countryList, countries, expectedCheckedValues, allCb
 
       beforeAll(async () => {
-        countryList = getByRole(filterDialog, 'list')
-        countries = getAllByRole(countryList, 'listitem')
-        allCb = getByLabelText(countryList, 'All')
+        countryList = within(filterDialog).getByRole('list')
+        countries = within(countryList).getAllByRole('listitem')
+        allCb = within(countryList).getByLabelText('All')
       })
 
       beforeEach(() => {
@@ -65,7 +65,7 @@ describe('ReleaseGroup component', () => {
       afterEach(() => {
         // reset checkboxes to expected values only
         countries.forEach((i) => {
-          let cb = getByRole(i, 'checkbox')
+          let cb = within(i).getByRole('checkbox')
           if (expectedCheckedValues.includes(cb.name)){
             if (!cb.checked) {userEvent.click(i)}
           } else {
@@ -85,12 +85,12 @@ describe('ReleaseGroup component', () => {
       it('checks the boxes for "US" and "??" and none other by default', () => {
         expectedCheckedValues.forEach((code) => 
           {
-            let cb = queryByLabelText(countryList, code)
+            let cb = within(countryList).queryByLabelText(code)
             expect(cb).not.toBeNull()
           }
         )
         countries.forEach((i, ind) => {
-          let cb = getByRole(i, 'checkbox')
+          let cb = within(i).getByRole('checkbox')
           if (expectedCheckedValues.includes(cb.name)){
             expect(cb).toBeChecked()
           } else {
@@ -104,7 +104,7 @@ describe('ReleaseGroup component', () => {
         userEvent.click(usCbLbl)
         expect(usCbLbl).not.toBeChecked()
         expect(filterLbl).toHaveTextContent(/^13\Wfiltered\Wout$/)
-        expect(getAllByRole(releaseList, 'listitem')).toHaveLength(3)
+        expect(within(releaseList).getAllByRole('listitem')).toHaveLength(3)
       })
 
       it('adds list items when countries are checked', () => {
@@ -113,19 +113,19 @@ describe('ReleaseGroup component', () => {
         userEvent.click(xeCbLbl)
         expect(xeCbLbl).toBeChecked()
         expect(filterLbl).toHaveTextContent(/^5\Wfiltered\Wout$/)
-        expect(getAllByRole(releaseList, 'listitem')).toHaveLength(11)
+        expect(within(releaseList).getAllByRole('listitem')).toHaveLength(11)
       })
 
       it('checks/unchecks all checkboxes', async() => {
         expect(allCb).toBeChecked()
         userEvent.click(allCb)
         expect(allCb).not.toBeChecked()
-        let checkedCountries = getAllByRole(countryList, 'checkbox', {checked: true})
+        let checkedCountries = within(countryList).getAllByRole('checkbox', {checked: true})
         expect(checkedCountries).toHaveLength(releaseGroupCountryCount)
 
         userEvent.click(allCb)
         expect(allCb).toBeChecked()
-        checkedCountries = getAllByRole(countryList,'checkbox', {checked: true})
+        checkedCountries = within(countryList).getAllByRole('checkbox', {checked: true})
         expect(checkedCountries).toHaveLength(1) // only allCb
       })
     })

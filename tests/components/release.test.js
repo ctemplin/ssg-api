@@ -1,5 +1,5 @@
 import { render } from '@/lib/testUtils'
-import { findAllByRole, queryByRole, screen, waitForElementToBeRemoved } from '@testing-library/dom'
+import { screen, waitForElementToBeRemoved, within } from '@testing-library/dom'
 import Release from '../../components/release'
 import withStateMgmt from './withStateMgmt'
 
@@ -36,7 +36,7 @@ describe('Release component', () => {
     })
 
     it('renders zero children in the results list.', async() => {
-      let recs = queryByRole(recList, 'listitem')
+      let recs = within(recList).queryByRole('listitem')
       expect(recs).toBeNull()
     })
   })
@@ -67,7 +67,7 @@ describe('Release component', () => {
     })
 
     it('renders six children in the results list.', async() => {
-      let recs = await findAllByRole(recList, 'listitem')
+      let recs = await within(recList).findAllByRole('listitem')
       expect(recs).toHaveLength(6)
     })
 
