@@ -1,6 +1,6 @@
 import '@testing-library/react/dont-cleanup-after-each'
 import { render } from '@/lib/testUtils'
-import { getByRole, getAllByRole, getByText, screen } from '@testing-library/react'
+import { getByRole, getAllByRole, queryByLabelText, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ReleaseGroup from '../../components/releaseGroup'
 import withStateMgmt from './withStateMgmt'
@@ -44,28 +44,50 @@ describe('ReleaseGroup component', () => {
       expect(filterDialog).toHaveClass('hidden')
     })
 
-    describe('with clicked filter icon', () => {
-      let countryList, countries
+    describe('opens filter config UI', () => {
+      let countryList, countries, expectedCheckedValues
 
       beforeAll(async () => {
-        userEvent.click(filterIcon)
         countryList = getByRole(filterDialog, 'list')
         countries = getAllByRole(countryList, 'listitem')
       })
 
-      it('displays the filter dialog', async() => {
+      beforeEach(() => {
+        // open the filter UI
+        expect(filterDialog).toHaveClass('hidden')
+        userEvent.click(filterIcon)
         expect(filterDialog).not.toHaveClass('hidden')
+        expectedCheckedValues = ['US', '??']
       })
 
-      it('displays 7 countries and one extra for "All"', () => {
-        expect(countries).toHaveLength(7 + 1)
+      afterEach(() => {
+        // reset checkboxes to expected values only
+        countries.forEach((i) => {
+          let cb = getByRole(i, 'checkbox')
+          if (expectedCheckedValues.includes(cb.name)){
+            if (!cb.checked) {userEvent.click(i)}
+          } else {
+            if (cb.checked) {userEvent.click(i)}
+          }
+        })
+        // close the filter UI
+        expect(filterDialog).not.toHaveClass('hidden')
+        userEvent.click(filterIcon)
+        expect(filterDialog).toHaveClass('hidden')
+      })
+
+      it('displays 7 countries', () => {
+        expect(countries).toHaveLength(7)
       })
 
       it('checks the boxes for "US" and "??" and none other by default', () => {
-        let expectedCheckedValues = ['US', '??']
+        expectedCheckedValues.forEach((code) => 
+          {
+            let cb = queryByLabelText(countryList, code)
+            expect(cb).not.toBeNull()
+          }
+        )
         countries.forEach((i, ind) => {
-          // skip the "All" checkbox
-          if (ind === 0) { return }
           let cb = getByRole(i, 'checkbox')
           if (expectedCheckedValues.includes(cb.name)){
             expect(cb).toBeChecked()
@@ -83,20 +105,14 @@ describe('ReleaseGroup component', () => {
         expect(getAllByRole(releaseList, 'listitem')).toHaveLength(3)
       })
 
-      it('adds list items when countries are unchecked', async() => {
+      it('adds list items when countries are checked', async() => {
         let xeCbLbl = screen.getByLabelText('XE')
         expect(xeCbLbl).not.toBeChecked()
         userEvent.click(xeCbLbl)
         expect(xeCbLbl).toBeChecked()
-        expect(filterLbl).toHaveTextContent(/^10\Wfiltered\Wout$/)
-        expect(getAllByRole(releaseList, 'listitem')).toHaveLength(6)
+        expect(filterLbl).toHaveTextContent(/^5\Wfiltered\Wout$/)
+        expect(getAllByRole(releaseList, 'listitem')).toHaveLength(11)
       })
-
-      it('hides the filter dialog', async() => {
-        userEvent.click(filterIcon)
-        expect(filterDialog).toHaveClass('hidden')
-      })
-
     })
   })
 })

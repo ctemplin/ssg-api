@@ -34,7 +34,7 @@ export default function FilterConfig({handleChange, persistChange, isVisible}){
         <span>Countries</span>
       </div>
       <div role="list" className={`${styles.list}`}>
-        <label role="listitem" className={styles.listitemAll}>
+        <label className={styles.listitemAll}>
           <input
             type="checkbox"
             name="allOrNone"
