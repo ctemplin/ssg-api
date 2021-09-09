@@ -2,7 +2,7 @@
 
 .container {
   background-color: $white-ter;
-  font-size: 0.85rem;
+  font-size: 0.9em;
   text-align: center;
   text-align: -moz-center;
   text-align: -webkit-center;
@@ -17,13 +17,25 @@
   width: fit-content;
   display: flex;
   flex-flow: row wrap;
+  justify-content: center;
+}
+
+%listitem {
+  font-family: $font-families-mono;
+  min-width: 5em;
+  padding-left: 1em;
+  text-align: left;
+  align-items: center;
+  cursor: pointer;
 }
 
 .listitem {
-  width: 5ch;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
+  @extend %listitem;
+  &All {
+    @extend %listitem;
+    font-style: italic;
+    mix-blend-mode: luminosity;
+  }
 }
 
 .cb {

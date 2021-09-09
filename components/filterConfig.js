@@ -34,7 +34,7 @@ export default function FilterConfig({handleChange, persistChange, isVisible}){
         <span>Countries</span>
       </div>
       <div role="list" className={`${styles.list}`}>
-        <label role="listitem" className={styles.listitem}>
+        <label role="listitem" className={styles.listitemAll}>
           <input
             type="checkbox"
             name="allOrNone"
@@ -42,8 +42,7 @@ export default function FilterConfig({handleChange, persistChange, isVisible}){
             disabled={false}
             className={styles.cb}
             onChange={handleAllChange}
-          />
-          <span className={styles.abbrev}>All</span>
+          />All
         </label>
         {Array.from(countries).sort().map(_ =>
         <label role="listitem" key={_} className={styles.listitem}>
@@ -53,8 +52,7 @@ export default function FilterConfig({handleChange, persistChange, isVisible}){
             onChange={handleChange}
             checked={userCountries.has(_)}
             className={styles.cb}
-          />
-          <span className={styles.abbrev}>{_}</span>
+          />{_}
         </label>
         )}
       </div>

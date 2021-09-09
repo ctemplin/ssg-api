@@ -142,9 +142,13 @@ span.releaseTitle {
   /* white-space: nowrap; */
 }
 
-span.releaseCountry {
-  display: inline-flex;
+span.releaseCountryWrapper {
   font-size: smaller;
+  color: $grey;
+}
+
+span.releaseCountry {
+  font-family: $font-families-mono;
 }
 
 span.releaseDate {
@@ -158,7 +162,7 @@ span.trackTitle {
 }
 
 span.trackLength {
-  font-family: monospace;
+  font-family: $font-families-mono;
   font-stretch: condensed;
   font-size: small;
   margin: .5ex 0 0 2ex;
