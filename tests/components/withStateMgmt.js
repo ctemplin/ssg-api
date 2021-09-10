@@ -6,47 +6,38 @@ import { artistLookup, currentArtistAtom, currentArtistPanelFormatSorted,
          resetThenSetValue } from '../../models/musicbrainz'
 import withMbz from '../../components/mbzComponent'
 
+class MbzProps {
+  constructor(lookup, atom, dispSel, dispParams) {
+    Object.assign(this, { lookup, atom, dispSel, dispParams })
+  }
+}
+
+const mbzPropVals = {
+  Artist: new MbzProps(
+    artistLookup, currentArtistAtom, currentArtistPanelFormatSorted,
+    {column: 'default', dir: 'asc'}),
+  ReleaseGroup: new MbzProps(
+    releaseGroupLookup, currentReleaseGroupAtom, currentReleaseGroupPanelFormat),
+  Release: new MbzProps(
+    releaseLookup, currentReleaseAtom, currentReleasePanelFormat)
+}
+
 const withStateMgmt = (InnerComponent) => {
-  const OuterComponent = ({id}) => {
-    const Artist_MBZ = withMbz(InnerComponent)
-    const ReleaseGroup_MBZ = withMbz(InnerComponent)
-    const Release_MBZ = withMbz(InnerComponent)
+  const OuterComponent = ({id, dispParams}) => {
+    const Component_MBZ = withMbz(InnerComponent)
     const resetThenSet = useSetRecoilState(resetThenSetValue)
+    const propVals = mbzPropVals[InnerComponent.name]
 
     useEffect(() => {
-      // Loading (API) JSON thru data layer with msw
-      if (InnerComponent.name == "Artist") {
-        resetThenSet({atom: currentArtistAtom, id: id})
-      }
-      if (InnerComponent.name == "Release") {
-        resetThenSet({atom: currentReleaseAtom, id: id})
-      }
-      if (InnerComponent.name == "ReleaseGroup") {
-        resetThenSet({atom: currentReleaseGroupAtom, id: id})
-      }
+      resetThenSet({atom: propVals.atom, id: id})
     }, [])
 
-    switch (InnerComponent.name) {
-      case 'Artist':
-        return <Artist_MBZ
-          lookup={artistLookup}
-          atom={currentArtistAtom}
-          dispSel={currentArtistPanelFormatSorted}
-          dispParams={{column: 'default', dir: 'asc'}}
-        ><InnerComponent/></Artist_MBZ>
-      case 'ReleaseGroup':
-        return <ReleaseGroup_MBZ
-          lookup={releaseGroupLookup}
-          atom={currentReleaseGroupAtom}
-          dispSel={currentReleaseGroupPanelFormat}
-        ><InnerComponent /></ReleaseGroup_MBZ>
-      case 'Release':
-        return <Release_MBZ
-          lookup={releaseLookup}
-          atom={currentReleaseAtom}
-          dispSel={currentReleasePanelFormat}
-        ><InnerComponent/></Release_MBZ>
-    }
+    return <Component_MBZ
+      lookup={propVals.lookup}
+      atom={propVals.atom}
+      dispSel={propVals.dispSel}
+      dispParams={propVals.dispParams}
+    ><InnerComponent/></Component_MBZ>
   }
   OuterComponent.displayName = `WithStateMgmt(${InnerComponent.name})`
   return OuterComponent
