@@ -1,27 +1,23 @@
-import { cleanup } from '@testing-library/react'
-import React, { useEffect, useState } from 'react'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { currentArtistAtom, currentArtistPanelFormatSorted,
+import React, { useEffect } from 'react'
+import { useSetRecoilState } from 'recoil'
+import { artistLookup, currentArtistAtom, currentArtistPanelFormatSorted,
          releaseGroupLookup, currentReleaseGroupAtom, currentReleaseGroupPanelFormat,
          releaseLookup, currentReleaseAtom, currentReleasePanelFormat,
          resetThenSetValue } from '../../models/musicbrainz'
 import withMbz from '../../components/mbzComponent'
-import artistData from '../data/artist_mock.json'
 
 const withStateMgmt = (InnerComponent) => {
   const OuterComponent = ({id}) => {
-  const setCurrentArtist = useSetRecoilState(currentArtistAtom)
-  const [params, setParams] = useState({column: 'default', dir: 'asc'})
-  const dispData = useRecoilValue(currentArtistPanelFormatSorted(params))
+  const Artist_MBZ = withMbz(InnerComponent)
   const ReleaseGroup_MBZ = withMbz(InnerComponent)
   const Release_MBZ = withMbz(InnerComponent)
   const resetThenSet = useSetRecoilState(resetThenSetValue)
 
   useEffect(() => {
-    // Loading (formatted) JSON direct from mock
-    setCurrentArtist(artistData)
-
     // Loading (API) JSON thru data layer with msw
+    if (InnerComponent.name == "Artist") {
+      resetThenSet({atom: currentArtistAtom, id: id})
+    }
     if (InnerComponent.name == "Release") {
       resetThenSet({atom: currentReleaseAtom, id: id})
     }
@@ -32,16 +28,13 @@ const withStateMgmt = (InnerComponent) => {
 
   switch (InnerComponent.name) {
     case 'Artist':
-      return <InnerComponent
-        dispData={dispData}
-        errored={false} errorMsg={null}
-        isLoading={false}
-        params={params}
-        setParams={setParams}
-      />
-    case 'GroupableResults':
-      return dispData.releaseGroups.map((_,i) =>
-        <InnerComponent props={_} i={i} key={_.id ?? i} /> )
+      return <Artist_MBZ
+        lookup={artistLookup}
+        atom={currentArtistAtom}
+        dispSel={currentArtistPanelFormatSorted}
+        dispParams={{column: 'default', dir: 'asc'}}
+      ><InnerComponent/></Artist_MBZ>
+
     case 'ReleaseGroup':
       return <ReleaseGroup_MBZ
           lookup={releaseGroupLookup}

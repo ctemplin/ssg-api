@@ -8,15 +8,25 @@ import withStateMgmt from './withStateMgmt'
 describe('Artist component', () => {
 
   const ArtistWithStateMgmt = withStateMgmt(Artist)
-  let container, resultsList, typeHeaders, listItems
+  let title, container, resultsList, typeHeaders, listItems
   const groupCount = 7
   const liCount = 20
   const sortIconAttrName = 'data-icon'
   const sortIconAttrVal = {asc: 'sort-amount-up', desc: 'sort-amount-down'}
 
-  beforeAll(() => {
-    container = render(<ArtistWithStateMgmt />).container
-    resultsList = container.querySelector('.resultsList')
+  beforeAll(async() => {
+    container = render(
+      <ArtistWithStateMgmt id={'e13d2935-8c42-4c0a-96d7-654062acf106'} />
+    ).container
+
+    title = await screen.findByText( (content, node) => {
+      if(node.tagName == 'H2') {
+        return node.textContent == ["Artist", "Neko Case", "Sep 8, 1970 to present"].join('')
+      }
+      return false
+    })
+
+    resultsList = await container.querySelector('.resultsList')
   })
 
   it('initially groups releaseGroups by type and sorts them by date.', () => {

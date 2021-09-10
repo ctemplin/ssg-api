@@ -1,4 +1,5 @@
 import { rest } from 'msw'
+import artistMock from './artist_mock.json'
 import releaseGroupMock from './releaseGroup_mock.json'
 import releaseMock from './release_mock.json'
 import releaseNoMediaMock from './release_no-media_mock.json'
@@ -30,6 +31,14 @@ export const handlers = [
     return res(
       ctx.status(200),
       ctx.json(coverArtArchiveMock)
+    )
+  }),
+
+  rest.get('https://musicbrainz.org/ws/2/artist/:aid', (req, res, ctx) => {
+    let resBody = artistMock
+    return res(
+      ctx.status(200),
+      ctx.json(resBody)
     )
   }),
 
