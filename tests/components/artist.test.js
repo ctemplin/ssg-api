@@ -1,3 +1,4 @@
+import '@testing-library/react/dont-cleanup-after-each'
 import { render } from '@/lib/testUtils'
 import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -13,7 +14,7 @@ describe('Artist component', () => {
   const sortIconAttrName = 'data-icon'
   const sortIconAttrVal = {asc: 'sort-amount-up', desc: 'sort-amount-down'}
 
-  beforeEach(() => { 
+  beforeAll(() => {
     container = render(<ArtistWithStateMgmt />).container
     resultsList = container.querySelector('.resultsList')
   })
@@ -30,7 +31,7 @@ describe('Artist component', () => {
   describe('Sort options', () => {
     let sortDialog, sortOptions, sortIcon
 
-    beforeEach(() => {
+    beforeAll(() => {
       sortDialog = screen.getByRole("dialog")
       sortOptions = within(sortDialog).getAllByRole('checkbox')
       sortIcon = screen.getByTitle("Sort the Releases").parentElement
@@ -85,18 +86,23 @@ describe('Artist component', () => {
       [ 'Date',      false, 'Car Songs', '2004-07-16: The Fillmore, San Franci']
     ])('by %s', (sortText, expectGroups, firstTitle, lastTitle) => {
 
-      beforeEach(() => {
-        userEvent.click(sortIcon)
-        userEvent.click(within(sortDialog).getByText(sortText))
-        // If default click again to restore ascending order.
-        if (sortText == 'Type/Date') {
-          userEvent.click(sortIcon)
-          userEvent.click(within(sortDialog).getByText(sortText))
-        }
-        listItems = screen.getAllByRole('listitem')
-      })
-
       describe('in ascending order', () => {
+        beforeAll(() => {
+          // open the menu
+          if (sortDialog.className === 'sortMenuHidden') {
+            userEvent.click(sortIcon)
+          }
+          // click the checkbox, if sort column/direction aren't already correct
+          let cb = within(sortDialog).getByRole('checkbox', {name: sortText})
+          let alreadyChecked = cb.attributes['aria-checked'].value === "true"
+          let wrongSortDirection = sortIcon[sortIconAttrName] === sortIconAttrVal.desc
+          if ( !alreadyChecked || wrongSortDirection) {
+            userEvent.click(cb)
+          }
+          listItems = screen.getAllByRole('listitem')
+          resultsList = container.querySelector('.resultsList')
+          typeHeaders = within(resultsList).queryAllByRole('group')
+        })
 
         it(`displays "${sortIconAttrVal.asc}" icon`, () =>
           expect(sortIcon).toHaveAttribute(sortIconAttrName, sortIconAttrVal.asc)
@@ -104,13 +110,12 @@ describe('Artist component', () => {
 
         if (expectGroups) {
           it('displays group headers', () => {
-            typeHeaders = within(resultsList).getAllByRole('group')
             expect(typeHeaders).toHaveLength(groupCount)
           })
         } else {
           it('removes group headers', () => {
-            typeHeaders = within(resultsList).queryByRole('group')
-            expect(typeHeaders).toBeNull()
+            typeHeaders = within(resultsList).queryAllByRole('group')
+            expect(typeHeaders).toHaveLength(0)
           })
         }
 
@@ -128,10 +133,12 @@ describe('Artist component', () => {
       })
 
       describe('in descending order', () => {
-        beforeEach(() => {
-          userEvent.click(sortIcon)
+        beforeAll(() => {
+          // reverse sort -- depends on parent describe's beforeAll()
           userEvent.click(within(sortDialog).getByText(sortText))
           listItems = screen.getAllByRole('listitem')
+          resultsList = container.querySelector('.resultsList')
+          typeHeaders = within(resultsList).queryAllByRole('group')
         })
 
         it(`displays "${sortIconAttrVal.desc}" icon`, () =>
@@ -140,13 +147,11 @@ describe('Artist component', () => {
 
         if (expectGroups) {
           it('displays group headers', () => {
-            typeHeaders = within(resultsList).getAllByRole('group')
             expect(typeHeaders).toHaveLength(groupCount)
           })
         } else {
           it('removes group headers', () => {
-            typeHeaders = within(resultsList).queryByRole('group')
-            expect(typeHeaders).toBeNull()
+            expect(typeHeaders).toHaveLength(0)
           })
         }
 
