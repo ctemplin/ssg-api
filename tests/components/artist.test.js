@@ -8,16 +8,17 @@ import withStateMgmt from './withStateMgmt'
 describe('Artist component', () => {
 
   const ArtistWithStateMgmt = withStateMgmt(Artist)
-  let title, container, resultsList, typeHeaders, listItems
+  let cleanup, container
+  let title, resultsList, typeHeaders, listItems
   const groupCount = 7
   const liCount = 20
   const sortIconAttrName = 'data-icon'
   const sortIconAttrVal = {asc: 'sort-amount-up', desc: 'sort-amount-down'}
 
   beforeAll(async() => {
-    container = render(
+    ({ cleanup, container } = render(
       <ArtistWithStateMgmt id={'e13d2935-8c42-4c0a-96d7-654062acf106'} />
-    ).container
+    ))
 
     title = await screen.findByText( (content, node) => {
       if(node.tagName == 'H2') {
@@ -28,6 +29,8 @@ describe('Artist component', () => {
 
     resultsList = await container.querySelector('.resultsList')
   })
+
+  afterAll(() => cleanup)
 
   it('initially groups releaseGroups by type and sorts them by date.', () => {
     typeHeaders = within(resultsList).getAllByRole('group')

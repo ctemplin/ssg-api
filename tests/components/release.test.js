@@ -6,13 +6,14 @@ import withStateMgmt from './withStateMgmt'
 describe('Release component', () => {
 
   const ReleaseWithStateMgmt = withStateMgmt(Release)
-  let container, title, date, recList, countLbl
+  let cleanup, container
+  let title, date, recList, countLbl
 
   describe('without media/tracks/recordings', () => {
     beforeAll(async() => {
-      container = render(
+      ({ cleanup, container } = render(
         <ReleaseWithStateMgmt id={'553912a9-2b42-40da-98ea-d8c2e63b9dfb'} />
-      ).container
+      ))
       await waitForElementToBeRemoved(() =>
         document.querySelector('.resultBlockLoadingIcon'))
       date = await screen.findByText('Apr 10, 2020')
@@ -20,6 +21,8 @@ describe('Release component', () => {
       countLbl = await screen.findByText(/^Tracks:\W.[0-9]*\Wfound$/)
       recList = await screen.findByRole('list')
     })
+
+    afterAll(() => cleanup)
 
     it('renders the tile', () => {
       expect(title).toBeVisible()

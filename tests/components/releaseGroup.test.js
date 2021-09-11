@@ -7,13 +7,14 @@ import withStateMgmt from './withStateMgmt'
 
 describe('ReleaseGroup component', () => {
   const ReleaseGroupWithStateMgmt = withStateMgmt(ReleaseGroup)
-  let container, title, countLbl, filterLbl, filterIcon, filterDialog, releaseList
+  let cleanup
+  let title, countLbl, filterLbl, filterIcon, filterDialog, releaseList
 
   describe('with normal data', () => {
     beforeAll(async() => {
-      container = render(
+      ({ cleanup } = render(
         <ReleaseGroupWithStateMgmt id={'1efdef9a-b88f-43bf-90af-f22fa23df26f'} />
-      ).container
+      ))
 
       title = await screen.findByText( (content, node) => {
         if(node.tagName == 'H2') {
@@ -27,6 +28,8 @@ describe('ReleaseGroup component', () => {
       filterIcon = screen.getByTitle("Filter the Versions").parentElement
       releaseList = await screen.findByLabelText(/^Versions:.*/)
     })
+
+    afterAll(() => cleanup)
 
     it('renders the tile', () => {
       expect(title).toBeVisible()
