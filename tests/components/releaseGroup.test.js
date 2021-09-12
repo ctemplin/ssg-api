@@ -120,16 +120,24 @@ describe('ReleaseGroup component', () => {
       })
 
       it('checks/unchecks all checkboxes', async() => {
-        expect(allCb).toBeChecked()
-        userEvent.click(allCb)
+        // start unchecked
         expect(allCb).not.toBeChecked()
-        let checkedCountries = within(countryList).getAllByRole('checkbox', {checked: true})
+
+        // check all
+        userEvent.click(allCb)
+        expect(allCb).toBeChecked()
+        let checkedCountries = within(countryList).getAllByRole(
+          'checkbox', {checked: true, name: /^[A-Z\?]{2}$/}
+        )
         expect(checkedCountries).toHaveLength(releaseGroupCountryCount)
 
+        // uncheck all
         userEvent.click(allCb)
-        expect(allCb).toBeChecked()
-        checkedCountries = within(countryList).getAllByRole('checkbox', {checked: true})
-        expect(checkedCountries).toHaveLength(1) // only allCb
+        expect(allCb).not.toBeChecked()
+        checkedCountries = within(countryList).queryAllByRole(
+          'checkbox', {checked: true, name: /^[A-Z\?]{2}$/}
+        )
+        expect(checkedCountries).toHaveLength(0)
       })
     })
   })

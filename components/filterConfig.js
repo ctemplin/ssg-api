@@ -8,12 +8,10 @@ export default function FilterConfig({handleChange, persistChange, isVisible}){
   const [userCountries, setUserCountries] = useRecoilState(userCountriesAtom)
   const countries = useRecoilValue(releaseGroupCountries)
 
-  const userHasLessThanHalfOfReleaseGroupCountries = () => {
-    return Array.from(userCountries).filter(_ => countries.has(_)).length < countries.size/2
-  }
-
-  const isAllActionAdditive = useMemo(() => 
-    userHasLessThanHalfOfReleaseGroupCountries(),
+  const isAllActionAdditive = useMemo(() => {
+      let userRgCountries = Array.from(userCountries).filter(_ => countries.has(_))
+      return userRgCountries.length < countries.size/2
+    },
     [userCountries, countries]
   )
 
@@ -38,7 +36,7 @@ export default function FilterConfig({handleChange, persistChange, isVisible}){
           <input
             type="checkbox"
             name="allOrNone"
-            checked={isAllActionAdditive}
+            checked={!isAllActionAdditive}
             disabled={false}
             className={styles.cb}
             onChange={handleAllChange}
