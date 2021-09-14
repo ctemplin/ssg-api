@@ -1,0 +1,24 @@
+@import 'initial-variables';
+
+%toolbar {
+  display: block;
+  flex: 0 0;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.toolbar {
+  @extend %toolbar;
+  &About {
+    @extend %toolbar;
+    line-height: 2.4;
+    margin-right: 0.5em;
+  }
+}
+
+.toolbar:hover > svg {
+  color: $info;
+}
+
+.icon {
+  margin-right: 0.3em;
+}

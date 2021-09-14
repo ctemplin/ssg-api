@@ -26,10 +26,6 @@
   align-items: center;
 }
 
-.icon {
-  margin-right: 0.3em;
-}
-
 .columns {
   display: block;
   margin-right: 0;
@@ -82,16 +78,6 @@
   @media screen and (min-width: $tablet) {
     margin-top: 1em;
   }
-}
-
-.toolbar {
-  display: block;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.toolbar:hover > svg {
-  color: $info;
 }
 
 .column:last-child:not(:only-child) {

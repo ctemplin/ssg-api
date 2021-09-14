@@ -1,9 +1,12 @@
 import { Fragment, useEffect, useRef } from 'react'
 import { useRecoilValue } from 'recoil'
+import { currentArtistAtom } from '../../models/musicbrainz'
 import { appNamesAtom } from '../../models/app'
 import fetchData from '../../data/fetcher'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
+import { faMicrophone, faSearch } from '@fortawesome/free-solid-svg-icons'
+import BackButton from '../../components/back'
 import HeadTag from '../../components/head'
 import ToolLogo from '../../components/toolLogo'
 import styles from '../../styles/About.module.sass'
@@ -47,6 +50,7 @@ export async function getStaticProps(context) {
 export default function About({title, mostRecentDate, deploys}) {
 
   const appNames = useRecoilValue(appNamesAtom)
+  const currentArtist = useRecoilValue(currentArtistAtom)
   const st = useRef(0)
   useEffect(() => {
     const onBgScroll = (e) => {
@@ -109,6 +113,11 @@ export default function About({title, mostRecentDate, deploys}) {
     <div className={styles.container}>
       <div className={styles.column}>
         <div className={styles.header}>
+          <BackButton 
+            ariaLabel=""
+            icon={currentArtist?.id ? faMicrophone : faSearch}
+            className="toolbarAbout"
+          />
           <details role="complementary" >
             <summary><em>Last updated on:</em> <time>{mostRecentDate}</time></summary>
             <dl className={styles.deploysDl} role="list">

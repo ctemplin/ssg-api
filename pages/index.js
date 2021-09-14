@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Artist from '../components/artist'
 import ArtistSearch from '../components/artistSearch'
+import BackButton from '../components/back'
 import BreadcrumbsBack from '../components/breadcrumbsBack'
 import HeadTag from '../components/head'
 import Recording from '../components/recording'
@@ -18,8 +19,9 @@ import { artistLookup, currentArtistAtom,
   currentReleaseGroupPanelFormat, currentReleasePanelFormat,
   recordingLookup, releaseGroupLookup, releaseLookup } from '../models/musicbrainz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faBrain, faKeyboard, faMap, faMusic, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faBrain, faKeyboard, faMap, faMusic, faSearch } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/Home.module.scss'
+import tbStyles from '../styles/Toolbar.module.scss'
 
 export default function Home() {
   const currentArtist = useRecoilValue(currentArtistAtom)
@@ -63,30 +65,24 @@ export default function Home() {
       {currentArtist.id &&
         <div className={styles.columns} role="navigation">
           <div className={`${styles.column} ${styles.headColumn}`}>
-            <a className={styles.toolbar} onClick={handleSearchClick}
-               aria-label="Back to artist search" >
-            <FontAwesomeIcon
-              className={styles.icon}
-              height="1em"
-              icon={faArrowLeft} />
-            <FontAwesomeIcon
-              className={styles.icon}
-              height="1em"
-              icon={faSearch} />
-            </a>
+            <BackButton 
+              ariaLabel="Back to artist search"
+              icon={faSearch}
+              handleClick={handleSearchClick}
+            />
             <BreadcrumbsBack />
             <Link href="/about">
-            <a className={styles.toolbar} >
+            <a className={tbStyles.toolbar} >
             <FontAwesomeIcon
-              className={styles.icon}
+              className={tbStyles.icon}
               height="1em"
               icon={faMusic} />
             <FontAwesomeIcon
-              className={styles.icon}
+              className={tbStyles.icon}
               height="1em"
               icon={faBrain} />
             <FontAwesomeIcon
-              className={styles.icon}
+              className={tbStyles.icon}
               height="1em"
               icon={faMap} />
             </a>
