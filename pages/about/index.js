@@ -114,7 +114,12 @@ export default function About({title, mostRecentDate, deploys}) {
       <div className={styles.column}>
         <div className={styles.header}>
           <BackButton 
-            ariaLabel=""
+            ariaLabel={
+              currentArtist?.id ?
+                "back to " + currentArtist.name ?? "artist"
+              : 
+                "back to search"
+            }
             icon={currentArtist?.id ? faMicrophone : faSearch}
             className="toolbarAbout"
           />
