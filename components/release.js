@@ -45,6 +45,12 @@ export default function Release({dispData}) {
     return () => resetThenSet({atom: currentRecordingAtom, id: id, title: title})
   }
 
+  function handleKeyPress(e) {
+    if (['Enter', 'Space'].includes(e.code)) {
+      e.currentTarget.parentElement.click();
+    }
+  }
+
   const head = useRef()
 
   if (!dispData.id) { return null }
@@ -110,7 +116,10 @@ export default function Release({dispData}) {
             `}
           >
             <span className={styles.trackPosition}>{`${_.position}. `}</span>
-            <span className={styles.trackTitle}>{_.title}</span>
+            <span className={styles.trackTitle} role="link"
+              onKeyPress={handleKeyPress} tabIndex="0">
+              {_.title}
+            </span>
             <span className={styles.trackLength}>{_.length}</span>
           </div>
         )}

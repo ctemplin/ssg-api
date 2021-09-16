@@ -15,6 +15,12 @@ export default function GroupableResults({props, i}) {
     }
   }
 
+  function handleKeyPress(e) {
+    if (['Enter', 'Space'].includes(e.code)) {
+      e.currentTarget.parentElement.click();
+    }
+  }
+
   const GroupedItems = ({items, i}) =>
   <div key={`${items[0].id}`} role="group" aria-labelledby={`group_${i}`}>
     <ResultSectionHeader type1={items[0].type1} type2={items[0].type2} i={i} />
@@ -36,7 +42,11 @@ export default function GroupableResults({props, i}) {
       <div role="listitem" className={classNames()}
         aria-current={item.id == currentReleaseGroup.id ? true : null}
         onClick={handleClick(item.id, item.title)} >
-        <span className={styles.releaseTitle}>{item.title}</span>
+        <span role="link" className={styles.releaseTitle}
+          onKeyPress={handleKeyPress}
+          tabIndex="0" >
+          {item.title}
+        </span>
         <span className={styles.releaseDate}>
           {extractYear(item.firstReleaseDate) ?? ''}
         </span>

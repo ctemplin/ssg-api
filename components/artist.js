@@ -68,7 +68,7 @@ export default function Artist(
               {sortColumns.map(_ =>
                 <div role="checkbox" aria-multiselectable="false" aria-checked={_[0] == sortCfg.column}
                 className={`${_[0] == sortCfg.column ? styles.sortChoiceActive : styles.sortChoice}`}
-                  key={_[0]}
+                  tabIndex="0" key={_[0]}
                   onClick={handleSortChoice(_[0])}>
                   {_[1]}
                 </div>

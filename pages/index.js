@@ -72,7 +72,7 @@ export default function Home() {
             />
             <BreadcrumbsBack />
             <Link href="/about">
-            <a className={tbStyles.toolbar} >
+            <a className={tbStyles.toolbar} aria-label="About">
             <FontAwesomeIcon
               className={tbStyles.icon}
               height="1em"

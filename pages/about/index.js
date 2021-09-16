@@ -110,6 +110,7 @@ export default function About({title, mostRecentDate, deploys}) {
   return (
     <>
     <HeadTag title={title} />
+    <a className={styles.screenReader} href="#main">Skip to content</a>
     <div className={styles.container}>
       <div className={styles.column}>
         <div className={styles.header}>
@@ -138,7 +139,7 @@ export default function About({title, mostRecentDate, deploys}) {
             <FontAwesomeIcon icon={faGithub} height="2em" />
           </a>
         </div>
-        <div role="main">
+        <div role="main" id="main">
           <h1 className={styles.h}    >About {appNames.long} ({appNames.short})</h1>
           <p>Thanks for using the app! We hope you find it useful/fun/interesting.</p>
           <p>It was created with many fine tools. Read on for details about some of them.</p>

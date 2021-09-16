@@ -140,6 +140,9 @@ h2.blockTypeH {
 span.releaseTitle {
   overflow-x: hidden;
   /* white-space: nowrap; */
+  &:focus-visible {
+    outline: 1px dotted $orange;
+  }
 }
 
 span.releaseCountryWrapper {
@@ -159,6 +162,9 @@ span.releaseDate {
 span.trackTitle {
   flex: auto;
   margin-left: 0.5ex;
+  &:focus-visible {
+    outline: 1px dotted $orange;
+  }
 }
 
 span.trackLength {

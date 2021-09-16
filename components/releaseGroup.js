@@ -42,6 +42,12 @@ export default function ReleaseGroup({dispData}) {
     }
   }
 
+  function handleKeyPress(e) {
+    if (['Enter', 'Space'].includes(e.code)) {
+      e.currentTarget.parentElement.parentElement.click();
+    }
+  }
+
   useEffect(() => {
     resetRelease()
   },[dispData.id, resetRelease])
@@ -139,7 +145,7 @@ export default function ReleaseGroup({dispData}) {
           anyCountryMatch={anyCountryMatch} 
           isVisible={showFilterMenu}
         />
-        <div className={styles.resultsList} ref={releasesScrollable} role="list"
+        <div className={styles.resultsList} ref={releasesScrollable}
           aria-labelledby="releaseListLbl">
           {filteredReleases.map((_,i) =>
           <div
@@ -150,7 +156,9 @@ export default function ReleaseGroup({dispData}) {
               ${_.id == currentRelease.id ? styles.resultItemHl:''}
             `}
           >
-            <span className={styles.releaseTitle}>{_.title}
+            <span>
+              <span role="link" tabIndex="0" className={styles.releaseTitle}
+              onKeyPress={handleKeyPress}>{_.title}</span>
               {isCountryNeeded() && _.country &&
                 /* Span and space+parens on same line for proper spacing/wrapping */
                 <span className={styles.releaseCountryWrapper}> (
