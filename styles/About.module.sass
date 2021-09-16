@@ -22,7 +22,7 @@ $blockTransTime: 1.5s
 .screenReader
   position: absolute
   top: -10000px
-  
+
 .header
   display: flex
   justify-content: space-between
@@ -46,6 +46,7 @@ $blockTransTime: 1.5s
 
 .deploysDl
   background-color: $grey-lighter
+  font-size: smaller
   min-width: calc(100% + 2em)
   max-height: 10em
   margin-block-start: 0.5em
@@ -151,10 +152,10 @@ $blockTransTime: 1.5s
       transform: scale(1.0)
       transition: all 1s ease-out .5s
   &:not(.toolBlockAlt) .text
-      @media screen and (min-width: $desktop)
+    @media screen and (min-width: $desktop)
       transform-origin: right center
   &.toolBlockAlt .text
-      @media screen and (min-width: $desktop)
+    @media screen and (min-width: $desktop)
       transform-origin: left center
 
 .codeBg
@@ -183,5 +184,3 @@ $blockTransTime: 1.5s
   & div:last-child
     font-size: 1em
     opacity: 20%
-
-
