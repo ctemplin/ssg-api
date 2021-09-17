@@ -92,7 +92,7 @@ export default function ArtistSearch({}) {
     if (Date.now() - navKeyTs.current < 1000) {
       return false
     }
-    var hli = parseInt(e.target.attributes['index'].value)
+    var hli = parseInt(e.currentTarget.attributes['index'].value)
     setHlIndex(hli)
     syncFocus(hli)
   }
@@ -195,7 +195,7 @@ export default function ArtistSearch({}) {
             {searchQuery.contents.matches.map((_,i) =>
             <div className={`${styles.searchIncResult} ${hlIndex==i && styles.searchIncResultHl}`} index={i} rid={_.id} key={_.id} role="listitem"
               onClick={handleClick(_.id, _.name)} onKeyDown={handleKeyDown} onMouseEnter={handleMouseEnter} onFocus={handleMouseEnter} tabIndex="0">
-              {_.name}
+              <span role="link">{_.name}</span>
             </div>
             )}
             </div>
