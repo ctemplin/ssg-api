@@ -34,7 +34,6 @@ $modal-content-spacing-tablet: 40px !default;
 .modalContent {
   margin: 0 ;
   max-height: calc(100vh - #{$modal-content-spacing-mobile});
-  overflow: auto;
   position: relative;
   @media screen and (min-width: $tablet) {
     margin: 0 auto;
