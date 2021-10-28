@@ -1,9 +1,6 @@
 {
   "name": "jazzmap",
   "version": "0.1.0",
-  "babel": {
-    "presets": ["next/babel"]
-  },
   "scripts": {
     "dev": "netlify dev -c next dev",
     "build": "next build",
