@@ -10,6 +10,9 @@
     "testv": "jest --watch --verbose",
     "inspect-test": "node --inspect node_modules/.bin/jest --runInBand ${1}"
   },
+  "babel": {
+    "presets": ["next/babel"]
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
