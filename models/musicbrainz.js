@@ -17,6 +17,7 @@ const atomDefaults = {}
  */
 export const resetThenSetValue = selector ({
   key: 'resetThenSetValue',
+  get: () => null,
   set: ({set}, {atom, ...rest}) => {
     set(atom,
       (prevValue) => {
@@ -50,6 +51,7 @@ export const userCountriesAtom = atom({
 
 export const userCountriesOrDefault = selector({
   key: 'userCountriesOrDefault',
+  get: () => null,
   set: ({set}, {countries} = {countries: []}) => {
     if (countries.length) {
       set(userCountriesAtom, countries instanceof Set ? countries : new Set(countries))
