@@ -57,27 +57,27 @@ describe('ReleaseGroup component', () => {
         allCb = within(countryList).getByLabelText('All')
       })
 
-      beforeEach(() => {
+      beforeEach(async () => {
         // open the filter UI
         expect(filterDialog).toHaveClass('hidden')
-        userEvent.click(filterIcon)
+        await userEvent.click(filterIcon)
         expect(filterDialog).not.toHaveClass('hidden')
         expectedCheckedValues = ['US', '??']
       })
 
-      afterEach(() => {
+      afterEach(async () => {
         // reset checkboxes to expected values only
-        countries.forEach((i) => {
+        countries.forEach(async (i) => {
           let cb = within(i).getByRole('checkbox')
           if (expectedCheckedValues.includes(cb.name)){
-            if (!cb.checked) {userEvent.click(i)}
+            if (!cb.checked) {await userEvent.click(i)}
           } else {
-            if (cb.checked) {userEvent.click(i)}
+            if (cb.checked) {await userEvent.click(i)}
           }
         })
         // close the filter UI
         expect(filterDialog).not.toHaveClass('hidden')
-        userEvent.click(filterIcon)
+        await userEvent.click(filterIcon)
         expect(filterDialog).toHaveClass('hidden')
       })
 
@@ -102,18 +102,18 @@ describe('ReleaseGroup component', () => {
         })
       })
 
-      it('removes list items when countries are unchecked', () => {
+      it('removes list items when countries are unchecked', async () => {
         let usCbLbl = screen.getByLabelText('US')
-        userEvent.click(usCbLbl)
+        await userEvent.click(usCbLbl)
         expect(usCbLbl).not.toBeChecked()
         expect(filterLbl).toHaveTextContent(/^13\Wfiltered\Wout$/)
         expect(within(releaseList).getAllByRole('listitem')).toHaveLength(3)
       })
 
-      it('adds list items when countries are checked', () => {
+      it('adds list items when countries are checked', async () => {
         let xeCbLbl = screen.getByLabelText('XE')
         expect(xeCbLbl).not.toBeChecked()
-        userEvent.click(xeCbLbl)
+        await userEvent.click(xeCbLbl)
         expect(xeCbLbl).toBeChecked()
         expect(filterLbl).toHaveTextContent(/^5\Wfiltered\Wout$/)
         expect(within(releaseList).getAllByRole('listitem')).toHaveLength(11)
@@ -124,7 +124,7 @@ describe('ReleaseGroup component', () => {
         expect(allCb).not.toBeChecked()
 
         // check all
-        userEvent.click(allCb)
+        await userEvent.click(allCb)
         expect(allCb).toBeChecked()
         let checkedCountries = within(countryList).getAllByRole(
           'checkbox', {checked: true, name: /^[A-Z\?]{2}$/}
@@ -132,7 +132,7 @@ describe('ReleaseGroup component', () => {
         expect(checkedCountries).toHaveLength(releaseGroupCountryCount)
 
         // uncheck all
-        userEvent.click(allCb)
+        await userEvent.click(allCb)
         expect(allCb).not.toBeChecked()
         checkedCountries = within(countryList).queryAllByRole(
           'checkbox', {checked: true, name: /^[A-Z\?]{2}$/}

@@ -69,24 +69,24 @@ describe('Artist component', () => {
       expect(sortIcon).toHaveAttribute(sortIconAttrName, sortIconAttrVal.asc)
     })
 
-    it('displays/hides the sort dialog when the icon is clicked.', () => {
-      userEvent.click(sortIcon)
+    it('displays/hides the sort dialog when the icon is clicked.', async () => {
+      await userEvent.click(sortIcon)
       expect(sortDialog).not.toHaveClass("sortMenuHidden")
-      userEvent.click(sortIcon)
+      await userEvent.click(sortIcon)
       expect(sortDialog).toHaveClass("sortMenuHidden")
-      userEvent.click(sortIcon)
+      await userEvent.click(sortIcon)
       expect(sortDialog).not.toHaveClass("sortMenuHidden")
     })
 
-    it('hides the sort menu when an option is clicked.', () => {
-      userEvent.click(sortIcon)
-      userEvent.click(sortOptions[1])
+    it('hides the sort menu when an option is clicked.', async () => {
+      await userEvent.click(sortIcon)
+      await userEvent.click(sortOptions[1])
       expect(sortDialog).toHaveClass("sortMenuHidden")
     })
 
-    it('updates checks when an option is clicked.', () => {
-      userEvent.click(sortIcon)
-      userEvent.click(sortOptions[1])
+    it('updates checks when an option is clicked.', async () => {
+      await userEvent.click(sortIcon)
+      await userEvent.click(sortOptions[1])
       expect(sortDialog).toHaveClass("sortMenuHidden")
       expect(sortOptions[0]).not.toBeChecked()
       expect(sortOptions[1]).toBeChecked()
@@ -100,17 +100,17 @@ describe('Artist component', () => {
     ])('by %s', (sortText, expectGroups, firstTitle, lastTitle) => {
 
       describe('in ascending order', () => {
-        beforeAll(() => {
+        beforeAll(async () => {
           // open the menu
           if (sortDialog.className === 'sortMenuHidden') {
-            userEvent.click(sortIcon)
+            await userEvent.click(sortIcon)
           }
           // click the checkbox, if sort column/direction aren't already correct
           let cb = within(sortDialog).getByRole('checkbox', {name: sortText})
           let alreadyChecked = cb.attributes['aria-checked'].value === "true"
           let wrongSortDirection = sortIcon[sortIconAttrName] === sortIconAttrVal.desc
           if ( !alreadyChecked || wrongSortDirection) {
-            userEvent.click(cb)
+            await userEvent.click(cb)
           }
           listItems = screen.getAllByRole('listitem')
           resultsList = container.querySelector('.resultsList')
@@ -146,9 +146,9 @@ describe('Artist component', () => {
       })
 
       describe('in descending order', () => {
-        beforeAll(() => {
+        beforeAll(async () => {
           // reverse sort -- depends on parent describe's beforeAll()
-          userEvent.click(within(sortDialog).getByText(sortText))
+          await userEvent.click(within(sortDialog).getByText(sortText))
           listItems = screen.getAllByRole('listitem')
           resultsList = container.querySelector('.resultsList')
           typeHeaders = within(resultsList).queryAllByRole('group')
