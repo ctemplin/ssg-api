@@ -5,7 +5,7 @@
 [build]
   command = "npm run build"
   functions = "lambda"
-  publish = "build"
+  publish = ".next"
   node_bundler = "esbuild"
 
 [functions]
