@@ -6,7 +6,6 @@
   command = "npm run build"
   functions = "lambda"
   publish = ".next"
-  node_bundler = "esbuild"
 
 [functions]
   directory = "netlify/functions"
