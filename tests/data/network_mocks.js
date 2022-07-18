@@ -7,7 +7,7 @@ import coverArtArchiveMock from './coverArtArchive_mock.json'
 
 export const handlers = [
   // Mocks the 307 (Temporary Redirect) from coverartarchive.org
-  rest.get('https://coverartarchive.org/release/:rid/', (req, res, ctx) => {
+  rest.get('https://coverartarchive.org/release/:rid', (req, res, ctx) => {
     return res(
       ctx.status(307),
       ctx.set('location',
@@ -50,7 +50,7 @@ export const handlers = [
     )
   }),
 
-  rest.get('https://musicbrainz.org/ws/2/release/:rid/', (req, res, ctx) => {
+  rest.get('https://musicbrainz.org/ws/2/release/:rid', (req, res, ctx) => {
     let resBody
     switch (req.params.rid) {
       case 'deec603f-bb01-4094-b538-25e5fe62ed86':
