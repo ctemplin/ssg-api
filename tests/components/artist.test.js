@@ -13,7 +13,7 @@ describe('Artist component', () => {
   const groupCount = 7
   const liCount = 20
   const sortIconAttrName = 'data-icon'
-  const sortIconAttrVal = {asc: 'sort-amount-up', desc: 'sort-amount-down'}
+  const sortIconAttrVal = {asc: 'arrow-up-wide-short', desc: 'arrow-down-wide-short'}
 
   beforeAll(async() => {
     ({ cleanup, container } = render(

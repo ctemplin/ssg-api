@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMicrophoneAlt, faSortAmountUp, faSortAmountDown } from '@fortawesome/free-solid-svg-icons'
+import { faMicrophoneAlt, faArrowUpWideShort, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/ResultBlock.module.scss'
 import GroupableResults from './groupableResults'
 import NetworkError from './networkError'
@@ -57,7 +57,7 @@ export default function Artist(
             <FontAwesomeIcon
               className={styles.resultUtilIcon}
               height="1.3em"
-              icon={sortCfg.dir == 'desc' ? faSortAmountDown : faSortAmountUp}
+              icon={sortCfg.dir == 'desc' ? faArrowDownWideShort : faArrowUpWideShort}
               title="Sort the Releases"
               onClick={() => setShowSortMenu(!showSortMenu)}
               aria-haspopup="true"
