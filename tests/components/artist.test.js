@@ -84,13 +84,19 @@ describe('Artist component', () => {
       expect(sortDialog).toHaveClass("sortMenuHidden")
     })
 
-    it('updates checks when an option is clicked.', async () => {
-      await userEvent.click(sortIcon)
-      await userEvent.click(sortOptions[1])
-      expect(sortDialog).toHaveClass("sortMenuHidden")
-      expect(sortOptions[0]).not.toBeChecked()
-      expect(sortOptions[1]).toBeChecked()
-      expect(sortOptions[2]).not.toBeChecked()
+    describe.each([
+      [ 0, [1,2]],
+      [ 1, [0,2]],
+      [ 2, [0,1]]
+    ])('(index: %d)', ( activeIndex, otherIndices) => {
+      it('updates checks when clicked.', async () => {
+        await userEvent.click(sortIcon)
+        await userEvent.click(sortOptions[activeIndex])
+        expect(sortDialog).toHaveClass("sortMenuHidden")
+        expect(sortOptions[activeIndex]).toBeChecked()
+        expect(sortOptions[otherIndices[0]]).not.toBeChecked()
+        expect(sortOptions[otherIndices[1]]).not.toBeChecked()
+      })
     })
 
     describe.each([
