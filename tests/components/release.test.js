@@ -65,7 +65,7 @@ describe('Release component', () => {
       expect(title).toBeVisible()
     })
 
-    it('diplays a  count of "6"', () => {
+    it('diplays a count of "6"', () => {
       expect(countLbl).toHaveTextContent(/^Tracks:\W6\Wfound$/)
     })
 
