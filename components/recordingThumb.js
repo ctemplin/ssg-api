@@ -10,7 +10,7 @@ export default function RecordingThumb({videoId, title, imgSrc, imgWidth, imgHei
       <a href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank" rel="noreferrer">
       {imgSrc &&
         <>
-        <Image src={imgSrc} width={imgWidth} height={imgHeight} alt="video thumbnail" />
+        <Image src={imgSrc} width={imgWidth} height={imgHeight} alt={`Video: ${title}`} />
         <span className={styles.videoIcon} >
         <FontAwesomeIcon
            className={styles.videoIconLayer}
@@ -30,7 +30,7 @@ export default function RecordingThumb({videoId, title, imgSrc, imgWidth, imgHei
         </>
       }
       </a>
-      <div dangerouslySetInnerHTML={{__html: title}}></div>
+      <div aria-hidden="true" dangerouslySetInnerHTML={{__html: title}}></div>
     </div>
   )
 }
